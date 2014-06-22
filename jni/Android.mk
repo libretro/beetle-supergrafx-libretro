@@ -49,7 +49,7 @@ CORE_SOURCES := $(CORE_DIR)/huc6280.cpp \
 	$(CORE_DIR)/pcecd_drive.cpp \
 	$(CORE_DIR)/psg.cpp \
 	$(CORE_DIR)/vdc.cpp
-TARGET_NAME := mednafen_pce_fast_libretro
+TARGET_NAME := mednafen_supergrafx_libretro
 
 HW_MISC_SOURCES := $(MEDNAFEN_DIR)/hw_misc/arcade_card/arcade_card.cpp
 OKIADPCM_SOURCES := $(MEDNAFEN_DIR)/okiadpcm.cpp

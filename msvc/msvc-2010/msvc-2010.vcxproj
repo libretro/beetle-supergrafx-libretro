@@ -151,7 +151,7 @@
     <OutDir>$(SolutionDir)msvc-2010\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutputFile>$(OutDir)mednafen_pce_fast_libretro_xdk360$(TargetExt)</OutputFile>
+    <OutputFile>$(OutDir)mednafen_supergrafx_libretro_xdk360$(TargetExt)</OutputFile>
     <OutDir>$(SolutionDir)msvc-2010\$(Configuration)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

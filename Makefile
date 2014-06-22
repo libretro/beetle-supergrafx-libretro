@@ -48,7 +48,7 @@ CORE_SOURCES := $(CORE_DIR)/huc6280.cpp \
 ifeq ($(HAVE_HES),1)
 CORE_SOURCES += $(CORE_DIR)/hes.cpp
 endif
-TARGET_NAME := mednafen_pce_fast_libretro
+TARGET_NAME := mednafen_supergrafx_libretro
 
 arch = intel
 ifeq ($(shell uname -p),powerpc)
