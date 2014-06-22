@@ -78,7 +78,7 @@ bool MDFN_GetSettingB(const char *name)
    if (!strcmp("pce_fast.arcadecard", name))
       return 1;
    if (!strcmp("pce_fast.forcesgx", name))
-      return 0;
+      return 1;
    if (!strcmp("pce_fast.nospritelimit", name))
       return setting_pce_fast_nospritelimit;
    if (!strcmp("pce_fast.forcemono", name))
