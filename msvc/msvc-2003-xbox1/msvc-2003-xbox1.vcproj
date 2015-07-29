@@ -227,9 +227,6 @@
 					RelativePath="..\..\..\mednafen\math_ops.cpp">
 				</File>
 				<File
-					RelativePath="..\..\..\mednafen\md5.cpp">
-				</File>
-				<File
 					RelativePath="..\..\..\mednafen\MemoryStream.cpp">
 				</File>
 				<File
