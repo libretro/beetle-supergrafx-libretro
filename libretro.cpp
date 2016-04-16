@@ -1299,9 +1299,6 @@ static bool overscan;
 static double last_sound_rate;
 static MDFN_PixelFormat last_pixel_format;
 
-setting_initial_scanline = 0;
-setting_last_scanline = 242;
-
 static MDFN_Surface *surf;
 
 static bool failed_init;
@@ -1406,6 +1403,9 @@ void retro_init(void)
       perf_get_cpu_features_cb = perf_cb.get_cpu_features;
    else
       perf_get_cpu_features_cb = NULL;
+
+   setting_initial_scanline = 0;
+   setting_last_scanline = 242;
 
    check_system_specs();
 }
