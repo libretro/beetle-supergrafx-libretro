@@ -1299,6 +1299,9 @@ static bool overscan;
 static double last_sound_rate;
 static MDFN_PixelFormat last_pixel_format;
 
+setting_initial_scanline = 0;
+setting_last_scanline = 242;
+
 static MDFN_Surface *surf;
 
 static bool failed_init;
@@ -1332,7 +1335,7 @@ static void set_basename(const char *path)
 #define MEDNAFEN_CORE_GEOMETRY_BASE_H 232
 #define MEDNAFEN_CORE_GEOMETRY_MAX_W 512
 #define MEDNAFEN_CORE_GEOMETRY_MAX_H 242
-#define MEDNAFEN_CORE_GEOMETRY_ASPECT_RATIO (4.0 / 3.0)
+#define MEDNAFEN_CORE_GEOMETRY_ASPECT_RATIO (6.0 / 5.0)
 #define FB_WIDTH 512
 #define FB_HEIGHT 242
 
@@ -1475,6 +1478,20 @@ static void check_variables(void)
          EmulatedPCE_Fast.nominal_width = 288;
          EmulatedPCE_Fast.lcm_width = 1024;
       }
+   }
+
+   var.key = "pce_initial_scanline";
+
+   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+   {
+      setting_initial_scanline = atoi(var.value);
+   }
+
+   var.key = "pce_last_scanline";
+
+   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+   {
+      setting_last_scanline = atoi(var.value);
    }
 
    bool do_cdsettings = false;
@@ -1819,9 +1836,11 @@ void retro_set_environment(retro_environment_t cb)
       { "pce_fast_cdimagecache", "CD Image Cache (Restart); disabled|enabled" },
       { "pce_nospritelimit", "No Sprite Limit; disabled|enabled" },
       { "pce_keepaspect", "Keep Aspect; enabled|disabled" },
-      { "pce_cddavolume", "(CD) CDDA Volume; 0|10|20|30|40|50|60|70|80|90|100" },
-      { "pce_adpcmvolume", "(CD) ADPCM Volume; 0|10|20|30|40|50|60|70|80|90|100" },
-      { "pce_cdpsgvolume", "(CD) CD PSG Volume; 0|10|20|30|40|50|60|70|80|90|100" },
+      { "pce_initial_scanline", "Initial scanline; 3|4|5|6|7|8|9|10|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31|32|33|34|35|36|37|38|39|40|0|1|2" },
+      { "pce_last_scanline", "Last scanline; 242|208|209|210|211|212|213|214|215|216|217|218|219|220|221|222|223|224|225|226|227|228|229|230|231|232|233|234|235|236|237|238|239|240|241" },
+      { "pce_cddavolume", "(CD) CDDA Volume; 100|0|10|20|30|40|50|60|70|80|90" },
+      { "pce_adpcmvolume", "(CD) ADPCM Volume; 100|0|10|20|30|40|50|60|70|80|90" },
+      { "pce_cdpsgvolume", "(CD) CD PSG Volume; 100|0|10|20|30|40|50|60|70|80|90" },
       { "pce_cdspeed", "(CD) CD Speed; 1|2|4|8" },
       { NULL, NULL },
    };
