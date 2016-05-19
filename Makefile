@@ -104,6 +104,7 @@ else ifeq ($(platform), ps3)
    AR = $(CELL_SDK)/host-win32/ppu/bin/ppu-lv2-ar.exe
    ENDIANNESS_DEFINES := -DMSB_FIRST -DBYTE_ORDER=BIG_ENDIAN
    OLD_GCC := 1
+   FLAGS += -DPS3
    FLAGS += -DHAVE_MKDIR -DARCH_POWERPC_ALTIVEC
    STATIC_LINKING = 1
 else ifeq ($(platform), sncps3)
