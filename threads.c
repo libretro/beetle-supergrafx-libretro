@@ -34,6 +34,9 @@
 #include "gx_pthread.h"
 #elif defined(PSP)
 #include "psp_pthread.h"
+#elif defined(PS3)
+#include <pthread.h>
+#include <sys/sys_time.h>
 #else
 #include <pthread.h>
 #include <time.h>
