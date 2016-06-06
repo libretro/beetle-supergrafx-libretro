@@ -1,5 +1,4 @@
 #include	<stdarg.h>
-#include	<trio/trio.h>
 #include "mednafen/mednafen.h"
 #include "mednafen/git.h"
 #include "mednafen/general.h"
@@ -1243,7 +1242,8 @@ void MDFN_printf(const char *format, ...)
 
    format_temp[newlen] = 0;
 
-   temp = trio_vaprintf(format_temp, ap);
+   temp = new char[4096];
+   vsnprintf(temp, 4096, format_temp, ap);
    free(format_temp);
 
    MDFND_Message(temp);
@@ -1259,8 +1259,8 @@ void MDFN_PrintError(const char *format, ...)
  va_list ap;
 
  va_start(ap, format);
-
- temp = trio_vaprintf(format, ap);
+ temp = new char[4096];
+ vsnprintf(temp, 4096, format, ap);
  MDFND_PrintError(temp);
  free(temp);
 
@@ -1275,7 +1275,8 @@ void MDFN_DebugPrintReal(const char *file, const int line, const char *format, .
 
  va_start(ap, format);
 
- temp = trio_vaprintf(format, ap);
+ temp = new char[4096];
+ vsnprintf(temp, 4096, format, ap);
  fprintf(stderr, "%s:%d  %s\n", file, line, temp);
  free(temp);
 
@@ -2078,7 +2079,7 @@ void MDFN_DispMessage(const char *format, ...)
    char *str = NULL;
    const char *strc = NULL;
 
-   trio_vasprintf(&str, format,ap);
+   vasprintf(&str, format,ap);
    va_end(ap);
    strc = str;
 

@@ -285,46 +285,6 @@
 					</File>
 				</Filter>
 				<Filter
-					Name="trio"
-					Filter="">
-					<File
-						RelativePath="..\..\..\mednafen\trio\trio.c">
-						<FileConfiguration
-							Name="Debug|Xbox">
-							<Tool
-								Name="VCCLCompilerTool"
-								CompileAs="1"/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Profile|Xbox">
-							<Tool
-								Name="VCCLCompilerTool"
-								CompileAs="1"/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Profile_FastCap|Xbox">
-							<Tool
-								Name="VCCLCompilerTool"
-								CompileAs="1"/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release|Xbox">
-							<Tool
-								Name="VCCLCompilerTool"
-								CompileAs="1"/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release_LTCG|Xbox">
-							<Tool
-								Name="VCCLCompilerTool"
-								CompileAs="1"/>
-						</FileConfiguration>
-					</File>
-					<File
-						RelativePath="..\..\..\mednafen\trio\triostr.c">
-					</File>
-				</Filter>
-				<Filter
 					Name="sound"
 					Filter="">
 					<File

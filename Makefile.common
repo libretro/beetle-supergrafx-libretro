@@ -114,6 +114,3 @@ SOURCES_CXX += \
 	$(MEDNAFEN_DIR)/video/surface.cpp \
 	$(CORE_DIR)/libretro.cpp
 endif
-
-SOURCES_C += $(MEDNAFEN_DIR)/trio/trio.c \
-				 $(MEDNAFEN_DIR)/trio/triostr.c 

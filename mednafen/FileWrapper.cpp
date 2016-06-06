@@ -19,7 +19,6 @@
 #include "mednafen.h"
 #include "FileWrapper.h"
 
-#include <trio/trio.h>
 #include <stdarg.h>
 #include <string.h>
 
