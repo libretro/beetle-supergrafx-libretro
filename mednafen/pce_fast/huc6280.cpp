@@ -124,8 +124,6 @@ static uint8 dummy_bank[8192 + 8192];  // + 8192 for PC-as-ptr safety padding
  const unsigned int wmpr = arg_i, wbank = arg_v;	\
  if(wmpr == 1)						\
  {							\
-  if(wbank != 0xF8 || !HuCPUFastMap[wbank])		\
-    printf("Crazy page 1: %02x\n", wbank);		\
   HU_Page1 = HuCPUFastMap[wbank] ? HuCPUFastMap[wbank] + wbank * 8192 : dummy_bank;	\
  }							\
  HuCPU.MPR[wmpr] = wbank;					\
@@ -256,14 +254,18 @@ static INLINE uint8 RdOp(unsigned int A)
 #define ADC  {	\
 	      if(HU_P & D_FLAG)	\
 	      {		\
-		uint32 low = (HU_A & 0x0F) + (x & 0x0F) + (HU_P & 1);	\
-		uint32 high = (HU_A & 0xF0) + (x & 0xF0);	\
-		HU_P &= ~C_FLAG;	\
-		if(low > 0x09) { high += 0x10; low += 0x06; }	\
-		if(high > 0x90) { high += 0x60; }	\
-		HU_P |= (high >> 8) & C_FLAG;	\
-		HU_A = (low & 0x0F) | (high & 0xF0);	\
-		X_ZN(HU_A);	\
+		uint32 tmp;				\
+		tmp = (HU_A & 0x0F) + (x & 0x0F) + (HU_P & 1);	\
+		if(tmp >= 0x0A)				\
+		 tmp += 0x06;				\
+		tmp += (HU_A & 0xF0) + (x & 0xF0);	\
+		if(tmp >= 0xA0)				\
+		 tmp += 0x60;				\
+		HU_P &= ~C_FLAG;			\
+		if(tmp & 0xFF00)			\
+		 HU_P |= C_FLAG;			\
+		HU_A = tmp;				\
+		X_ZN(HU_A);				\
 	      }	\
 	      else	\
 	      {	\
@@ -278,17 +280,17 @@ static INLINE uint8 RdOp(unsigned int A)
 
 #define SBC  if(HU_P & D_FLAG)	\
 	     {		\
-	      uint32 c = (HU_P & 1) ^ 1;	\
-	      uint32 l = HU_A - x - c;	\
-	      uint32 low = (HU_A & 0x0f) - (x & 0x0f) - c;	\
-	      uint32 high = (HU_A & 0xf0) - (x & 0xf0);	\
-	      HU_P &= ~(C_FLAG);	\
-	      if(low & 0xf0) low -= 0x06;	\
-	      if(low & 0x80) high -= 0x10;	\
-	      if(high & 0x0f00) high -= 0x60;	\
-	      HU_P |= ((l >> 8) & C_FLAG) ^ C_FLAG;	\
-	      HU_A = (low & 0x0F) | (high & 0xf0);	\
-	      X_ZN(HU_A);	\
+	      const uint8 m = (HU_A & 0xF) - (x & 0xF) - ((HU_P & 1) ^ 1);	\
+    	      const uint8 n = (HU_A >> 4) - (x >> 4) - ((m >> 4) & 1);	\
+	      uint8 res = (n << 4) | (m & 0xF);				\
+	      if(m & 0x10)						\
+	       res -= 0x06;						\
+	      if(n & 0x10)						\
+	       res -= 0x60;						\
+	      HU_A = res;						\
+	      HU_P &= ~C_FLAG;						\
+	      HU_P |= ((n >> 4) & 0x1) ^ 1;				\
+	      X_ZN(HU_A);						\
 	     }	else {	\
 	      uint32 l=HU_A-x-((HU_P&1)^1);	\
 	      HU_P&=~(C_FLAG|V_FLAG);	\

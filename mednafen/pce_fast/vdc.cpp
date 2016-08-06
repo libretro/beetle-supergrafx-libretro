@@ -433,7 +433,7 @@ DECLFW(VDC_Write)
 static INLINE void CalcStartEnd(const vdc_t *vdc, uint32 &start, uint32 &end)
 {
  //static const unsigned int ClockModeWidths[3] = { 288, 384, 576 };
- static const unsigned int ClockPixelWidths[3] = { 341, 455, 682 };
+ static const unsigned int ClockPixelWidths[3] = { 352, 455, 682 };
 
  start = (M_vdc_HDS + 1) * 8;
  // Semi-hack for Asuka 120%
@@ -493,6 +493,12 @@ static INLINE void CalcStartEnd(const vdc_t *vdc, uint32 &start, uint32 &end)
  if(end > (ClockModeWidths[vce.dot_clock] + 8 + 128))
   end = ClockModeWidths[vce.dot_clock] + 8 + 128;
 #endif
+
+   // For 352 width instead of 341
+   if(vce.dot_clock == 1){
+	end += 6;
+	start += 6;
+   }
 }
 
 #define CB_EXL(n) (((n) << 4) | ((n) << 12) | ((n) << 20) | ((n) << 28) | ((n) << 36) | ((n) << 44) | ((n) << 52) | ((n) << 60))
@@ -1026,8 +1032,8 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
   if(!skip)
   {
    static const int ws[2][3] = {
-				{ 341, 341, 682 },
-				{ 256, 341, 512 }
+				{ 352, 352, 682 },
+				{ 256, 352, 512 }
 			       };
 
    DisplayRect->x = 0;
@@ -1080,7 +1086,7 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
 
   HuC6280_Run(line_leadin1);
 
-  const bool fc_vrm = (frame_counter >= 14 && frame_counter < (14 + 242));
+  const bool fc_vrm = (frame_counter >= 14 && frame_counter < (14 + 242 + 1));
   
   bool mixvpc_enable = (VDC_TotalChips == 2 && SHOULD_DRAW && fc_vrm);
 
