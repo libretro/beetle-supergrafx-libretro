@@ -24,8 +24,6 @@
 
 #include <algorithm>
 
-using namespace CDUtility;
-
 enum
 {
  // Status/Error messages
