@@ -47,8 +47,6 @@ MDFNGI *MDFNGameInfo = &EmulatedPCE_Fast;
 
 extern "C" unsigned long crc32(unsigned long crc, const unsigned char *buf, unsigned int len);
 
-namespace PCE_Fast
-{
 static PCEFast_PSG *psg = NULL;
 extern ArcadeCard *arcade_card; // Bah, lousy globals.
 
@@ -354,7 +352,9 @@ static int LoadCommon(void)
 
  PCE_Power();
 
+#if 0
  MDFNGameInfo->LayerNames = IsSGX ? "BG0\0SPR0\0BG1\0SPR1\0" : "Background\0Sprites\0";
+#endif
  MDFNGameInfo->fps = (uint32)((double)7159090.90909090 / 455 / 263 * 65536 * 256);
 
  // Clean this up:
@@ -555,7 +555,7 @@ static void Emulate(EmulateSpecStruct *espec)
   PCECD_ResetTS();
 }
 
-static int StateAction(StateMem *sm, int load, int data_only)
+int StateAction(void *data, int load, int data_only)
 {
  SFORMAT StateRegs[] =
  {
@@ -563,6 +563,7 @@ static int StateAction(StateMem *sm, int load, int data_only)
   SFVAR(PCEIODataBuffer),
   SFEND
  };
+ StateMem *sm = (StateMem*)data;
 
  //for(int i = 8192; i < 32768; i++)
  // if(BaseRAM[i] != 0xFF)
@@ -636,7 +637,7 @@ static MDFNSetting PCESettings[] =
   { NULL }
 };
 
-static uint8 MemRead(uint32 addr)
+uint8 MemRead(uint32 addr)
 {
  return(PCERead[(addr / 8192) & 0xFF](addr));
 }
@@ -951,34 +952,8 @@ void HuC_Power(void)
   arcade_card->Power();
 }
 
-};
-
 MDFNGI EmulatedPCE_Fast =
 {
- "pce_fast",
- "PC Engine (CD)/TurboGrafx 16 (CD)/SuperGrafx",
- KnownExtensions,
- MODPRIO_INTERNAL_LOW,
- NULL,
- &PCEInputInfo,
- Load,
- TestMagic,
- LoadCD,
- TestMagicCD,
- CloseGame,
- VDC_SetLayerEnableMask,
- NULL,
- NULL,
- NULL,
- NULL,
- NULL,
- MemRead,
- NULL,
- false,
- StateAction,
- Emulate,
- PCEINPUT_SetInput,
- DoSimpleCommand,
  PCESettings,
  MDFN_MASTERCLOCK_FIXED(PCE_MASTER_CLOCK),
  0,
@@ -1091,16 +1066,9 @@ MDFNGI *MDFNI_LoadCD(const char *force_module, const char *devicename)
  }
  MDFN_indent(-1);
 
- // This if statement will be true if force_module references a system without CDROM support.
- if(!MDFNGameInfo->LoadCD)
- {
-    MDFN_PrintError(_("Specified system \"%s\" doesn't support CDs!"), force_module);
-    return(0);
- }
+ MDFN_printf(_("Using module: supergrafx\n\n"));
 
- MDFN_printf(_("Using module: %s(%s)\n\n"), MDFNGameInfo->shortname, MDFNGameInfo->fullname);
-
- if(!(MDFNGameInfo->LoadCD(&CDInterfaces)))
+ if(!(LoadCD(&CDInterfaces)))
  {
   for(unsigned i = 0; i < CDInterfaces.size(); i++)
    delete CDInterfaces[i];
@@ -1135,7 +1103,7 @@ MDFNGI *MDFNI_LoadGame(const char *force_module, const char *name)
 	MDFN_indent(1);
 
 	// Construct a NULL-delimited list of known file extensions for MDFN_fopen()
-   const FileExtensionSpecStruct *curexts = MDFNGameInfo->FileExtensions;
+   const FileExtensionSpecStruct *curexts = KnownExtensions;
 
    while(curexts->extension && curexts->description)
    {
@@ -1149,7 +1117,7 @@ MDFNGI *MDFNI_LoadGame(const char *force_module, const char *name)
       return 0;
    }
 
-	MDFN_printf(_("Using module: %s(%s)\n\n"), MDFNGameInfo->shortname, MDFNGameInfo->fullname);
+	MDFN_printf(_("Using module: supergrafx\n\n"));
 	MDFN_indent(1);
 
 	//
@@ -1159,7 +1127,7 @@ MDFNGI *MDFNI_LoadGame(const char *force_module, const char *name)
 	// End load per-game settings
 	//
 
-   if(MDFNGameInfo->Load(name, &GameFile) <= 0)
+   if(Load(name, &GameFile) <= 0)
    {
       GameFile.Close();
       MDFN_indent(-2);
@@ -1171,22 +1139,6 @@ MDFNGI *MDFNI_LoadGame(const char *force_module, const char *name)
 	MDFNMP_InstallReadPatches();
 
 	MDFN_indent(-2);
-
-	if(!MDFNGameInfo->name)
-   {
-      unsigned int x;
-      char *tmp;
-
-      MDFNGameInfo->name = (UTF8 *)strdup(GetFNComponent(name));
-
-      for(x=0;x<strlen((char *)MDFNGameInfo->name);x++)
-      {
-         if(MDFNGameInfo->name[x] == '_')
-            MDFNGameInfo->name[x] = ' ';
-      }
-      if((tmp = strrchr((char *)MDFNGameInfo->name, '.')))
-         *tmp = 0;
-   }
 
    return(MDFNGameInfo);
 }
@@ -1514,7 +1466,7 @@ static void check_variables(void)
 
    if (do_cdsettings)
    {
-      PCE_Fast::PCECD_Settings settings = {0};
+      PCECD_Settings settings = {0};
       settings.CDDA_Volume = (double)setting_pce_fast_cddavolume / 100;
       settings.CD_Speed = setting_pce_fast_cdspeed;
       settings.ADPCM_Volume = (double)setting_pce_fast_adpcmvolume / 100;
@@ -1640,11 +1592,7 @@ void retro_unload_game(void)
 
    MDFN_FlushGameCheats(0);
 
-   MDFNGameInfo->CloseGame();
-
-   if(MDFNGameInfo->name)
-      free(MDFNGameInfo->name);
-   MDFNGameInfo->name = NULL;
+   CloseGame();
 
    MDFNMP_Kill();
 
