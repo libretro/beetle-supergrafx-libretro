@@ -18,9 +18,6 @@ else ifneq ($(findstring MINGW,$(shell uname -a)),)
 endif
 endif
 
-ifneq ($(platform), osx)
-   PTHREAD_FLAGS = -pthread
-endif
 HAVE_HES = 0
 NEED_BPP = 32
 NEED_TREMOR = 1
@@ -45,14 +42,12 @@ ifeq ($(platform), unix)
    ifneq ($(shell uname -p | grep -E '((i.|x)86|amd64)'),)
       IS_X86 = 1
    endif
-   LDFLAGS += $(PTHREAD_FLAGS)
-   FLAGS += $(PTHREAD_FLAGS) -DHAVE_MKDIR
+   FLAGS += -DHAVE_MKDIR
 else ifeq ($(platform), osx)
    TARGET := $(TARGET_NAME).dylib
    fpic := -fPIC
    SHARED := -dynamiclib
-   LDFLAGS += $(PTHREAD_FLAGS)
-   FLAGS += $(PTHREAD_FLAGS) -DHAVE_MKDIR
+   FLAGS += -DHAVE_MKDIR
 ifeq ($(arch),ppc)
    ENDIANNESS_DEFINES := -DMSB_FIRST -DBYTE_ORDER=BIG_ENDIAN
    OLD_GCC := 1
@@ -67,8 +62,6 @@ else ifneq (,$(findstring ios,$(platform)))
    TARGET := $(TARGET_NAME)_ios.dylib
    fpic := -fPIC
    SHARED := -dynamiclib
-   LDFLAGS += $(PTHREAD_FLAGS)
-   FLAGS += $(PTHREAD_FLAGS)
 
 ifeq ($(IOSSDK),)
    IOSSDK := $(shell xcodebuild -version -sdk iphoneos Path)
@@ -90,8 +83,6 @@ else ifeq ($(platform), qnx)
    TARGET := $(TARGET_NAME)_qnx.so
    fpic := -fPIC
    SHARED := -lcpp -lm -shared -Wl,--no-undefined -Wl,--version-script=link.T
-   #LDFLAGS += $(PTHREAD_FLAGS)
-   #FLAGS += $(PTHREAD_FLAGS) -DHAVE_MKDIR
    FLAGS += -DHAVE_MKDIR
    CC = qcc -Vgcc_ntoarmv7le
    CXX = QCC -Vgcc_ntoarmv7le_cpp
@@ -140,7 +131,6 @@ else ifeq ($(platform), xenon)
    CXX = xenon-g++$(EXE_EXT)
    AR = xenon-ar$(EXE_EXT)
    ENDIANNESS_DEFINES += -D__LIBXENON__ -m32 -D__ppc__ -DMSB_FIRST -DBYTE_ORDER=BIG_ENDIAN
-   LIBS := $(PTHREAD_FLAGS)
    FLAGS += -DHAVE_MKDIR
    STATIC_LINKING = 1
 else ifeq ($(platform), ngc)
@@ -168,8 +158,7 @@ else ifneq (,$(findstring armv,$(platform)))
    fpic := -fPIC
    SHARED := -shared -Wl,--no-undefined -Wl,--version-script=link.T
    CC = gcc
-   LDFLAGS += $(PTHREAD_FLAGS)
-   FLAGS += $(PTHREAD_FLAGS) -DHAVE_MKDIR
+   FLAGS += -DHAVE_MKDIR
    IS_X86 = 0
 ifneq (,$(findstring cortexa8,$(platform)))
    FLAGS += -marm -mcpu=cortex-a8

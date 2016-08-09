@@ -199,9 +199,6 @@
 			<File
 				RelativePath="..\..\..\scrc32.cpp">
 			</File>
-			<File
-				RelativePath="..\..\..\thread.c">
-			</File>
 			<Filter
 				Name="mednafen"
 				Filter="">

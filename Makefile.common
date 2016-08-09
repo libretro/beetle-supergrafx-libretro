@@ -25,10 +25,6 @@ endif
 ifeq ($(HAVE_HES), 1)
 	SOURCES_CXX += $(CORE_EMU_DIR)/hes.cpp
 endif
-ifeq ($(NEED_THREADING), 1)
-   FLAGS += -DWANT_THREADING
-	SOURCES_C += $(CORE_DIR)/threads.c
-endif
 
 ifeq ($(NEED_CRC32), 1)
    FLAGS += -DWANT_CRC32
