@@ -1049,7 +1049,7 @@ MDFNGI *MDFNI_LoadCD(const char *force_module, const char *devicename)
    if (!ret)
    {
       log_cb(RETRO_LOG_ERROR, "Error opening CD.\n");
-      return(0);
+      return NULL;
    }
 
    //
@@ -1085,7 +1085,7 @@ MDFNGI *MDFNI_LoadCD(const char *force_module, const char *devicename)
       CDInterfaces.clear();
 
       MDFNGameInfo = NULL;
-      return(0);
+      return NULL;
    }
 
    //MDFNI_SetLayerEnableMask(~0ULL);
