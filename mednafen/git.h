@@ -5,6 +5,8 @@
 
 #include "video.h"
 
+#include "../libretro.h"
+
 typedef struct
 {
  const char *extension; // Example ".nes"
@@ -336,5 +338,7 @@ typedef struct
 
 extern int StateAction(void *data, int load, int data_only);
 extern uint8 MemRead(uint32 addr);
+
+extern retro_log_printf_t log_cb;
 
 #endif
