@@ -110,9 +110,6 @@
     <ClCompile Include="..\..\..\mednafen\cdrom\recover-raw.cpp">
       <Filter>Source Files\mednafen\cdrom</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\mednafen\cdrom\SimpleFIFO.cpp">
-      <Filter>Source Files\mednafen\cdrom</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\mednafen\cdrom\audioreader.cpp">
       <Filter>Source Files\mednafen\cdrom</Filter>
     </ClCompile>
