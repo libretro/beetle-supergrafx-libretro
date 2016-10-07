@@ -1077,7 +1077,7 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
 
   HuC6280_Run(line_leadin1);
 
-  const bool fc_vrm = (frame_counter >= 14 && frame_counter < (14 + 242));
+  const bool fc_vrm = (frame_counter >= 14 && frame_counter < (14 + 242 + 1));
   
   bool mixvpc_enable = (VDC_TotalChips == 2 && SHOULD_DRAW && fc_vrm);
 
