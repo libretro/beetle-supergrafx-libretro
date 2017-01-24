@@ -1489,7 +1489,7 @@ static uint8_t input_buf[MAX_PLAYERS][2] = {0};
 
 bool retro_load_game(const struct retro_game_info *info)
 {
-   if (failed_init)
+   if (!info || failed_init)
       return false;
       
    struct retro_input_descriptor desc[] = {
