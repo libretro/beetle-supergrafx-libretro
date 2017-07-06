@@ -4,7 +4,7 @@
 #include "mednafen/general.h"
 #include "libretro.h"
 
-#include <retro_miscellaneous.h>
+#include <retro_timers.h>
 
 #include	"mednafen/FileWrapper.h"
 
