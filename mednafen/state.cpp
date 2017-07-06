@@ -18,6 +18,7 @@
 #include <string.h>
 
 #include <boolean.h>
+#include <retro_miscellaneous.h>
 
 #include "mednafen.h"
 #include "driver.h"
