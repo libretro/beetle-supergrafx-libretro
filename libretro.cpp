@@ -28,7 +28,7 @@
 #define MEDNAFEN_CORE_NAME_MODULE "pce_fast"
 #define MEDNAFEN_CORE_NAME "Mednafen SuperGrafx"
 #define MEDNAFEN_CORE_VERSION "v0.9.38.7"
-#define MEDNAFEN_CORE_EXTENSIONS "pce|sgx|cue|ccd"
+#define MEDNAFEN_CORE_EXTENSIONS "pce|sgx|cue|ccd|chd"
 #define MEDNAFEN_CORE_TIMING_FPS 59.82
 #define MEDNAFEN_CORE_GEOMETRY_BASE_W 512
 #define MEDNAFEN_CORE_GEOMETRY_BASE_H 243
@@ -1109,7 +1109,7 @@ MDFNGI *MDFNI_LoadGame(const char *force_module, const char *name)
 	std::vector<FileExtensionSpecStruct> valid_iae;
    MDFNGameInfo = &EmulatedPCE_Fast;
 
-	if(strlen(name) > 4 && (!strcasecmp(name + strlen(name) - 4, ".cue") || !strcasecmp(name + strlen(name) - 4, ".ccd") || !strcasecmp(name + strlen(name) - 4, ".toc") || !strcasecmp(name + strlen(name) - 4, ".m3u")))
+	if(strlen(name) > 4 && (!strcasecmp(name + strlen(name) - 4, ".cue") || !strcasecmp(name + strlen(name) - 4, ".chd") || !strcasecmp(name + strlen(name) - 4, ".ccd") || !strcasecmp(name + strlen(name) - 4, ".toc") || !strcasecmp(name + strlen(name) - 4, ".m3u")))
 	 return(MDFNI_LoadCD(force_module, name));
 
 	MDFN_printf(_("Loading %s...\n"),name);
