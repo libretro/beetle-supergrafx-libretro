@@ -226,6 +226,8 @@ void subpw_interleave(const uint8_t *in_buf, uint8_t *out_buf);
 // (De)Scrambles data sector.
 void scrambleize_data_sector(uint8_t *sector_data);
 
+void subpw_synth_leadout_lba(const struct TOC *toc, const int32_t lba, uint8_t* SubPWBuf);
+
 #ifdef __cplusplus
 }
 #endif
