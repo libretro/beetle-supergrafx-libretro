@@ -66,7 +66,6 @@ class CDAccess_CHD : public CDAccess
 
  virtual void Eject(bool eject_status);
 
- virtual bool Is_Physical(void) throw() {}
  private:
 
  bool Load(const std::string& path, bool image_memcache);
