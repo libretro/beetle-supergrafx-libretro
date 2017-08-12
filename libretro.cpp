@@ -1385,7 +1385,7 @@ static void check_variables(void)
 {
    struct retro_variable var = {0};
 
-   var.key = "pce_fast_cdimagecache";
+   var.key = "sgx_cdimagecache";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
@@ -1400,7 +1400,7 @@ static void check_variables(void)
          old_cdimagecache = cdimage_cache;
    }
 
-   var.key = "pce_fast_cdbios";
+   var.key = "sgx_cdbios";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
@@ -1414,14 +1414,14 @@ static void check_variables(void)
          setting_pce_fast_cdbios = "gexpress.pce";
    }
 
-    var.key = "pce_ocmultiplier";
+    var.key = "sgx_ocmultiplier";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
       setting_pce_overclocked = atoi(var.value);
    }
    
-   var.key = "pce_nospritelimit";
+   var.key = "sgx_nospritelimit";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
@@ -1431,21 +1431,21 @@ static void check_variables(void)
          setting_pce_fast_nospritelimit = 1;
    }
 
-   var.key = "pce_hoverscan";
+   var.key = "sgx_hoverscan";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
       setting_pce_hoverscan = atoi(var.value);
    }
 	
-   var.key = "pce_initial_scanline";
+   var.key = "sgx_initial_scanline";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
       setting_initial_scanline = atoi(var.value);
    }
 
-   var.key = "pce_last_scanline";
+   var.key = "sgx_last_scanline";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
@@ -1453,7 +1453,7 @@ static void check_variables(void)
    }
 
    bool do_cdsettings = false;
-   var.key = "pce_cddavolume";
+   var.key = "sgx_cddavolume";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
@@ -1461,7 +1461,7 @@ static void check_variables(void)
       setting_pce_fast_cddavolume = atoi(var.value);
    }
 
-   var.key = "pce_adpcmvolume";
+   var.key = "sgx_adpcmvolume";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
@@ -1469,7 +1469,7 @@ static void check_variables(void)
       setting_pce_fast_adpcmvolume = atoi(var.value);
    }
 
-   var.key = "pce_cdpsgvolume";
+   var.key = "sgx_cdpsgvolume";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
@@ -1477,7 +1477,7 @@ static void check_variables(void)
       setting_pce_fast_cdpsgvolume = atoi(var.value);
    }
 
-   var.key = "pce_cdspeed";
+   var.key = "sgx_cdspeed";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
@@ -1800,17 +1800,17 @@ void retro_set_environment(retro_environment_t cb)
    environ_cb = cb;
 
    static const struct retro_variable vars[] = {
-      { "pce_fast_cdimagecache", "CD Image Cache (Restart); disabled|enabled" },
-      { "pce_fast_cdbios", "CD Bios (Restart); System Card 3|Games Express|System Card 1|System Card 2" },
-      { "pce_nospritelimit", "No Sprite Limit (Restart); disabled|enabled" },
-      { "pce_ocmultiplier", "CPU Overclock Multiplier (Restart); 1|2|3|4|5|6|7|8|9|10|20|30|40|50" },
-      { "pce_hoverscan", "Horizontal Overscan (352 Width Mode Only); 352|300|302|304|306|308|310|312|314|316|318|320|322|324|326|328|330|332|334|336|338|340|342|344|346|348|350" },
-      { "pce_initial_scanline", "Initial scanline; 3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31|32|33|34|35|36|37|38|39|40|0|1|2" },
-      { "pce_last_scanline", "Last scanline; 242|208|209|210|211|212|213|214|215|216|217|218|219|220|221|222|223|224|225|226|227|228|229|230|231|232|233|234|235|236|237|238|239|240|241" },
-      { "pce_cddavolume", "(CD) CDDA Volume %; 100|110|120|130|140|150|160|170|180|190|200|0|10|20|30|40|50|60|70|80|90" },
-      { "pce_adpcmvolume", "(CD) ADPCM Volume %; 100|110|120|130|140|150|160|170|180|190|200|0|10|20|30|40|50|60|70|80|90" },
-      { "pce_cdpsgvolume", "(CD) CD PSG Volume %; 100|110|120|130|140|150|160|170|180|190|200|0|10|20|30|40|50|60|70|80|90" },
-      { "pce_cdspeed", "(CD) CD Speed; 1|2|4|8" },
+      { "sgx_cdimagecache", "CD Image Cache (Restart); disabled|enabled" },
+      { "sgx_cdbios", "CD Bios (Restart); System Card 3|Games Express|System Card 1|System Card 2" },
+      { "sgx_nospritelimit", "No Sprite Limit (Restart); disabled|enabled" },
+      { "sgx_ocmultiplier", "CPU Overclock Multiplier (Restart); 1|2|3|4|5|6|7|8|9|10|20|30|40|50" },
+      { "sgx_hoverscan", "Horizontal Overscan (352 Width Mode Only); 352|300|302|304|306|308|310|312|314|316|318|320|322|324|326|328|330|332|334|336|338|340|342|344|346|348|350" },
+      { "sgx_initial_scanline", "Initial scanline; 3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31|32|33|34|35|36|37|38|39|40|0|1|2" },
+      { "sgx_last_scanline", "Last scanline; 242|208|209|210|211|212|213|214|215|216|217|218|219|220|221|222|223|224|225|226|227|228|229|230|231|232|233|234|235|236|237|238|239|240|241" },
+      { "sgx_cddavolume", "(CD) CDDA Volume %; 100|110|120|130|140|150|160|170|180|190|200|0|10|20|30|40|50|60|70|80|90" },
+      { "sgx_adpcmvolume", "(CD) ADPCM Volume %; 100|110|120|130|140|150|160|170|180|190|200|0|10|20|30|40|50|60|70|80|90" },
+      { "sgx_cdpsgvolume", "(CD) CD PSG Volume %; 100|110|120|130|140|150|160|170|180|190|200|0|10|20|30|40|50|60|70|80|90" },
+      { "sgx_cdspeed", "(CD) CD Speed; 1|2|4|8" },
       { NULL, NULL },
    };
 
