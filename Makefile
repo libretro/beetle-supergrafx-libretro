@@ -297,6 +297,10 @@ WARNINGS := -Wall \
 EXTRA_GCC_FLAGS := -funroll-loops
 endif
 
+GIT_VERSION := " $(shell git rev-parse --short HEAD || echo unknown)"
+ifneq ($(GIT_VERSION)," unknown")
+	CXXFLAGS += -DGIT_VERSION=\"$(GIT_VERSION)\"
+endif
 
 ifeq ($(NO_GCC),1)
 	EXTRA_GCC_FLAGS :=
