@@ -9,6 +9,7 @@ void INPUT_Write(unsigned int A, uint8 V);
 void INPUT_Frame(void);
 int INPUT_StateAction(StateMem *sm, int load, int data_only);
 extern InputInfoStruct PCEInputInfo;
+extern bool AVPad6Enabled[5];
 void INPUT_FixTS(void);
 
 #endif
