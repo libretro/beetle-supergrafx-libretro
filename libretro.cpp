@@ -1294,6 +1294,9 @@ void retro_init(void)
    else
       log_cb = NULL;
 
+   bool achievements = true;
+   environ_cb(RETRO_ENVIRONMENT_SET_SUPPORT_ACHIEVEMENTS, &achievements);
+
    CDUtility_Init();
 
    const char *dir = NULL;
