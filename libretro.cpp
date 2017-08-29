@@ -1954,6 +1954,9 @@ void *retro_get_memory_data(unsigned type)
 
    switch (type)
    {
+      case RETRO_MEMORY_SYSTEM_RAM:
+         data = BaseRAM;
+         break;
       case RETRO_MEMORY_SAVE_RAM:
          if (IsPopulous)
             data = (uint8_t*)(ROMSpace + 0x40 * 8192);
@@ -1973,6 +1976,9 @@ size_t retro_get_memory_size(unsigned type)
 
    switch (type)
    {
+      case RETRO_MEMORY_SYSTEM_RAM:
+         size = IsSGX ? 32768 : 8192;
+         break;
       case RETRO_MEMORY_SAVE_RAM:
          if (IsPopulous)
             size = 32768;
