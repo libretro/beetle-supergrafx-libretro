@@ -1845,14 +1845,20 @@ unsigned retro_api_version(void)
 
 void retro_set_controller_port_device(unsigned in_port, unsigned device)
 {
-   switch(device)
+   if (in_port < MAX_PLAYERS)
    {
-      case RETRO_DEVICE_JOYPAD:
-         PCEINPUT_SetInput(in_port, "gamepad", &input_buf[in_port][0]);
-         break;
-      case RETRO_DEVICE_MOUSE:
-         PCEINPUT_SetInput(in_port, "mouse", &input_buf[in_port][0]);
-         break;
+      switch(device)
+      {
+         case RETRO_DEVICE_JOYPAD:
+            PCEINPUT_SetInput(in_port, "gamepad", &input_buf[in_port][0]);
+            break;
+         case RETRO_DEVICE_MOUSE:
+            PCEINPUT_SetInput(in_port, "mouse", &input_buf[in_port][0]);
+            break;
+      }
+
+      if (log_cb)
+         log_cb(RETRO_LOG_INFO, "Player #%d: %s connected.\n", in_port + 1, device == RETRO_DEVICE_JOYPAD ? "Gamepad" : (device == RETRO_DEVICE_MOUSE ? "Mouse" : "None"));
    }
 }
 
