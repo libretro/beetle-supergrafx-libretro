@@ -281,6 +281,11 @@ static int Load(const char *name, MDFNFILE *fp)
   IsSGX = 1;
  }
 
+ if(crc = 0xfae0fc60)
+ {
+  OrderOfGriffonFix = true;
+ }
+
  return(LoadCommon());
 }
 
