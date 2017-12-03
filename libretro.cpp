@@ -1393,6 +1393,7 @@ static int     turbo_counter[MAX_PLAYERS][MAX_BUTTONS] = {};
 static int     turbo_delay;
 static int     turbo_toggle = 1;
 static int     turbo_toggle_down[MAX_PLAYERS][MAX_BUTTONS] = {};
+static int     aspect_ratio_mode = 0;
 
 static void check_variables(void)
 {
@@ -1524,6 +1525,18 @@ static void check_variables(void)
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
       turbo_delay = atoi(var.value);
+   }
+
+   var.key = "sgx_aspect_ratio";
+
+   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+   {
+      if (strcmp(var.value, "auto") == 0)
+         aspect_ratio_mode = 0;
+      else if (strcmp(var.value, "6:5") == 0)
+         aspect_ratio_mode = 1;
+      else if (strcmp(var.value, "4:3") == 0)
+         aspect_ratio_mode = 2;
    }
 }
 
@@ -1712,6 +1725,37 @@ static void update_input(void)
    }
 }
 
+#define SGX_4_3      (4.0 / 3.0)
+#define SGX_6_5      (6.0 / 5.0)
+
+static float get_aspect_ratio(unsigned width, unsigned height)
+{
+   float par = 0.0;
+   unsigned dot_clock_mode = vce.dot_clock;
+
+   if (aspect_ratio_mode == 1) // 6:5 DAR
+      return SGX_6_5;
+   else if (aspect_ratio_mode == 2) // 4:3 DAR
+      return SGX_4_3;
+
+   switch (dot_clock_mode)
+   {
+      case 0:
+         par = 8.0 / 7.0; // 5.37 MHz
+         if (OrderOfGriffonFix)
+            par = 6.0 / 7.0;
+         break;
+      case 1:
+         par = 6.0 / 7.0; // 7.16 MHz
+         break;
+      case 2:
+         par = 4.0 / 7.0; // 10.74 MHz
+         break;
+   }
+
+   return (float)width * par / (float)height;
+}
+
 static uint64_t video_frames, audio_frames;
 
 void update_geometry(unsigned width, unsigned height)
@@ -1719,7 +1763,7 @@ void update_geometry(unsigned width, unsigned height)
    struct retro_system_av_info system_av_info;
    system_av_info.geometry.base_width = width;
    system_av_info.geometry.base_height = height;
-   system_av_info.geometry.aspect_ratio = MEDNAFEN_CORE_GEOMETRY_ASPECT_RATIO;
+   system_av_info.geometry.aspect_ratio = get_aspect_ratio(width, height);
    environ_cb(RETRO_ENVIRONMENT_SET_GEOMETRY, &system_av_info);
 }
 
@@ -1885,6 +1929,7 @@ void retro_set_environment(retro_environment_t cb)
       { "sgx_cdspeed", "(CD) CD Speed; 1|2|4|8" },
       { "sgx_turbo_delay", "Turbo Delay; 3|4|5|6|7|8|9|10|11|12|13|14|15|30|60|2" },
       { "sgx_turbo_toggle", "Turbo ON/OFF Toggle; disabled|enabled" },
+      { "sgx_aspect_ratio", "Aspect Ratio; auto|6:5|4:3" },
       { NULL, NULL },
    };
 
