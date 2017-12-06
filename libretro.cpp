@@ -1727,13 +1727,15 @@ static void update_input(void)
 
 #define SGX_4_3      (4.0 / 3.0)
 #define SGX_6_5      (6.0 / 5.0)
+#define CLOCK_FREQ_NTSC  (135.0 / 11.0 * 1000000.0) // NTSC Square Interlaced Pixels
 
 static float get_aspect_ratio(unsigned width, unsigned height)
 {
    float par = 0.0;
+   float dot_clock = 0.0;           // pce dot clock frequency
    unsigned dot_clock_mode = vce.dot_clock;
 
-   if (aspect_ratio_mode == 1) // 6:5 DAR
+   if (aspect_ratio_mode == 1)      // 6:5 DAR
       return SGX_6_5;
    else if (aspect_ratio_mode == 2) // 4:3 DAR
       return SGX_4_3;
@@ -1741,18 +1743,21 @@ static float get_aspect_ratio(unsigned width, unsigned height)
    switch (dot_clock_mode)
    {
       case 0:
-         par = 8.0 / 7.0; // 5.37 MHz
-         if (OrderOfGriffonFix)
-            par = 6.0 / 7.0;
+         dot_clock = 5369317.5;     // 5.37 MHz
          break;
       case 1:
-         par = 6.0 / 7.0; // 7.16 MHz
+         dot_clock = 7159090.0;     // 7.16 MHz
          break;
       case 2:
-         par = 4.0 / 7.0; // 10.74 MHz
+         dot_clock = 10738635.0;    // 10.74 MHz
          break;
    }
 
+   // Apply hack which forces game to use mode 1 settings
+   if (OrderOfGriffonFix)
+      dot_clock = 7159090.0;
+
+   par = (CLOCK_FREQ_NTSC / 2.0) / dot_clock;
    return (float)width * par / (float)height;
 }
 
