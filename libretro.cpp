@@ -281,6 +281,10 @@ static int Load(const char *name, MDFNFILE *fp)
   IsSGX = 1;
  }
 
+ // Space Harrier (Japan)/(USA) is not compatible with SuperGrafx mode
+ if (crc == 0x64580427 || crc == 0x43b05eb8)
+  IsSGX = 0;
+
  if(crc == 0xfae0fc60)
  {
   OrderOfGriffonFix = true;
@@ -313,7 +317,7 @@ static void LoadCommonPre(void)
 
 static int LoadCommon(void)
 {
- IsSGX |= MDFN_GetSettingB("pce_fast.forcesgx") ? 1 : 0;
+ IsSGX &= MDFN_GetSettingB("pce_fast.forcesgx") ? 1 : 0;
 
  // Don't modify IsSGX past this point.
 
