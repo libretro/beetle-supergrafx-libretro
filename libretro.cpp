@@ -250,34 +250,34 @@ static int Load(const char *name, MDFNFILE *fp)
 
  if(GET_FSIZE_PTR(fp) >= 8192 && !memcmp(GET_FDATA_PTR(fp) + headerlen, "DARIUS Version 1.11b", strlen("DARIUS VERSION 1.11b")))
  {
-  MDFN_printf("SuperGfx:  Darius Plus\n");
+  MDFN_printf("SuperGrafx:  Darius Plus\n");
   IsSGX = 1;
  }
 
  if(crc == 0x4c2126b0)
  {
-  MDFN_printf("SuperGfx:  Aldynes\n");
+  MDFN_printf("SuperGrafx:  Aldynes\n");
   IsSGX = 1;
  }
 
  if(crc == 0x8c4588e2)
  {
-  MDFN_printf("SuperGfx:  1941 - Counter Attack\n");
+  MDFN_printf("SuperGrafx:  1941 - Counter Attack\n");
   IsSGX = 1;
  }
  if(crc == 0x1f041166)
  {
-  MDFN_printf("SuperGfx:  Madouou Granzort\n");
+  MDFN_printf("SuperGrafx:  Madouou Granzort\n");
   IsSGX = 1;
  }
  if(crc == 0xb486a8ed)
  {
-  MDFN_printf("SuperGfx:  Daimakaimura\n");
+  MDFN_printf("SuperGrafx:  Daimakaimura\n");
   IsSGX = 1;
  }
  if(crc == 0x3b13af61)
  {
-  MDFN_printf("SuperGfx:  Battle Ace\n");
+  MDFN_printf("SuperGrafx:  Battle Ace\n");
   IsSGX = 1;
  }
 
