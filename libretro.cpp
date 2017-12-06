@@ -1727,13 +1727,15 @@ static void update_input(void)
 
 #define SGX_4_3      (4.0 / 3.0)
 #define SGX_6_5      (6.0 / 5.0)
+#define CLOCK_FREQ_NTSC  (135.0 / 11.0 * 1000000.0) // NTSC Square Interlaced Pixels
 
 static float get_aspect_ratio(unsigned width, unsigned height)
 {
    float par = 0.0;
+   float dot_clock = 0.0;           // pce dot clock frequency
    unsigned dot_clock_mode = vce.dot_clock;
 
-   if (aspect_ratio_mode == 1) // 6:5 DAR
+   if (aspect_ratio_mode == 1)      // 6:5 DAR
       return SGX_6_5;
    else if (aspect_ratio_mode == 2) // 4:3 DAR
       return SGX_4_3;
@@ -1741,18 +1743,21 @@ static float get_aspect_ratio(unsigned width, unsigned height)
    switch (dot_clock_mode)
    {
       case 0:
-         par = 8.0 / 7.0; // 5.37 MHz
-         if (OrderOfGriffonFix)
-            par = 6.0 / 7.0;
+         dot_clock = 5369317.5;     // 5.37 MHz
          break;
       case 1:
-         par = 6.0 / 7.0; // 7.16 MHz
+         dot_clock = 7159090.0;     // 7.16 MHz
          break;
       case 2:
-         par = 4.0 / 7.0; // 10.74 MHz
+         dot_clock = 10738635.0;    // 10.74 MHz
          break;
    }
 
+   // Apply hack which forces game to use mode 1 settings
+   if (OrderOfGriffonFix)
+      dot_clock = 7159090.0;
+
+   par = (CLOCK_FREQ_NTSC / 2.0) / dot_clock;
    return (float)width * par / (float)height;
 }
 
@@ -1858,14 +1863,30 @@ void retro_get_system_info(struct retro_system_info *info)
 
 void retro_get_system_av_info(struct retro_system_av_info *info)
 {
+   unsigned    width  = MEDNAFEN_CORE_GEOMETRY_BASE_W;
+   unsigned    height = setting_last_scanline - setting_initial_scanline + 1;
+   float aspect_ratio = MEDNAFEN_CORE_GEOMETRY_ASPECT_RATIO;
+
    memset(info, 0, sizeof(*info));
+
+   if (aspect_ratio_mode == 0) // auto aspect
+   {
+      width = 352;
+      aspect_ratio = width * (6.0 / 7.0) / height;
+   }
+   else if (aspect_ratio_mode == 2) // 4:3
+   {
+      width = 320;
+      aspect_ratio = 4.0 / 3.0;
+   }
+
    info->timing.fps            = MEDNAFEN_CORE_TIMING_FPS;
    info->timing.sample_rate    = 44100;
-   info->geometry.base_width   = MEDNAFEN_CORE_GEOMETRY_BASE_W;
-   info->geometry.base_height  = MEDNAFEN_CORE_GEOMETRY_BASE_H;
+   info->geometry.base_width   = width;
+   info->geometry.base_height  = height;
    info->geometry.max_width    = MEDNAFEN_CORE_GEOMETRY_MAX_W;
    info->geometry.max_height   = MEDNAFEN_CORE_GEOMETRY_MAX_H;
-   info->geometry.aspect_ratio = MEDNAFEN_CORE_GEOMETRY_ASPECT_RATIO;
+   info->geometry.aspect_ratio = aspect_ratio;
 }
 
 void retro_deinit()
