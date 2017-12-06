@@ -1858,14 +1858,30 @@ void retro_get_system_info(struct retro_system_info *info)
 
 void retro_get_system_av_info(struct retro_system_av_info *info)
 {
+   unsigned    width  = MEDNAFEN_CORE_GEOMETRY_BASE_W;
+   unsigned    height = setting_last_scanline - setting_initial_scanline + 1;
+   float aspect_ratio = MEDNAFEN_CORE_GEOMETRY_ASPECT_RATIO;
+
    memset(info, 0, sizeof(*info));
+
+   if (aspect_ratio_mode == 0) // auto aspect
+   {
+      width = 352;
+      aspect_ratio = width * (6.0 / 7.0) / height;
+   }
+   else if (aspect_ratio_mode == 2) // 4:3
+   {
+      width = 320;
+      aspect_ratio = 4.0 / 3.0;
+   }
+
    info->timing.fps            = MEDNAFEN_CORE_TIMING_FPS;
    info->timing.sample_rate    = 44100;
-   info->geometry.base_width   = MEDNAFEN_CORE_GEOMETRY_BASE_W;
-   info->geometry.base_height  = MEDNAFEN_CORE_GEOMETRY_BASE_H;
+   info->geometry.base_width   = width;
+   info->geometry.base_height  = height;
    info->geometry.max_width    = MEDNAFEN_CORE_GEOMETRY_MAX_W;
    info->geometry.max_height   = MEDNAFEN_CORE_GEOMETRY_MAX_H;
-   info->geometry.aspect_ratio = MEDNAFEN_CORE_GEOMETRY_ASPECT_RATIO;
+   info->geometry.aspect_ratio = aspect_ratio;
 }
 
 void retro_deinit()
