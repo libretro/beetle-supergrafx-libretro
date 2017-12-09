@@ -70,6 +70,13 @@ bool CDAccess_CHD::Load(const std::string &path, bool image_memcache)
   if (err != CHDERR_NONE)
     exit(-1);
 
+  if (image_memcache)
+  {
+    err = chd_precache(chd);
+    if (err != CHDERR_NONE)
+      return false;
+  }
+
   /* allocate storage for sector reads */
   const chd_header *head = chd_get_header(chd);
   hunkmem = (uint8_t *)malloc(head->hunkbytes);
