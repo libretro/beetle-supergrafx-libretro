@@ -1,4 +1,4 @@
-#include	<stdarg.h>
+#include <stdarg.h>
 #include "mednafen/mednafen.h"
 #include "mednafen/git.h"
 #include "mednafen/general.h"
@@ -6,7 +6,7 @@
 
 #include <retro_timers.h>
 
-#include	"mednafen/FileWrapper.h"
+#include "mednafen/FileWrapper.h"
 
 #include "mednafen/pce_fast/pce.h"
 #include "mednafen/pce_fast/vdc.h"
@@ -1384,7 +1384,7 @@ static void set_volume (uint32_t *ptr, unsigned number)
 }
 
 #define        MAX_PLAYERS 5
-#define        MAX_BUTTONS 13
+#define        MAX_BUTTONS 15
 static uint8_t input_buf[MAX_PLAYERS][2] = {0};
 
 // Array to keep track of whether a given player's button is turbo
@@ -1396,6 +1396,7 @@ static int     turbo_counter[MAX_PLAYERS][MAX_BUTTONS] = {};
 // The number of frames between each firing of a turbo button
 static int     turbo_delay;
 static int     turbo_toggle = 1;
+static bool    turbo_toggle_alt = false;
 static int     turbo_toggle_down[MAX_PLAYERS][MAX_BUTTONS] = {};
 static int     aspect_ratio_mode = 0;
 
@@ -1552,6 +1553,16 @@ static void check_variables(void)
       else if (strcmp(var.value, "4:3") == 0)
          aspect_ratio_mode = 2;
    }
+
+   var.key = "sgx_turbo_toggle_hotkey";
+
+   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+   {
+      if (strcmp(var.value, "enabled") == 0)
+         turbo_toggle_alt = true;
+      else
+         turbo_toggle_alt = false;
+   }
 }
 
 bool retro_load_game(const struct retro_game_info *info)
@@ -1675,7 +1686,8 @@ void retro_unload_game(void)
 
 static void update_input(void)
 {
-   static int        turbo_map[] = { -1,-1,-1,-1,-1,-1,-1,-1,1,0,-1,-1,-1 };
+   static int turbo_map[]     = { -1,-1,-1,-1,-1,-1,-1,-1, 1, 0,-1,-1,-1,-1,-1 };
+   static int turbo_map_alt[] = { -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, 1, 0 };
    static unsigned   map[] = {
       RETRO_DEVICE_ID_JOYPAD_A,
       RETRO_DEVICE_ID_JOYPAD_B,
@@ -1689,7 +1701,9 @@ static void update_input(void)
       RETRO_DEVICE_ID_JOYPAD_X,
       RETRO_DEVICE_ID_JOYPAD_L,
       RETRO_DEVICE_ID_JOYPAD_R,
-      RETRO_DEVICE_ID_JOYPAD_L2
+      RETRO_DEVICE_ID_JOYPAD_L2,
+      RETRO_DEVICE_ID_JOYPAD_L3,
+      RETRO_DEVICE_ID_JOYPAD_R3
    };
 
    for (unsigned j = 0; j < MAX_PLAYERS; j++)
@@ -1714,15 +1728,17 @@ static void update_input(void)
                turbo_counter[j][i] = 0;                  // Reset counter if button is not pressed.
          }
 
-         else if (turbo_map[i] != -1 && turbo_toggle && !AVPad6Enabled[j])
+         else if ((!turbo_toggle_alt ? turbo_map[i] : turbo_map_alt[i]) != -1 && turbo_toggle && !AVPad6Enabled[j])
          {
             if (input_state_cb(j, RETRO_DEVICE_JOYPAD, 0, map[i]))
             {
                if (turbo_toggle_down[j][i] == 0)
                {
                   turbo_toggle_down[j][i] = 1;
-                  turbo_enable[j][turbo_map[i]] = turbo_enable[j][turbo_map[i]] ^ 1;
-                  MDFN_DispMessage("Pad %i Button %s Turbo %s", j + 1, i == 9 ? "I" : "II", turbo_enable[j][turbo_map[i]] ? "ON" : "OFF" );
+                  turbo_enable[j][(!turbo_toggle_alt ? turbo_map[i] : turbo_map_alt[i])] = turbo_enable[j][(!turbo_toggle_alt ? turbo_map[i] : turbo_map_alt[i])] ^ 1;
+                  MDFN_DispMessage("Pad %i Button %s Turbo %s", j + 1,
+                     i == (!turbo_toggle_alt ? 9 : 14) ? "I" : "II",
+                     turbo_enable[j][(!turbo_toggle_alt ? turbo_map[i] : turbo_map_alt[i])] ? "ON" : "OFF" );
                }
             }
             else
@@ -1965,6 +1981,7 @@ void retro_set_environment(retro_environment_t cb)
       { "sgx_cdspeed", "(CD) CD Speed; 1|2|4|8" },
       { "sgx_turbo_delay", "Turbo Delay; 3|4|5|6|7|8|9|10|11|12|13|14|15|30|60|2" },
       { "sgx_turbo_toggle", "Turbo ON/OFF Toggle; disabled|enabled" },
+      { "sgx_turbo_toggle_hotkey", "Alternate Turbo Hotkey; disabled|enabled" },
       { "sgx_aspect_ratio", "Aspect Ratio; auto|6:5|4:3" },
       { NULL, NULL },
    };
