@@ -151,9 +151,13 @@ static void crc_table_init(void)
 
       for (j = 0; j < 8; j++)
       {
-         r <<= 1;
          if ((r & 0x80000000) != 0)
+         {
+            r <<= 1;
             r ^= EDC_POLY;
+         }
+         else
+            r <<= 1;
       }
 
       r = mirror_bits(r, 32);
