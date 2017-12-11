@@ -1969,7 +1969,7 @@ void retro_set_environment(retro_environment_t cb)
    static const struct retro_variable vars[] = {
       { "sgx_cdimagecache", "CD Image Cache (Restart); disabled|enabled" },
       { "sgx_cdbios", "CD Bios (Restart); System Card 3|Games Express|System Card 1|System Card 2" },
-      { "sgx_forcesgx", "Force SuperGrafx Emulation (Restart); enabled|disabled" },
+      { "sgx_forcesgx", "Force SuperGrafx Emulation (Restart); disabled|enabled" },
       { "sgx_nospritelimit", "No Sprite Limit (Restart); disabled|enabled" },
       { "sgx_ocmultiplier", "CPU Overclock Multiplier (Restart); 1|2|3|4|5|6|7|8|9|10|20|30|40|50" },
       { "sgx_hoverscan", "Horizontal Overscan (352 Width Mode Only); 352|300|302|304|306|308|310|312|314|316|318|320|322|324|326|328|330|332|334|336|338|340|342|344|346|348|350" },
