@@ -27,7 +27,7 @@
 
 #define MEDNAFEN_CORE_NAME_MODULE "pce_fast"
 #define MEDNAFEN_CORE_NAME "Mednafen SuperGrafx"
-#define MEDNAFEN_CORE_VERSION "v0.9.39.2"
+#define MEDNAFEN_CORE_VERSION "v0.9.41"
 #define MEDNAFEN_CORE_EXTENSIONS "pce|sgx|cue|ccd|chd"
 #define MEDNAFEN_CORE_TIMING_FPS 59.82
 #define MEDNAFEN_CORE_GEOMETRY_BASE_W 512
