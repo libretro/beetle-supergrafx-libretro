@@ -291,7 +291,9 @@ bool PCECD_Init(const PCECD_Settings *settings, void (*irqcb)(bool), double mast
 	// Warning: magic number 126000 in PCECD_SetSettings() too
 	PCECD_Drive_Init(3 * OC_Multiplier, sbuf[0], sbuf[1], 126000 * (settings ? settings->CD_Speed : 1), master_clock * OC_Multiplier, CDIRQ, StuffSubchannel);
 
-	ADPCM.RAM = new uint8[0x10000];
+   if(!(ADPCM.RAM = (uint8 *)MDFN_malloc(0x10000, _("PCE ADPCM RAM"))))
+      return 0;
+
 	PCECD_SetSettings(settings);
 
         ADPCM.bigdivacc = (int64)((double)master_clock * OC_Multiplier * 65536 / 32087.5);
@@ -302,12 +304,12 @@ bool PCECD_Init(const PCECD_Settings *settings, void (*irqcb)(bool), double mast
 
 void PCECD_Close(void)
 {
-        if(ADPCM.RAM)
-        {
-         delete[] ADPCM.RAM;
-         ADPCM.RAM = NULL;
-        }
-	PCECD_Drive_Close();
+   if(ADPCM.RAM)
+   {
+      MDFN_free(ADPCM.RAM);
+      ADPCM.RAM = NULL;
+   }
+   PCECD_Drive_Close();
 }
 
 

@@ -732,7 +732,7 @@ static void Cleanup(void)
       PCECD_Close();
 
    if(HuCROM)
-      delete[] HuCROM;
+      MDFN_free(HuCROM);
    HuCROM = NULL;
 }
 
@@ -757,7 +757,9 @@ int HuCLoad(const uint8 *data, uint32 len, uint32 crc32)
  MDFN_printf(_("ROM:       %dKiB\n"), (len + 1023) / 1024);
  MDFN_printf(_("ROM CRC32: 0x%04x\n"), crc32);
 
- HuCROM = new uint8[m_len];
+ if(!(HuCROM = (uint8 *)MDFN_malloc(m_len, _("HuCard ROM"))))
+    return 0;
+
  memset(HuCROM, 0xFF, m_len);
  memcpy(HuCROM, data, (m_len < len) ? m_len : len);
 
