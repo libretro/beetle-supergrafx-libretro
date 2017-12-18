@@ -18,8 +18,8 @@
 /* VDC and VCE emulation */
 
 /*
-"Tonight I hooked up my Turbo Duo(with no games or CDs in it)'s video output to my PC sound card, recorded it, 
-and did a FFT and looked at the spectrum(around the line rate, 15-16KHz), and I also counted the number 
+"Tonight I hooked up my Turbo Duo(with no games or CDs in it)'s video output to my PC sound card, recorded it,
+and did a FFT and looked at the spectrum(around the line rate, 15-16KHz), and I also counted the number
 of samples between the ~60Hz peaks(just to verify that the math shown below is remotely accurate).
 
 The spectrum peaked at 15734 Hz.  21477272.727272... / 3 / 15734 = 455.00(CPU cycles per scanline)"
@@ -43,9 +43,7 @@ static bool unlimited_sprites;
 #define ULE_BG1		4
 #define ULE_SPR1	8
 
-static const uint8 bat_width_shift_tab[4] = { 5, 6, 7, 7 };
-static const uint8 bat_height_mask_tab[2] = { 32 - 1, 64 - 1 };
-static int defined_width[3] = { 256, 352, 512};
+static int defined_width[3] = { 256, 352, 512 };
 
 static unsigned int VDS;
 static unsigned int VSW;
@@ -55,9 +53,8 @@ static unsigned int VBlankFL;
 
 vce_t vce;
 
-int VDC_TotalChips = 0;
-
-vdc_t *vdc_chips[2] = { NULL, NULL };
+int VDC_TotalChips;
+vdc_t vdc_chips[2];
 
 static INLINE void FixPCache(int entry)
 {
@@ -169,24 +166,21 @@ static INLINE void CheckFixSpriteTileCache(vdc_t *which_vdc, uint16 no, uint32 s
 
 static INLINE void SetVCECR(uint8 V)
 {
- if(((V & 0x80) >> 7) != vce.bw)
- {
-  vce.bw = V & 0x80;
-  for(int x = 0; x < 512; x++)
-   FixPCache(x);
- }
+ const bool bw_changed = (V ^ vce.CR) & 0x80;
 
- vce.lc263 = (V & 0x04);
  vce.dot_clock = V & 1;
  if(V & 2)
   vce.dot_clock = 2;
  vce.CR = V;
+
+ if(bw_changed)
+ {
+  for(int x = 0; x < 512; x++)
+   FixPCache(x);
+ }
 }
 
 static unsigned int frame_counter;
-static int32 need_vbi[2] = { 0, 0 };
-static int32 line_leadin1 = 0;
-static int32 magical, cyc_tot;
 
 vpc_t vpc;
 
@@ -223,12 +217,12 @@ DECLFR(VCE_Read)
 {
  switch(A & 0x7)
  {
-  case 4: return(vce.color_table[vce.ctaddress & 0x1FF]);
+  case 4: return(vce.color_table[vce.ctaddress]);
   case 5: {
-	   uint8 ret = vce.color_table[vce.ctaddress & 0x1FF] >> 8;
-	   ret &= 1;
+	   uint8 ret = vce.color_table[vce.ctaddress] >> 8;
 	   ret |= 0xFE;
 	   vce.ctaddress++;
+	   vce.ctaddress &= 0x1FF;
 	   return(ret);
 	 }
  }
@@ -243,14 +237,15 @@ DECLFW(VCE_Write)
   case 0: SetVCECR(V); break;
   case 2: vce.ctaddress &= 0x100; vce.ctaddress |= V; break;
   case 3: vce.ctaddress &= 0x0FF; vce.ctaddress |= (V & 1) << 8; break;
-  case 4: vce.color_table[vce.ctaddress & 0x1FF] &= 0x100;
-	  vce.color_table[vce.ctaddress & 0x1FF] |= V;
-	  FixPCache(vce.ctaddress & 0x1FF);
+  case 4: vce.color_table[vce.ctaddress] &= 0x100;
+	  vce.color_table[vce.ctaddress] |= V;
+	  FixPCache(vce.ctaddress);
           break;
-  case 5: vce.color_table[vce.ctaddress & 0x1FF] &= 0xFF;
-	  vce.color_table[vce.ctaddress & 0x1FF] |= (V & 1) << 8;
-	  FixPCache(vce.ctaddress & 0x1FF);
+  case 5: vce.color_table[vce.ctaddress] &= 0xFF;
+	  vce.color_table[vce.ctaddress] |= (V & 1) << 8;
+	  FixPCache(vce.ctaddress);
 	  vce.ctaddress++;
+	  vce.ctaddress &= 0x1FF;
 	  break;
  }
 }
@@ -291,7 +286,7 @@ static void DoDMA(vdc_t *vdc)
 	vdc->spr_tile_clean[vdc->DESR >> 6] = 0;
        }
 
-       //if(vdc->DCR & 0xC) 
+       //if(vdc->DCR & 0xC)
 	//printf("Pllal: %02x\n", vdc->DCR);
 
        vdc->SOUR += (((vdc->DCR & 0x4) >> 1) ^ 2) - 1;
@@ -336,12 +331,12 @@ DECLFW(VDC_Write)
   if(A & 0x8) return;
 
   chip = (A & 0x10) >> 4;
-  vdc = vdc_chips[chip];
+  vdc = &vdc_chips[chip];
   A &= 0x3;
  }
  else
  {
-  vdc = vdc_chips[0];
+  vdc = &vdc_chips[0];
   A &= 0x3;
  }
  //if((A == 0x2 || A == 0x3) && ((vdc->select & 0x1f) >= 0x09) && ((vdc->select & 0x1f) <= 0x13))
@@ -377,7 +372,7 @@ DECLFW(VDC_Write)
  			 vdc->VRAM[vdc->MAWR] = (V << 8) | vdc->write_latch;
 			 FixTileCache(vdc, vdc->MAWR);
 		         vdc->spr_tile_clean[vdc->MAWR >> 6] = 0;
-			} 
+			}
 			else
 			{
 	                 //VDC_UNDEFINED("Unmapped VRAM write");
@@ -426,17 +421,18 @@ DECLFW(VDC_Write)
 }
 
 #define CB_EXL(n) (((n) << 4) | ((n) << 12) | ((n) << 20) | ((n) << 28) | ((n) << 36) | ((n) << 44) | ((n) << 52) | ((n) << 60))
+static const uint8 bat_width_shift_tab[4] = { 5, 6, 7, 7 };
 static const uint64 cblock_exlut[16] =  {
-                                        CB_EXL(0ULL), CB_EXL(1ULL), CB_EXL(2ULL), CB_EXL(3ULL), CB_EXL(4ULL), CB_EXL(5ULL), CB_EXL(6ULL), CB_EXL(7ULL),
-                                        CB_EXL(8ULL), CB_EXL(9ULL), CB_EXL(10ULL), CB_EXL(11ULL), CB_EXL(12ULL), CB_EXL(13ULL), CB_EXL(14ULL), CB_EXL(15ULL)
-                                   };
+   CB_EXL(0ULL), CB_EXL(1ULL), CB_EXL(2ULL), CB_EXL(3ULL), CB_EXL(4ULL), CB_EXL(5ULL), CB_EXL(6ULL), CB_EXL(7ULL),
+   CB_EXL(8ULL), CB_EXL(9ULL), CB_EXL(10ULL), CB_EXL(11ULL), CB_EXL(12ULL), CB_EXL(13ULL), CB_EXL(14ULL), CB_EXL(15ULL)
+};
 
 static void DrawBG(const vdc_t *vdc, const uint32 count, uint8 *target) NO_INLINE;
 static void DrawBG(const vdc_t *vdc, const uint32 count, uint8 *target)
 {
  int bat_width_shift = bat_width_shift_tab[(vdc->MWR >> 4) & 3];
  int bat_width_mask = (1U << bat_width_shift) - 1;
- int bat_height_mask = bat_height_mask_tab[(vdc->MWR >> 6) & 1];
+ int bat_height_mask = 31 + ((vdc->MWR & 0x40) >> 1);
  uint64 *target64 = (uint64 *)target;
 
  {
@@ -686,7 +682,7 @@ static void DrawSprites(vdc_t *vdc, const int32 end, uint16 *spr_linebuf)
      const uint32 raw_pixel = pix_source[15 - x];
      if(raw_pixel)
      {
-      if(((uint32)pos + x) >= (uint32)end) // Covers negative and overflowing the right side(to prevent spurious sprite hits)   
+      if(((uint32)pos + x) >= (uint32)end) // Covers negative and overflowing the right side(to prevent spurious sprite hits)
        continue;
 
       if(dest_pix[x] & 0x100)
@@ -800,32 +796,32 @@ static inline void MixNone(const uint32 count, uint16_t *target)
   target[x] = bg_color;
 }
 
-static void MixVPC(const uint32 count, const uint16 *lb0, const uint16 *lb1, uint16_t *target)
-{
 	static const int prio_select[4] = { 1, 1, 0, 0 };
 	static const int prio_shift[4] = { 4, 0, 4, 0 };
 
+static void MixVPC(const uint32 count, const uint16 *lb0, const uint16 *lb1, uint16_t *target)
+{
 	// Windowing disabled.
 	if(vpc.winwidths[0] <= 0x40 && vpc.winwidths[1] <= 0x40)
-	{
+   {
 	 const uint8 pb = (vpc.priority[prio_select[0]] >> prio_shift[0]) & 0xF;
 
     for(int x = 0; x < (int)count; x++)
     {
-#include "vpc_mix_inner.inc"
+     #include "vpc_mix_inner.inc"
     }
 
 	 //switch(pb & 0xF)
 	 //{
 	 // case 0x0: for(int x = 0; x < (int)count; x++)
-	 //	    { 
+	 //	    {
 	 //	     #include "vpc_mix_inner.inc"
 	 //	    }
 	 //	    break;
          //}
 	}
 	else for(int x = 0; x < (int)count; x++)
-	{    
+	{
 	 int in_window = 0;
 
 	 if(x < (vpc.winwidths[0] - 0x40))
@@ -866,7 +862,7 @@ void DrawOverscan(const vdc_t *vdc, uint16_t *target, const MDFN_Rect *lw, const
 
 void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
 {
- vdc_t *vdc = vdc_chips[0];
+ vdc_t *vdc = &vdc_chips[0];
  int max_dc = 0;
  MDFN_Surface *surface = espec->surface;
  MDFN_Rect *DisplayRect = &espec->DisplayRect;
@@ -880,16 +876,14 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
   DisplayRect->y = MDFN_GetSettingUI("pce_fast.slstart");
   DisplayRect->h = MDFN_GetSettingUI("pce_fast.slend") - DisplayRect->y + 1;
  }
-	
+
  //Change 352 mode width without restart
  if (defined_width[1] != MDFN_GetSettingUI("pce_fast.hoverscan"))
   defined_width[1] = MDFN_GetSettingUI("pce_fast.hoverscan");
-	
+
  do
  {
-  const bool SHOULD_DRAW = (!skip && (int)frame_counter >= (DisplayRect->y + 14) && (int)frame_counter < (DisplayRect->y + DisplayRect->h + 14));
-
-  vdc = vdc_chips[0];
+  vdc = &vdc_chips[0];
 
   if(frame_counter == 0)
   {
@@ -903,17 +897,14 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
     VBlankFL = 261;
   }
 
-  uint16 line_buffer[2][1024];	// For super grafx emulation
-
-  need_vbi[0] = need_vbi[1] = 0;
+  bool need_vbi[2] = { false, false };
 
   #if 1
-  line_leadin1 = 0;
-
-  magical = M_vdc_HDS + (M_vdc_HDW + 1) + M_vdc_HDE;
+  int32 line_leadin1 = 0;
+  int32 magical = M_vdc_HDS + (M_vdc_HDW + 1) + M_vdc_HDE;
   magical = (magical + 2) & ~1;
   magical -= M_vdc_HDW + 1;
-  cyc_tot = magical * 8; //ClockPixelWidths[vce.dot_clock] - magical * 8;
+  int32 cyc_tot = magical * 8; //ClockPixelWidths[vce.dot_clock] - magical * 8;
   cyc_tot-=2;
   switch(vce.dot_clock)
   {
@@ -956,22 +947,19 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
 
   if(!skip)
   {
-	  
    DisplayRect->x = 0;
 
    // Order of Griffon semi-hack
    if (OrderOfGriffonFix)
-   {
       // Force to use specified width to fit status bar inside frame.
       defined_width[0] = defined_width[1] = 320;
-   }
 
    DisplayRect->w = defined_width[vce.dot_clock];
   }
 
   for(int chip = 0; chip < VDC_TotalChips; chip++)
   {
-   vdc = vdc_chips[chip];
+   vdc = &vdc_chips[chip];
    if(frame_counter == 0)
    {
     vdc->display_counter = 0;
@@ -996,7 +984,7 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
 
    if(vdc->display_counter == VBlankFL)
    {
-    need_vbi[chip] = 1;
+    need_vbi[chip] = true;
     if(vdc->SATBPending || (vdc->DCR & 0x10))
     {
      vdc->SATBPending = 0;
@@ -1009,24 +997,25 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
    {
     VDC_DEBUG("RCR IRQ");
     vdc->status |= VDCS_RR;
-    HuC6280_IRQBegin(MDFN_IQIRQ1); 
+    HuC6280_IRQBegin(MDFN_IQIRQ1);
    }
   }
 
   HuC6280_Run(line_leadin1);
 
+  MDFN_ALIGN(8) uint16 line_buffer[2][1024];	// For super grafx emulation
+  MDFN_ALIGN(8) uint8 bg_linebuf[8 + 1024];
+  MDFN_ALIGN(8) uint16 spr_linebuf[16 + 1024];
+
+  const bool SHOULD_DRAW = (!skip && (int)frame_counter >= (DisplayRect->y + 14) && (int)frame_counter < (DisplayRect->y + DisplayRect->h + 14));
   const bool fc_vrm = (frame_counter >= 14 && frame_counter < (14 + 242 + 1));
-  
   bool mixvpc_enable = (VDC_TotalChips == 2 && SHOULD_DRAW && fc_vrm);
 
   for(int chip = 0; chip < VDC_TotalChips; chip++)
   {
-   MDFN_ALIGN(8) uint8 bg_linebuf[8 + 1024];
-   MDFN_ALIGN(8) uint16 spr_linebuf[16 + 1024];
-   
    uint16 *target_ptr16 = surface->pixels16 + (frame_counter - 14) * surface->pitchinpix;
 
-   vdc = vdc_chips[chip];
+   vdc = &vdc_chips[chip];
 
    if (VDC_TotalChips == 2)
       target_ptr16 = line_buffer[chip];
@@ -1076,22 +1065,22 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
       int32 width = end - start;
       int32 source_offset = 0;
       int32 target_offset = 0;
-	  
+
 	  //Centre any picture thinner than its display mode width
 	  if(width > 0 && width < defined_width[vce.dot_clock]){
 		  target_offset = (defined_width[vce.dot_clock] - width)/2;
 	  }
-	  
+
 	  //Centre overscan cropping
 	  if(vce.dot_clock == 1 && defined_width[1] < width){
 		  target_offset += (defined_width[1] - width) / 2;
 	  }
-	  
+
 	 // Align TV Sport Basketball
 	 if(vce.dot_clock ==2 && width > 512){
 	  target_offset = - 16;
 	 }
-	 
+
 	 // Semi-hack for Asuka 120%
 	 if(vce.dot_clock == 1 && M_vdc_HDS == 5 && M_vdc_HDE == 6 && M_vdc_HDW == 43 && M_vdc_HSW == 2)
 	  target_offset += 8;
@@ -1172,26 +1161,26 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
    {
     //else if(target_ptr16)
      DrawOverscan(vdc, target_ptr16, DisplayRect);
-   }
+  }
   }
 
   if(mixvpc_enable)
   {
    //else if(surface->format.bpp == 16)
     MixVPC(DisplayRect->w, line_buffer[0] + DisplayRect->x, line_buffer[1] + DisplayRect->x, surface->pixels16 + (frame_counter - 14) * surface->pitchinpix + DisplayRect->x);
-  } 
+  }
 
   for(int chip = 0; chip < VDC_TotalChips; chip++)
-   if((vdc_chips[chip]->CR & 0x08) && need_vbi[chip])
-    vdc_chips[chip]->status |= VDCS_VD;
+   if((vdc_chips[chip].CR & 0x08) && need_vbi[chip])
+    vdc_chips[chip].status |= VDCS_VD;
 
   HuC6280_Run(2);
 
   for(int chip = 0; chip < VDC_TotalChips; chip++)
-   if(vdc_chips[chip]->status & VDCS_VD)
+   if(vdc_chips[chip].status & VDCS_VD)
    {
     VDC_DEBUG("VBlank IRQ");
-    HuC6280_IRQBegin(MDFN_IQIRQ1);   
+    HuC6280_IRQBegin(MDFN_IQIRQ1);
    }
 
   HuC6280_Run(455 - line_leadin1 - 2);
@@ -1203,7 +1192,7 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
 
   for(int chip = 0; chip < VDC_TotalChips; chip++)
   {
-   vdc = vdc_chips[chip];
+   vdc = &vdc_chips[chip];
    vdc->RCRCount++;
 
    //vdc->BG_YOffset = (vdc->BG_YOffset + 1);
@@ -1229,8 +1218,8 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
    }
   }
 
-  frame_counter = (frame_counter + 1) % (vce.lc263 ? 263 : 262);
-  //printf("%d\n", vce.lc263);
+  frame_counter = (frame_counter + 1) % ((vce.CR & 0x04) ? 263 : 262);
+  //printf("%d\n", vce.CR & 0x04);
  } while(frame_counter != VBlankFL); // big frame loop!
 
   DisplayRect->w = defined_width[vce.dot_clock];
@@ -1238,16 +1227,16 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
 
 void VDC_Reset(void)
 {
- vdc_chips[0]->read_buffer = 0xFFFF;
+ vdc_chips[0].read_buffer = 0xFFFF;
 
  vpc.priority[0] = vpc.priority[1] = 0x11;
 
- vdc_chips[0]->HSR = vdc_chips[0]->HDR = vdc_chips[0]->VSR = vdc_chips[0]->VDR = vdc_chips[0]->VCR = 0xFF; // Needed for Body Conquest 2
+ vdc_chips[0].HSR = vdc_chips[0].HDR = vdc_chips[0].VSR = vdc_chips[0].VDR = vdc_chips[0].VCR = 0xFF; // Needed for Body Conquest 2
 
- if(vdc_chips[1])
+ if(VDC_TotalChips == 2)
  {
-  vdc_chips[1]->read_buffer = 0xFFFF;
-  vdc_chips[1]->HSR = vdc_chips[1]->HDR = vdc_chips[1]->VSR = vdc_chips[1]->VDR = vdc_chips[1]->VCR = 0xFF; // and for HES playback to not go bonkers
+  vdc_chips[1].read_buffer = 0xFFFF;
+  vdc_chips[1].HSR = vdc_chips[1].HDR = vdc_chips[1].VSR = vdc_chips[1].VDR = vdc_chips[1].VCR = 0xFF; // and for HES playback to not go bonkers
  }
  frame_counter = 0;
 }
@@ -1255,7 +1244,7 @@ void VDC_Reset(void)
 void VDC_Power(void)
 {
  for(int chip = 0; chip < VDC_TotalChips; chip++)
-  memset(vdc_chips[chip], 0, sizeof(vdc_t));
+  memset(&vdc_chips[chip], 0, sizeof(vdc_t));
  VDC_Reset();
 }
 
@@ -1266,22 +1255,10 @@ void VDC_Init(int sgx)
  userle = ~0;
 
  VDC_TotalChips = sgx ? 2 : 1;
-
- for(int chip = 0; chip < VDC_TotalChips; chip++)
- {
-  vdc_chips[chip] = (vdc_t *)MDFN_malloc(sizeof(vdc_t), "VDC");
- }
 }
 
 void VDC_Close(void)
 {
- for(int chip = 0; chip < VDC_TotalChips; chip++)
- {
-  if(vdc_chips[chip])
-   MDFN_free(vdc_chips[chip]);
-  vdc_chips[chip] = NULL;
- }
- VDC_TotalChips = 0;
 }
 
 int VDC_StateAction(StateMem *sm, int load, int data_only)
@@ -1289,8 +1266,6 @@ int VDC_StateAction(StateMem *sm, int load, int data_only)
  SFORMAT VCE_StateRegs[] =
  {
   SFVARN(vce.CR, "VCECR"),
-  SFVARN(vce.lc263, "lc263"),
-  SFVARN(vce.bw, "bw"),
   SFVARN(vce.dot_clock, "dot clock"),
   SFVARN(vce.ctaddress, "ctaddress"),
   SFARRAY16N(vce.color_table, 0x200, "color_table"),
@@ -1299,6 +1274,13 @@ int VDC_StateAction(StateMem *sm, int load, int data_only)
 
 
  int ret = MDFNSS_StateAction(sm, load, data_only, VCE_StateRegs, "VCE");
+
+ if(load)
+ {
+  vce.ctaddress &= 0x1FF;
+  vce.dot_clock %= 2 + 1;
+ }
+
 
  int max_chips = VDC_TotalChips;
 
@@ -1316,8 +1298,8 @@ int VDC_StateAction(StateMem *sm, int load, int data_only)
 
  for(int chip = 0; chip < max_chips; chip++)
  {
-  vdc_t *vdc = vdc_chips[chip];
-  SFORMAT VDC_StateRegs[] = 
+  vdc_t *vdc = &vdc_chips[chip];
+  SFORMAT VDC_StateRegs[] =
   {
 	SFVARN(vdc->display_counter, "display_counter"),
         SFVARN(vdc->sat_dma_slcounter, "sat_dma_slcounter"),
@@ -1367,11 +1349,6 @@ int VDC_StateAction(StateMem *sm, int load, int data_only)
         SFVARN(VDW, "VDW_cache"),
         SFVARN(VCR, "VCR_cache"),
         SFVARN(VBlankFL, "VBlankFL_cache"),
-
-	SFARRAY32(need_vbi, 2),
-	SFVAR(line_leadin1),
-	SFVAR(magical),
-	SFVAR(cyc_tot),
 	SFEND
   };
 
@@ -1379,6 +1356,10 @@ int VDC_StateAction(StateMem *sm, int load, int data_only)
 
   if(load)
   {
+   frame_counter %= ((vce.CR & 0x04) ? 263 : 262);
+   if(VBlankFL > 261)
+    VBlankFL = 261;
+
    for(int x = 0; x < VRAM_Size; x++)
    {
     FixTileCache(vdc, x);

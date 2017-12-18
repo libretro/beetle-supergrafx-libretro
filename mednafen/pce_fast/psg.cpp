@@ -572,11 +572,10 @@ void PCEFast_PSG::Power(const int32 timestamp)
   channel[ch].counter = channel[ch].freq_cache;
 
   if(ch >= 4)
-  {
    RecalcNoiseFreqCache(ch);
-   channel[ch].noisecount = 1;
-   channel[ch].lfsr = 1;
-  }
+
+  channel[ch].noisecount = 1;
+  channel[ch].lfsr = 1;
  }
 
  vol_pending = false;
@@ -639,6 +638,10 @@ int PCEFast_PSG::StateAction(StateMem *sm, int load, int data_only)
 
   for(int ch = 0; ch < 6; ch++)
   {
+   channel[ch].waveform_index &= 0x1F;
+   channel[ch].frequency &= 0xFFF;
+   channel[ch].dda &= 0x1F;
+
    channel[ch].samp_accum = 0;
    for(int wi = 0; wi < 32; wi++)
    {

@@ -51,7 +51,7 @@ static int16 RawPCMVolumeCache[2];
 static int32 ClearACKDelay;
 
 static int32 lastts;
-static int32 pcecd_drive_ne = 0;
+static int32 pcecd_drive_ne;
 
 // ADPCM variables and whatnot
 static inline void ADPCM_DEBUG(const char *format, ...)
@@ -291,11 +291,7 @@ bool PCECD_Init(const PCECD_Settings *settings, void (*irqcb)(bool), double mast
 	// Warning: magic number 126000 in PCECD_SetSettings() too
 	PCECD_Drive_Init(3 * OC_Multiplier, sbuf[0], sbuf[1], 126000 * (settings ? settings->CD_Speed : 1), master_clock * OC_Multiplier, CDIRQ, StuffSubchannel);
 
-        if(!(ADPCM.RAM = (uint8 *)MDFN_malloc(0x10000, _("PCE ADPCM RAM"))))
-        {
-         return(0);
-        }
-
+	ADPCM.RAM = new uint8[0x10000];
 	PCECD_SetSettings(settings);
 
         ADPCM.bigdivacc = (int64)((double)master_clock * OC_Multiplier * 65536 / 32087.5);
@@ -308,7 +304,7 @@ void PCECD_Close(void)
 {
         if(ADPCM.RAM)
         {
-         MDFN_free(ADPCM.RAM);
+         delete[] ADPCM.RAM;
          ADPCM.RAM = NULL;
         }
 	PCECD_Drive_Close();
@@ -728,7 +724,7 @@ void PCECD_Write(uint32 timestamp, uint32 physAddr, uint8 data)
 
 static INLINE void ADPCM_PB_Run(int32 basetime, int32 run_time)
 {
- ADPCM.bigdiv -= run_time * 65536;
+ ADPCM.bigdiv -= ((int64)run_time << 16);
 
  while(ADPCM.bigdiv <= 0)
  {
@@ -898,7 +894,7 @@ void PCECD_ResetTS(void)
 static int ADPCM_StateAction(StateMem *sm, int load, int data_only)
 {
  uint32 ad_sample = MSM5205.GetSample();
- int32  ad_ref_index = MSM5205.GetSSI();
+ uint32 ad_ref_index = MSM5205.GetSSI();
 
  SFORMAT StateRegs[] =
  {
@@ -933,6 +929,15 @@ static int ADPCM_StateAction(StateMem *sm, int load, int data_only)
  int ret = MDFNSS_StateAction(sm, load, data_only, StateRegs, "APCM");
  if(load)
  {
+  ad_ref_index %= 49;
+  ad_sample &= 0xFFF;
+  ADPCM.SampleFreq &= 0xF;
+
+  if(ADPCM.bigdiv < 1)
+   ADPCM.bigdiv = 1;
+  else if(ADPCM.bigdiv > ((int64)0x7FFFFFFF << 16))
+   ADPCM.bigdiv = ((int64)0x7FFFFFFF << 16);
+
   MSM5205.SetSample(ad_sample);
   MSM5205.SetSSI(ad_ref_index);
   RedoLPF(ADPCM.SampleFreq);
@@ -961,10 +966,27 @@ int PCECD_StateAction(StateMem *sm, int load, int data_only)
 	 SFVAR(SubChannelFIFO.write_pos),
 	 SFVAR(SubChannelFIFO.in_count),
 
+	 SFVAR(pcecd_drive_ne),
+
 	 SFEND
 	};
 
-        int ret = MDFNSS_StateAction(sm, load, data_only, StateRegs, "PECD");
+    int ret = MDFNSS_StateAction(sm, load, data_only, StateRegs, "PECD");
+
+	if(load)
+	{
+	 if(Fader.Clocked && Fader.CycleCounter < 1)
+	  Fader.CycleCounter = 1;
+
+	 if(pcecd_drive_ne < 1)
+	  pcecd_drive_ne = 1;
+
+	 // SubChannelFIFO.SaveStatePostLoad();
+	  SubChannelFIFO.read_pos %= SubChannelFIFO.size;
+	  SubChannelFIFO.write_pos %= SubChannelFIFO.size;
+	  SubChannelFIFO.in_count %= (SubChannelFIFO.size + 1);
+	}
+
 	ret &= PCECD_Drive_StateAction(sm, load, data_only, "CDRM");
 	ret &= ADPCM_StateAction(sm, load, data_only);
 
@@ -973,10 +995,7 @@ int PCECD_StateAction(StateMem *sm, int load, int data_only)
 	 Fader_SyncWhich();
 	 //PCECD_Drive_SetDB(_Port[1]);
 	 PCECD_Drive_SetACK(ACKStatus);
-         PCECD_Drive_SetRST(_Port[4] & 0x2);
-
-	 SubChannelFIFO.read_pos %= SubChannelFIFO.size;
-         SubChannelFIFO.write_pos %= SubChannelFIFO.size;
+	 PCECD_Drive_SetRST(_Port[4] & 0x2);
 	}
 	return(ret);
 }
