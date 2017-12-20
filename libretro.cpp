@@ -511,7 +511,7 @@ int StateAction(void *data, int load, int data_only)
  // if(BaseRAM[i] != 0xFF)
  //  printf("%d %02x\n", i, BaseRAM[i]);
 
- int ret = MDFNSS_StateAction(sm, load, data_only, StateRegs, "MAIN");
+ int ret = MDFNSS_StateAction(sm, load, data_only, StateRegs, "MAIN", false);
 
  ret &= HuC6280_StateAction(sm, load, data_only);
  ret &= VDC_StateAction(sm, load, data_only);
@@ -859,7 +859,7 @@ int HuC_StateAction(StateMem *sm, int load, int data_only)
   SFVAR(HuCSF2Latch),
   SFEND
  };
- int ret = MDFNSS_StateAction(sm, load, data_only, StateRegs, "HuC");
+ int ret = MDFNSS_StateAction(sm, load, data_only, StateRegs, "HuC", false);
 
  if(load)
   HuCSF2Latch &= 0x3;

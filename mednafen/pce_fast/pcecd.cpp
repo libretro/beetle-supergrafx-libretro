@@ -928,7 +928,7 @@ static int ADPCM_StateAction(StateMem *sm, int load, int data_only)
         SFEND
  };
 
- int ret = MDFNSS_StateAction(sm, load, data_only, StateRegs, "APCM");
+ int ret = MDFNSS_StateAction(sm, load, data_only, StateRegs, "APCM", false);
  if(load)
  {
   ad_ref_index %= 49;
@@ -973,7 +973,7 @@ int PCECD_StateAction(StateMem *sm, int load, int data_only)
 	 SFEND
 	};
 
-    int ret = MDFNSS_StateAction(sm, load, data_only, StateRegs, "PECD");
+    int ret = MDFNSS_StateAction(sm, load, data_only, StateRegs, "PECD", false);
 
 	if(load)
 	{

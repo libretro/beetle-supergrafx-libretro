@@ -1273,7 +1273,7 @@ int VDC_StateAction(StateMem *sm, int load, int data_only)
  };
 
 
- int ret = MDFNSS_StateAction(sm, load, data_only, VCE_StateRegs, "VCE");
+ int ret = MDFNSS_StateAction(sm, load, data_only, VCE_StateRegs, "VCE", false);
 
  if(load)
  {
@@ -1293,7 +1293,7 @@ int VDC_StateAction(StateMem *sm, int load, int data_only)
    SFARRAY16N(vpc.winwidths, 2, "winwidths"),
    SFEND
   };
-  ret &= MDFNSS_StateAction(sm, load, data_only, VPC_StateRegs, "VPC");
+  ret &= MDFNSS_StateAction(sm, load, data_only, VPC_StateRegs, "VPC", false);
  }
 
  for(int chip = 0; chip < max_chips; chip++)
@@ -1352,7 +1352,7 @@ int VDC_StateAction(StateMem *sm, int load, int data_only)
 	SFEND
   };
 
-  ret &= MDFNSS_StateAction(sm, load, data_only, VDC_StateRegs, chip ? "VDC1" : "VDC0");
+  ret &= MDFNSS_StateAction(sm, load, data_only, VDC_StateRegs, chip ? "VDC1" : "VDC0", false);
 
   if(load)
   {

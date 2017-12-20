@@ -767,7 +767,7 @@ int HuC6280_StateAction(StateMem *sm, int load, int data_only)
  HuCPU.timer_next_timestamp -= HuCPU.timestamp;
  HuCPU.previous_next_user_event -= HuCPU.timestamp;
 
- int ret = MDFNSS_StateAction(sm, load, data_only, SFCPU, "CPU");
+ int ret = MDFNSS_StateAction(sm, load, data_only, SFCPU, "CPU", false);
 
  if(load)
  {
