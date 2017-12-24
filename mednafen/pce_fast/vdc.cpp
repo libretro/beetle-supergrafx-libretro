@@ -813,7 +813,7 @@ void DrawOverscan(const vdc_t *vdc, uint16_t *target, const MDFN_Rect *lw, const
 {
  uint32 os_color;
 
- // SuperGrafx needs MAKECOLOR_PCE() so it wont have much wierd overscan colors 
+ // SuperGrafx needs MAKECOLOR_PCE() so it wont have much wierd overscan colors
  // when running in non-sgx mode
  if (VDC_TotalChips == 2)
   os_color = MAKECOLOR_PCE(vce.color_table_cache[0x100]);
@@ -828,7 +828,7 @@ void DrawOverscan(const vdc_t *vdc, uint16_t *target, const MDFN_Rect *lw, const
   for(; x < vpl; x++)
    target[x] = os_color;
 
-   x = vpr;
+  x = vpr;
  }
 
  for(; x < lw->x + lw->w; x++)
