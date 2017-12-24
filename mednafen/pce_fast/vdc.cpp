@@ -56,13 +56,20 @@ vce_t vce;
 int VDC_TotalChips;
 vdc_t vdc_chips[2];
 
+#define MAKECOLOR_PCE(val) ((((val & 0x038) >> 3) << 13)|(((((val & 0x038) >> 3) & 0x6) << 10) | (((val & 0x1c0) >> 6) << 8) | (((val & 0x1c0) >> 6) << 5) | ((val & 0x007) << 2) | ((val & 0x007) >> 1)))
+
 static INLINE void FixPCache(int entry)
 {
-
  if(!(entry & 0xFF))
  {
+  uint32 color = vce.color_table[entry & 0x100] | ALPHA_MASK;
   for(int x = 0; x < 16; x++)
-   vce.color_table_cache[(entry & 0x100) + (x << 4)] = vce.color_table[entry & 0x100] | ALPHA_MASK;
+  {
+   if (VDC_TotalChips == 2)
+    vce.color_table_cache[(entry & 0x100) + (x << 4)] = color;
+   else
+    vce.color_table_cache[(entry & 0x100) + (x << 4)] = MAKECOLOR_PCE(color);
+  }
  }
 
  if(entry & 0xF)
@@ -73,7 +80,10 @@ static INLINE void FixPCache(int entry)
   if(entry & 0x100)
    color |= ALPHA_MASK << 2;
 
-  vce.color_table_cache[entry] = color;
+  if (VDC_TotalChips == 2)
+   vce.color_table_cache[entry] = color;
+  else
+   vce.color_table_cache[entry] = MAKECOLOR_PCE(color);
  }
 }
 
@@ -724,23 +734,6 @@ static void DrawSprites(vdc_t *vdc, const int32 end, uint16 *spr_linebuf)
  }
 }
 
-#define MAKECOLOR_PCE(val) ((((val & 0x038) >> 3) << 13)|(((((val & 0x038) >> 3) & 0x6) << 10) | (((val & 0x1c0) >> 6) << 8) | (((val & 0x1c0) >> 6) << 5) | ((val & 0x007) << 2) | ((val & 0x007) >> 1)))
-
-static inline void MixBGSPR_Generic_Preset(const uint32 count_in, const uint8 *bg_linebuf_in, const uint16 *spr_linebuf_in, uint16_t *target_in)
-{
- for(unsigned int x = 0; x < count_in; x++)
- {
-  const uint32 bg_pixel = bg_linebuf_in[x];
-  const uint32 spr_pixel = spr_linebuf_in[x];
-  uint32 pixel = bg_pixel;
-
-  if(((int16)(spr_pixel | ((bg_pixel & 0x0F) - 1))) < 0)
-   pixel = spr_pixel;
-
-  target_in[x] = MAKECOLOR_PCE(vce.color_table_cache[pixel & 0x1FF]);
- }
-}
-
 static inline void MixBGSPR_Generic(const uint32 count_in, const uint8 *bg_linebuf_in, const uint16 *spr_linebuf_in, uint16_t *target_in)
 {
  for(unsigned int x = 0; x < count_in; x++)
@@ -756,36 +749,16 @@ static inline void MixBGSPR_Generic(const uint32 count_in, const uint8 *bg_lineb
  }
 }
 
-static inline void MixBGOnly_Preset(const uint32 count, const uint8 *bg_linebuf, uint16_t *target)
-{
- for(unsigned int x = 0; x < count; x++)
-  target[x] = MAKECOLOR_PCE(vce.color_table_cache[bg_linebuf[x]]);
-}
-
 static inline void MixBGOnly(const uint32 count, const uint8 *bg_linebuf, uint16_t *target)
 {
  for(unsigned int x = 0; x < count; x++)
   target[x] = vce.color_table_cache[bg_linebuf[x]];
 }
 
-static inline void MixSPROnly_Preset(const uint32 count, const uint16 *spr_linebuf, uint16_t *target)
-{
- for(unsigned int x = 0; x < count; x++)
-  target[x] = MAKECOLOR_PCE(vce.color_table_cache[(spr_linebuf[x] | 0x100) & 0x1FF]);
-}
-
 static inline void MixSPROnly(const uint32 count, const uint16 *spr_linebuf, uint16_t *target)
 {
  for(unsigned int x = 0; x < count; x++)
   target[x] = vce.color_table_cache[(spr_linebuf[x] | 0x100) & 0x1FF];
-}
-
-static inline void MixNone_Preset(const uint32 count, uint16_t *target)
-{
- uint32 bg_color = MAKECOLOR_PCE(vce.color_table_cache[0x000]);
-
- for(unsigned int x = 0; x < count; x++)
-  target[x] = bg_color;
 }
 
 static inline void MixNone(const uint32 count, uint16_t *target)
@@ -796,8 +769,8 @@ static inline void MixNone(const uint32 count, uint16_t *target)
   target[x] = bg_color;
 }
 
-	static const int prio_select[4] = { 1, 1, 0, 0 };
-	static const int prio_shift[4] = { 4, 0, 4, 0 };
+static const int prio_select[4] = { 1, 1, 0, 0 };
+static const int prio_shift[4] = { 4, 0, 4, 0 };
 
 static void MixVPC(const uint32 count, const uint16 *lb0, const uint16 *lb1, uint16_t *target)
 {
@@ -838,10 +811,16 @@ static void MixVPC(const uint32 count, const uint16 *lb0, const uint16 *lb1, uin
 
 void DrawOverscan(const vdc_t *vdc, uint16_t *target, const MDFN_Rect *lw, const bool full = true, const int32 vpl = 0, const int32 vpr = 0)
 {
- uint32 os_color = MAKECOLOR_PCE(vce.color_table_cache[0x100]);
+ uint32 os_color;
+
+ // SuperGrafx needs MAKECOLOR_PCE() so it wont have much wierd overscan colors 
+ // when running in non-sgx mode
+ if (VDC_TotalChips == 2)
+  os_color = MAKECOLOR_PCE(vce.color_table_cache[0x100]);
+ else
+  os_color = vce.color_table_cache[0x100];
 
  //printf("%d %d\n", lw->x, lw->w);
-
  if(full)
  {
   // Fill in entire viewport(horizontally!) with overscan color
@@ -1009,7 +988,6 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
 
   const bool SHOULD_DRAW = (!skip && (int)frame_counter >= (DisplayRect->y + 14) && (int)frame_counter < (DisplayRect->y + DisplayRect->h + 14));
   const bool fc_vrm = (frame_counter >= 14 && frame_counter < (14 + 242 + 1));
-  bool mixvpc_enable = (VDC_TotalChips == 2 && SHOULD_DRAW && fc_vrm);
 
   for(int chip = 0; chip < VDC_TotalChips; chip++)
   {
@@ -1110,50 +1088,23 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
 
       if(width > 0)
       {
-       //else if(target_ptr16)
+       switch(vdc->CR & 0xC0)
        {
-          if (mixvpc_enable)
-          {
-             /* Hack - for Supergrafx MixVPC mode - target layers can't be preset with the correct output colors before MixVPC invocation */
-             switch(vdc->CR & 0xC0)
-             {
-                case 0xC0:
-                   MixBGSPR_Generic(width, bg_linebuf + (vdc->BG_XOffset & 7) + source_offset, spr_linebuf + 0x20 + source_offset, target_ptr16 + target_offset);
-                   break;
-                case 0x80:
-                   MixBGOnly(width, bg_linebuf + (vdc->BG_XOffset & 7) + source_offset, target_ptr16 + target_offset);
-                   break;
-                case 0x40:
-                   MixSPROnly(width, spr_linebuf + 0x20 + source_offset, target_ptr16 + target_offset);
-                   break;
-                case 0x00:
-                   MixNone(width, target_ptr16 + target_offset);
-                   break;
-             }
-          }
-          else
-          {
-             switch(vdc->CR & 0xC0)
-             {
-                case 0xC0:
-                   MixBGSPR_Generic_Preset(width, bg_linebuf + (vdc->BG_XOffset & 7) + source_offset, spr_linebuf + 0x20 + source_offset, target_ptr16 + target_offset);
-                   break;
-                case 0x80:
-                   MixBGOnly_Preset(width, bg_linebuf + (vdc->BG_XOffset & 7) + source_offset, target_ptr16 + target_offset);
-                   break;
-                case 0x40:
-                   MixSPROnly_Preset(width, spr_linebuf + 0x20 + source_offset, target_ptr16 + target_offset);
-                   break;
-                case 0x00:
-                   MixNone_Preset(width, target_ptr16 + target_offset);
-                   break;
-             }
-          }
+        case 0xC0:
+            MixBGSPR_Generic(width, bg_linebuf + (vdc->BG_XOffset & 7) + source_offset, spr_linebuf + 0x20 + source_offset, target_ptr16 + target_offset);
+            break;
+         case 0x80:
+            MixBGOnly(width, bg_linebuf + (vdc->BG_XOffset & 7) + source_offset, target_ptr16 + target_offset);
+            break;
+         case 0x40:
+            MixSPROnly(width, spr_linebuf + 0x20 + source_offset, target_ptr16 + target_offset);
+            break;
+         case 0x00:
+            MixNone(width, target_ptr16 + target_offset);
+            break;
        }
       }
-
-      //else if(target_ptr16)
-       DrawOverscan(vdc, target_ptr16, DisplayRect, false, target_offset, target_offset + width);
+      DrawOverscan(vdc, target_ptr16, DisplayRect, false, target_offset, target_offset + width);
      } // end if(SHOULD_DRAW)
     }
    }
@@ -1161,10 +1112,10 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
    {
     //else if(target_ptr16)
      DrawOverscan(vdc, target_ptr16, DisplayRect);
-  }
+   }
   }
 
-  if(mixvpc_enable)
+  if(VDC_TotalChips == 2 && SHOULD_DRAW && fc_vrm)
   {
    //else if(surface->format.bpp == 16)
     MixVPC(DisplayRect->w, line_buffer[0] + DisplayRect->x, line_buffer[1] + DisplayRect->x, surface->pixels16 + (frame_counter - 14) * surface->pitchinpix + DisplayRect->x);
@@ -1255,6 +1206,9 @@ void VDC_Init(int sgx)
  userle = ~0;
 
  VDC_TotalChips = sgx ? 2 : 1;
+
+ for(int x = 0; x < 512; x++)
+  FixPCache(x);
 }
 
 void VDC_Close(void)
@@ -1369,7 +1323,6 @@ int VDC_StateAction(StateMem *sm, int load, int data_only)
     FixPCache(x);
    RebuildSATCache(vdc);
   }
-
  }
 
  return(ret);
