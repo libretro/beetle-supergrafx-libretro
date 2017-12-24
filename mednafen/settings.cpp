@@ -55,9 +55,9 @@ uint64 MDFN_GetSettingUI(const char *name)
    if (!strcmp("pce_fast.slstart", name))
       return setting_initial_scanline;
    if (!strcmp("pce_fast.slend", name))
-      return setting_last_scanline; 
+      return setting_last_scanline;
    if (!strcmp("pce_fast.hoverscan", name))
-      return setting_pce_hoverscan; 
+      return setting_pce_hoverscan;
 
    fprintf(stderr, "unhandled setting UI: %s\n", name);
    return 0;
@@ -71,6 +71,8 @@ int64 MDFN_GetSettingI(const char *name)
 
 double MDFN_GetSettingF(const char *name)
 {
+   if (!strcmp("pce_fast.mouse_sensitivity", name))
+      return 1.25;
    fprintf(stderr, "unhandled setting F: %s\n", name);
    return 0;
 }
