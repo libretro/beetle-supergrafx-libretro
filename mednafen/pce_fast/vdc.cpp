@@ -62,11 +62,11 @@ static INLINE void FixPCache(int entry)
 {
  if(!(entry & 0xFF))
  {
-  uint32 color = vce.color_table[entry & 0x100] | ALPHA_MASK;
+  uint32 color = vce.color_table[entry & 0x100];
   for(int x = 0; x < 16; x++)
   {
    if (VDC_TotalChips == 2)
-    vce.color_table_cache[(entry & 0x100) + (x << 4)] = color;
+    vce.color_table_cache[(entry & 0x100) + (x << 4)] = color | ALPHA_MASK;
    else
     vce.color_table_cache[(entry & 0x100) + (x << 4)] = MAKECOLOR_PCE(color);
   }
@@ -227,9 +227,10 @@ DECLFR(VCE_Read)
 {
  switch(A & 0x7)
  {
-  case 4: return(vce.color_table[vce.ctaddress]);
+  case 4: return(vce.color_table[vce.ctaddress & 0x1FF]);
   case 5: {
-	   uint8 ret = vce.color_table[vce.ctaddress] >> 8;
+	   uint8 ret = vce.color_table[vce.ctaddress & 0x1FF] >> 8;
+	   ret &= 1;
 	   ret |= 0xFE;
 	   vce.ctaddress++;
 	   vce.ctaddress &= 0x1FF;
@@ -247,13 +248,13 @@ DECLFW(VCE_Write)
   case 0: SetVCECR(V); break;
   case 2: vce.ctaddress &= 0x100; vce.ctaddress |= V; break;
   case 3: vce.ctaddress &= 0x0FF; vce.ctaddress |= (V & 1) << 8; break;
-  case 4: vce.color_table[vce.ctaddress] &= 0x100;
-	  vce.color_table[vce.ctaddress] |= V;
-	  FixPCache(vce.ctaddress);
+  case 4: vce.color_table[vce.ctaddress & 0x1FF] &= 0x100;
+	  vce.color_table[vce.ctaddress & 0x1FF] |= V;
+	  FixPCache(vce.ctaddress  & 0x1FF);
           break;
-  case 5: vce.color_table[vce.ctaddress] &= 0xFF;
-	  vce.color_table[vce.ctaddress] |= (V & 1) << 8;
-	  FixPCache(vce.ctaddress);
+  case 5: vce.color_table[vce.ctaddress & 0x1FF] &= 0xFF;
+	  vce.color_table[vce.ctaddress & 0x1FF] |= (V & 1) << 8;
+	  FixPCache(vce.ctaddress  & 0x1FF);
 	  vce.ctaddress++;
 	  vce.ctaddress &= 0x1FF;
 	  break;
@@ -811,14 +812,11 @@ static void MixVPC(const uint32 count, const uint16 *lb0, const uint16 *lb1, uin
 
 void DrawOverscan(const vdc_t *vdc, uint16_t *target, const MDFN_Rect *lw, const bool full = true, const int32 vpl = 0, const int32 vpr = 0)
 {
- uint32 os_color;
+ uint32 os_color = vce.color_table_cache[0x100];
 
- // SuperGrafx needs MAKECOLOR_PCE() so it wont have much wierd overscan colors
- // when running in non-sgx mode
+ // SuperGrafx uses bit 0-8 for color table data since this is not passed through MAKECOLOR_PCE until MixVPC()
  if (VDC_TotalChips == 2)
-  os_color = MAKECOLOR_PCE(vce.color_table_cache[0x100]);
- else
-  os_color = vce.color_table_cache[0x100];
+  os_color &= 0x1FF;
 
  //printf("%d %d\n", lw->x, lw->w);
  int x = lw->x;
