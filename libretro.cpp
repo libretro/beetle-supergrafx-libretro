@@ -210,77 +210,76 @@ static void LoadCommonPre(void);
 
 static int Load(const char *name, MDFNFILE *fp)
 {
- uint32 headerlen = 0;
- uint32 r_size;
+   uint32 headerlen = 0;
+   uint32 r_size;
 
- IsSGX = 0;
+   IsSGX = 0;
 
- LoadCommonPre();
+   LoadCommonPre();
 
- {
-  if(GET_FSIZE_PTR(fp) & 0x200) // 512 byte header!
-   headerlen = 512;
- }
+   {
+      if(fp->size & 0x200) // 512 byte header!
+         headerlen = 512;
+   }
 
- r_size = GET_FSIZE_PTR(fp) - headerlen;
- if(r_size > 4096 * 1024) r_size = 4096 * 1024;
+   r_size = fp->size - headerlen;
+   if(r_size > 4096 * 1024)
+      r_size = 4096 * 1024;
 
- for(int x = 0; x < 0x100; x++)
- {
-  HuCPU.PCERead[x] = PCEBusRead;
-  HuCPU.PCEWrite[x] = PCENullWrite;
- }
+   for(int x = 0; x < 0x100; x++)
+   {
+      HuCPU.PCERead[x] = PCEBusRead;
+      HuCPU.PCEWrite[x] = PCENullWrite;
+   }
 
- uint32 crc = crc32(0, GET_FDATA_PTR(fp) + headerlen, GET_FSIZE_PTR(fp) - headerlen);
+   uint32 crc = crc32(0, fp->data + headerlen, fp->size - headerlen);
 
-  HuCLoad(GET_FDATA_PTR(fp) + headerlen, GET_FSIZE_PTR(fp) - headerlen, crc);
+   HuCLoad(fp->data + headerlen, fp->size - headerlen, crc);
 
- if(!strcasecmp(GET_FEXTS_PTR(fp), "sgx"))
-  IsSGX = TRUE;
+   if(!strcasecmp(fp->ext, "sgx"))
+      IsSGX = TRUE;
 
- if(GET_FSIZE_PTR(fp) >= 8192 && !memcmp(GET_FDATA_PTR(fp) + headerlen, "DARIUS Version 1.11b", strlen("DARIUS VERSION 1.11b")))
- {
-  MDFN_printf("SuperGrafx:  Darius Plus\n");
-  IsSGX = 1;
- }
+   if(fp->size >= 8192 && !memcmp(fp->data + headerlen, "DARIUS Version 1.11b", strlen("DARIUS VERSION 1.11b")))
+   {
+      MDFN_printf("SuperGrafx:  Darius Plus\n");
+      IsSGX = 1;
+   }
 
- if(crc == 0x4c2126b0)
- {
-  MDFN_printf("SuperGrafx:  Aldynes\n");
-  IsSGX = 1;
- }
+   if(crc == 0x4c2126b0)
+   {
+      MDFN_printf("SuperGrafx:  Aldynes\n");
+      IsSGX = 1;
+   }
 
- if(crc == 0x8c4588e2)
- {
-  MDFN_printf("SuperGrafx:  1941 - Counter Attack\n");
-  IsSGX = 1;
- }
- if(crc == 0x1f041166)
- {
-  MDFN_printf("SuperGrafx:  Madouou Granzort\n");
-  IsSGX = 1;
- }
- if(crc == 0xb486a8ed)
- {
-  MDFN_printf("SuperGrafx:  Daimakaimura\n");
-  IsSGX = 1;
- }
- if(crc == 0x3b13af61)
- {
-  MDFN_printf("SuperGrafx:  Battle Ace\n");
-  IsSGX = 1;
- }
+   if(crc == 0x8c4588e2)
+   {
+      MDFN_printf("SuperGrafx:  1941 - Counter Attack\n");
+      IsSGX = 1;
+   }
+   if(crc == 0x1f041166)
+   {
+      MDFN_printf("SuperGrafx:  Madouou Granzort\n");
+      IsSGX = 1;
+   }
+   if(crc == 0xb486a8ed)
+   {
+      MDFN_printf("SuperGrafx:  Daimakaimura\n");
+      IsSGX = 1;
+   }
+   if(crc == 0x3b13af61)
+   {
+      MDFN_printf("SuperGrafx:  Battle Ace\n");
+      IsSGX = 1;
+   }
 
- // Space Harrier (Japan)/(USA) is not compatible with SuperGrafx mode
- if (crc == 0x64580427 || crc == 0x43b05eb8)
-  IsSGX = 0;
+   // Space Harrier (Japan)/(USA) is not compatible with SuperGrafx mode
+   if (crc == 0x64580427 || crc == 0x43b05eb8)
+      IsSGX = 0;
 
- if(crc == 0xfae0fc60)
- {
-  OrderOfGriffonFix = true;
- }
+   if(crc == 0xfae0fc60)
+      OrderOfGriffonFix = true;
 
- return(LoadCommon());
+   return(LoadCommon());
 }
 
 static void LoadCommonPre(void)
@@ -782,71 +781,61 @@ bool IsBRAMUsed(void)
 
 int HuCLoadCD(const char *bios_path)
 {
- static const FileExtensionSpecStruct KnownBIOSExtensions[] =
- {
-  { ".pce", "PC Engine ROM Image" },
-  { ".bin", "PC Engine ROM Image" },
-  { ".bios", "BIOS Image" },
-  { NULL, NULL }
- };
+   MDFNFILE *fp = file_open(bios_path);
 
- MDFNFILE fp;
+   if (!fp)
+      return(0);
 
- if(!fp.Open(bios_path, KnownBIOSExtensions, _("CD BIOS")))
- {
-  return(0);
- }
+   memset(ROMSpace, 0xFF, 262144);
 
- memset(ROMSpace, 0xFF, 262144);
+   memcpy(ROMSpace, fp->data + (fp->size & 512), ((fp->size & ~512) > 262144) ? 262144 : (fp->size &~ 512) );
 
- memcpy(ROMSpace, GET_FDATA(fp) + (GET_FSIZE(fp) & 512), ((GET_FSIZE(fp) & ~512) > 262144) ? 262144 : (GET_FSIZE(fp) &~ 512) );
+   file_close(fp);
 
- fp.Close();
+   PCE_IsCD = 1;
+   PCE_InitCD();
 
- PCE_IsCD = 1;
- PCE_InitCD();
+   MDFN_printf(_("Arcade Card Emulation:  %s\n"), PCE_ACEnabled ? _("Enabled") : _("Disabled"));
+   for(int x = 0; x < 0x40; x++)
+   {
+      HuCPU.FastMap[x] = &ROMSpace[x * 8192];
+      HuCPU.PCERead[x] = HuCRead;
+   }
 
- MDFN_printf(_("Arcade Card Emulation:  %s\n"), PCE_ACEnabled ? _("Enabled") : _("Disabled"));
- for(int x = 0; x < 0x40; x++)
- {
-  HuCPU.FastMap[x] = &ROMSpace[x * 8192];
-  HuCPU.PCERead[x] = HuCRead;
- }
+   for(int x = 0x68; x < 0x88; x++)
+   {
+      HuCPU.FastMap[x] = &ROMSpace[x * 8192];
+      HuCPU.PCERead[x] = HuCRead;
+      HuCPU.PCEWrite[x] = HuCRAMWrite;
+   }
+   HuCPU.PCEWrite[0x80] = HuCRAMWriteCDSpecial; 	// Hyper Dyne Special hack
+   MDFNMP_AddRAM(262144, 0x68 * 8192, ROMSpace + 0x68 * 8192);
 
- for(int x = 0x68; x < 0x88; x++)
- {
-  HuCPU.FastMap[x] = &ROMSpace[x * 8192];
-  HuCPU.PCERead[x] = HuCRead;
-  HuCPU.PCEWrite[x] = HuCRAMWrite;
- }
- HuCPU.PCEWrite[0x80] = HuCRAMWriteCDSpecial; 	// Hyper Dyne Special hack
- MDFNMP_AddRAM(262144, 0x68 * 8192, ROMSpace + 0x68 * 8192);
+   if(PCE_ACEnabled)
+   {
+      if (!(arcade_card = new ArcadeCard()))
+      {
+         MDFN_PrintError(_("Error creating %s object.\n"), "ArcadeCard");
+         Cleanup();
+         return(0);
+      }
 
- if(PCE_ACEnabled)
- {
-    if (!(arcade_card = new ArcadeCard()))
-    {
-       MDFN_PrintError(_("Error creating %s object.\n"), "ArcadeCard");
-       Cleanup();
-       return(0);
-    }
+      for(int x = 0x40; x < 0x44; x++)
+      {
+         // HuCPUFastMap[x] = NULL;
+         HuCPU.PCERead[x] = ACPhysRead;
+         HuCPU.PCEWrite[x] = ACPhysWrite;
+      }
+   }
 
-    for(int x = 0x40; x < 0x44; x++)
-    {
-       // HuCPUFastMap[x] = NULL;
-       HuCPU.PCERead[x] = ACPhysRead;
-       HuCPU.PCEWrite[x] = ACPhysWrite;
-    }
- }
+   memset(SaveRAM, 0x00, 2048);
+   memcpy(SaveRAM, BRAM_Init_String, 8);	// So users don't have to manually intialize the file cabinet
+   // in the CD BIOS screen.
 
- memset(SaveRAM, 0x00, 2048);
- memcpy(SaveRAM, BRAM_Init_String, 8);	// So users don't have to manually intialize the file cabinet
-						// in the CD BIOS screen.
-
- HuCPU.PCEWrite[0xF7] = SaveRAMWrite;
- HuCPU.PCERead[0xF7] = SaveRAMRead;
- MDFNMP_AddRAM(2048, 0xF7 * 8192, SaveRAM);
- return(1);
+   HuCPU.PCEWrite[0xF7] = SaveRAMWrite;
+   HuCPU.PCERead[0xF7] = SaveRAMRead;
+   MDFNMP_AddRAM(2048, 0xF7 * 8192, SaveRAM);
+   return(1);
 }
 
 int HuC_StateAction(StateMem *sm, int load, int data_only)
@@ -1033,16 +1022,12 @@ MDFNGI *MDFNI_LoadCD(const char *force_module, const char *devicename)
 
 MDFNGI *MDFNI_LoadGame(const char *force_module, const char *name)
 {
-   MDFNFILE GameFile;
 	std::vector<FileExtensionSpecStruct> valid_iae;
+   MDFNFILE *GameFile = NULL;
    MDFNGameInfo = &EmulatedPCE_Fast;
 
 	if(strlen(name) > 4 && (!strcasecmp(name + strlen(name) - 4, ".cue") || !strcasecmp(name + strlen(name) - 4, ".chd") || !strcasecmp(name + strlen(name) - 4, ".ccd") || !strcasecmp(name + strlen(name) - 4, ".toc") || !strcasecmp(name + strlen(name) - 4, ".m3u")))
 	 return(MDFNI_LoadCD(force_module, name));
-
-	MDFN_printf(_("Loading %s...\n"),name);
-
-	MDFN_indent(1);
 
 	// Construct a NULL-delimited list of known file extensions for MDFN_fopen()
    const FileExtensionSpecStruct *curexts = KnownExtensions;
@@ -1053,14 +1038,13 @@ MDFNGI *MDFNI_LoadGame(const char *force_module, const char *name)
       curexts++;
    }
 
-	if(!GameFile.Open(name, &valid_iae[0], _("game")))
+   GameFile = file_open(name);
+
+	if(!GameFile)
    {
       MDFNGameInfo = NULL;
       return 0;
    }
-
-	MDFN_printf(_("Using module: supergrafx\n\n"));
-	MDFN_indent(1);
 
 	//
 	// Load per-game settings
@@ -1069,9 +1053,9 @@ MDFNGI *MDFNI_LoadGame(const char *force_module, const char *name)
 	// End load per-game settings
 	//
 
-   if(Load(name, &GameFile) <= 0)
+   if(Load(name, GameFile) <= 0)
    {
-      GameFile.Close();
+      file_close(GameFile);
       MDFN_indent(-2);
       MDFNGameInfo = NULL;
       return(0);

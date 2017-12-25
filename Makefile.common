@@ -163,10 +163,6 @@ endif
 
    SOURCES_CXX += \
         $(CDROM_DIR)/CDAccess_CHD.cpp
-
-   ifeq ($(platform), win)
-       SOURCES_C += $(DEPS_DIR)/flac-1.3.2/src/libFLAC/windows_unicode_filenames.c
-   endif
 endif
 
 ifeq ($(NEED_CRC32), 1)
@@ -184,7 +180,6 @@ SOURCES_CXX += \
 	$(MEDNAFEN_DIR)/error.cpp \
 	$(MEDNAFEN_DIR)/settings.cpp \
 	$(MEDNAFEN_DIR)/general.cpp \
-	$(MEDNAFEN_DIR)/file.cpp \
 	$(MEDNAFEN_DIR)/FileWrapper.cpp \
 	$(MEDNAFEN_DIR)/FileStream.cpp \
 	$(MEDNAFEN_DIR)/MemoryStream.cpp \
@@ -195,6 +190,9 @@ SOURCES_CXX += \
 	$(MEDNAFEN_DIR)/endian.cpp \
 	$(MEDNAFEN_DIR)/video/surface.cpp \
 	$(CORE_DIR)/libretro.cpp
+
+SOURCES_C += \
+	$(MEDNAFEN_DIR)/file.c
 endif
 
 ifneq ($(STATIC_LINKING), 1)
