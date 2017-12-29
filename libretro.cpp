@@ -1,4 +1,5 @@
 #include <stdarg.h>
+#include <math.h>
 #include "mednafen/mednafen.h"
 #include "mednafen/git.h"
 #include "mednafen/general.h"
@@ -1296,7 +1297,9 @@ static void set_volume (uint32_t *ptr, unsigned number)
 
 #define        MAX_PLAYERS 5
 #define        MAX_BUTTONS 15
+static float mouse_sensitivity              = 1.00f;
 static uint8_t input_buf[MAX_PLAYERS][2]    = {{0}};
+static uint32_t mousedata[MAX_PLAYERS][3]   = {{0}};
 static unsigned int input_type[MAX_PLAYERS] = {0};
 
 // Array to keep track of whether a given player's button is turbo
@@ -1474,6 +1477,13 @@ static void check_variables(void)
          turbo_toggle_alt = true;
       else
          turbo_toggle_alt = false;
+   }
+
+   var.key = "sgx_mouse_sensitivity";
+
+   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+   {
+      mouse_sensitivity = atof(var.value);
    }
 }
 
@@ -1666,6 +1676,22 @@ static void update_input(void)
          // Input data must be little endian.
          input_buf[j][0] = (input_state >> 0) & 0xff;
          input_buf[j][1] = (input_state >> 8) & 0xff;
+      }
+
+      else if (input_type[j] == RETRO_DEVICE_MOUSE)
+      {
+         mousedata[j][2] = 0;
+
+         int _x = input_state_cb(j, RETRO_DEVICE_MOUSE, 0, RETRO_DEVICE_ID_MOUSE_X);
+         int _y = input_state_cb(j, RETRO_DEVICE_MOUSE, 0, RETRO_DEVICE_ID_MOUSE_Y);
+
+         mousedata[j][0] = (int)roundf(_x * mouse_sensitivity);
+         mousedata[j][1] = (int)roundf(_y * mouse_sensitivity);
+
+         if (input_state_cb(j, RETRO_DEVICE_MOUSE, 0, RETRO_DEVICE_ID_MOUSE_LEFT))
+            mousedata[j][2] |= (1 << 0);
+         if (input_state_cb(j, RETRO_DEVICE_MOUSE, 0, RETRO_DEVICE_ID_MOUSE_RIGHT))
+            mousedata[j][2] |= (1 << 1);
       }
    }
 }
@@ -1871,7 +1897,7 @@ void retro_set_controller_port_device(unsigned in_port, unsigned device)
             MDFN_printf("Player %u: gamepad\n", in_port + 1);
             break;
          case RETRO_DEVICE_MOUSE:
-            PCEINPUT_SetInput(in_port, "mouse", &input_buf[in_port][0]);
+            PCEINPUT_SetInput(in_port, "mouse", &mousedata[in_port][0]);
             MDFN_printf("Player %u: mouse\n", in_port + 1);
             break;
          case RETRO_DEVICE_NONE:
@@ -1904,6 +1930,7 @@ void retro_set_environment(retro_environment_t cb)
       { "sgx_turbo_delay", "Turbo Delay; 3|4|5|6|7|8|9|10|11|12|13|14|15|30|60|2" },
       { "sgx_turbo_toggle", "Turbo ON/OFF Toggle; disabled|enabled" },
       { "sgx_turbo_toggle_hotkey", "Alternate Turbo Hotkey; disabled|enabled" },
+      { "sgx_mouse_sensitivity", "Mouse Sensitivity; 1.00|1.25|1.50|1.75|2.00|2.25|2.50|2.75|3.00|3.25|3.50|3.75|4.00|4.25|4.50|4.75|5.00" },
       { "sgx_aspect_ratio", "Aspect Ratio; auto|6:5|4:3" },
       { NULL, NULL },
    };
