@@ -1200,9 +1200,6 @@ void VDC_Init(int sgx)
  userle = ~0;
 
  VDC_TotalChips = sgx ? 2 : 1;
-
- for(int x = 0; x < 512; x++)
-  FixPCache(x);
 }
 
 void VDC_Close(void)
