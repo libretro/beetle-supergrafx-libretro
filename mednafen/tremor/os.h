@@ -53,12 +53,6 @@
 #  include <memory.h>
 #endif
 
-#ifndef min
-#  define min(x,y)  ((x)>(y)?(y):(x))
-#endif
-
-#ifndef max
-#  define max(x,y)  ((x)<(y)?(y):(x))
-#endif
+#include <retro_miscellaneous.h>
 
 #endif /* _OS_H */
