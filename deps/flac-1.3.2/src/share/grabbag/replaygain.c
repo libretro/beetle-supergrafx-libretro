@@ -31,14 +31,22 @@
 #endif
 #include <sys/stat.h> /* for stat(), maybe chmod() */
 
-#include <retro_miscellaneous.h>
-
 #include "FLAC/assert.h"
 #include "FLAC/metadata.h"
 #include "FLAC/stream_decoder.h"
 #include "share/grabbag.h"
 #include "share/replaygain_analysis.h"
 #include "share/safe_str.h"
+
+#ifdef local_min
+#undef local_min
+#endif
+#define local_min(a,b) ((a)<(b)?(a):(b))
+
+#ifdef local_max
+#undef local_max
+#endif
+#define local_max(a,b) ((a)>(b)?(a):(b))
 
 static const char *reference_format_ = "%s=%2.1f dB";
 static const char *gain_format_ = "%s=%+2.2f dB";
@@ -139,17 +147,17 @@ FLAC__bool grabbag__replaygain_analyze(const FLAC__int32 * const input[], FLAC__
 		if(is_stereo) {
 			j = 0;
 			while(samples > 0) {
-				const unsigned n = MIN(samples, nbuffer);
+				const unsigned n = local_min(samples, nbuffer);
 				for(i = 0; i < n; i++, j++) {
 					s = input[0][j];
 					lbuffer[i] = (flac_float_t)s;
 					s = abs(s);
-					block_peak = MAX(block_peak, s);
+					block_peak = local_max(block_peak, s);
 
 					s = input[1][j];
 					rbuffer[i] = (flac_float_t)s;
 					s = abs(s);
-					block_peak = MAX(block_peak, s);
+					block_peak = local_max(block_peak, s);
 				}
 				samples -= n;
 				if(AnalyzeSamples(lbuffer, rbuffer, n, 2) != GAIN_ANALYSIS_OK)
@@ -159,12 +167,12 @@ FLAC__bool grabbag__replaygain_analyze(const FLAC__int32 * const input[], FLAC__
 		else {
 			j = 0;
 			while(samples > 0) {
-				const unsigned n = MIN(samples, nbuffer);
+				const unsigned n = local_min(samples, nbuffer);
 				for(i = 0; i < n; i++, j++) {
 					s = input[0][j];
 					lbuffer[i] = (flac_float_t)s;
 					s = abs(s);
-					block_peak = MAX(block_peak, s);
+					block_peak = local_max(block_peak, s);
 				}
 				samples -= n;
 				if(AnalyzeSamples(lbuffer, 0, n, 1) != GAIN_ANALYSIS_OK)
@@ -182,17 +190,17 @@ FLAC__bool grabbag__replaygain_analyze(const FLAC__int32 * const input[], FLAC__
 		if(is_stereo) {
 			j = 0;
 			while(samples > 0) {
-				const unsigned n = MIN(samples, nbuffer);
+				const unsigned n = local_min(samples, nbuffer);
 				for(i = 0; i < n; i++, j++) {
 					s = input[0][j];
 					lbuffer[i] = (flac_float_t)(scale * (double)s);
 					s = abs(s);
-					block_peak = MAX(block_peak, s);
+					block_peak = local_max(block_peak, s);
 
 					s = input[1][j];
 					rbuffer[i] = (flac_float_t)(scale * (double)s);
 					s = abs(s);
-					block_peak = MAX(block_peak, s);
+					block_peak = local_max(block_peak, s);
 				}
 				samples -= n;
 				if(AnalyzeSamples(lbuffer, rbuffer, n, 2) != GAIN_ANALYSIS_OK)
@@ -202,12 +210,12 @@ FLAC__bool grabbag__replaygain_analyze(const FLAC__int32 * const input[], FLAC__
 		else {
 			j = 0;
 			while(samples > 0) {
-				const unsigned n = MIN(samples, nbuffer);
+				const unsigned n = local_min(samples, nbuffer);
 				for(i = 0; i < n; i++, j++) {
 					s = input[0][j];
 					lbuffer[i] = (flac_float_t)(scale * (double)s);
 					s = abs(s);
-					block_peak = MAX(block_peak, s);
+					block_peak = local_max(block_peak, s);
 				}
 				samples -= n;
 				if(AnalyzeSamples(lbuffer, 0, n, 1) != GAIN_ANALYSIS_OK)
@@ -586,7 +594,7 @@ static FLAC__bool parse_double_(const FLAC__StreamMetadata_VorbisComment_Entry *
 	if(0 == q)
 		return false;
 	q++;
-	safe_strncpy(s, q, MIN(sizeof(s), (size_t) (entry->length - (q-p))));
+	safe_strncpy(s, q, local_min(sizeof(s), (size_t) (entry->length - (q-p))));
 
 	v = strtod(s, &end);
 	if(end == s)

@@ -21,6 +21,10 @@
 #include <stdarg.h>
 #include <libretro.h>
 
+#ifdef _MSC_VER
+#include <compat/msvc.h>
+#endif
+
 extern retro_log_printf_t log_cb;
 
 MDFN_Error::MDFN_Error() throw()

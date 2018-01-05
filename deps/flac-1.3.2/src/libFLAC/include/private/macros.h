@@ -60,6 +60,12 @@
 #define flac_min(a,b) __min(a,b)
 #endif
 
-#include <retro_miscellaneous.h>
+#ifndef MIN
+#define MIN(x,y)	((x) <= (y) ? (x) : (y))
+#endif
+
+#ifndef MAX
+#define MAX(x,y)	((x) >= (y) ? (x) : (y))
+#endif
 
 #endif
