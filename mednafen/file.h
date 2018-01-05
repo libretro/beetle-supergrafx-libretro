@@ -22,9 +22,6 @@ struct MDFNFILE *file_open(const char *path);
 
 int file_close(struct MDFNFILE *file);
 
-uint64_t file_read(struct MDFNFILE *file, void *ptr,
-      size_t element_size, size_t nmemb);
-
 #ifdef __cplusplus
 }
 #endif

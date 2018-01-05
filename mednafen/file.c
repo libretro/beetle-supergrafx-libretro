@@ -67,29 +67,3 @@ int file_close(struct MDFNFILE *file)
 
    return 1;
 }
-
-uint64_t file_read(struct MDFNFILE *file, void *ptr,
-      size_t element_size, size_t nmemb)
-{
-   uint32_t total = element_size * nmemb;
-
-   if (file->location >= file->size)
-      return 0;
-
-   if ((file->location + total) > file->size)
-   {
-      int64_t ak = file->size - file->location;
-
-      memcpy((uint8_t*)ptr, file->data + file->location, ak);
-
-      file->location = file->size;
-
-      return(ak / element_size);
-   }
-
-   memcpy((uint8_t*)ptr, file->data + file->location, total);
-
-   file->location += total;
-
-   return nmemb;
-}
