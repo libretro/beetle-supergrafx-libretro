@@ -5,7 +5,7 @@
 
 #include "video.h"
 
-#include "../libretro.h"
+#include <libretro.h>
 
 typedef struct
 {
