@@ -6,6 +6,7 @@
 #include "libretro.h"
 
 #include <retro_timers.h>
+#include <streams/file_stream.h>
 
 #include "mednafen/FileWrapper.h"
 
