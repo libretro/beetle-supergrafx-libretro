@@ -59,8 +59,6 @@ typedef unsigned char Byte;
 
 #include <retro_inline.h>
 
-#include "../deps/crypto/md5.h"
-
 #define TRUE 1
 #define FALSE 0
 
@@ -318,8 +316,6 @@ struct _chd_file
 
 	UINT32					async_hunknum;	/* hunk index for asynchronous operations */
 	void *					async_buffer;	/* buffer pointer for asynchronous operations */
-
-	UINT8 *					file_cache; /* cache of underlying file */
 };
 
 
@@ -1494,31 +1490,6 @@ cleanup:
 	return err;
 }
 
-chd_error chd_precache(chd_file *chd)
-{
-	ssize_t size, count;
-
-	if (chd->file_cache == NULL)
-	{
-		core_fseek(chd->file, 0, SEEK_END);
-		size = core_ftell(chd->file);
-		if (size <= 0)
-			return CHDERR_INVALID_DATA;
-		chd->file_cache = malloc(size);
-		if (chd->file_cache == NULL)
-			return CHDERR_OUT_OF_MEMORY;
-		core_fseek(chd->file, 0, SEEK_SET);
-		count = core_fread(chd->file, chd->file_cache, size);
-		if (count != size)
-		{
-			free(chd->file_cache);
-			chd->file_cache = NULL;
-			return CHDERR_READ_ERROR;
-		}
-	}
-
-	return CHDERR_NONE;
-}
 
 /*-------------------------------------------------
     chd_close - close a CHD file for access
@@ -1595,9 +1566,6 @@ void chd_close(chd_file *chd)
 		core_fclose(chd->file);
 
 	if (PRINTF_MAX_HUNK) printf("Max hunk = %d/%d\n", chd->maxhunk, chd->header.totalhunks);
-
-	if (chd->file_cache)
-		free(chd->file_cache);
 
 	/* free our memory */
 	free(chd);
@@ -2022,39 +1990,6 @@ static chd_error hunk_read_into_cache(chd_file *chd, UINT32 hunknum)
 	return CHDERR_NONE;
 }
 
-static UINT8* read_compressed(chd_file *chd, UINT64 offset, size_t size)
-{
-	ssize_t bytes;
-	if (chd->file_cache != NULL)
-	{
-		return chd->file_cache + offset;
-	}
-	else
-	{
-		core_fseek(chd->file, offset, SEEK_SET);
-		bytes = core_fread(chd->file, chd->compressed, size);
-		if (bytes != size)
-			return NULL;
-		return chd->compressed;
-	}
-}
-
-static chd_error read_uncompressed(chd_file *chd, UINT64 offset, size_t size, UINT8 *dest)
-{
-	ssize_t bytes;
-	if (chd->file_cache != NULL)
-	{
-		memcpy(dest, chd->file_cache + offset, size);
-	}
-	else
-	{
-		core_fseek(chd->file, offset, SEEK_SET);
-		bytes = core_fread(chd->file, dest, size);
-		if (bytes != size)
-			return CHDERR_READ_ERROR;
-	}
-	return CHDERR_NONE;
-}
 
 /*-------------------------------------------------
     hunk_read_into_memory - read a hunk into
@@ -2085,15 +2020,17 @@ static chd_error hunk_read_into_memory(chd_file *chd, UINT32 hunknum, UINT8 *des
 			case V34_MAP_ENTRY_TYPE_COMPRESSED:
             {
                void* codec;
-	       UINT8 *bytes = read_compressed(chd, entry->offset, entry->length);
-	       if (bytes == NULL)
-		       return CHDERR_READ_ERROR;
+                  /* read it into the decompression buffer */
+                  core_fseek(chd->file, entry->offset, SEEK_SET);
+               bytes = core_fread(chd->file, chd->compressed, entry->length);
+               if (bytes != entry->length)
+                  return CHDERR_READ_ERROR;
 
                /* now decompress using the codec */
                err   = CHDERR_NONE;
                codec = &chd->zlib_codec_data;
                if (chd->codecintf[0]->decompress != NULL)
-                  err = (*chd->codecintf[0]->decompress)(codec, bytes, entry->length, dest, chd->header.hunkbytes);
+                  err = (*chd->codecintf[0]->decompress)(codec, chd->compressed, entry->length, dest, chd->header.hunkbytes);
                if (err != CHDERR_NONE)
                   return err;
             }
@@ -2101,9 +2038,10 @@ static chd_error hunk_read_into_memory(chd_file *chd, UINT32 hunknum, UINT8 *des
 
 			/* uncompressed data */
 			case V34_MAP_ENTRY_TYPE_UNCOMPRESSED:
-				err = read_uncompressed(chd, entry->offset, chd->header.hunkbytes, dest);
-				if (err != CHDERR_NONE)
-					return err;
+				core_fseek(chd->file, entry->offset, SEEK_SET);
+				bytes = core_fread(chd->file, dest, chd->header.hunkbytes);
+				if (bytes != chd->header.hunkbytes)
+					return CHDERR_READ_ERROR;
 				break;
 
 			/* mini-compressed data */
@@ -2137,7 +2075,6 @@ static chd_error hunk_read_into_memory(chd_file *chd, UINT32 hunknum, UINT8 *des
 		uint16_t blockcrc;
       void* codec = NULL;
 		uint8_t *rawmap = &chd->header.rawmap[chd->header.mapentrybytes * hunknum];
-		UINT8 *bytes;
 
 		// uncompressed case
 		/* TODO
@@ -2165,9 +2102,8 @@ static chd_error hunk_read_into_memory(chd_file *chd, UINT32 hunknum, UINT8 *des
 			case COMPRESSION_TYPE_1:
 			case COMPRESSION_TYPE_2:
 			case COMPRESSION_TYPE_3:
-				bytes = read_compressed(chd, blockoffs, blocklen);
-				if (bytes == NULL)
-					return CHDERR_READ_ERROR;
+				core_fseek(chd->file, blockoffs, SEEK_SET);
+				core_fread(chd->file, chd->compressed, blocklen);
 				switch (chd->codecintf[rawmap[0]]->compression)
 				{
 					case CHD_CODEC_CD_LZMA:
@@ -2184,15 +2120,14 @@ static chd_error hunk_read_into_memory(chd_file *chd, UINT32 hunknum, UINT8 *des
 				}
 				if (codec==NULL)
 					return CHDERR_DECOMPRESSION_ERROR;
-				chd->codecintf[rawmap[0]]->decompress(codec, bytes, blocklen, dest, chd->header.hunkbytes);
+				chd->codecintf[rawmap[0]]->decompress(codec, chd->compressed, blocklen, dest, chd->header.hunkbytes);
 				if (dest != NULL && crc16(dest, chd->header.hunkbytes) != blockcrc)
 					return CHDERR_DECOMPRESSION_ERROR;
 				return CHDERR_NONE;
 
 			case COMPRESSION_NONE:
-				err = read_uncompressed(chd, blockoffs, blocklen, dest);
-				if (err != CHDERR_NONE)
-					return err;
+				core_fseek(chd->file, blockoffs, SEEK_SET);
+				core_fread(chd->file, dest, chd->header.hunkbytes);
 				if (crc16(dest, chd->header.hunkbytes) != blockcrc)
 					return CHDERR_DECOMPRESSION_ERROR;
 				return CHDERR_NONE;
