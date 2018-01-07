@@ -44,6 +44,7 @@ NEED_THREADING = 1
 NEED_TREMOR = 1
 NEED_CRC32 = 1
 CORE_DEFINE := -DWANT_PCE_FAST_EMU
+HAVE_CHD = 1
 
 TARGET_NAME := mednafen_supergrafx_libretro
 
