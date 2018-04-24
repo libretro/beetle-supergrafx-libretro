@@ -115,7 +115,7 @@ static size_t iov_read_func(void *ptr, size_t size, size_t nmemb, void *user_dat
  }
 }
 
-static int iov_seek_func(void *user_data, ogg_int64_t offset, int whence)
+static int iov_seek_func(void *user_data, int64_t offset, int whence)
 {
  Stream *fw = (Stream*)user_data;
 
