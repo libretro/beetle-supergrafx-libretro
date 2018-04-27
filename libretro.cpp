@@ -1126,7 +1126,7 @@ void MDFN_printf(const char *format, ...)
    free(format_temp);
 
    MDFND_Message(temp);
-   free(temp);
+   delete []temp;
 
    va_end(ap);
 }
