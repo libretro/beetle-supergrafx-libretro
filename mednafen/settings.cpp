@@ -22,10 +22,10 @@
 #include "settings.h"
 
 bool setting_pce_fast_forcesgx = true;
+bool setting_pce_fast_nospritelimit = false;
 int setting_initial_scanline = 0;
 int setting_last_scanline = 242;
 int setting_pce_hoverscan = 352;
-int setting_pce_fast_nospritelimit = 0;
 int setting_pce_overclocked = 1;
 int setting_pce_fast_cddavolume = 100;
 int setting_pce_fast_adpcmvolume = 100;

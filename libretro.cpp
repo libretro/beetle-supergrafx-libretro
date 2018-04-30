@@ -94,17 +94,17 @@ static DECLFW(PCENullWrite)
 
 static DECLFR(BaseRAMReadSGX)
 {
- return((BaseRAM - (0xF8 * 8192))[A]);
+ return BaseRAM[(size_t)A - (0xF8 * 8192)];
 }
 
 static DECLFW(BaseRAMWriteSGX)
 {
- (BaseRAM - (0xF8 * 8192))[A] = V;
+ BaseRAM[(size_t)A - (0xF8 * 8192)] = V;
 }
 
 static DECLFR(BaseRAMRead)
 {
- return((BaseRAM - (0xF8 * 8192))[A]);
+ return BaseRAM[(size_t)A - (0xF8 * 8192)];
 }
 
 static DECLFR(BaseRAMRead_Mirrored)
@@ -114,7 +114,7 @@ static DECLFR(BaseRAMRead_Mirrored)
 
 static DECLFW(BaseRAMWrite)
 {
- (BaseRAM - (0xF8 * 8192))[A] = V;
+ BaseRAM[(size_t)A - (0xF8 * 8192)] = V;
 }
 
 static DECLFW(BaseRAMWrite_Mirrored)
@@ -322,7 +322,7 @@ static int LoadCommon(void)
   HuCPU.PCEWrite[0xF8] = HuCPU.PCEWrite[0xF9] = HuCPU.PCEWrite[0xFA] = HuCPU.PCEWrite[0xFB] = BaseRAMWriteSGX;
 
   for(int x = 0xf8; x < 0xfb; x++)
-   HuCPU.FastMap[x] = &BaseRAM[(x & 0x03) * 8192];
+   HuCPU.FastMap[x] = &BaseRAM[(x & 0x3) * 8192];
 
   HuCPU.PCERead[0xFF] = IOReadSGX;
  }
@@ -824,7 +824,6 @@ int HuCLoadCD(const char *bios_path)
 
       for(int x = 0x40; x < 0x44; x++)
       {
-         // HuCPUFastMap[x] = NULL;
          HuCPU.PCERead[x] = ACPhysRead;
          HuCPU.PCEWrite[x] = ACPhysWrite;
       }
@@ -1372,10 +1371,12 @@ static void check_variables(void)
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
-      if (strcmp(var.value, "disabled") == 0)
-         setting_pce_fast_nospritelimit = 0;
-      else if (strcmp(var.value, "enabled") == 0)
-         setting_pce_fast_nospritelimit = 1;
+      bool newval = (strcmp(var.value, "enabled") == 0);
+      if (newval != setting_pce_fast_nospritelimit)
+      {
+         setting_pce_fast_nospritelimit = newval;
+         VDC_SetSettings(MDFN_GetSettingB("pce_fast.nospritelimit"));
+      }
    }
 
    var.key = "sgx_hoverscan";
@@ -1807,7 +1808,6 @@ void retro_run(void)
    if (memcmp(&last_pixel_format, &spec.surface->format, sizeof(MDFN_PixelFormat)))
    {
       spec.VideoFormatChanged = TRUE;
-
       last_pixel_format = spec.surface->format;
    }
 
@@ -1833,17 +1833,16 @@ void retro_run(void)
 
    video_cb(surf->pixels16 + surf->pitchinpix * spec.DisplayRect.y, width, height, FB_WIDTH * 2);
 
-   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE_UPDATE, &updated) && updated){
-	check_variables();
-
-	if(PCE_IsCD){
-		psg->SetVolume(0.678 * setting_pce_fast_cdpsgvolume / 100);
-	}
-	update_geometry(width, height);
+   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE_UPDATE, &updated) && updated)
+   {
+      check_variables();
+      if(PCE_IsCD)
+         psg->SetVolume(0.678 * setting_pce_fast_cdpsgvolume / 100);
+      update_geometry(width, height);
    }
 
    if (resolution_changed)
-	update_geometry(width, height);
+      update_geometry(width, height);
 
    video_frames++;
    audio_frames += spec.SoundBufSize;

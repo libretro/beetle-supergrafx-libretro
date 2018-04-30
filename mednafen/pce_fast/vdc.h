@@ -192,7 +192,7 @@ static INLINE uint8 VDC_Read(unsigned int A, bool SGX)
 DECLFW(VCE_Write);
 
 void VDC_Init(int sgx) MDFN_COLD;
-void VDC_SetSettings(const bool nospritelimit, const unsigned mode1_width);
+void VDC_SetSettings(const bool nospritelimit);
 void VDC_Close(void) MDFN_COLD;
 void VDC_Reset(void) MDFN_COLD;
 void VDC_Power(void) MDFN_COLD;

@@ -599,6 +599,7 @@ static void DrawSprites(vdc_t *vdc, const int32 end, uint16 *spr_linebuf)
   const uint32 palette_index = (flags & 0xF) << 4;
 
   uint32 y_offset = vdc->RCRCount - y;
+
   if(y_offset < height)
   {
    if(active_sprites == 16)
@@ -1200,10 +1201,9 @@ void VDC_Init(int sgx)
  VDC_TotalChips = sgx ? 2 : 1;
 }
 
-void VDC_SetSettings(const bool nospritelimit, const unsigned mode1_width)
+void VDC_SetSettings(const bool nospritelimit)
 {
  unlimited_sprites = nospritelimit;
- defined_width[1] = mode1_width;
 }
 
 void VDC_Close(void)
