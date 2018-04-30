@@ -82,9 +82,9 @@ void INPUT_Frame(void)
   }
   else if(InputTypes[x] == 2)
   {
-   mouse_x[x] += (int32)MDFN_de32lsb(data_ptr[x] + 0);
-   mouse_y[x] += (int32)MDFN_de32lsb(data_ptr[x] + 4);
-   pce_mouse_button[x] = *(uint8 *)(data_ptr[x] + 8);
+   mouse_x[x] += (int16)MDFN_de16lsb(data_ptr[x] + 0);
+   mouse_y[x] += (int16)MDFN_de16lsb(data_ptr[x] + 2);
+   pce_mouse_button[x] = *(uint8 *)(data_ptr[x] + 4);
   }
  }
 }
@@ -145,13 +145,7 @@ uint8 INPUT_Read(unsigned int A)
     mouse_rel[tmp_ri] >>= 4;
    }
    else
-   {
-    if(pce_mouse_button[tmp_ri] & 1)
-     ret ^= 0x3; //pce_mouse_button[tmp_ri];
-
-    if(pce_mouse_button[tmp_ri] & 0x2)
-     ret ^= 0x8;
-   }
+    ret ^= pce_mouse_button[tmp_ri] & 0xF;
   }
   else
   {
