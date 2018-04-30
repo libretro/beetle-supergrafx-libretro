@@ -102,7 +102,6 @@ typedef struct
 } vdc_t;
 
 extern vdc_t vdc_chips[2];
-extern int VDC_TotalChips;
 
 void VDC_SetPixelFormat(const MDFN_PixelFormat &format) MDFN_COLD;
 void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES);
@@ -193,6 +192,7 @@ static INLINE uint8 VDC_Read(unsigned int A, bool SGX)
 DECLFW(VCE_Write);
 
 void VDC_Init(int sgx) MDFN_COLD;
+void VDC_SetSettings(const bool nospritelimit, const unsigned mode1_width);
 void VDC_Close(void) MDFN_COLD;
 void VDC_Reset(void) MDFN_COLD;
 void VDC_Power(void) MDFN_COLD;

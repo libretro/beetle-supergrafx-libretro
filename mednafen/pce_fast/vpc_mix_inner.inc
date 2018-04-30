@@ -23,7 +23,6 @@
 	  case 2:
                 //if((vdc1_pixel & (ALPHA_MASK << 2)) && !(vdc2_pixel & (ALPHA_MASK << 2)) && !(vdc2_pixel & ALPHA_MASK))
                 //        vdc1_pixel |= ALPHA_MASK;
-		puts("MOO");
 		// TODO: Verify that this is correct logic.
 		{
 		 const uint16 intermediate = ((vdc1_pixel ^ vdc2_pixel) & vdc1_pixel) >> 2;

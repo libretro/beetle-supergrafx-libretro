@@ -425,7 +425,7 @@ void PCECD_Drive_SetDisc(bool tray_open, CDIF *cdif, bool no_emu_side_effects)
 
 static void CommandCCError(int key, int asc = 0, int ascq = 0)
 {
- printf("CC Error: %02x %02x %02x\n", key, asc, ascq);
+ //printf("CC Error: %02x %02x %02x\n", key, asc, ascq);
 
  cd.key_pending = key;
  cd.asc_pending = asc;
@@ -525,7 +525,7 @@ static void DoREAD6(const uint8 *cdb)
  // TODO: confirm real PCE does this(PC-FX does at least).
  if(!sc)
  {
-  SCSIDBG("READ(6) with count == 0.\n");
+  //SCSIDBG("READ(6) with count == 0.\n");
   sc = 256;
  }
 
@@ -544,7 +544,7 @@ static void DoNEC_PCE_SAPSP(const uint8 *cdb)
  //printf("Set audio start: %02x %02x %02x %02x %02x %02x %02x\n", cdb[9], cdb[1], cdb[2], cdb[3], cdb[4], cdb[5], cdb[6]);
  switch (cdb[9] & 0xc0)
  {
-  default:  SCSIDBG("Unknown SAPSP 9: %02x\n", cdb[9]);
+  default:  //SCSIDBG("Unknown SAPSP 9: %02x\n", cdb[9]);
   case 0x00:
    new_read_sec_start = (cdb[3] << 16) | (cdb[4] << 8) | cdb[5];
    break;
@@ -615,7 +615,7 @@ static void DoNEC_PCE_SAPEP(const uint8 *cdb)
 
  switch (cdb[9] & 0xc0)
  {
-  default: SCSIDBG("Unknown SAPEP 9: %02x\n", cdb[9]);
+  //default: SCSIDBG("Unknown SAPEP 9: %02x\n", cdb[9]);
 
   case 0x00:
    new_read_sec_end = (cdb[3] << 16) | (cdb[4] << 8) | cdb[5];
@@ -737,8 +737,8 @@ static void DoNEC_PCE_GETDIRINFO(const uint8 *cdb)
 
  switch(cdb[1])
  {
-  default: MDFN_DispMessage("Unknown GETDIRINFO Mode: %02x", cdb[1]);
-	   printf("Unknown GETDIRINFO Mode: %02x", cdb[1]);
+  default: //MDFN_DispMessage("Unknown GETDIRINFO Mode: %02x", cdb[1]);
+	   //printf("Unknown GETDIRINFO Mode: %02x", cdb[1]);
   case 0x0:
    data_in[0] = U8_to_BCD(toc.first_track);
    data_in[1] = U8_to_BCD(toc.last_track);
@@ -902,7 +902,7 @@ static INLINE void RunCDDA(uint32 system_timestamp, int32 run_time)
      break;
     }
 
-    if(cd.TrayOpen)
+    if(cd.TrayOpen || !Cur_CDIF)
     {
      cdda.CDDAStatus = CDDASTATUS_STOPPED;
 
@@ -996,6 +996,10 @@ static INLINE void RunCDRead(uint32 system_timestamp, int32 run_time)
      cd.data_transfer_done = FALSE;
 
      CommandCCError(SENSEKEY_NOT_READY, NSE_TRAY_OPEN);
+    }
+    else if(!Cur_CDIF)
+    {
+     CommandCCError(SENSEKEY_NOT_READY, NSE_NO_DISC);
     }
     else if(SectorAddr >= toc.tracks[100].lba)
     {
@@ -1119,7 +1123,7 @@ uint32 PCECD_Drive_Run(pcecd_drive_timestamp_t system_timestamp)
       {
        CommandCCError(SENSEKEY_ILLEGAL_REQUEST, NSE_INVALID_COMMAND);
 
-       SCSIDBG("Bad Command: %02x\n", cd.command_buffer[0]);
+       //SCSIDBG("Bad Command: %02x\n", cd.command_buffer[0]);
 
        if(SCSILog)
         SCSILog("SCSI", "Bad Command: %02x", cd.command_buffer[0]);

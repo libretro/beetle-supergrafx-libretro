@@ -19,13 +19,7 @@
 */
 
 #include "mednafen/mednafen.h"
-
-//#include "pce.h"
-//#include "huc.h"
 #include "arcade_card.h"
-
-#include <errno.h>
-#include <string.h>
 
 static INLINE void ACAutoIncrement(ACPort_t *port)
 {
