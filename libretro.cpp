@@ -1299,7 +1299,7 @@ static void set_volume (uint32_t *ptr, unsigned number)
 #define        MAX_PLAYERS 5
 #define        MAX_BUTTONS 15
 static uint8_t input_buf[MAX_PLAYERS][2]    = {{0}};
-static int32_t mousedata[MAX_PLAYERS][2]    = {{0}};
+static int16_t mousedata[MAX_PLAYERS][3]    = {{0}};
 static unsigned int input_type[MAX_PLAYERS] = {0};
 static float mouse_sensitivity              = 1.0f;
 static bool disable_softreset               = false;
@@ -1706,7 +1706,7 @@ static void update_input(void)
 
       else if (input_type[j] == RETRO_DEVICE_MOUSE)
       {
-         mousedata[j][2] = 0;
+         int16_t mouse_buttons = 0;
 
          float _x = input_state_cb(j, RETRO_DEVICE_MOUSE, 0, RETRO_DEVICE_ID_MOUSE_X);
          float _y = input_state_cb(j, RETRO_DEVICE_MOUSE, 0, RETRO_DEVICE_ID_MOUSE_Y);
@@ -1715,9 +1715,16 @@ static void update_input(void)
          mousedata[j][1] = (int)roundf(_y * mouse_sensitivity);
 
          if (input_state_cb(j, RETRO_DEVICE_MOUSE, 0, RETRO_DEVICE_ID_MOUSE_LEFT))
-            mousedata[j][2] |= (1 << 0);
+            mouse_buttons |= (1 << 0); // left mouse button
          if (input_state_cb(j, RETRO_DEVICE_MOUSE, 0, RETRO_DEVICE_ID_MOUSE_RIGHT))
-            mousedata[j][2] |= (1 << 1);
+            mouse_buttons |= (1 << 1); // right mouse button
+         if (input_state_cb(j, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_SELECT))
+            mouse_buttons |= (1 << 2); // select
+         if (input_state_cb(j, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_START) ||
+             input_state_cb(j, RETRO_DEVICE_MOUSE, 0, RETRO_DEVICE_ID_MOUSE_MIDDLE))
+            mouse_buttons |= (1 << 3); // start
+
+         mousedata[j][2] = mouse_buttons;
       }
    }
 }
