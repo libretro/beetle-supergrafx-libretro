@@ -40,7 +40,16 @@
 #define FB_WIDTH 512
 #define FB_HEIGHT 243
 
+#ifdef _WIN32
+static char slash = '\\';
+#else
+static char slash = '/';
+#endif
+
 static bool old_cdimagecache = false;
+std::string retro_base_directory;
+std::string retro_base_name;
+std::string retro_save_directory;
 
 extern MDFNGI EmulatedPCE_Fast;
 MDFNGI *MDFNGameInfo = &EmulatedPCE_Fast;
@@ -375,7 +384,14 @@ static int LoadCommon(void)
 
 static int LoadCD(std::vector<CDIF *> *CDInterfaces)
 {
- std::string bios_path = MDFN_MakeFName(MDFNMKF_FIRMWARE, 0, MDFN_GetSettingS("pce_fast.cdbios").c_str() );
+ std::string bios_path = retro_base_directory + slash + MDFN_GetSettingS("pce_fast.cdbios");
+
+#if _WIN32
+ sanitize_path(bios_path);
+#endif
+
+ if (log_cb)
+  log_cb(RETRO_LOG_INFO, "Loading bios %s\n", bios_path.c_str());
 
  IsSGX = 0;
 
@@ -786,7 +802,11 @@ int HuCLoadCD(const char *bios_path)
    MDFNFILE *fp = file_open(bios_path);
 
    if (!fp)
+   {
+      if (log_cb)
+         log_cb(RETRO_LOG_ERROR, "Failed to load bios!\n");
       return(0);
+  }
 
    memset(ROMSpace, 0xFF, 262144);
 
@@ -1180,10 +1200,6 @@ static MDFN_PixelFormat last_pixel_format;
 static MDFN_Surface *surf;
 
 static bool failed_init;
-
-std::string retro_base_directory;
-std::string retro_base_name;
-std::string retro_save_directory;
 
 static void set_basename(const char *path)
 {
@@ -2126,47 +2142,6 @@ void retro_cheat_reset(void)
 
 void retro_cheat_set(unsigned, bool, const char *)
 {}
-
-#ifdef _WIN32
-static void sanitize_path(std::string &path)
-{
-   size_t size = path.size();
-   for (size_t i = 0; i < size; i++)
-      if (path[i] == '/')
-         path[i] = '\\';
-}
-#endif
-
-// Use a simpler approach to make sure that things go right for libretro.
-std::string MDFN_MakeFName(MakeFName_Type type, int id1, const char *cd1)
-{
-   char slash;
-#ifdef _WIN32
-   slash = '\\';
-#else
-   slash = '/';
-#endif
-   std::string ret;
-   switch (type)
-   {
-      case MDFNMKF_SAV:
-         ret = retro_save_directory +slash + retro_base_name +
-            std::string(".") + std::string(cd1);
-         break;
-      case MDFNMKF_FIRMWARE:
-         ret = retro_base_directory + slash + std::string(cd1);
-#ifdef _WIN32
-         sanitize_path(ret); // Because Windows path handling is mongoloid.
-#endif
-         break;
-      default:
-         break;
-   }
-
-   if (log_cb)
-      log_cb(RETRO_LOG_INFO, "MDFN_MakeFName: %s\n", ret.c_str());
-   return ret;
-}
 
 void MDFND_Message(const char *str)
 {
