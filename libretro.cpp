@@ -94,17 +94,17 @@ static DECLFW(PCENullWrite)
 
 static DECLFR(BaseRAMReadSGX)
 {
- return((BaseRAM - (0xF8 * 8192))[A]);
+ return BaseRAM[(size_t)A - (0xF8 * 8192)];
 }
 
 static DECLFW(BaseRAMWriteSGX)
 {
- (BaseRAM - (0xF8 * 8192))[A] = V;
+ BaseRAM[(size_t)A - (0xF8 * 8192)] = V;
 }
 
 static DECLFR(BaseRAMRead)
 {
- return((BaseRAM - (0xF8 * 8192))[A]);
+ return BaseRAM[(size_t)A - (0xF8 * 8192)];
 }
 
 static DECLFR(BaseRAMRead_Mirrored)
@@ -114,7 +114,7 @@ static DECLFR(BaseRAMRead_Mirrored)
 
 static DECLFW(BaseRAMWrite)
 {
- (BaseRAM - (0xF8 * 8192))[A] = V;
+ BaseRAM[(size_t)A - (0xF8 * 8192)] = V;
 }
 
 static DECLFW(BaseRAMWrite_Mirrored)
@@ -322,7 +322,7 @@ static int LoadCommon(void)
   HuCPU.PCEWrite[0xF8] = HuCPU.PCEWrite[0xF9] = HuCPU.PCEWrite[0xFA] = HuCPU.PCEWrite[0xFB] = BaseRAMWriteSGX;
 
   for(int x = 0xf8; x < 0xfb; x++)
-   HuCPU.FastMap[x] = &BaseRAM[(x & 0x03) * 8192];
+   HuCPU.FastMap[x] = &BaseRAM[(x & 0x3) * 8192];
 
   HuCPU.PCERead[0xFF] = IOReadSGX;
  }
@@ -824,7 +824,6 @@ int HuCLoadCD(const char *bios_path)
 
       for(int x = 0x40; x < 0x44; x++)
       {
-         // HuCPUFastMap[x] = NULL;
          HuCPU.PCERead[x] = ACPhysRead;
          HuCPU.PCEWrite[x] = ACPhysWrite;
       }
@@ -1372,10 +1371,12 @@ static void check_variables(void)
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
-      if (strcmp(var.value, "disabled") == 0)
-         setting_pce_fast_nospritelimit = 0;
-      else if (strcmp(var.value, "enabled") == 0)
-         setting_pce_fast_nospritelimit = 1;
+      bool newval = (strcmp(var.value, "enabled") == 0);
+      if (newval != setting_pce_fast_nospritelimit)
+      {
+         setting_pce_fast_nospritelimit = newval;
+         VDC_SetSettings(MDFN_GetSettingB("pce_fast.nospritelimit"));
+      }
    }
 
    var.key = "sgx_hoverscan";
@@ -1807,7 +1808,6 @@ void retro_run(void)
    if (memcmp(&last_pixel_format, &spec.surface->format, sizeof(MDFN_PixelFormat)))
    {
       spec.VideoFormatChanged = TRUE;
-
       last_pixel_format = spec.surface->format;
    }
 
@@ -1833,17 +1833,16 @@ void retro_run(void)
 
    video_cb(surf->pixels16 + surf->pitchinpix * spec.DisplayRect.y, width, height, FB_WIDTH * 2);
 
-   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE_UPDATE, &updated) && updated){
-	check_variables();
-
-	if(PCE_IsCD){
-		psg->SetVolume(0.678 * setting_pce_fast_cdpsgvolume / 100);
-	}
-	update_geometry(width, height);
+   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE_UPDATE, &updated) && updated)
+   {
+      check_variables();
+      if(PCE_IsCD)
+         psg->SetVolume(0.678 * setting_pce_fast_cdpsgvolume / 100);
+      update_geometry(width, height);
    }
 
    if (resolution_changed)
-	update_geometry(width, height);
+      update_geometry(width, height);
 
    video_frames++;
    audio_frames += spec.SoundBufSize;
@@ -1952,7 +1951,7 @@ void retro_set_environment(retro_environment_t cb)
       { "sgx_cdimagecache", "CD Image Cache (Restart); disabled|enabled" },
       { "sgx_cdbios", "CD Bios (Restart); System Card 3|Games Express|System Card 1|System Card 2" },
       { "sgx_forcesgx", "Force SuperGrafx Emulation (Restart); disabled|enabled" },
-      { "sgx_nospritelimit", "No Sprite Limit (Restart); disabled|enabled" },
+      { "sgx_nospritelimit", "No Sprite Limit; disabled|enabled" },
       { "sgx_ocmultiplier", "CPU Overclock Multiplier (Restart); 1|2|3|4|5|6|7|8|9|10|20|30|40|50" },
       { "sgx_hoverscan", "Horizontal Overscan (352 Width Mode Only); 352|300|302|304|306|308|310|312|314|316|318|320|322|324|326|328|330|332|334|336|338|340|342|344|346|348|350" },
       { "sgx_initial_scanline", "Initial scanline; 3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31|32|33|34|35|36|37|38|39|40|0|1|2" },

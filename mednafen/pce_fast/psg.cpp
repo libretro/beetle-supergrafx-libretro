@@ -653,9 +653,9 @@ int PCEFast_PSG::StateAction(StateMem *sm, int load, int data_only)
    for(int lr = 0; lr < 2; lr++)
     channel[ch].vl[lr] &= 0x1F;
 
-   if(!channel[ch].noisecount && ch >= 4)
+   if((channel[ch].noisecount <= 0) && ch >= 4)
    {
-    printf("ch=%d, noisecount == 0\n", ch);
+    printf("ch=%d, noisecount <= 0\n", ch);
     channel[ch].noisecount = 1;
    }
 

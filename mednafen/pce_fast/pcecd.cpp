@@ -153,10 +153,10 @@ static INLINE int32 ADPCM_ClocksToNextEvent(void)
 {
  int32 ret = (ADPCM.bigdiv + 65535) >> 16;
 
- if(ADPCM.WritePending && ret > ADPCM.WritePending)
+ if((ADPCM.WritePending > 0) && ret > ADPCM.WritePending)
   ret = ADPCM.WritePending;
 
- if(ADPCM.ReadPending && ret > ADPCM.ReadPending)
+ if((ADPCM.ReadPending > 0) && ret > ADPCM.ReadPending)
   ret = ADPCM.ReadPending;
 
  return(ret);
@@ -781,7 +781,7 @@ static INLINE void ADPCM_Run(const int32 clocks, const int32 timestamp)
  //printf("ADPCM Run: %d\n", clocks);
  ADPCM_PB_Run(timestamp, clocks);
 
- if(ADPCM.WritePending)
+ if(ADPCM.WritePending > 0)
  {
   ADPCM.WritePending -= clocks;
   if(ADPCM.WritePending <= 0)
@@ -795,7 +795,7 @@ static INLINE void ADPCM_Run(const int32 clocks, const int32 timestamp)
   }
  }
 
- if(!ADPCM.WritePending)
+ if(ADPCM.WritePending <= 0)
  {
   if(_Port[0xb] & 0x3)
   {
@@ -810,7 +810,7 @@ static INLINE void ADPCM_Run(const int32 clocks, const int32 timestamp)
   }
  }
 
- if(ADPCM.ReadPending)
+ if(ADPCM.ReadPending > 0)
  {
   ADPCM.ReadPending -= clocks;
   if(ADPCM.ReadPending <= 0)

@@ -147,7 +147,12 @@ static INLINE uint8 RdMem(unsigned int A)
 
 static INLINE uint16 RdMem16(unsigned int A)
 {
- return(RdMem(A) | (RdMem(A + 1) << 8));
+ uint16 ret;
+
+ ret = RdMem(A);
+ ret |= RdMem(A + 1) << 8;
+
+ return(ret);
 }
 
 static INLINE void WrMem(unsigned int A, uint8 V)
@@ -560,10 +565,9 @@ void HuC6280_Reset(void)
   
 void HuC6280_Init(void)
 {
-	memset((void *)&HuCPU,0,sizeof(HuCPU));
+	memset(&HuCPU,0,sizeof(HuCPU));
 
  #ifdef HUC6280_LAZY_FLAGS
-
  #else
  for(int x=0; x < 256; x++)
  {
