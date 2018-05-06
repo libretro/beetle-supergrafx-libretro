@@ -1520,7 +1520,7 @@ static void check_variables(void)
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
-      disable_softreset = (strcmp(var.value, "disabled") == 0);
+      disable_softreset = (strcmp(var.value, "enabled") == 0);
    }
 
    var.key = "sgx_up_down_allowed";
@@ -1989,7 +1989,7 @@ void retro_set_environment(retro_environment_t cb)
       { "sgx_turbo_delay", "Turbo Delay; 3|4|5|6|7|8|9|10|11|12|13|14|15|30|60|2" },
       { "sgx_turbo_toggle", "Turbo ON/OFF Toggle; disabled|enabled" },
       { "sgx_turbo_toggle_hotkey", "Alternate Turbo Hotkey; disabled|enabled" },
-      { "sgx_disable_softreset", "Allow Soft Reset(RUN+SELECT); enabled|disabled" },
+      { "sgx_disable_softreset", "Disable Soft Reset (RUN+SELECT); disabled|enabled" },
       { "sgx_up_down_allowed", "Allow UP+DOWN/LEFT+RIGHT; disabled|enabled" },
       { "sgx_mouse_sensitivity", "Mouse Sensitivity; 1.25|1.50|1.75|2.00|2.25|2.50|2.75|3.00|3.25|3.50|3.75|4.00|4.25|4.50|4.75|5.00|0.25|0.50|0.75|1.00" },
       { "sgx_aspect_ratio", "Aspect Ratio; auto|6:5|4:3" },
