@@ -396,7 +396,7 @@ static int LoadCD(std::vector<CDIF *> *CDInterfaces)
 {
  std::string bios_path = retro_base_directory + slash + MDFN_GetSettingS("pce_fast.cdbios");
 
-#if _WIN32
+#ifdef _WIN32
  sanitize_path(bios_path);
 #endif
 
