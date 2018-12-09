@@ -122,6 +122,14 @@ else ifeq ($(platform), psp1)
    FLAGS += -DPSP -G0
    STATIC_LINKING = 1
    EXTRA_INCLUDES := -I$(shell psp-config --pspsdk-path)/include
+else ifeq ($(platform), vita)
+   TARGET := $(TARGET_NAME)_libretro_vita.a
+   CC = arm-vita-eabi-gcc$(EXE_EXT)
+   CXX = arm-vita-eabi-g++$(EXE_EXT)
+   AR = arm-vita-eabi-ar$(EXE_EXT)
+   FLAGS += -DVITA -march=armv7-a -mfpu=neon -mfloat-abi=hard -mlittle-endian -ffast-math
+   STATIC_LINKING = 1
+   EXTRA_INCLUDES := -I"$(VITASDK)/arm-vita-eabi/include"
 else ifeq ($(platform), xenon)
    TARGET := $(TARGET_NAME)_libretro_xenon360.a
    CC = xenon-gcc$(EXE_EXT)
