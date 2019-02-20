@@ -1677,15 +1677,15 @@ static void update_input(void)
 
             else
                input_state |= input_state_cb(j, RETRO_DEVICE_JOYPAD, 0, map[i]) ? (1 << i) : 0;
+         }
 
-            if (disable_softreset)
-               if (input_state == 0xC) input_state &= ~0xC;
+         if (disable_softreset == true)
+            if ((input_state & 0xC) == 0xC) input_state &= ~0xC;
 
-            if (up_down_allowed == 0)
-            {
-               if (input_state == 0x50) input_state &= ~0x50;
-               if (input_state == 0xA0) input_state &= ~0xA0;
-            }
+         if (up_down_allowed == false)
+         {
+            if ((input_state & 0x50) == 0x50) input_state &= ~0x50;
+            if ((input_state & 0xA0) == 0xA0) input_state &= ~0xA0;
          }
 
          // Input data must be little endian.
