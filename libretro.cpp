@@ -14,7 +14,6 @@
 #include "mednafen/pce_fast/vdc.h"
 #include "mednafen/pce_fast/psg.h"
 #include "mednafen/pce_fast/input.h"
-#include "mednafen/pce_fast/huc.h"
 #include "mednafen/pce_fast/pcecd.h"
 #include "mednafen/pce_fast/pcecd_drive.h"
 #include "mednafen/settings-driver.h"
@@ -47,12 +46,16 @@ static char slash = '/';
 #endif
 
 static bool old_cdimagecache = false;
-std::string retro_base_directory;
-std::string retro_base_name;
-std::string retro_save_directory;
+static std::string retro_base_directory;
 
 extern MDFNGI EmulatedPCE_Fast;
 MDFNGI *MDFNGameInfo = &EmulatedPCE_Fast;
+
+static int HuCLoad(const uint8 *data, uint32 len, uint32 crc32) MDFN_COLD;
+static int HuCLoadCD(const char *bios_path) MDFN_COLD;
+static void HuC_Close(void) MDFN_COLD;
+static int HuC_StateAction(StateMem *sm, int load, int data_only);
+static void HuC_Power(void) MDFN_COLD;
 
 /* Mednafen - Multi-system Emulator
  *
@@ -695,7 +698,7 @@ static void Cleanup(void)
    HuCROM = NULL;
 }
 
-int HuCLoad(const uint8 *data, uint32 len, uint32 crc32)
+static int HuCLoad(const uint8 *data, uint32 len, uint32 crc32)
 {
  uint32 sf2_threshold = 2048 * 1024;
  uint32 sf2_required_size = 2048 * 1024 + 512 * 1024;
@@ -796,18 +799,7 @@ int HuCLoad(const uint8 *data, uint32 len, uint32 crc32)
  return(1);
 }
 
-bool IsBRAMUsed(void)
-{
- if(memcmp(SaveRAM, BRAM_Init_String, 8)) // HUBM string is modified/missing
-  return(1);
-
- for(int x = 8; x < 2048; x++)
-  if(SaveRAM[x]) return(1);
-
- return(0);
-}
-
-int HuCLoadCD(const char *bios_path)
+static int HuCLoadCD(const char *bios_path)
 {
    MDFNFILE *fp = file_open(bios_path);
 
@@ -869,7 +861,7 @@ int HuCLoadCD(const char *bios_path)
    return(1);
 }
 
-int HuC_StateAction(StateMem *sm, int load, int data_only)
+static int HuC_StateAction(StateMem *sm, int load, int data_only)
 {
  SFORMAT StateRegs[] =
  {
@@ -894,12 +886,12 @@ int HuC_StateAction(StateMem *sm, int load, int data_only)
  return(ret);
 }
 
-void HuC_Close(void)
+static void HuC_Close(void)
 {
    Cleanup();
 }
 
-void HuC_Power(void)
+static void HuC_Power(void)
 {
  if(PCE_IsCD)
   memset(ROMSpace + 0x68 * 8192, 0x00, 262144);
@@ -1053,21 +1045,11 @@ MDFNGI *MDFNI_LoadCD(const char *force_module, const char *devicename)
 
 MDFNGI *MDFNI_LoadGame(const char *force_module, const char *name)
 {
-	std::vector<FileExtensionSpecStruct> valid_iae;
    MDFNFILE *GameFile = NULL;
    MDFNGameInfo = &EmulatedPCE_Fast;
 
 	if(strlen(name) > 4 && (!strcasecmp(name + strlen(name) - 4, ".cue") || !strcasecmp(name + strlen(name) - 4, ".chd") || !strcasecmp(name + strlen(name) - 4, ".ccd") || !strcasecmp(name + strlen(name) - 4, ".toc") || !strcasecmp(name + strlen(name) - 4, ".m3u")))
 	 return(MDFNI_LoadCD(force_module, name));
-
-	// Construct a NULL-delimited list of known file extensions for MDFN_fopen()
-   const FileExtensionSpecStruct *curexts = KnownExtensions;
-
-   while(curexts->extension && curexts->description)
-   {
-      valid_iae.push_back(*curexts);
-      curexts++;
-   }
 
    GameFile = file_open(name);
 
@@ -1211,20 +1193,6 @@ static MDFN_Surface *surf;
 
 static bool failed_init;
 
-static void set_basename(const char *path)
-{
-   const char *base = strrchr(path, '/');
-   if (!base)
-      base = strrchr(path, '\\');
-
-   if (base)
-      retro_base_name = base + 1;
-   else
-      retro_base_name = path;
-
-   retro_base_name = retro_base_name.substr(0, retro_base_name.find_last_of('.'));
-}
-
 #include "mednafen/pce_fast/pcecd.h"
 
 static void check_system_specs(void)
@@ -1264,26 +1232,6 @@ void retro_init(void)
       if (log_cb)
          log_cb(RETRO_LOG_WARN, "System directory is not defined. Fallback on using same dir as ROM for system directory later ...\n");
       failed_init = true;
-   }
-
-   if (environ_cb(RETRO_ENVIRONMENT_GET_SAVE_DIRECTORY, &dir) && dir)
-   {
-	  // If save directory is defined use it, otherwise use system directory
-     // retro_save_directory = *dir ? dir : retro_base_directory;
-	  retro_save_directory = dir;
-     // Make sure that we don't have any lingering slashes, etc, as they break Windows.
-     size_t last = retro_save_directory.find_last_not_of("/\\");
-     if (last != std::string::npos)
-         last++;
-
-      retro_save_directory = retro_save_directory.substr(0, last);
-   }
-   else
-   {
-      /* TODO: Add proper fallback */
-      if (log_cb)
-         log_cb(RETRO_LOG_WARN, "Save directory is not defined. Fallback on using SYSTEM directory ...\n");
-	  retro_save_directory = retro_base_directory;
    }
 
    enum retro_pixel_format rgb565 = RETRO_PIXEL_FORMAT_RGB565;
@@ -1612,8 +1560,6 @@ bool retro_load_game(const struct retro_game_info *info)
 
    environ_cb(RETRO_ENVIRONMENT_SET_INPUT_DESCRIPTORS, desc);
 
-   set_basename(info->path);
-
    check_variables();
 
    game = MDFNI_LoadGame(MEDNAFEN_CORE_NAME_MODULE, info->path);
@@ -1715,15 +1661,15 @@ static void update_input(void)
 
             else
                input_state |= input_state_cb(j, RETRO_DEVICE_JOYPAD, 0, map[i]) ? (1 << i) : 0;
+         }
 
-            if (disable_softreset)
-               if (input_state == 0xC) input_state &= ~0xC;
+         if (disable_softreset == true)
+            if ((input_state & 0xC) == 0xC) input_state &= ~0xC;
 
-            if (up_down_allowed == 0)
-            {
-               if (input_state == 0x50) input_state &= ~0x50;
-               if (input_state == 0xA0) input_state &= ~0xA0;
-            }
+         if (up_down_allowed == false)
+         {
+            if ((input_state & 0x50) == 0x50) input_state &= ~0x50;
+            if ((input_state & 0xA0) == 0xA0) input_state &= ~0xA0;
          }
 
          // Input data must be little endian.

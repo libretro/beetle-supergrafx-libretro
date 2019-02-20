@@ -31,5 +31,6 @@ extern writefunc PCEWrite[0x100];
 extern int pce_overclocked;
 
 extern uint8 BaseRAM[32768 + 8192];
+extern bool PCE_IsCD;
 
 #endif
