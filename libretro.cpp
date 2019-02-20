@@ -14,7 +14,6 @@
 #include "mednafen/pce_fast/vdc.h"
 #include "mednafen/pce_fast/psg.h"
 #include "mednafen/pce_fast/input.h"
-#include "mednafen/pce_fast/huc.h"
 #include "mednafen/pce_fast/pcecd.h"
 #include "mednafen/pce_fast/pcecd_drive.h"
 #include "mednafen/settings-driver.h"
@@ -51,6 +50,12 @@ static std::string retro_base_directory;
 
 extern MDFNGI EmulatedPCE_Fast;
 MDFNGI *MDFNGameInfo = &EmulatedPCE_Fast;
+
+static int HuCLoad(const uint8 *data, uint32 len, uint32 crc32) MDFN_COLD;
+static int HuCLoadCD(const char *bios_path) MDFN_COLD;
+static void HuC_Close(void) MDFN_COLD;
+static int HuC_StateAction(StateMem *sm, int load, int data_only);
+static void HuC_Power(void) MDFN_COLD;
 
 /* Mednafen - Multi-system Emulator
  *
@@ -693,7 +698,7 @@ static void Cleanup(void)
    HuCROM = NULL;
 }
 
-int HuCLoad(const uint8 *data, uint32 len, uint32 crc32)
+static int HuCLoad(const uint8 *data, uint32 len, uint32 crc32)
 {
  uint32 sf2_threshold = 2048 * 1024;
  uint32 sf2_required_size = 2048 * 1024 + 512 * 1024;
@@ -794,18 +799,7 @@ int HuCLoad(const uint8 *data, uint32 len, uint32 crc32)
  return(1);
 }
 
-bool IsBRAMUsed(void)
-{
- if(memcmp(SaveRAM, BRAM_Init_String, 8)) // HUBM string is modified/missing
-  return(1);
-
- for(int x = 8; x < 2048; x++)
-  if(SaveRAM[x]) return(1);
-
- return(0);
-}
-
-int HuCLoadCD(const char *bios_path)
+static int HuCLoadCD(const char *bios_path)
 {
    MDFNFILE *fp = file_open(bios_path);
 
@@ -867,7 +861,7 @@ int HuCLoadCD(const char *bios_path)
    return(1);
 }
 
-int HuC_StateAction(StateMem *sm, int load, int data_only)
+static int HuC_StateAction(StateMem *sm, int load, int data_only)
 {
  SFORMAT StateRegs[] =
  {
@@ -892,12 +886,12 @@ int HuC_StateAction(StateMem *sm, int load, int data_only)
  return(ret);
 }
 
-void HuC_Close(void)
+static void HuC_Close(void)
 {
    Cleanup();
 }
 
-void HuC_Power(void)
+static void HuC_Power(void)
 {
  if(PCE_IsCD)
   memset(ROMSpace + 0x68 * 8192, 0x00, 262144);
@@ -1051,21 +1045,11 @@ MDFNGI *MDFNI_LoadCD(const char *force_module, const char *devicename)
 
 MDFNGI *MDFNI_LoadGame(const char *force_module, const char *name)
 {
-	std::vector<FileExtensionSpecStruct> valid_iae;
    MDFNFILE *GameFile = NULL;
    MDFNGameInfo = &EmulatedPCE_Fast;
 
 	if(strlen(name) > 4 && (!strcasecmp(name + strlen(name) - 4, ".cue") || !strcasecmp(name + strlen(name) - 4, ".chd") || !strcasecmp(name + strlen(name) - 4, ".ccd") || !strcasecmp(name + strlen(name) - 4, ".toc") || !strcasecmp(name + strlen(name) - 4, ".m3u")))
 	 return(MDFNI_LoadCD(force_module, name));
-
-	// Construct a NULL-delimited list of known file extensions for MDFN_fopen()
-   const FileExtensionSpecStruct *curexts = KnownExtensions;
-
-   while(curexts->extension && curexts->description)
-   {
-      valid_iae.push_back(*curexts);
-      curexts++;
-   }
 
    GameFile = file_open(name);
 
