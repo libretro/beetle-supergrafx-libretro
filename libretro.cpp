@@ -1572,8 +1572,10 @@ bool retro_load_game(const struct retro_game_info *info)
    surf = new MDFN_Surface(NULL, FB_WIDTH, FB_HEIGHT, FB_WIDTH, pix_fmt);
 
    // Possible endian bug ...
-   for (unsigned i = 0; i < MAX_PLAYERS; i++)
+   for (unsigned i = 0; i < MAX_PLAYERS; i++) {
       PCEINPUT_SetInput(i, "gamepad", &input_buf[i][0]);
+      input_type[i] == RETRO_DEVICE_JOYPAD;
+   }
 
    return game;
 }
