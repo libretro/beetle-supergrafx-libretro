@@ -1414,7 +1414,7 @@ static void check_variables(void)
       settings.CD_Speed = setting_pce_fast_cdspeed;
       settings.ADPCM_Volume = (double)setting_pce_fast_adpcmvolume / 100;
 
-      if (PCECD_SetSettings(&settings) && log_cb)
+      if (PCE_IsCD && PCECD_SetSettings(&settings) && log_cb)
          log_cb(RETRO_LOG_INFO, "PCE CD Audio settings changed.\n");
    }
 
