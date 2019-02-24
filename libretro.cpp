@@ -1414,7 +1414,7 @@ static void check_variables(void)
       settings.CD_Speed = setting_pce_fast_cdspeed;
       settings.ADPCM_Volume = (double)setting_pce_fast_adpcmvolume / 100;
 
-      if (PCECD_SetSettings(&settings) && log_cb)
+      if (PCE_IsCD && PCECD_SetSettings(&settings) && log_cb)
          log_cb(RETRO_LOG_INFO, "PCE CD Audio settings changed.\n");
    }
 
@@ -1572,8 +1572,10 @@ bool retro_load_game(const struct retro_game_info *info)
    surf = new MDFN_Surface(NULL, FB_WIDTH, FB_HEIGHT, FB_WIDTH, pix_fmt);
 
    // Possible endian bug ...
-   for (unsigned i = 0; i < MAX_PLAYERS; i++)
+   for (unsigned i = 0; i < MAX_PLAYERS; i++) {
       PCEINPUT_SetInput(i, "gamepad", &input_buf[i][0]);
+      input_type[i] == RETRO_DEVICE_JOYPAD;
+   }
 
    return game;
 }
