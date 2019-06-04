@@ -351,8 +351,8 @@ WINDOWS_VERSION=1
 else
    HAVE_CDROM = 1
    TARGET := $(TARGET_NAME)_libretro.dll
-   CC = gcc
-   CXX = g++
+   CC ?= gcc
+   CXX ?= g++
    IS_X86 = 1
    SHARED := -shared -Wl,--no-undefined -Wl,--version-script=link.T
    LDFLAGS += -static-libgcc -static-libstdc++ -lwinmm
