@@ -592,7 +592,13 @@ void CDAccess_Image::ImageOpen(const char *path, bool image_memcache)
       throw(MDFN_Error(0, _("Referenced path \"%s\" is potentially unsafe.  See \"filesys.untrusted_fip_check\" setting.\n"), args[0].c_str()));
      }
 
-     std::string efn = MDFN_EvalFIP(base_dir, args[0]);
+     std::string efn;
+
+     if(args[0].find("cdrom://") == std::string::npos)
+        efn = MDFN_EvalFIP(base_dir, args[0]);
+     else
+        efn = args[0];
+
      TmpTrack.fp = new FileStream(efn.c_str(), FileStream::MODE_READ);
      TmpTrack.FirstFileInstance = 1;
 

@@ -76,6 +76,12 @@ SOURCES_CXX += $(MEDNAFEN_DIR)/cdrom/CDAccess.cpp \
 	$(MEDNAFEN_DIR)/cdrom/audioreader.cpp \
 	$(MEDNAFEN_DIR)/cdrom/cdromif.cpp
 
+ifeq ($(HAVE_CDROM), 1)
+SOURCES_C += \
+				 $(LIBRETRO_COMM_DIR)/cdrom/cdrom.c \
+				 $(LIBRETRO_COMM_DIR)/vfs/vfs_implementation_cdrom.c
+endif
+
 SOURCES_C += $(MEDNAFEN_DIR)/cdrom/CDUtility.c \
 	$(MEDNAFEN_DIR)/cdrom/lec.c \
 	$(MEDNAFEN_DIR)/cdrom/galois.c \
@@ -199,6 +205,9 @@ ifneq ($(STATIC_LINKING), 1)
 SOURCES_C += $(LIBRETRO_COMM_DIR)/streams/file_stream.c \
 	     $(LIBRETRO_COMM_DIR)/streams/file_stream_transforms.c \
 	     $(LIBRETRO_COMM_DIR)/file/file_path.c \
+			 $(LIBRETRO_COMM_DIR)/file/retro_dirent.c \
+			 $(LIBRETRO_COMM_DIR)/lists/string_list.c \
+			 $(LIBRETRO_COMM_DIR)/lists/dir_list.c \
 	     $(LIBRETRO_COMM_DIR)/compat/compat_strl.c \
 	     $(LIBRETRO_COMM_DIR)/compat/compat_snprintf.c \
 	     $(LIBRETRO_COMM_DIR)/compat/compat_posix_string.c \
@@ -206,5 +215,6 @@ SOURCES_C += $(LIBRETRO_COMM_DIR)/streams/file_stream.c \
 	     $(LIBRETRO_COMM_DIR)/compat/compat_strcasestr.c \
 	     $(LIBRETRO_COMM_DIR)/encodings/encoding_utf.c \
 	     $(LIBRETRO_COMM_DIR)/vfs/vfs_implementation.c \
+	     $(LIBRETRO_COMM_DIR)/memmap/memalign.c \
 	     $(LIBRETRO_COMM_DIR)/string/stdstring.c
 endif
