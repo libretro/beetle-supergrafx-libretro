@@ -5,15 +5,15 @@ CORE_DIR := .
 
 ifeq ($(platform),)
 platform = unix
-ifeq ($(shell uname -a),)
+ifeq ($(shell uname -s),)
    platform = win
-else ifneq ($(findstring Darwin,$(shell uname -a)),)
+else ifneq ($(findstring Darwin,$(shell uname -s)),)
    platform = osx
    arch = intel
 ifeq ($(shell uname -p),powerpc)
    arch = ppc
 endif
-else ifneq ($(findstring MINGW,$(shell uname -a)),)
+else ifneq ($(findstring MINGW,$(shell uname -s)),)
    platform = win
 endif
 endif
@@ -28,6 +28,7 @@ NEED_CRC32 = 1
 WANT_NEW_API = 1
 CORE_DEFINE := -DWANT_PCE_FAST_EMU -DWANT_STEREO_SOUND
 HAVE_CHD = 1
+HAVE_CDROM = 0
 
 TARGET_NAME := mednafen_supergrafx
 
@@ -42,6 +43,10 @@ ifeq ($(platform), unix)
    SHARED := -shared -Wl,--no-undefined -Wl,--version-script=link.T
    ifneq ($(shell uname -p | grep -E '((i.|x)86|amd64)'),)
       IS_X86 = 1
+   endif
+
+   ifneq ($(findstring Linux,$(shell uname -s)),)
+     HAVE_CDROM = 1
    endif
 else ifeq ($(platform), osx)
    TARGET := $(TARGET_NAME)_libretro.dylib
@@ -251,7 +256,7 @@ WindowsSdkDir ?= $(shell reg query "HKLM\SOFTWARE\Microsoft\Microsoft SDKs\Windo
 WindowsSdkDirInc := $(shell reg query "HKLM\SOFTWARE\Microsoft\Microsoft SDKs\Windows\v7.0A" -v "InstallationFolder" | grep -o '[A-Z]:\\.*')Include
 WindowsSdkDirInc ?= $(shell reg query "HKLM\SOFTWARE\Microsoft\Microsoft SDKs\Windows\v7.1A" -v "InstallationFolder" | grep -o '[A-Z]:\\.*')Include
 
-
+HAVE_CDROM = 1
 INCFLAGS_PLATFORM = -I"$(WindowsSdkDirInc)"
 export INCLUDE := $(INCLUDE)
 export LIB := $(LIB);$(WindowsSdkDir)
@@ -276,7 +281,7 @@ WindowsSdkDir ?= $(shell reg query "HKLM\SOFTWARE\Microsoft\Microsoft SDKs\Windo
 WindowsSdkDirInc := $(shell reg query "HKLM\SOFTWARE\Microsoft\Microsoft SDKs\Windows\v7.0A" -v "InstallationFolder" | grep -o '[A-Z]:\\.*')Include
 WindowsSdkDirInc ?= $(shell reg query "HKLM\SOFTWARE\Microsoft\Microsoft SDKs\Windows\v7.1A" -v "InstallationFolder" | grep -o '[A-Z]:\\.*')Include
 
-
+HAVE_CDROM = 1
 INCFLAGS_PLATFORM = -I"$(WindowsSdkDirInc)"
 export INCLUDE := $(INCLUDE)
 export LIB := $(LIB);$(WindowsSdkDir)
@@ -297,6 +302,7 @@ LIB := $(shell IFS=$$'\n'; cygpath -w "$(VS80COMNTOOLS)../../VC/lib")
 BIN := $(shell IFS=$$'\n'; cygpath "$(VS80COMNTOOLS)../../VC/bin")
 
 WindowsSdkDir := $(INETSDK)
+HAVE_CDROM = 1
 
 export INCLUDE := $(INCLUDE);$(INETSDK)/Include;libretro-common/include/compat/msvc
 export LIB := $(LIB);$(WindowsSdkDir);$(INETSDK)/Lib
@@ -319,6 +325,7 @@ LIB := $(shell IFS=$$'\n'; cygpath -w "$(VS71COMNTOOLS)../../Vc7/lib")
 BIN := $(shell IFS=$$'\n'; cygpath "$(VS71COMNTOOLS)../../Vc7/bin")
 
 WindowsSdkDir := $(INETSDK)
+HAVE_CDROM = 1
 
 export INCLUDE := $(INCLUDE);$(INETSDK)/Include;libretro-common/include/compat/msvc
 export LIB := $(LIB);$(WindowsSdkDir);$(INETSDK)/Lib
@@ -330,6 +337,7 @@ WINDOWS_VERSION=1
 
 # Windows
 else
+   HAVE_CDROM = 1
    TARGET := $(TARGET_NAME)_libretro.dll
    CC = gcc
    CXX = g++
@@ -383,6 +391,13 @@ ifneq (,$(findstring msvc,$(platform)))
 FLAGS += -DINLINE="_inline"
 else
 FLAGS += -DINLINE="inline"
+endif
+
+ifeq ($(HAVE_CDROM), 1)
+   FLAGS += -DHAVE_CDROM
+ifeq ($(CDROM_DEBUG), 1)
+   FLAGS += -DCDROM_DEBUG
+endif
 endif
 
 CXXFLAGS += $(FLAGS)

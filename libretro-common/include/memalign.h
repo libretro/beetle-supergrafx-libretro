@@ -1,7 +1,7 @@
 /* Copyright  (C) 2010-2018 The RetroArch team
  *
  * ---------------------------------------------------------------------------------------
- * The following license statement only applies to this file (retro_assert.h).
+ * The following license statement only applies to this file (memalign.h).
  * ---------------------------------------------------------------------------------------
  *
  * Permission is hereby granted, free of charge,
@@ -20,18 +20,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef __RETRO_ASSERT_H
-#define __RETRO_ASSERT_H
+#ifndef _LIBRETRO_MEMALIGN_H
+#define _LIBRETRO_MEMALIGN_H
 
-#include <assert.h>
+#include <stddef.h>
 
-#ifdef RARCH_INTERNAL
-#include <stdio.h>
-#define retro_assert(cond) do { \
-   if (!(cond)) { printf("Assertion failed at %s:%d.\n", __FILE__, __LINE__); abort(); } \
-} while(0)
-#else
-#define retro_assert(cond) assert(cond)
-#endif
+#include <retro_common_api.h>
+
+RETRO_BEGIN_DECLS
+
+void *memalign_alloc(size_t boundary, size_t size);
+
+void *memalign_alloc_aligned(size_t size);
+
+void memalign_free(void *ptr);
+
+RETRO_END_DECLS
 
 #endif
