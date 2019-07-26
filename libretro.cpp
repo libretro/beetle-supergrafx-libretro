@@ -1574,7 +1574,7 @@ bool retro_load_game(const struct retro_game_info *info)
    // Possible endian bug ...
    for (unsigned i = 0; i < MAX_PLAYERS; i++) {
       PCEINPUT_SetInput(i, "gamepad", &input_buf[i][0]);
-      input_type[i] == RETRO_DEVICE_JOYPAD;
+      input_type[i] = RETRO_DEVICE_JOYPAD;
    }
 
    return game;
