@@ -1132,12 +1132,12 @@ void MDFN_printf(const char *format, ...)
 
    format_temp[newlen] = 0;
 
-   temp = new char[4096];
+   temp = (char*)malloc(4096 * sizeof(char);
    vsnprintf(temp, 4096, format_temp, ap);
    free(format_temp);
 
    MDFND_Message(temp);
-   delete []temp;
+   free(temp);
 
    va_end(ap);
 }
