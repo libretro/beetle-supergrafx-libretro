@@ -1574,7 +1574,7 @@ bool retro_load_game(const struct retro_game_info *info)
    // Possible endian bug ...
    for (unsigned i = 0; i < MAX_PLAYERS; i++) {
       PCEINPUT_SetInput(i, "gamepad", &input_buf[i][0]);
-      input_type[i] == RETRO_DEVICE_JOYPAD;
+      input_type[i] = RETRO_DEVICE_JOYPAD;
    }
 
    return game;
@@ -1704,39 +1704,26 @@ static void update_input(void)
    }
 }
 
-#define SGX_4_3      (4.0 / 3.0)
-#define SGX_6_5      (6.0 / 5.0)
-#define CLOCK_FREQ_NTSC  (135.0 / 11.0 * 1000000.0) // NTSC Square Interlaced Pixels
-
 static float get_aspect_ratio(unsigned width, unsigned height)
 {
-   float par = 0.0;
-   float dot_clock = 0.0;           // pce dot clock frequency
-   unsigned dot_clock_mode = vce.dot_clock;
+   float par = 0.0f;
+   float exact_par_per_freq[] = { 8.0f / 7.0f, 6.0f / 7.0f, 4.0f / 7.0f };
 
    if (aspect_ratio_mode == 1)      // 6:5 DAR
-      return SGX_6_5;
+      return (6.0f / 5.0f);
    else if (aspect_ratio_mode == 2) // 4:3 DAR
-      return SGX_4_3;
+      return (4.0f / 3.0f);
 
-   switch (dot_clock_mode)
-   {
-      case 0:
-         dot_clock = 5369317.5;     // 5.37 MHz
-         break;
-      case 1:
-         dot_clock = 7159090.0;     // 7.16 MHz
-         break;
-      case 2:
-         dot_clock = 10738635.0;    // 10.74 MHz
-         break;
-   }
+   /* 0: 5.37 MHz		1.14	8:7
+    * 1: 7.16 MHz		0.86	6:7
+    * 2: 10.74 MHz		0.57	4:7
+    */
+   par = exact_par_per_freq[vce.dot_clock];
 
-   // Apply hack which forces game to use mode 1 settings
+   // Hack to force game to use mode 1 settings
    if (OrderOfGriffonFix)
-      dot_clock = 7159090.0;
+      par = exact_par_per_freq[1];
 
-   par = (CLOCK_FREQ_NTSC / 2.0) / dot_clock;
    return (float)width * par / (float)height;
 }
 
