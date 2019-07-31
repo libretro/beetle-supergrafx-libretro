@@ -26,6 +26,8 @@
 #include "msvc_compat.h"
 #endif
 
+#include "libretro_core_options.h"
+
 #define MEDNAFEN_CORE_NAME_MODULE "pce_fast"
 #define MEDNAFEN_CORE_NAME "Mednafen SuperGrafx"
 #define MEDNAFEN_CORE_VERSION "v0.9.41"
@@ -1908,29 +1910,6 @@ void retro_set_environment(retro_environment_t cb)
    struct retro_vfs_interface_info vfs_iface_info;
    environ_cb = cb;
 
-   static const struct retro_variable vars[] = {
-      { "sgx_cdimagecache", "CD Image Cache (Restart); disabled|enabled" },
-      { "sgx_cdbios", "CD Bios (Restart); System Card 3|Games Express|System Card 1|System Card 2" },
-      { "sgx_forcesgx", "Force SuperGrafx Emulation (Restart); disabled|enabled" },
-      { "sgx_nospritelimit", "No Sprite Limit; disabled|enabled" },
-      { "sgx_ocmultiplier", "CPU Overclock Multiplier (Restart); 1|2|3|4|5|6|7|8|9|10|20|30|40|50" },
-      { "sgx_hoverscan", "Horizontal Overscan (352 Width Mode Only); 352|300|302|304|306|308|310|312|314|316|318|320|322|324|326|328|330|332|334|336|338|340|342|344|346|348|350" },
-      { "sgx_initial_scanline", "Initial scanline; 3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31|32|33|34|35|36|37|38|39|40|0|1|2" },
-      { "sgx_last_scanline", "Last scanline; 242|208|209|210|211|212|213|214|215|216|217|218|219|220|221|222|223|224|225|226|227|228|229|230|231|232|233|234|235|236|237|238|239|240|241" },
-      { "sgx_cddavolume", "(CD) CDDA Volume %; 100|110|120|130|140|150|160|170|180|190|200|0|10|20|30|40|50|60|70|80|90" },
-      { "sgx_adpcmvolume", "(CD) ADPCM Volume %; 100|110|120|130|140|150|160|170|180|190|200|0|10|20|30|40|50|60|70|80|90" },
-      { "sgx_cdpsgvolume", "(CD) CD PSG Volume %; 100|110|120|130|140|150|160|170|180|190|200|0|10|20|30|40|50|60|70|80|90" },
-      { "sgx_cdspeed", "(CD) CD Speed; 1|2|4|8" },
-      { "sgx_turbo_delay", "Turbo Delay; 3|4|5|6|7|8|9|10|11|12|13|14|15|30|60|2" },
-      { "sgx_turbo_toggle", "Turbo ON/OFF Toggle; disabled|enabled" },
-      { "sgx_turbo_toggle_hotkey", "Alternate Turbo Hotkey; disabled|enabled" },
-      { "sgx_disable_softreset", "Disable Soft Reset (RUN+SELECT); disabled|enabled" },
-      { "sgx_up_down_allowed", "Allow UP+DOWN/LEFT+RIGHT; disabled|enabled" },
-      { "sgx_mouse_sensitivity", "Mouse Sensitivity; 1.25|1.50|1.75|2.00|2.25|2.50|2.75|3.00|3.25|3.50|3.75|4.00|4.25|4.50|4.75|5.00|0.25|0.50|0.75|1.00" },
-      { "sgx_aspect_ratio", "Aspect Ratio; auto|6:5|4:3" },
-      { NULL, NULL },
-   };
-
    static const struct retro_controller_description pads[] = {
       { "PCE Joypad", RETRO_DEVICE_JOYPAD },
       { "PCE Mouse", RETRO_DEVICE_MOUSE },
@@ -1946,7 +1925,7 @@ void retro_set_environment(retro_environment_t cb)
       { 0 },
    };
 
-   cb(RETRO_ENVIRONMENT_SET_VARIABLES, (void*)vars);
+   libretro_set_core_options(cb);
    environ_cb(RETRO_ENVIRONMENT_SET_CONTROLLER_INFO, (void*)ports);
 
    vfs_iface_info.required_interface_version = 1;
