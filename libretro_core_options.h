@@ -478,7 +478,7 @@ struct retro_core_option_definition option_defs_us[] = {
 
 /* RETRO_LANGUAGE_TURKISH */
 
-struct retro_core_option_definition option_defs_us[] = {
+struct retro_core_option_definition option_defs_tr[] = {
    {
       "sgx_cdimagecache",
       "CD Görüntü Önbelleği (Yeniden Başlatma Gerektirir)",
