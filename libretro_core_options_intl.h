@@ -1,15 +1,13 @@
-#ifndef LIBRETRO_CORE_OPTIONS_H__
-#define LIBRETRO_CORE_OPTIONS_H__
+#ifndef LIBRETRO_CORE_OPTIONS_INTL_H__
+#define LIBRETRO_CORE_OPTIONS_INTL_H__
 
-#include <stdlib.h>
-#include <string.h>
+#if defined(_MSC_VER) && (_MSC_VER >= 1500 && _MSC_VER < 1900)
+/* https://support.microsoft.com/en-us/kb/980263 */
+#pragma execution_character_set("utf-8")
+#pragma warning(disable:4566)
+#endif
 
 #include <libretro.h>
-#include <retro_inline.h>
-
-#ifndef HAVE_NO_LANGEXTRA
-#include "libretro_core_options_intl.h"
-#endif
 
 /*
  ********************************
@@ -39,20 +37,47 @@ extern "C" {
  ********************************
 */
 
-/* RETRO_LANGUAGE_ENGLISH */
+/* RETRO_LANGUAGE_JAPANESE */
 
-/* Default language:
- * - All other languages must include the same keys and values
- * - Will be used as a fallback in the event that frontend language
- *   is not available
- * - Will be used as a fallback for any missing entries in
- *   frontend language definition */
+/* RETRO_LANGUAGE_FRENCH */
 
-struct retro_core_option_definition option_defs_us[] = {
+/* RETRO_LANGUAGE_SPANISH */
+
+/* RETRO_LANGUAGE_GERMAN */
+
+/* RETRO_LANGUAGE_ITALIAN */
+
+/* RETRO_LANGUAGE_DUTCH */
+
+/* RETRO_LANGUAGE_PORTUGUESE_BRAZIL */
+
+/* RETRO_LANGUAGE_PORTUGUESE_PORTUGAL */
+
+/* RETRO_LANGUAGE_RUSSIAN */
+
+/* RETRO_LANGUAGE_KOREAN */
+
+/* RETRO_LANGUAGE_CHINESE_TRADITIONAL */
+
+/* RETRO_LANGUAGE_CHINESE_SIMPLIFIED */
+
+/* RETRO_LANGUAGE_ESPERANTO */
+
+/* RETRO_LANGUAGE_POLISH */
+
+/* RETRO_LANGUAGE_VIETNAMESE */
+
+/* RETRO_LANGUAGE_ARABIC */
+
+/* RETRO_LANGUAGE_GREEK */
+
+/* RETRO_LANGUAGE_TURKISH */
+
+struct retro_core_option_definition option_defs_tr[] = {
    {
       "sgx_cdimagecache",
-      "CD Image Cache (Restart)",
-      "Loads the complete image in memory at startup. Can potentially decrease loading times at the cost of increased startup time.",
+      "CD Görüntü Önbelleği (Yeniden Başlatma Gerektirir)",
+      "Başlangıçta tam görüntüyü belleğe yükler. Artan başlangıç zamanı pahasına yükleme sürelerini potansiyel olarak düşürebilir.",
       {
          { "disabled", NULL },
          { "enabled", NULL },
@@ -62,8 +87,8 @@ struct retro_core_option_definition option_defs_us[] = {
    },
    {
       "sgx_cdbios",
-      "CD BIOS (Restart)",
-      "Select which PC Engine CD BIOS to use.",
+      "CD BIOS (Yeniden Başlatma Gerektirir)",
+      "Hangi PC Engine CD BIOS'unun kullanılacağını seçin.",
       {
          { "System Card 3", NULL },
          { "Games Express", NULL },
@@ -75,8 +100,8 @@ struct retro_core_option_definition option_defs_us[] = {
    },
    {
       "sgx_forcesgx",
-      "Force SuperGrafx Emulation (Restart)",
-      "This is helpful to run homebrew games or isolate games that will not run in SuperGrafx mode. (like Space Harrier). Savestates are not compatible with each mode. It's better to leave this option at default (Off) unless needed. Known Supergrafx games (like Dai-Makaimura, Aldyns) will automatically switch to SuperGrafx regardless of this option.",
+      "SuperGrafx Öykünmesini Zorla (Yeniden Başlatma Gerektirir)",
+      "Homebrew oyunlarını çalıştırmak veya SuperGrafx modunda çalışmayan oyunları izole etmek için faydalıdır. (Space Harrier gibi). Konum kayıtları, her modla uyumlu değildir. Gerekmedikçe, bu seçeneği varsayılan ayarlarda (Kapalı) bırakmak daha iyidir. Bilinen Supergrafx oyunları (Dai-Makaimura, Aldyns gibi) bu seçeneğe bakılmaksızın otomatik olarak SuperGrafx'e geçecektir.",
       {
          { "disabled", NULL },
          { "enabled", NULL },
@@ -86,8 +111,8 @@ struct retro_core_option_definition option_defs_us[] = {
    },
    {
       "sgx_nospritelimit",
-      "No Sprite Limit",
-      "Remove 16-sprites-per-scanline hardware limit.",
+      "Sprite Sınırı Yok",
+      "Tarama başına 16 sprites donanım sınırını kaldırın.",
       {
          { "disabled", NULL },
          { "enabled", NULL },
@@ -97,8 +122,8 @@ struct retro_core_option_definition option_defs_us[] = {
    },
    {
       "sgx_ocmultiplier",
-      "CPU Overclock Multiplier (Restart)",
-      "Overclock the emulated CPU.",
+      "CPU Hızaşırtma Çarpanı (Yeniden Başlatma Gerektirir)",
+      "Öykünülmüş CPU'ya Hızaşırtma uygulayın",
       {
          { "1", NULL },
          { "2", NULL },
@@ -120,8 +145,8 @@ struct retro_core_option_definition option_defs_us[] = {
    },
    {
       "sgx_hoverscan",
-      "Horizontal Overscan (352 Width Mode Only)",
-      "Modify the horizontal overscan.",
+      "Yatay Aşırı Tarama (Yalnızca 352 Genişlik Modu)",
+      "Yatay aşırı taramayı değiştirin.",
       {
          { "300", NULL },
          { "302", NULL },
@@ -156,8 +181,8 @@ struct retro_core_option_definition option_defs_us[] = {
    },
    {
       "sgx_initial_scanline",
-      "Initial scanline",
-      "Adjust first display scanline..",
+      "İlk tarama çizgisi",
+      "İlk tarama çizgisi.",
       {
          { "0", NULL },
          { "1", NULL },
@@ -206,8 +231,8 @@ struct retro_core_option_definition option_defs_us[] = {
    },
    {
       "sgx_last_scanline",
-      "Last scanline",
-      "Adjust last display scanline.",
+      "Son tarama çizgisi",
+      "Son ekran tarama çizgisini ayarlayın.",
       {
          { "208", NULL },
          { "209", NULL },
@@ -250,8 +275,8 @@ struct retro_core_option_definition option_defs_us[] = {
    },
    {
       "sgx_cddavolume",
-      "(CD) CDDA Volume %",
-      "Modify CDDA Volume %.",
+      "(CD) CDDA Ses %",
+      "CDDA Birimini Değiştir %.",
       {
          { "0", NULL },
          { "10", NULL },
@@ -280,8 +305,8 @@ struct retro_core_option_definition option_defs_us[] = {
    },
    {
       "sgx_adpcmvolume",
-      "(CD) ADPCM Volume %",
-      "Modify ADPCM Volume %.",
+      "(CD) ADPCM Ses %",
+      "ADPCM Birimini Değiştir %.",
       {
          { "0", NULL },
          { "10", NULL },
@@ -310,8 +335,8 @@ struct retro_core_option_definition option_defs_us[] = {
    },
    {
       "sgx_cdpsgvolume",
-      "(CD) PSG Volume %",
-      "Modify CD PSG Volume %.",
+      "(CD) PSG Ses %",
+      "PSG Birimini Değiştir %.",
       {
          { "0", NULL },
          { "10", NULL },
@@ -340,8 +365,8 @@ struct retro_core_option_definition option_defs_us[] = {
    },
    {
       "sgx_cdspeed",
-      "(CD) CD Speed",
-      "Set the speed of the emulated CD drive.",
+      "(CD) CD Hızı",
+      "Öykünülmüş CD sürücüsünün hızını ayarlayın.",
       {
          { "1", NULL },
          { "2", NULL },
@@ -353,8 +378,8 @@ struct retro_core_option_definition option_defs_us[] = {
    },
    {
       "sgx_turbo_delay",
-      "Turbo Delay",
-      "Adjust turbo delay.",
+      "Turbo Gecikmesi",
+      "Turbo gecikmeyi ayarlayın.",
       {
          { "2", NULL },
          { "3", NULL },
@@ -378,8 +403,8 @@ struct retro_core_option_definition option_defs_us[] = {
    },
    {
       "sgx_turbo_toggle",
-      "Turbo ON/OFF Toggle",
-      "Enables Turbo ON/OFF inputs.",
+      "Turbo AÇMA/KAPAMA Geçişİ",
+      "Turbo AÇMA/KAPAMA girişlerini etkinleştirir.",
       {
          { "disabled", NULL },
          { "enabled", NULL },
@@ -389,8 +414,8 @@ struct retro_core_option_definition option_defs_us[] = {
    },
    {
       "sgx_turbo_toggle_hotkey",
-      "Alternate Turbo Hotkey",
-      "Enables Alternate Turbo ON/OFF inputs. You can avoid remapping Button III and IV when switching to 6-button gamepad mode with this.",
+      "Alternatif Turbo Kısayolu",
+      "Alternatif Turbo AÇMA/KAPAMA girişlerini etkinleştirir. Bununla, 6 düğmeli gamepad moduna geçerken Button III ve IV tuşlarını yeniden kapamayı önleyebilirsiniz.",
       {
          { "disabled", NULL },
          { "enabled", NULL },
@@ -400,8 +425,8 @@ struct retro_core_option_definition option_defs_us[] = {
    },
    {
       "sgx_disable_softreset",
-      "Disable Soft Reset (RUN+SELECT)",
-      "Pressing RUN and SELECT simultaneously on PCE gamepad will SOFT RESET the console. This is a default hardware behaviour. Set this to enabled if you want the soft reset functionality turned off.",
+      "Yazılım Sıfırlamasını Devre Dışı Bırak (RUN + SELECT)",
+      "PCE gamepad'de aynı anda RUN ve SELECT düğmesine basmak, konsolu SOFT RESET yapacaktır. Bu varsayılan bir donanım davranışıdır. Yazılım sıfırlama işlevinin kapalı olmasını istiyorsanız bunu etkin olarak ayarlayın.",
       {
          { "disabled", NULL },
          { "enabled", NULL },
@@ -411,8 +436,8 @@ struct retro_core_option_definition option_defs_us[] = {
    },
    {
       "sgx_up_down_allowed",
-      "Allow Opposing Directions",
-      "Enabling this will allow pressing / quickly alternating / holding both left and right (or up and down in some games) directions at the same time. This may cause movement based glitches to occur in certain games. It's best to keep this core option disabled.",
+      "Karşı Yönlere İzin Ver",
+      "Bunu etkinleştirmek aynı anda hem sola hem de sağa (veya bazı oyunlarda yukarı ve aşağı) yönlere basma / hızlı değiştirme / tutma olanağı sağlar. Bu, bazı oyunlarda harekete dayalı hataların oluşmasına neden olabilir. Bu çekirdek seçeneğinin devre dışı bırakılması en iyisidir.",
       {
          { "disabled", NULL },
          { "enabled", NULL },
@@ -422,8 +447,8 @@ struct retro_core_option_definition option_defs_us[] = {
    },
    {
       "sgx_mouse_sensitivity",
-      "Mouse Sensitivity",
-      "Configure the PCE Mouse device type's sensitivity.",
+      "Fare Hassasiyeti",
+      "PCE Mouse cihaz tipinin hassasiyetini yapılandırın.",
       {
          { "0.25", NULL },
          { "0.50", NULL },
@@ -451,8 +476,8 @@ struct retro_core_option_definition option_defs_us[] = {
    },
    {
       "sgx_aspect_ratio",
-      "Aspect Ratio",
-      "Select an auto (PAR) aspect ratio, or a 6:5 (Used to be default) aspect ratio, or a 4:3 TV aspect ratio. When using games that constantly switches between 256 and 352 modes and using auto aspect, its best to set Horizontal width to 342 as to minimize resizing and extra black lines since this width is in ratio of 256-width mode(or something like that, just test with Asuka 100% which is one of the game that switches between these modes)",
+      "En Boy Oranı",
+      "Otomatik (PAR) en boy oranı veya 6:5 (varsayılan olarak kullanılır) en boy oranı veya 4:3 TV en boy oranı seçin. Sürekli olarak 256 ve 352 modları arasında geçiş yapan ve otomatik görünüm kullanan oyunlar kullanılırken, bu genişlik 256 genişlik modunun (veya bunun gibi bir şey olduğu için) yeniden boyutlandırma ve ekstra siyah çizgileri en aza indirecek şekilde Yatay genişlik ayarını 342 olarak ayarlamak en iyisidir. Bu modlar arasında geçiş yapan oyunlardan biri olan Asuka 100% ile test edin)",
       {
          { "auto", NULL },
          { "6:5", NULL },
@@ -463,194 +488,6 @@ struct retro_core_option_definition option_defs_us[] = {
    },
    { NULL, NULL, NULL, {{0}}, NULL },
 };
-
-/*
- ********************************
- * Language Mapping
- ********************************
-*/
-
-#ifndef HAVE_NO_LANGEXTRA
-struct retro_core_option_definition *option_defs_intl[RETRO_LANGUAGE_LAST] = {
-   option_defs_us, /* RETRO_LANGUAGE_ENGLISH */
-   NULL,           /* RETRO_LANGUAGE_JAPANESE */
-   NULL,           /* RETRO_LANGUAGE_FRENCH */
-   NULL,           /* RETRO_LANGUAGE_SPANISH */
-   NULL,           /* RETRO_LANGUAGE_GERMAN */
-   NULL,           /* RETRO_LANGUAGE_ITALIAN */
-   NULL,           /* RETRO_LANGUAGE_DUTCH */
-   NULL,           /* RETRO_LANGUAGE_PORTUGUESE_BRAZIL */
-   NULL,           /* RETRO_LANGUAGE_PORTUGUESE_PORTUGAL */
-   NULL,           /* RETRO_LANGUAGE_RUSSIAN */
-   NULL,           /* RETRO_LANGUAGE_KOREAN */
-   NULL,           /* RETRO_LANGUAGE_CHINESE_TRADITIONAL */
-   NULL,           /* RETRO_LANGUAGE_CHINESE_SIMPLIFIED */
-   NULL,           /* RETRO_LANGUAGE_ESPERANTO */
-   NULL,           /* RETRO_LANGUAGE_POLISH */
-   NULL,           /* RETRO_LANGUAGE_VIETNAMESE */
-   NULL,           /* RETRO_LANGUAGE_ARABIC */
-   NULL,           /* RETRO_LANGUAGE_GREEK */
-   option_defs_tr, /* RETRO_LANGUAGE_TURKISH */
-};
-#endif
-
-/*
- ********************************
- * Functions
- ********************************
-*/
-
-/* Handles configuration/setting of core options.
- * Should be called as early as possible - ideally inside
- * retro_set_environment(), and no later than retro_load_game()
- * > We place the function body in the header to avoid the
- *   necessity of adding more .c files (i.e. want this to
- *   be as painless as possible for core devs)
- */
-
-static INLINE void libretro_set_core_options(retro_environment_t environ_cb)
-{
-   unsigned version = 0;
-
-   if (!environ_cb)
-      return;
-
-   if (environ_cb(RETRO_ENVIRONMENT_GET_CORE_OPTIONS_VERSION, &version) && (version >= 1))
-   {
-#ifndef HAVE_NO_LANGEXTRA
-      struct retro_core_options_intl core_options_intl;
-      unsigned language = 0;
-
-      core_options_intl.us    = option_defs_us;
-      core_options_intl.local = NULL;
-
-      if (environ_cb(RETRO_ENVIRONMENT_GET_LANGUAGE, &language) &&
-          (language < RETRO_LANGUAGE_LAST) && (language != RETRO_LANGUAGE_ENGLISH))
-         core_options_intl.local = option_defs_intl[language];
-
-      environ_cb(RETRO_ENVIRONMENT_SET_CORE_OPTIONS_INTL, &core_options_intl);
-#else
-      environ_cb(RETRO_ENVIRONMENT_SET_CORE_OPTIONS, &option_defs_us);
-#endif
-   }
-   else
-   {
-      size_t i;
-      size_t num_options               = 0;
-      struct retro_variable *variables = NULL;
-      char **values_buf                = NULL;
-
-      /* Determine number of options */
-      while (true)
-      {
-         if (option_defs_us[num_options].key)
-            num_options++;
-         else
-            break;
-      }
-
-      /* Allocate arrays */
-      variables  = (struct retro_variable *)calloc(num_options + 1, sizeof(struct retro_variable));
-      values_buf = (char **)calloc(num_options, sizeof(char *));
-
-      if (!variables || !values_buf)
-         goto error;
-
-      /* Copy parameters from option_defs_us array */
-      for (i = 0; i < num_options; i++)
-      {
-         const char *key                        = option_defs_us[i].key;
-         const char *desc                       = option_defs_us[i].desc;
-         const char *default_value              = option_defs_us[i].default_value;
-         struct retro_core_option_value *values = option_defs_us[i].values;
-         size_t buf_len                         = 3;
-         size_t default_index                   = 0;
-
-         values_buf[i] = NULL;
-
-         if (desc)
-         {
-            size_t num_values = 0;
-
-            /* Determine number of values */
-            while (true)
-            {
-               if (values[num_values].value)
-               {
-                  /* Check if this is the default value */
-                  if (default_value)
-                     if (strcmp(values[num_values].value, default_value) == 0)
-                        default_index = num_values;
-
-                  buf_len += strlen(values[num_values].value);
-                  num_values++;
-               }
-               else
-                  break;
-            }
-
-            /* Build values string */
-            if (num_values > 0)
-            {
-               size_t j;
-
-               buf_len += num_values - 1;
-               buf_len += strlen(desc);
-
-               values_buf[i] = (char *)calloc(buf_len, sizeof(char));
-               if (!values_buf[i])
-                  goto error;
-
-               strcpy(values_buf[i], desc);
-               strcat(values_buf[i], "; ");
-
-               /* Default value goes first */
-               strcat(values_buf[i], values[default_index].value);
-
-               /* Add remaining values */
-               for (j = 0; j < num_values; j++)
-               {
-                  if (j != default_index)
-                  {
-                     strcat(values_buf[i], "|");
-                     strcat(values_buf[i], values[j].value);
-                  }
-               }
-            }
-         }
-
-         variables[i].key   = key;
-         variables[i].value = values_buf[i];
-      }
-
-      /* Set variables */
-      environ_cb(RETRO_ENVIRONMENT_SET_VARIABLES, variables);
-
-error:
-
-      /* Clean up */
-      if (values_buf)
-      {
-         for (i = 0; i < num_options; i++)
-         {
-            if (values_buf[i])
-            {
-               free(values_buf[i]);
-               values_buf[i] = NULL;
-            }
-         }
-
-         free(values_buf);
-         values_buf = NULL;
-      }
-
-      if (variables)
-      {
-         free(variables);
-         variables = NULL;
-      }
-   }
-}
 
 #ifdef __cplusplus
 }
