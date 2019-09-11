@@ -87,6 +87,17 @@ endif
    FLAGS += $(IPHONEMINVER)
    CC += $(IPHONEMINVER)
    CXX += $(IPHONEMINVER)
+
+# tvOS
+else ifeq ($(platform), tvos-arm64)
+   TARGET := $(TARGET_NAME)_libretro_tvos.dylib
+   fpic := -fPIC
+   SHARED := -dynamiclib
+
+ifeq ($(IOSSDK),)
+   IOSSDK := $(shell xcodebuild -version -sdk appletvos Path)
+endif
+
 else ifeq ($(platform), qnx)
    TARGET := $(TARGET_NAME)_libretro_qnx.so
    fpic := -fPIC
