@@ -13,9 +13,9 @@ extern "C" {
 struct MDFNFILE
 {
    uint8_t *data;
-   int64_t size;
+   uint64_t size;
    char *ext;
-   int64_t location;
+   uint64_t location;
 };
 
 struct MDFNFILE *file_open(const char *path);

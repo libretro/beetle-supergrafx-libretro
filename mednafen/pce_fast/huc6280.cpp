@@ -40,9 +40,9 @@ HuC6280 HuCPU;
 
 
 #ifdef HUC6280_CRAZY_VERSION
-#define LOAD_LOCALS_PC()        register uintptr_t PC_local = HuCPU.PC;
+#define LOAD_LOCALS_PC()        uintptr_t PC_local = HuCPU.PC;
 #else
-#define LOAD_LOCALS_PC()        register uint32 PC_local /*asm ("edi")*/ = HuCPU.PC; // asm ("edi") = HuCPU.PC;
+#define LOAD_LOCALS_PC()        uint32 PC_local /*asm ("edi")*/ = HuCPU.PC; // asm ("edi") = HuCPU.PC;
 #endif
 
 #define LOAD_LOCALS()				\
@@ -244,7 +244,6 @@ static INLINE uint8 RdOp(unsigned int A)
 /*  All of the freaky arithmetic operations. */
 #define AND        HU_A&=x;X_ZN(HU_A);
 
-// FIXME:
 #define BIT        HU_P&=~V_FLAG; X_ZN_BIT(x & HU_A, x); HU_P |= x & V_FLAG;
 #define EOR        HU_A^=x;X_ZN(HU_A);
 #define ORA        HU_A|=x;X_ZN(HU_A);
@@ -323,7 +322,6 @@ static INLINE uint8 RdOp(unsigned int A)
 #define RMB(bitto)	x &= ~(1 << (bitto & 7))
 #define SMB(bitto)	x |= 1 << (bitto & 7)
 
-// FIXME
 #define TSB   { HU_P &= ~V_FLAG; X_ZN_BIT(x | HU_A, x); HU_P |= x & V_FLAG; x |= HU_A; }
 #define TRB     { HU_P &= ~V_FLAG; X_ZN_BIT(x & ~HU_A, x); HU_P |= x & V_FLAG; x &= ~HU_A; }
 #define TST	{ HU_P &= ~V_FLAG; X_ZN_BIT(x & zoomhack, x); HU_P |= x & V_FLAG; }
@@ -499,8 +497,7 @@ static const uint8 CycTable[256] =
  /*0xF0*/ 2, 7, 7, 17, 2, 4, 6, 7, 2, 5, 4, 2, 2, 5, 7, 6, 
 };
 #if 0
-static bool WillIRQOccur(void) NO_INLINE;
-static bool WillIRQOccur(void)
+static NO_INLINE bool WillIRQOccur(void)
 {
  bool ret = false;
 
@@ -520,16 +517,6 @@ static bool WillIRQOccur(void)
  return(true);
 }
 #endif
-
-void HuC6280_IRQBegin(int w)
-{
- HU_IRQlow|=w;
-}
-
-void HuC6280_IRQEnd(int w)
-{
- HU_IRQlow&=~w;
-}
 
 void HuC6280_Reset(void)
 {
@@ -565,6 +552,10 @@ void HuC6280_Reset(void)
   
 void HuC6280_Init(void)
 {
+ //printf("%zu\n", sizeof(HuC6280));
+ //printf("%d\n", (int)((uint8*)&HuCPU.previous_next_user_event - (uint8*)&HuCPU));
+ //printf("%d\n", (int)((uint8*)&HuCPU.IRQlow - (uint8*)&HuCPU));
+
 	memset(&HuCPU,0,sizeof(HuCPU));
 
  #ifdef HUC6280_LAZY_FLAGS
