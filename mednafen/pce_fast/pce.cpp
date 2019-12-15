@@ -40,7 +40,7 @@ extern MDFNGI EmulatedPCE_Fast;
 PCEFast_PSG *psg = NULL;
 extern ArcadeCard *arcade_card; // Bah, lousy globals.
 
-static Blip_Buffer sbuf[2];
+static Blip_Buffer *sbuf = NULL; //[2];
 
 bool PCE_ACEnabled;
 
@@ -177,7 +177,7 @@ bool PCE_InitCD(void)
  if(cd_settings.ADPCM_Volume != 1.0)
   MDFN_printf(_("ADPCM Volume: %d%%\n"), (int)(100 * cd_settings.ADPCM_Volume));
 
- return(PCECD_Init(&cd_settings, PCECDIRQCB, PCE_MASTER_CLOCK, pce_overclocked, &sbuf[0], &sbuf[1]));
+ return(PCECD_Init(&cd_settings, PCECDIRQCB, PCE_MASTER_CLOCK, pce_overclocked, sbuf));
 }
 
 static void LoadCommon(void);
@@ -192,6 +192,10 @@ static void Cleanup(void)
    if(psg)
       delete psg;
    psg = NULL;
+
+   if(sbuf)
+      delete[] sbuf;
+   sbuf = NULL;
 }
 
 static const struct
@@ -273,6 +277,8 @@ static void LoadCommonPre(void)
  }
 
  MDFNMP_Init(1024, (1 << 21) / 1024);
+
+ sbuf = new Blip_Buffer[2];
 }
 
 static void LoadCommon(void)
@@ -313,7 +319,7 @@ static void LoadCommon(void)
 
  HuCPU.PCEWrite[0xFF] = IOWrite;
 
- psg = new PCEFast_PSG(&sbuf[0], &sbuf[1]);
+ psg = new PCEFast_PSG(sbuf);
 
  psg->SetVolume(1.0);
 
