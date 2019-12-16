@@ -1,11 +1,14 @@
 #ifndef _PCE_H
 #define _PCE_H
 
+#include <vector>
+
 #include "../mednafen-types.h"
 #include "../mednafen.h"
 #include "../state.h"
 #include "../general.h"
 #include "../mednafen-memory.h"
+#include "psg.h"
 
 #define PCE_MASTER_CLOCK        21477272.727273
 
@@ -26,11 +29,21 @@ bool PCE_InitCD(void) MDFN_COLD;
 extern bool PCE_ACEnabled; // Arcade Card emulation enabled?
 void PCE_Power(void) MDFN_COLD;
 
-extern readfunc PCERead[0x100];
-extern writefunc PCEWrite[0x100];
 extern int pce_overclocked;
 
 extern uint8 BaseRAM[32768 + 8192];
 extern bool PCE_IsCD;
+
+int LoadCD(std::vector<CDIF *> *CDInterfaces);
+void Load(const char *name, MDFNFILE *fp);
+void DoSimpleCommand(int cmd);
+void CloseGame(void);
+void Emulate(EmulateSpecStruct *espec);
+
+extern PCEFast_PSG *psg;
+extern bool IsSGX;
+
+extern uint8 ROMSpace[0x88 * 8192 + 8192];
+extern uint8 BaseRAM[32768 + 8192];
 
 #endif

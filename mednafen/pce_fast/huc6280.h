@@ -75,8 +75,16 @@ void HuC6280_Init(void) MDFN_COLD;
 void HuC6280_Reset(void) MDFN_COLD;
 void HuC6280_Power(void) MDFN_COLD;
 
-void HuC6280_IRQBegin(int w);
-void HuC6280_IRQEnd(int w);
+
+static INLINE void HuC6280_IRQBegin(int w)
+{
+ HuCPU.IRQlow|=w;
+}
+
+static INLINE void HuC6280_IRQEnd(int w)
+{
+ HuCPU.IRQlow&=~w;
+}
 
 int HuC6280_StateAction(StateMem *sm, int load, int data_only);
 

@@ -1,26 +1,27 @@
-#include <stdarg.h>
 #include <math.h>
-#include "mednafen/mednafen.h"
-#include "mednafen/git.h"
-#include "mednafen/general.h"
-#include "libretro.h"
+#include <stdarg.h>
 
+#include <libretro.h>
 #include <retro_timers.h>
 #include <streams/file_stream.h>
 
+#include "mednafen/cdrom/CDUtility.h"
+#include "mednafen/cdrom/cdromif.h"
+#include "mednafen/general.h"
+#include "mednafen/git.h"
+#include "mednafen/hw_misc/arcade_card/arcade_card.h"
+#include "mednafen/mednafen.h"
+#include "mednafen/mempatcher.h"
+#include "mednafen/settings-driver.h"
 #include "mednafen/FileWrapper.h"
 
-#include "mednafen/pce_fast/pce.h"
-#include "mednafen/pce_fast/vdc.h"
-#include "mednafen/pce_fast/psg.h"
+#include "mednafen/pce_fast/huc.h"
 #include "mednafen/pce_fast/input.h"
+#include "mednafen/pce_fast/pce.h"
 #include "mednafen/pce_fast/pcecd.h"
 #include "mednafen/pce_fast/pcecd_drive.h"
-#include "mednafen/settings-driver.h"
-#include "mednafen/hw_misc/arcade_card/arcade_card.h"
-#include "mednafen/mempatcher.h"
-#include "mednafen/cdrom/cdromif.h"
-#include "mednafen/cdrom/CDUtility.h"
+#include "mednafen/pce_fast/psg.h"
+#include "mednafen/pce_fast/vdc.h"
 
 #ifdef _MSC_VER
 #include "msvc_compat.h"
@@ -29,8 +30,8 @@
 #include "libretro_core_options.h"
 
 #define MEDNAFEN_CORE_NAME_MODULE "pce_fast"
-#define MEDNAFEN_CORE_NAME "Mednafen SuperGrafx"
-#define MEDNAFEN_CORE_VERSION "v0.9.41"
+#define MEDNAFEN_CORE_NAME "Beetle SuperGrafx"
+#define MEDNAFEN_CORE_VERSION "v1.23.0"
 #define MEDNAFEN_CORE_EXTENSIONS "pce|sgx|cue|ccd|chd"
 #define MEDNAFEN_CORE_TIMING_FPS 59.82
 #define MEDNAFEN_CORE_GEOMETRY_BASE_W 512
@@ -41,23 +42,11 @@
 #define FB_WIDTH 512
 #define FB_HEIGHT 243
 
-#ifdef _WIN32
-static char slash = '\\';
-#else
-static char slash = '/';
-#endif
-
 static bool old_cdimagecache = false;
-static std::string retro_base_directory;
+std::string retro_base_directory;
 
 extern MDFNGI EmulatedPCE_Fast;
 MDFNGI *MDFNGameInfo = &EmulatedPCE_Fast;
-
-static int HuCLoad(const uint8 *data, uint32 len, uint32 crc32) MDFN_COLD;
-static int HuCLoadCD(const char *bios_path) MDFN_COLD;
-static void HuC_Close(void) MDFN_COLD;
-static int HuC_StateAction(StateMem *sm, int load, int data_only);
-static void HuC_Power(void) MDFN_COLD;
 
 /* Mednafen - Multi-system Emulator
  *
@@ -76,853 +65,6 @@ static void HuC_Power(void) MDFN_COLD;
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-extern "C" unsigned long crc32(unsigned long crc, const unsigned char *buf, unsigned int len);
-
-static PCEFast_PSG *psg = NULL;
-extern ArcadeCard *arcade_card; // Bah, lousy globals.
-
-static Blip_Buffer sbuf[2];
-
-bool PCE_ACEnabled;
-
-static bool IsSGX;
-int pce_overclocked;
-
-// Statically allocated for speed...or something.
-uint8 ROMSpace[0x88 * 8192 + 8192];	// + 8192 for PC-as-pointer safety padding
-
-uint8 BaseRAM[32768 + 8192]; // 8KB for PCE, 32KB for Super Grafx // + 8192 for PC-as-pointer safety padding
-
-uint8 PCEIODataBuffer;
-
-static DECLFR(PCEBusRead)
-{
- //printf("BUS Read: %02x %04x\n", A >> 13, A);
- return(0xFF);
-}
-
-static DECLFW(PCENullWrite)
-{
- //printf("Null Write: %02x, %08x %02x\n", A >> 13, A, V);
-}
-
-static DECLFR(BaseRAMReadSGX)
-{
- return BaseRAM[(size_t)A - (0xF8 * 8192)];
-}
-
-static DECLFW(BaseRAMWriteSGX)
-{
- BaseRAM[(size_t)A - (0xF8 * 8192)] = V;
-}
-
-static DECLFR(BaseRAMRead)
-{
- return BaseRAM[(size_t)A - (0xF8 * 8192)];
-}
-
-static DECLFR(BaseRAMRead_Mirrored)
-{
- return(BaseRAM[A & 0x1FFF]);
-}
-
-static DECLFW(BaseRAMWrite)
-{
- BaseRAM[(size_t)A - (0xF8 * 8192)] = V;
-}
-
-static DECLFW(BaseRAMWrite_Mirrored)
-{
- BaseRAM[A & 0x1FFF] = V;
-}
-
-static DECLFR(IORead)
-{
- #define IOREAD_SGX 0
- #include "mednafen/pce_fast/ioread.inc"
- #undef IOREAD_SGX
-}
-
-static DECLFR(IOReadSGX)
-{
- #define IOREAD_SGX 1
- #include "mednafen/pce_fast/ioread.inc"
- #undef IOREAD_SGX
-}
-
-static DECLFW(IOWrite)
-{
- A &= 0x1FFF;
-
- switch(A >> 10)
- {
-  case 0: HuC6280_StealCycle();
-	       VDC_Write(A, V);
-	       break;
-
-  case 1: HuC6280_StealCycle();
-	       VCE_Write(A, V);
-	       break;
-
-  case 2: PCEIODataBuffer = V;
-	       psg->Write(HuCPU.timestamp / pce_overclocked, A, V);
-	       break;
-
-  case 3: PCEIODataBuffer = V;
-	       HuC6280_TimerWrite(A, V);
-	       break;
-
-  case 4: PCEIODataBuffer = V; INPUT_Write(A, V); break;
-  case 5: PCEIODataBuffer = V; HuC6280_IRQStatusWrite(A, V); break;
-  case 6:
-	  if(!PCE_IsCD)
-	   break;
-
-	  if((A & 0x1E00) == 0x1A00)
-	  {
-	   if(arcade_card)
-	    arcade_card->Write(A & 0x1FFF, V);
-	  }
-	  else
-	  {
-	   PCECD_Write(HuCPU.timestamp * 3, A, V);
-	  }
-	  break;
-
-  case 7: break;	// Expansion.
- }
-}
-
-static void PCECDIRQCB(bool asserted)
-{
- if(asserted)
-  HuC6280_IRQBegin(MDFN_IQIRQ2);
- else
-  HuC6280_IRQEnd(MDFN_IQIRQ2);
-}
-
-bool PCE_InitCD(void)
-{
- PCECD_Settings cd_settings;
- memset(&cd_settings, 0, sizeof(PCECD_Settings));
-
- cd_settings.CDDA_Volume = (double)MDFN_GetSettingUI("pce_fast.cddavolume") / 100;
- cd_settings.CD_Speed = MDFN_GetSettingUI("pce_fast.cdspeed");
-
- cd_settings.ADPCM_Volume = (double)MDFN_GetSettingUI("pce_fast.adpcmvolume") / 100;
- cd_settings.ADPCM_LPF = MDFN_GetSettingB("pce_fast.adpcmlp");
-
- if(cd_settings.CDDA_Volume != 1.0)
-  MDFN_printf(_("CD-DA Volume: %d%%\n"), (int)(100 * cd_settings.CDDA_Volume));
-
- if(cd_settings.ADPCM_Volume != 1.0)
-  MDFN_printf(_("ADPCM Volume: %d%%\n"), (int)(100 * cd_settings.ADPCM_Volume));
-
- return(PCECD_Init(&cd_settings, PCECDIRQCB, PCE_MASTER_CLOCK, pce_overclocked, &sbuf[0], &sbuf[1]));
-}
-
-static int LoadCommon(void);
-static void LoadCommonPre(void);
-
-static int Load(const char *name, MDFNFILE *fp)
-{
-   uint32 headerlen = 0;
-   uint32 r_size;
-
-   IsSGX = 0;
-
-   LoadCommonPre();
-
-   {
-      if(fp->size & 0x200) // 512 byte header!
-         headerlen = 512;
-   }
-
-   r_size = fp->size - headerlen;
-   if(r_size > 4096 * 1024)
-      r_size = 4096 * 1024;
-
-   for(int x = 0; x < 0x100; x++)
-   {
-      HuCPU.PCERead[x] = PCEBusRead;
-      HuCPU.PCEWrite[x] = PCENullWrite;
-   }
-
-   uint32 crc = crc32(0, fp->data + headerlen, fp->size - headerlen);
-
-   HuCLoad(fp->data + headerlen, fp->size - headerlen, crc);
-
-   if(!strcasecmp(fp->ext, "sgx"))
-      IsSGX = TRUE;
-
-   if(fp->size >= 8192 && !memcmp(fp->data + headerlen, "DARIUS Version 1.11b", strlen("DARIUS VERSION 1.11b")))
-   {
-      MDFN_printf("SuperGrafx:  Darius Plus\n");
-      IsSGX = 1;
-   }
-
-   if(crc == 0x4c2126b0)
-   {
-      MDFN_printf("SuperGrafx:  Aldynes\n");
-      IsSGX = 1;
-   }
-
-   if(crc == 0x8c4588e2)
-   {
-      MDFN_printf("SuperGrafx:  1941 - Counter Attack\n");
-      IsSGX = 1;
-   }
-   if(crc == 0x1f041166)
-   {
-      MDFN_printf("SuperGrafx:  Madouou Granzort\n");
-      IsSGX = 1;
-   }
-   if(crc == 0xb486a8ed)
-   {
-      MDFN_printf("SuperGrafx:  Daimakaimura\n");
-      IsSGX = 1;
-   }
-   if(crc == 0x3b13af61)
-   {
-      MDFN_printf("SuperGrafx:  Battle Ace\n");
-      IsSGX = 1;
-   }
-
-   // Space Harrier (Japan)/(USA) is not compatible with SuperGrafx mode
-   if (crc == 0x64580427 || crc == 0x43b05eb8)
-      IsSGX = 0;
-
-   if(crc == 0xfae0fc60)
-      OrderOfGriffonFix = true;
-
-   return(LoadCommon());
-}
-
-static void LoadCommonPre(void)
-{
- HuC6280_Init();
-
- // FIXME:  Make these globals less global!
- pce_overclocked = MDFN_GetSettingUI("pce_fast.ocmultiplier");
- PCE_ACEnabled = MDFN_GetSettingB("pce_fast.arcadecard");
-
- if(pce_overclocked > 1)
-  MDFN_printf(_("CPU overclock: %dx\n"), pce_overclocked);
-
- if(MDFN_GetSettingUI("pce_fast.cdspeed") > 1)
-  MDFN_printf(_("CD-ROM speed:  %ux\n"), (unsigned int)MDFN_GetSettingUI("pce_fast.cdspeed"));
-
- for(int x = 0; x < 0x100; x++)
- {
-  HuCPU.PCERead[x] = PCEBusRead;
-  HuCPU.PCEWrite[x] = PCENullWrite;
- }
-
- MDFNMP_Init(1024, (1 << 21) / 1024);
-}
-
-static int LoadCommon(void)
-{
- IsSGX |= MDFN_GetSettingB("pce_fast.forcesgx") ? 1 : 0;
-
- // Don't modify IsSGX past this point.
-
- VDC_Init(IsSGX);
-
- if(IsSGX)
- {
-  MDFN_printf("SuperGrafx Emulation Enabled.\n");
-  HuCPU.PCERead[0xF8] = HuCPU.PCERead[0xF9] = HuCPU.PCERead[0xFA] = HuCPU.PCERead[0xFB] = BaseRAMReadSGX;
-  HuCPU.PCEWrite[0xF8] = HuCPU.PCEWrite[0xF9] = HuCPU.PCEWrite[0xFA] = HuCPU.PCEWrite[0xFB] = BaseRAMWriteSGX;
-
-  for(int x = 0xf8; x < 0xfb; x++)
-   HuCPU.FastMap[x] = &BaseRAM[(x & 0x3) * 8192];
-
-  HuCPU.PCERead[0xFF] = IOReadSGX;
- }
- else
- {
-  HuCPU.PCERead[0xF8] = BaseRAMRead;
-  HuCPU.PCERead[0xF9] = HuCPU.PCERead[0xFA] = HuCPU.PCERead[0xFB] = BaseRAMRead_Mirrored;
-
-  HuCPU.PCEWrite[0xF8] = BaseRAMWrite;
-  HuCPU.PCEWrite[0xF9] = HuCPU.PCEWrite[0xFA] = HuCPU.PCEWrite[0xFB] = BaseRAMWrite_Mirrored;
-
-  for(int x = 0xf8; x < 0xfb; x++)
-   HuCPU.FastMap[x] = &BaseRAM[0];
-
-  HuCPU.PCERead[0xFF] = IORead;
- }
-
- MDFNMP_AddRAM(IsSGX ? 32768 : 8192, 0xf8 * 8192, BaseRAM);
-
- HuCPU.PCEWrite[0xFF] = IOWrite;
-
- psg = new PCEFast_PSG(&sbuf[0], &sbuf[1]);
-
- psg->SetVolume(1.0);
-
- if(PCE_IsCD)
- {
-  unsigned int cdpsgvolume = MDFN_GetSettingUI("pce_fast.cdpsgvolume");
-
-  if(cdpsgvolume != 100)
-  {
-   MDFN_printf(_("CD PSG Volume: %d%%\n"), cdpsgvolume);
-  }
-
-  psg->SetVolume(0.678 * cdpsgvolume / 100);
-
- }
-
- PCEINPUT_Init();
-
- PCE_Power();
-
-#if 0
- MDFNGameInfo->LayerNames = IsSGX ? "BG0\0SPR0\0BG1\0SPR1\0" : "Background\0Sprites\0";
-#endif
- MDFNGameInfo->fps = (uint32)((double)7159090.90909090 / 455 / 263 * 65536 * 256);
-
- return(1);
-}
-
-#ifdef _WIN32
-static void sanitize_path(std::string &path)
-{
-   size_t size = path.size();
-   for (size_t i = 0; i < size; i++)
-      if (path[i] == '/')
-         path[i] = '\\';
-}
-#endif
-
-static int LoadCD(std::vector<CDIF *> *CDInterfaces)
-{
- std::string bios_path = retro_base_directory + slash + MDFN_GetSettingS("pce_fast.cdbios");
-
-#ifdef _WIN32
- sanitize_path(bios_path);
-#endif
-
- if (log_cb)
-  log_cb(RETRO_LOG_INFO, "Loading bios %s\n", bios_path.c_str());
-
- IsSGX = 0;
-
- LoadCommonPre();
-
- if(!HuCLoadCD(bios_path.c_str()))
-  return(0);
-
- PCECD_Drive_SetDisc(true, NULL, true);
- PCECD_Drive_SetDisc(false, (*CDInterfaces)[0], true);
-
- return(LoadCommon());
-}
-
-static void Cleanup_PCE(void)
-{
-   HuC_Close();
-
-   VDC_Close();
-
-   if(psg)
-      delete psg;
-   psg = NULL;
-}
-
-static void CloseGame(void)
-{
-   Cleanup_PCE();
-}
-
-static void Emulate(EmulateSpecStruct *espec)
-{
- INPUT_Frame();
-
- MDFNMP_ApplyPeriodicCheats();
-
- #if 0
- {
-  static bool firstcat = true;
-  MDFN_PixelFormat nf;
-
-  nf.bpp = 16;
-  nf.colorspace = MDFN_COLORSPACE_RGB;
-  nf.Rshift = 11;
-  nf.Gshift = 5;
-  nf.Bshift = 0;
-  nf.Ashift = 16;
-
-  nf.Rprec = 5;
-  nf.Gprec = 6;
-  nf.Bprec = 5;
-  nf.Aprec = 8;
-
-  espec->surface->SetFormat(nf, false);
-  espec->VideoFormatChanged = firstcat;
-  firstcat = false;
- }
- #endif
-
-#if 0
- static bool firstcat = true;
-
- MDFN_PixelFormat tmp_pf;
-
- tmp_pf.Rshift = 0;
- tmp_pf.Gshift = 0;
- tmp_pf.Bshift = 0;
- tmp_pf.Ashift = 8;
-
- tmp_pf.Rprec = 0;
- tmp_pf.Gprec = 0;
- tmp_pf.Bprec = 0;
- tmp_pf.Aprec = 0;
-
- tmp_pf.bpp = 8;
- tmp_pf.colorspace = MDFN_COLORSPACE_RGB;
-
- espec->surface->SetFormat(tmp_pf, false);
- espec->VideoFormatChanged = firstcat;
- firstcat = false;
-#endif
-
- if(espec->VideoFormatChanged)
-  VDC_SetPixelFormat(espec->surface->format); //.Rshift, espec->surface->format.Gshift, espec->surface->format.Bshift);
-
- if(espec->SoundFormatChanged)
- {
-  for(int y = 0; y < 2; y++)
-  {
-   sbuf[y].set_sample_rate(espec->SoundRate ? espec->SoundRate : 44100, 50);
-   sbuf[y].clock_rate((long)(PCE_MASTER_CLOCK / 3));
-   sbuf[y].bass_freq(10);
-  }
- }
- VDC_RunFrame(espec, false);
-
- if(PCE_IsCD)
- {
-  PCECD_Run(HuCPU.timestamp * 3);
- }
-
- psg->EndFrame(HuCPU.timestamp / pce_overclocked);
-
- if(espec->SoundBuf)
- {
-  for(int y = 0; y < 2; y++)
-  {
-   sbuf[y].end_frame(HuCPU.timestamp / pce_overclocked);
-   espec->SoundBufSize = sbuf[y].read_samples(espec->SoundBuf + y, espec->SoundBufMaxSize, 1);
-  }
- }
-
- espec->MasterCycles = HuCPU.timestamp * 3;
-
- INPUT_FixTS();
-
- HuC6280_ResetTS();
-
- if(PCE_IsCD)
-  PCECD_ResetTS();
-}
-
-int StateAction(void *data, int load, int data_only)
-{
- SFORMAT StateRegs[] =
- {
-  SFARRAY(BaseRAM, IsSGX? 32768 : 8192),
-  SFVAR(PCEIODataBuffer),
-  SFEND
- };
- StateMem *sm = (StateMem*)data;
-
- //for(int i = 8192; i < 32768; i++)
- // if(BaseRAM[i] != 0xFF)
- //  printf("%d %02x\n", i, BaseRAM[i]);
-
- int ret = MDFNSS_StateAction(sm, load, data_only, StateRegs, "MAIN", false);
-
- ret &= HuC6280_StateAction(sm, load, data_only);
- ret &= VDC_StateAction(sm, load, data_only);
- ret &= psg->StateAction(sm, load, data_only);
- ret &= INPUT_StateAction(sm, load, data_only);
- ret &= HuC_StateAction(sm, load, data_only);
-
- if(load)
- { }
-
- return(ret);
-}
-
-void PCE_Power(void)
-{
- memset(BaseRAM, 0x00, sizeof(BaseRAM));
-
- if(!IsSGX)
-  for(int i = 8192; i < 32768; i++)
-   BaseRAM[i] = 0xFF;
-
- PCEIODataBuffer = 0xFF;
-
- HuC6280_Power();
- VDC_Power();
- psg->Power(HuCPU.timestamp / pce_overclocked);
- HuC_Power();
-
- if(PCE_IsCD)
- {
-  PCECD_Power(HuCPU.timestamp * 3);
- }
-}
-
-static void DoSimpleCommand(int cmd)
-{
- switch(cmd)
- {
-  case MDFN_MSC_RESET: PCE_Power(); break;
-  case MDFN_MSC_POWER: PCE_Power(); break;
- }
-}
-
-static MDFNSetting PCESettings[] =
-{
-  { "pce_fast.slstart", MDFNSF_NOFLAGS, "First rendered scanline.", NULL, MDFNST_UINT, "4", "0", "239" },
-  { "pce_fast.slend", MDFNSF_NOFLAGS, "Last rendered scanline.", NULL, MDFNST_UINT, "235", "0", "239" },
-  { "pce_fast.mouse_sensitivity", MDFNSF_NOFLAGS, "Mouse sensitivity.", NULL, MDFNST_FLOAT, "0.50", NULL, NULL, NULL, PCEINPUT_SettingChanged },
-  { "pce_fast.disable_softreset", MDFNSF_NOFLAGS, "If set, when RUN+SEL are pressed simultaneously, disable both buttons temporarily.", NULL, MDFNST_BOOL, "0", NULL, NULL, NULL, PCEINPUT_SettingChanged },
-  { "pce_fast.forcesgx", MDFNSF_EMU_STATE | MDFNSF_UNTRUSTED_SAFE, "Force SuperGrafx emulation.", NULL, MDFNST_BOOL, "0" },
-  { "pce_fast.arcadecard", MDFNSF_EMU_STATE | MDFNSF_UNTRUSTED_SAFE, "Enable Arcade Card emulation.", NULL, MDFNST_BOOL, "1" },
-  { "pce_fast.ocmultiplier", MDFNSF_EMU_STATE | MDFNSF_UNTRUSTED_SAFE, "CPU overclock multiplier.", NULL, MDFNST_UINT, "1", "1", "100"},
-  { "pce_fast.cdspeed", MDFNSF_EMU_STATE | MDFNSF_UNTRUSTED_SAFE, "CD-ROM data transfer speed multiplier", NULL, MDFNST_UINT, "1", "1", "100" },
-  { "pce_fast.nospritelimit", MDFNSF_NOFLAGS, "Remove 16-sprites-per-scanline hardware limit.", NULL, MDFNST_BOOL, "0" },
-  { "pce_fast.hoverscan", MDFNSF_NOFLAGS, "Reduce 352 pixels width overscan.", NULL, MDFNST_UINT, "300", "300", "352" },
-  { "pce_fast.cdbios", MDFNSF_EMU_STATE, "Path to the CD BIOS", NULL, MDFNST_STRING, "syscard3.pce" },
-  { "pce_fast.adpcmlp", MDFNSF_NOFLAGS, "Enable dynamic ADPCM lowpass filter.", NULL, MDFNST_BOOL, "0" },
-  { "pce_fast.cdpsgvolume", MDFNSF_NOFLAGS, "PSG volume when playing a CD game.", NULL, MDFNST_UINT, "100", "0", "200" },
-  { "pce_fast.cddavolume", MDFNSF_NOFLAGS, "CD-DA volume.", NULL, MDFNST_UINT, "100", "0", "200" },
-  { "pce_fast.adpcmvolume", MDFNSF_NOFLAGS, "ADPCM volume.", NULL, MDFNST_UINT, "100", "0", "200" },
-  { NULL }
-};
-
-uint8 MemRead(uint32 addr)
-{
- return(HuCPU.PCERead[(addr / 8192) & 0xFF](addr));
-}
-
-static const FileExtensionSpecStruct KnownExtensions[] =
-{
- { ".pce", "PC Engine ROM Image" },
- { ".hes", "PC Engine Music Rip" },
- { ".sgx", "SuperGrafx ROM Image" },
- { NULL, NULL }
-};
-
-static const uint8 BRAM_Init_String[8] = { 'H', 'U', 'B', 'M', 0x00, 0x88, 0x10, 0x80 }; //"HUBM\x00\x88\x10\x80";
-
-ArcadeCard *arcade_card = NULL;
-
-static uint8 *HuCROM = NULL;
-
-static bool IsPopulous;
-bool PCE_IsCD;
-
-uint8 SaveRAM[2048];
-
-static DECLFW(ACPhysWrite)
-{
- arcade_card->PhysWrite(A, V);
-}
-
-static DECLFR(ACPhysRead)
-{
- return(arcade_card->PhysRead(A));
-}
-
-static DECLFR(SaveRAMRead)
-{
- if((!PCE_IsCD || PCECD_IsBRAMEnabled()) && (A & 8191) < 2048)
-  return(SaveRAM[A & 2047]);
- else
-  return(0xFF);
-}
-
-static DECLFW(SaveRAMWrite)
-{
- if((!PCE_IsCD || PCECD_IsBRAMEnabled()) && (A & 8191) < 2048)
-  SaveRAM[A & 2047] = V;
-}
-
-static DECLFR(HuCRead)
-{
- return ROMSpace[A];
-}
-
-static DECLFW(HuCRAMWrite)
-{
- ROMSpace[A] = V;
-}
-
-static DECLFW(HuCRAMWriteCDSpecial) // Hyper Dyne Special hack
-{
- BaseRAM[0x2000 | (A & 0x1FFF)] = V;
- ROMSpace[A] = V;
-}
-
-static uint8 HuCSF2Latch = 0;
-
-static DECLFR(HuCSF2Read)
-{
- return(HuCROM[(A & 0x7FFFF) + 0x80000 + HuCSF2Latch * 0x80000 ]); // | (HuCSF2Latch << 19) ]);
-}
-
-static DECLFW(HuCSF2Write)
-{
- if((A & 0x1FFC) == 0x1FF0)
- {
-  HuCSF2Latch = (A & 0x3);
- }
-}
-
-static void Cleanup(void)
-{
-   if(arcade_card)
-      delete arcade_card;
-   arcade_card = NULL;
-
-   if(PCE_IsCD)
-      PCECD_Close();
-
-   if(HuCROM)
-      MDFN_free(HuCROM);
-   HuCROM = NULL;
-}
-
-static int HuCLoad(const uint8 *data, uint32 len, uint32 crc32)
-{
- uint32 sf2_threshold = 2048 * 1024;
- uint32 sf2_required_size = 2048 * 1024 + 512 * 1024;
- uint32 m_len = (len + 8191)&~8191;
- bool sf2_mapper = FALSE;
-
- if(m_len >= sf2_threshold)
- {
-  sf2_mapper = TRUE;
-
-  if(m_len != sf2_required_size)
-   m_len = sf2_required_size;
- }
-
- IsPopulous = 0;
- PCE_IsCD = 0;
-
- MDFN_printf(_("ROM:       %dKiB\n"), (len + 1023) / 1024);
- MDFN_printf(_("ROM CRC32: 0x%04x\n"), crc32);
-
- if(!(HuCROM = (uint8 *)MDFN_malloc(m_len, _("HuCard ROM"))))
-    return 0;
-
- memset(HuCROM, 0xFF, m_len);
- memcpy(HuCROM, data, (m_len < len) ? m_len : len);
-
- memset(ROMSpace, 0xFF, 0x88 * 8192 + 8192);
-
- if(m_len == 0x60000)
- {
-  memcpy(ROMSpace + 0x00 * 8192, HuCROM, 0x20 * 8192);
-  memcpy(ROMSpace + 0x20 * 8192, HuCROM, 0x20 * 8192);
-  memcpy(ROMSpace + 0x40 * 8192, HuCROM + 0x20 * 8192, 0x10 * 8192);
-  memcpy(ROMSpace + 0x50 * 8192, HuCROM + 0x20 * 8192, 0x10 * 8192);
-  memcpy(ROMSpace + 0x60 * 8192, HuCROM + 0x20 * 8192, 0x10 * 8192);
-  memcpy(ROMSpace + 0x70 * 8192, HuCROM + 0x20 * 8192, 0x10 * 8192);
- }
- else if(m_len == 0x80000)
- {
-  memcpy(ROMSpace + 0x00 * 8192, HuCROM, 0x40 * 8192);
-  memcpy(ROMSpace + 0x40 * 8192, HuCROM + 0x20 * 8192, 0x20 * 8192);
-  memcpy(ROMSpace + 0x60 * 8192, HuCROM + 0x20 * 8192, 0x20 * 8192);
- }
- else
- {
-  memcpy(ROMSpace + 0x00 * 8192, HuCROM, (m_len < 1024 * 1024) ? m_len : 1024 * 1024);
- }
-
- for(int x = 0x00; x < 0x80; x++)
- {
-  HuCPU.FastMap[x] = &ROMSpace[x * 8192];
-  HuCPU.PCERead[x] = HuCRead;
- }
-
- if(!memcmp(HuCROM + 0x1F26, "POPULOUS", strlen("POPULOUS")))
- {
-  uint8 *PopRAM = ROMSpace + 0x40 * 8192;
-
-  memset(PopRAM, 0xFF, 32768);
-
-  IsPopulous = 1;
-
-  MDFN_printf("Populous\n");
-
-  for(int x = 0x40; x < 0x44; x++)
-  {
-   HuCPU.FastMap[x] = &PopRAM[(x & 3) * 8192];
-   HuCPU.PCERead[x] = HuCRead;
-   HuCPU.PCEWrite[x] = HuCRAMWrite;
-  }
-  MDFNMP_AddRAM(32768, 0x40 * 8192, PopRAM);
- }
- else
- {
-  memset(SaveRAM, 0x00, 2048);
-  memcpy(SaveRAM, BRAM_Init_String, 8);    // So users don't have to manually intialize the file cabinet
-                                                // in the CD BIOS screen.
-  HuCPU.PCEWrite[0xF7] = SaveRAMWrite;
-  HuCPU.PCERead[0xF7] = SaveRAMRead;
-  MDFNMP_AddRAM(2048, 0xF7 * 8192, SaveRAM);
- }
-
- // 0x1A558
- //if(len >= 0x20000 && !memcmp(HuCROM + 0x1A558, "STREET FIGHTER#", strlen("STREET FIGHTER#")))
- if(sf2_mapper)
- {
-  for(int x = 0x40; x < 0x80; x++)
-  {
-   // FIXME: PCE_FAST
-   // HuCPUFastMap[x] = NULL; // Make sure our reads go through our read function, and not a table lookup
-   HuCPU.PCERead[x] = HuCSF2Read;
-  }
-  HuCPU.PCEWrite[0] = HuCSF2Write;
-  MDFN_printf("Street Fighter 2 Mapper\n");
-  HuCSF2Latch = 0;
- }
-
- return(1);
-}
-
-static int HuCLoadCD(const char *bios_path)
-{
-   MDFNFILE *fp = file_open(bios_path);
-
-   if (!fp)
-   {
-      if (log_cb)
-         log_cb(RETRO_LOG_ERROR, "Failed to load bios!\n");
-      return(0);
-  }
-
-   memset(ROMSpace, 0xFF, 262144);
-
-   memcpy(ROMSpace, fp->data + (fp->size & 512), ((fp->size & ~512) > 262144) ? 262144 : (fp->size &~ 512) );
-
-   file_close(fp);
-
-   PCE_IsCD = 1;
-   PCE_InitCD();
-
-   MDFN_printf(_("Arcade Card Emulation:  %s\n"), PCE_ACEnabled ? _("Enabled") : _("Disabled"));
-   for(int x = 0; x < 0x40; x++)
-   {
-      HuCPU.FastMap[x] = &ROMSpace[x * 8192];
-      HuCPU.PCERead[x] = HuCRead;
-   }
-
-   for(int x = 0x68; x < 0x88; x++)
-   {
-      HuCPU.FastMap[x] = &ROMSpace[x * 8192];
-      HuCPU.PCERead[x] = HuCRead;
-      HuCPU.PCEWrite[x] = HuCRAMWrite;
-   }
-   HuCPU.PCEWrite[0x80] = HuCRAMWriteCDSpecial; 	// Hyper Dyne Special hack
-   MDFNMP_AddRAM(262144, 0x68 * 8192, ROMSpace + 0x68 * 8192);
-
-   if(PCE_ACEnabled)
-   {
-      if (!(arcade_card = new ArcadeCard()))
-      {
-         MDFN_PrintError(_("Error creating %s object.\n"), "ArcadeCard");
-         Cleanup();
-         return(0);
-      }
-
-      for(int x = 0x40; x < 0x44; x++)
-      {
-         HuCPU.PCERead[x] = ACPhysRead;
-         HuCPU.PCEWrite[x] = ACPhysWrite;
-      }
-   }
-
-   memset(SaveRAM, 0x00, 2048);
-   memcpy(SaveRAM, BRAM_Init_String, 8);	// So users don't have to manually intialize the file cabinet
-   // in the CD BIOS screen.
-
-   HuCPU.PCEWrite[0xF7] = SaveRAMWrite;
-   HuCPU.PCERead[0xF7] = SaveRAMRead;
-   MDFNMP_AddRAM(2048, 0xF7 * 8192, SaveRAM);
-   return(1);
-}
-
-static int HuC_StateAction(StateMem *sm, int load, int data_only)
-{
- SFORMAT StateRegs[] =
- {
-  SFARRAY(ROMSpace + 0x40 * 8192, IsPopulous ? 32768 : 0),
-  SFARRAY(SaveRAM, IsPopulous ? 0 : 2048),
-  SFARRAY(ROMSpace + 0x68 * 8192, PCE_IsCD ? 262144 : 0),
-  SFVAR(HuCSF2Latch),
-  SFEND
- };
- int ret = MDFNSS_StateAction(sm, load, data_only, StateRegs, "HuC", false);
-
- if(load)
-  HuCSF2Latch &= 0x3;
-
- if(PCE_IsCD)
- {
-  ret &= PCECD_StateAction(sm, load, data_only);
-
-  if(arcade_card)
-   ret &= arcade_card->StateAction(sm, load, data_only);
- }
- return(ret);
-}
-
-static void HuC_Close(void)
-{
-   Cleanup();
-}
-
-static void HuC_Power(void)
-{
- if(PCE_IsCD)
-  memset(ROMSpace + 0x68 * 8192, 0x00, 262144);
-
- if(arcade_card)
-  arcade_card->Power();
-}
-
-MDFNGI EmulatedPCE_Fast =
-{
- PCESettings,
- MDFN_MASTERCLOCK_FIXED(PCE_MASTER_CLOCK),
- 0,
-
- true,                           // Multires possible?
-
- 0,                              // lcm_width
- 0,                              // lcm_height
- NULL,                           // Dummy
-
- MEDNAFEN_CORE_GEOMETRY_BASE_W,  // Nominal width
- MEDNAFEN_CORE_GEOMETRY_BASE_H,  // Nominal height
-
- FB_WIDTH,                       // Framebuffer width
- FB_HEIGHT,                      // Framebuffer height
-
- 2,                              // Number of output sound channels
-};
-
 static bool ReadM3U(std::vector<std::string> &file_list, std::string path, unsigned depth = 0)
 {
    std::vector<std::string> ret;
@@ -933,26 +75,28 @@ static bool ReadM3U(std::vector<std::string> &file_list, std::string path, unsig
 
    MDFN_GetFilePathComponents(path, &dir_path);
 
-   while(m3u_file.get_line(linebuf, sizeof(linebuf)))
+   while (m3u_file.get_line(linebuf, sizeof(linebuf)))
    {
       std::string efp;
 
-      if(linebuf[0] == '#') continue;
+      if (linebuf[0] == '#')
+         continue;
       MDFN_rtrim(linebuf);
-      if(linebuf[0] == 0) continue;
+      if (linebuf[0] == 0)
+         continue;
 
       efp = MDFN_EvalFIP(dir_path, std::string(linebuf));
 
-      if(efp.size() >= 4 && efp.substr(efp.size() - 4) == ".m3u")
+      if (efp.size() >= 4 && efp.substr(efp.size() - 4) == ".m3u")
       {
-         if(efp == path)
+         if (efp == path)
          {
             log_cb(RETRO_LOG_ERROR, "M3U at \"%s\" references self.\n", efp.c_str());
             result = false;
             goto Breakout;
          }
 
-         if(depth == 99)
+         if (depth == 99)
          {
             log_cb(RETRO_LOG_ERROR, "M3U load recursion too deep!\n");
             result = false;
@@ -969,7 +113,7 @@ Breakout:
    return result;
 }
 
- static std::vector<CDIF *> CDInterfaces;	// FIXME: Cleanup on error out.
+static std::vector<CDIF *> CDInterfaces; // FIXME: Cleanup on error out.
 // TODO: LoadCommon()
 
 MDFNGI *MDFNI_LoadCD(const char *force_module, const char *devicename)
@@ -977,17 +121,15 @@ MDFNGI *MDFNI_LoadCD(const char *force_module, const char *devicename)
    bool ret = false;
    log_cb(RETRO_LOG_INFO, "Loading %s...\n\n", devicename);
 
-   if(devicename && strlen(devicename) > 4 && !strcasecmp(devicename + strlen(devicename) - 4, ".m3u"))
+   if (devicename && strlen(devicename) > 4 && !strcasecmp(devicename + strlen(devicename) - 4, ".m3u"))
    {
       std::vector<std::string> file_list;
 
       if (ReadM3U(file_list, devicename))
          ret = true;
 
-      for(unsigned i = 0; i < file_list.size(); i++)
-      {
+      for (unsigned i = 0; i < file_list.size(); i++)
          CDInterfaces.push_back(CDIF_Open(file_list[i].c_str(), false, old_cdimagecache));
-      }
    }
    else
    {
@@ -1005,7 +147,7 @@ MDFNGI *MDFNI_LoadCD(const char *force_module, const char *devicename)
    // Print out a track list for all discs.
    //
    MDFN_indent(1);
-   for(unsigned i = 0; i < CDInterfaces.size(); i++)
+   for (unsigned i = 0; i < CDInterfaces.size(); i++)
    {
       TOC toc;
 
@@ -1014,7 +156,7 @@ MDFNGI *MDFNI_LoadCD(const char *force_module, const char *devicename)
       MDFN_printf(_("CD %d Layout:\n"), i + 1);
       MDFN_indent(1);
 
-      for(int32 track = toc.first_track; track <= toc.last_track; track++)
+      for (int32 track = toc.first_track; track <= toc.last_track; track++)
       {
          MDFN_printf(_("Track %2d, LBA: %6d  %s\n"), track, toc.tracks[track].lba, (toc.tracks[track].control & 0x4) ? "DATA" : "AUDIO");
       }
@@ -1027,9 +169,9 @@ MDFNGI *MDFNI_LoadCD(const char *force_module, const char *devicename)
 
    MDFN_printf(_("Using module: supergrafx\n\n"));
 
-   if(!(LoadCD(&CDInterfaces)))
+   if (!(LoadCD(&CDInterfaces)))
    {
-      for(unsigned i = 0; i < CDInterfaces.size(); i++)
+      for (unsigned i = 0; i < CDInterfaces.size(); i++)
          delete CDInterfaces[i];
       CDInterfaces.clear();
 
@@ -1042,53 +184,47 @@ MDFNGI *MDFNI_LoadCD(const char *force_module, const char *devicename)
    MDFN_LoadGameCheats(NULL);
    MDFNMP_InstallReadPatches();
 
-   return(MDFNGameInfo);
+   return (MDFNGameInfo);
 }
 
 MDFNGI *MDFNI_LoadGame(const char *force_module, const char *name)
 {
    MDFNFILE *GameFile = NULL;
-   MDFNGameInfo = &EmulatedPCE_Fast;
+   MDFNGameInfo       = &EmulatedPCE_Fast;
 
-	if(strlen(name) > 4 && (!strcasecmp(name + strlen(name) - 4, ".cue") || !strcasecmp(name + strlen(name) - 4, ".chd") || !strcasecmp(name + strlen(name) - 4, ".ccd") || !strcasecmp(name + strlen(name) - 4, ".toc") || !strcasecmp(name + strlen(name) - 4, ".m3u")))
-	 return(MDFNI_LoadCD(force_module, name));
+   if (strlen(name) > 4 && (!strcasecmp(name + strlen(name) - 4, ".cue") || !strcasecmp(name + strlen(name) - 4, ".chd") || !strcasecmp(name + strlen(name) - 4, ".ccd") || !strcasecmp(name + strlen(name) - 4, ".toc") || !strcasecmp(name + strlen(name) - 4, ".m3u")))
+      return (MDFNI_LoadCD(force_module, name));
 
    GameFile = file_open(name);
 
-	if(!GameFile)
+   if (!GameFile)
    {
       MDFNGameInfo = NULL;
       return 0;
    }
 
-	//
-	// Load per-game settings
-	//
-	// Maybe we should make a "pgcfg" subdir, and automatically load all files in it?
-	// End load per-game settings
-	//
+   //
+   // Load per-game settings
+   //
+   // Maybe we should make a "pgcfg" subdir, and automatically load all files in it?
+   // End load per-game settings
+   //
 
-   if(Load(name, GameFile) <= 0)
-   {
-      file_close(GameFile);
-      MDFN_indent(-2);
-      MDFNGameInfo = NULL;
-      return(0);
-   }
+   Load(name, GameFile);
 
-	MDFN_LoadGameCheats(NULL);
-	MDFNMP_InstallReadPatches();
+   MDFN_LoadGameCheats(NULL);
+   MDFNMP_InstallReadPatches();
 
-	MDFN_indent(-2);
+   MDFN_indent(-2);
 
-   return(MDFNGameInfo);
+   return (MDFNGameInfo);
 }
 
 static int curindent = 0;
 
 void MDFN_indent(int indent)
 {
- curindent += indent;
+   curindent += indent;
 }
 
 static uint8 lastchar = 0;
@@ -1100,16 +236,16 @@ void MDFN_printf(const char *format, ...)
    unsigned int x, newlen;
 
    va_list ap;
-   va_start(ap,format);
+   va_start(ap, format);
 
    // First, determine how large our format_temp buffer needs to be.
    uint8 lastchar_backup = lastchar; // Save lastchar!
-   for(newlen=x=0;x<strlen(format);x++)
+   for (newlen = x = 0; x < strlen(format); x++)
    {
-      if(lastchar == '\n' && format[x] != '\n')
+      if (lastchar == '\n' && format[x] != '\n')
       {
          int y;
-         for(y=0;y<curindent;y++)
+         for (y = 0; y < curindent; y++)
             newlen++;
       }
       newlen++;
@@ -1120,21 +256,21 @@ void MDFN_printf(const char *format, ...)
 
    // Now, construct our format_temp string
    lastchar = lastchar_backup; // Restore lastchar
-   for(newlen=x=0;x<strlen(format);x++)
+   for (newlen = x = 0; x < strlen(format); x++)
    {
-      if(lastchar == '\n' && format[x] != '\n')
+      if (lastchar == '\n' && format[x] != '\n')
       {
          int y;
-         for(y=0;y<curindent;y++)
+         for (y = 0; y < curindent; y++)
             format_temp[newlen++] = ' ';
       }
       format_temp[newlen++] = format[x];
-      lastchar = format[x];
+      lastchar              = format[x];
    }
 
    format_temp[newlen] = 0;
 
-   temp = (char*)malloc(4096 * sizeof(char));
+   temp = (char *)malloc(4096 * sizeof(char));
    vsnprintf(temp, 4096, format_temp, ap);
    free(format_temp);
 
@@ -1146,40 +282,35 @@ void MDFN_printf(const char *format, ...)
 
 void MDFN_PrintError(const char *format, ...)
 {
- char *temp;
+   char *temp;
+   va_list ap;
+   va_start(ap, format);
 
- va_list ap;
+   temp = (char *)malloc(4096 * sizeof(char));
+   vsnprintf(temp, 4096, format, ap);
+   MDFND_PrintError(temp);
+   free(temp);
 
- va_start(ap, format);
- temp = (char*)malloc(4096 * sizeof(char));
- vsnprintf(temp, 4096, format, ap);
- MDFND_PrintError(temp);
- free(temp);
-
- va_end(ap);
+   va_end(ap);
 }
 
 void MDFN_DebugPrintReal(const char *file, const int line, const char *format, ...)
 {
- char *temp;
+   char *temp;
+   va_list ap;
 
- va_list ap;
-
- va_start(ap, format);
-
- temp = (char*)malloc(4096 * sizeof(char));
- vsnprintf(temp, 4096, format, ap);
- fprintf(stderr, "%s:%d  %s\n", file, line, temp);
- free(temp);
-
- va_end(ap);
+   va_start(ap, format);
+   temp = (char *)malloc(4096 * sizeof(char));
+   vsnprintf(temp, 4096, format, ap);
+   fprintf(stderr, "%s:%d  %s\n", file, line, temp);
+   free(temp);
+   va_end(ap);
 }
-
 
 static MDFNGI *game;
 
 struct retro_perf_callback perf_cb;
-retro_get_cpu_features_t perf_get_cpu_features_cb = NULL;
+static retro_get_cpu_features_t perf_get_cpu_features_cb = NULL;
 retro_log_printf_t log_cb;
 static retro_video_refresh_t video_cb;
 static retro_audio_sample_t audio_cb;
@@ -1196,6 +327,8 @@ static MDFN_Surface *surf;
 static bool failed_init;
 
 #include "mednafen/pce_fast/pcecd.h"
+
+static bool libretro_supports_bitmasks = false;
 
 static void check_system_specs(void)
 {
@@ -1245,8 +378,11 @@ void retro_init(void)
    else
       perf_get_cpu_features_cb = NULL;
 
+   if (environ_cb(RETRO_ENVIRONMENT_GET_INPUT_BITMASKS, NULL))
+      libretro_supports_bitmasks = true;
+
    setting_initial_scanline = 0;
-   setting_last_scanline = 242;
+   setting_last_scanline    = 242;
 
    check_system_specs();
 }
@@ -1261,41 +397,31 @@ bool retro_load_game_special(unsigned, const struct retro_game_info *, size_t)
    return false;
 }
 
-static void set_volume (uint32_t *ptr, unsigned number)
-{
-   switch(number)
-   {
-      default:
-         *ptr = number;
-         break;
-   }
-}
-
-#define        MAX_PLAYERS 5
-#define        MAX_BUTTONS 15
-static uint8_t input_buf[MAX_PLAYERS][2]    = {{0}};
-static int16_t mousedata[MAX_PLAYERS][3]    = {{0}};
-static unsigned int input_type[MAX_PLAYERS] = {0};
+#define MAX_PLAYERS 5
+#define MAX_BUTTONS 15
+static uint8_t input_buf[MAX_PLAYERS][2]    = { { 0 } };
+static int16_t mousedata[MAX_PLAYERS][3]    = { { 0 } };
+static unsigned int input_type[MAX_PLAYERS] = { 0 };
 static float mouse_sensitivity              = 1.0f;
 static bool disable_softreset               = false;
 static bool up_down_allowed                 = false;
 
 // Array to keep track of whether a given player's button is turbo
-static int     turbo_enable[MAX_PLAYERS][MAX_BUTTONS] = {};
+static int turbo_enable[MAX_PLAYERS][MAX_BUTTONS] = {};
 
 // Array to keep track of each buttons turbo status
-static int     turbo_counter[MAX_PLAYERS][MAX_BUTTONS] = {};
+static int turbo_counter[MAX_PLAYERS][MAX_BUTTONS] = {};
 
 // The number of frames between each firing of a turbo button
-static int     turbo_delay;
-static int     turbo_toggle = 1;
-static bool    turbo_toggle_alt = false;
-static int     turbo_toggle_down[MAX_PLAYERS][MAX_BUTTONS] = {};
-static int     aspect_ratio_mode = 0;
+static int turbo_delay;
+static int turbo_toggle                                = 1;
+static bool turbo_toggle_alt                           = false;
+static int turbo_toggle_down[MAX_PLAYERS][MAX_BUTTONS] = {};
+static int aspect_ratio_mode                           = 0;
 
 static void check_variables(void)
 {
-   struct retro_variable var = {0};
+   struct retro_variable var = { 0 };
 
    var.key = "sgx_cdimagecache";
 
@@ -1377,11 +503,11 @@ static void check_variables(void)
    }
 
    bool do_cdsettings = false;
-   var.key = "sgx_cddavolume";
+   var.key            = "sgx_cddavolume";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
-      do_cdsettings = true;
+      do_cdsettings               = true;
       setting_pce_fast_cddavolume = atoi(var.value);
    }
 
@@ -1389,7 +515,7 @@ static void check_variables(void)
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
-      do_cdsettings = true;
+      do_cdsettings                = true;
       setting_pce_fast_adpcmvolume = atoi(var.value);
    }
 
@@ -1397,7 +523,7 @@ static void check_variables(void)
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
-      do_cdsettings = true;
+      do_cdsettings                = true;
       setting_pce_fast_cdpsgvolume = atoi(var.value);
    }
 
@@ -1405,16 +531,16 @@ static void check_variables(void)
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
-      do_cdsettings = true;
+      do_cdsettings            = true;
       setting_pce_fast_cdspeed = atoi(var.value);
    }
 
    if (do_cdsettings)
    {
-      PCECD_Settings settings = {0};
-      settings.CDDA_Volume = (double)setting_pce_fast_cddavolume / 100;
-      settings.CD_Speed = setting_pce_fast_cdspeed;
-      settings.ADPCM_Volume = (double)setting_pce_fast_adpcmvolume / 100;
+      PCECD_Settings settings = { 0 };
+      settings.CDDA_Volume    = (double)setting_pce_fast_cddavolume / 100;
+      settings.CD_Speed       = setting_pce_fast_cdspeed;
+      settings.ADPCM_Volume   = (double)setting_pce_fast_adpcmvolume / 100;
 
       if (PCE_IsCD && PCECD_SetSettings(&settings) && log_cb)
          log_cb(RETRO_LOG_INFO, "PCE CD Audio settings changed.\n");
@@ -1481,81 +607,132 @@ static void check_variables(void)
    }
 }
 
+#define PAGESIZE 8192
+
+static void setup_retro_memory_maps()
+{
+   struct retro_memory_descriptor descs[8];
+   struct retro_memory_map        mmaps;
+   int i = 0;
+
+   memset(descs, 0, sizeof(descs));
+
+   descs[i].ptr    = (uint8_t*)BaseRAM;
+   descs[i].start  = 0xf8 * PAGESIZE;
+   descs[i].len    = (IsSGX ? 4 : 1) * PAGESIZE;
+   i++;
+
+   if (IsPopulous)
+   {
+      descs[i].ptr    = (uint8_t*)(ROMSpace + 0x40 * PAGESIZE);
+      descs[i].start  = 0x40 * PAGESIZE;
+      descs[i].len    = 4 * PAGESIZE;
+      i++;
+   }
+   else
+   {
+      descs[i].ptr    = (uint8_t*)SaveRAM;
+      descs[i].start  = 0xf7 * PAGESIZE;
+      descs[i].len    = 2048;
+      i++;
+   }
+
+   if (PCE_IsCD)
+   {
+      // Super System Card RAM
+      descs[i].ptr    = (uint8_t*)(ROMSpace + 0x68 * PAGESIZE);
+      descs[i].start  = 0x68 * PAGESIZE;
+      descs[i].len    = 24 * PAGESIZE;
+      descs[i].select = 0xFFFD0000;
+      i++;
+
+      // CD RAM
+      descs[i].ptr    = (uint8_t*)(ROMSpace + 0x80 * PAGESIZE);
+      descs[i].start  = 0x80 * PAGESIZE;
+      descs[i].len    = 8 * PAGESIZE;
+      i++;
+   }
+
+   mmaps.descriptors = descs;
+   mmaps.num_descriptors = i;
+   environ_cb(RETRO_ENVIRONMENT_SET_MEMORY_MAPS, &mmaps);
+}
+
 bool retro_load_game(const struct retro_game_info *info)
 {
    if (!info || failed_init)
       return false;
 
    struct retro_input_descriptor desc[] = {
-      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT,  "D-Pad Left" },
-      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_UP,    "D-Pad Up" },
-      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_DOWN,  "D-Pad Down" },
+      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT, "D-Pad Left" },
+      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_UP, "D-Pad Up" },
+      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_DOWN, "D-Pad Down" },
       { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_RIGHT, "D-Pad Right" },
-      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_B,     "II" },
-      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_A,     "I" },
-      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_X,     "IV" },
-      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_Y,     "III" },
-      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_L,     "V" },
-      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_R,     "VI" },
-      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_L2,    "Mode Switch" },
-      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_SELECT,    "Select" },
-      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_START,    "Run" },
+      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_B, "II" },
+      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_A, "I" },
+      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_X, "IV" },
+      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_Y, "III" },
+      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_L, "V" },
+      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_R, "VI" },
+      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_L2, "Mode Switch" },
+      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_SELECT, "Select" },
+      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_START, "Run" },
 
-      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT,  "D-Pad Left" },
-      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_UP,    "D-Pad Up" },
-      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_DOWN,  "D-Pad Down" },
+      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT, "D-Pad Left" },
+      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_UP, "D-Pad Up" },
+      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_DOWN, "D-Pad Down" },
       { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_RIGHT, "D-Pad Right" },
-      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_B,     "II" },
-      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_A,     "I" },
-      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_X,     "IV" },
-      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_Y,     "III" },
-      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_L,     "V" },
-      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_R,     "VI" },
-      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_L2,    "Mode Switch" },
-      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_SELECT,    "Select" },
-      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_START,    "Run" },
+      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_B, "II" },
+      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_A, "I" },
+      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_X, "IV" },
+      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_Y, "III" },
+      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_L, "V" },
+      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_R, "VI" },
+      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_L2, "Mode Switch" },
+      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_SELECT, "Select" },
+      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_START, "Run" },
 
-      { 2, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT,  "D-Pad Left" },
-      { 2, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_UP,    "D-Pad Up" },
-      { 2, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_DOWN,  "D-Pad Down" },
+      { 2, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT, "D-Pad Left" },
+      { 2, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_UP, "D-Pad Up" },
+      { 2, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_DOWN, "D-Pad Down" },
       { 2, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_RIGHT, "D-Pad Right" },
-      { 2, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_B,     "II" },
-      { 2, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_A,     "I" },
-      { 2, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_X,     "IV" },
-      { 2, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_Y,     "III" },
-      { 2, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_L,     "V" },
-      { 2, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_R,     "VI" },
-      { 2, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_L2,    "Mode Switch" },
-      { 2, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_SELECT,    "Select" },
-      { 2, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_START,    "Run" },
+      { 2, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_B, "II" },
+      { 2, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_A, "I" },
+      { 2, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_X, "IV" },
+      { 2, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_Y, "III" },
+      { 2, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_L, "V" },
+      { 2, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_R, "VI" },
+      { 2, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_L2, "Mode Switch" },
+      { 2, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_SELECT, "Select" },
+      { 2, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_START, "Run" },
 
-      { 3, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT,  "D-Pad Left" },
-      { 3, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_UP,    "D-Pad Up" },
-      { 3, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_DOWN,  "D-Pad Down" },
+      { 3, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT, "D-Pad Left" },
+      { 3, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_UP, "D-Pad Up" },
+      { 3, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_DOWN, "D-Pad Down" },
       { 3, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_RIGHT, "D-Pad Right" },
-      { 3, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_B,     "II" },
-      { 3, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_A,     "I" },
-      { 3, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_X,     "IV" },
-      { 3, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_Y,     "III" },
-      { 3, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_L,     "V" },
-      { 3, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_R,     "VI" },
-      { 3, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_L2,    "Mode Switch" },
-      { 3, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_SELECT,    "Select" },
-      { 3, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_START,    "Run" },
+      { 3, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_B, "II" },
+      { 3, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_A, "I" },
+      { 3, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_X, "IV" },
+      { 3, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_Y, "III" },
+      { 3, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_L, "V" },
+      { 3, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_R, "VI" },
+      { 3, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_L2, "Mode Switch" },
+      { 3, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_SELECT, "Select" },
+      { 3, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_START, "Run" },
 
-      { 4, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT,  "D-Pad Left" },
-      { 4, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_UP,    "D-Pad Up" },
-      { 4, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_DOWN,  "D-Pad Down" },
+      { 4, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT, "D-Pad Left" },
+      { 4, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_UP, "D-Pad Up" },
+      { 4, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_DOWN, "D-Pad Down" },
       { 4, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_RIGHT, "D-Pad Right" },
-      { 4, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_B,     "II" },
-      { 4, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_A,     "I" },
-      { 4, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_X,     "IV" },
-      { 4, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_Y,     "III" },
-      { 4, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_L,     "V" },
-      { 4, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_R,     "VI" },
-      { 4, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_L2,    "Mode Switch" },
-      { 4, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_SELECT,    "Select" },
-      { 4, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_START,    "Run" },
+      { 4, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_B, "II" },
+      { 4, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_A, "I" },
+      { 4, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_X, "IV" },
+      { 4, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_Y, "III" },
+      { 4, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_L, "V" },
+      { 4, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_R, "VI" },
+      { 4, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_L2, "Mode Switch" },
+      { 4, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_SELECT, "Select" },
+      { 4, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_START, "Run" },
 
       { 0 },
    };
@@ -1574,17 +751,20 @@ bool retro_load_game(const struct retro_game_info *info)
    surf = new MDFN_Surface(NULL, FB_WIDTH, FB_HEIGHT, FB_WIDTH, pix_fmt);
 
    // Possible endian bug ...
-   for (unsigned i = 0; i < MAX_PLAYERS; i++) {
+   for (unsigned i = 0; i < MAX_PLAYERS; i++)
+   {
       PCEINPUT_SetInput(i, "gamepad", &input_buf[i][0]);
       input_type[i] = RETRO_DEVICE_JOYPAD;
    }
+
+   setup_retro_memory_maps();
 
    return game;
 }
 
 void retro_unload_game(void)
 {
-   if(!MDFNGameInfo)
+   if (!MDFNGameInfo)
       return;
 
    MDFN_FlushGameCheats(0);
@@ -1595,16 +775,33 @@ void retro_unload_game(void)
 
    MDFNGameInfo = NULL;
 
-   for(unsigned i = 0; i < CDInterfaces.size(); i++)
+   for (unsigned i = 0; i < CDInterfaces.size(); i++)
       delete CDInterfaces[i];
    CDInterfaces.clear();
 }
 
+#define BIT(x)     (1 << (x))
+
+#define JOY_I      BIT(0)
+#define JOY_II     BIT(1)
+#define JOY_SELECT BIT(2)
+#define JOY_RUN    BIT(3)
+#define JOY_UP     BIT(4)
+#define JOY_RIGHT  BIT(5)
+#define JOY_DOWN   BIT(6)
+#define JOY_LEFT   BIT(7)
+#define JOY_III    BIT(8)
+#define JOY_IV     BIT(9)
+#define JOY_V      BIT(10)
+#define JOY_VI     BIT(11)
+#define JOY_MODE   BIT(12)
+
 static void update_input(void)
 {
-   static int turbo_map[]     = { -1,-1,-1,-1,-1,-1,-1,-1, 1, 0,-1,-1,-1,-1,-1 };
-   static int turbo_map_alt[] = { -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, 1, 0 };
-   static unsigned   map[] = {
+   static int turbo_map_0[]   = { -1, -1, -1, -1, -1, -1, -1, -1, 1, 0, -1, -1, -1, -1, -1 };
+   static int turbo_map_1[]   = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 1, 0 };
+   static int *turbo_map      = (turbo_toggle_alt == 0) ? turbo_map_0 : turbo_map_1;
+   static unsigned map[]      = {
       RETRO_DEVICE_ID_JOYPAD_A,
       RETRO_DEVICE_ID_JOYPAD_B,
       RETRO_DEVICE_ID_JOYPAD_SELECT,
@@ -1624,56 +821,137 @@ static void update_input(void)
 
    for (unsigned j = 0; j < MAX_PLAYERS; j++)
    {
-      if (input_type[j] == RETRO_DEVICE_JOYPAD)             // Joypad
+      if (input_type[j] == RETRO_DEVICE_JOYPAD) // Joypad
       {
+         uint16_t ret = 0;
          uint16_t input_state = 0;
-         for (unsigned i = 0; i < MAX_BUTTONS; i++)
+
+         if (libretro_supports_bitmasks)
          {
-            if (turbo_enable[j][i] == 1)                    // Check whether a given button is turbo-capable
-            {
-               if (input_state_cb(j, RETRO_DEVICE_JOYPAD, 0, map[i]))
-               {
-                  if (turbo_counter[j][i] == 0)             // Turbo buttons only fire when their counter is zero
-                     input_state |= 1 << i;
-                  turbo_counter[j][i]++;                    // Counter is incremented by 1
-                  if (turbo_counter[j][i] > (turbo_delay))  // When the counter exceeds turbo delay, fire and return to zero
-                  {
-                     input_state |= 1 << i;
-                     turbo_counter[j][i] = 0;
-                  }
-               }
-               else
-                  turbo_counter[j][i] = 0;                  // Reset counter if button is not pressed.
-            }
+            ret = input_state_cb(j, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_MASK);
 
-            else if ((!turbo_toggle_alt ? turbo_map[i] : turbo_map_alt[i]) != -1 && turbo_toggle && !AVPad6Enabled[j])
-            {
-               if (input_state_cb(j, RETRO_DEVICE_JOYPAD, 0, map[i]))
-               {
-                  if (turbo_toggle_down[j][i] == 0)
-                  {
-                     turbo_toggle_down[j][i] = 1;
-                     turbo_enable[j][(!turbo_toggle_alt ? turbo_map[i] : turbo_map_alt[i])] = turbo_enable[j][(!turbo_toggle_alt ? turbo_map[i] : turbo_map_alt[i])] ^ 1;
-                     MDFN_DispMessage("Pad %i Button %s Turbo %s", j + 1,
-                        i == (!turbo_toggle_alt ? 9 : 14) ? "I" : "II",
-                        turbo_enable[j][(!turbo_toggle_alt ? turbo_map[i] : turbo_map_alt[i])] ? "ON" : "OFF" );
-                  }
-               }
-               else
-                  turbo_toggle_down[j][i] = 0;
-            }
+            // process normal buttons
+            if (ret & BIT(RETRO_DEVICE_ID_JOYPAD_A))
+               input_state |= JOY_I;
+            if (ret & BIT(RETRO_DEVICE_ID_JOYPAD_B))
+               input_state |= JOY_II;
+            if (ret & BIT(RETRO_DEVICE_ID_JOYPAD_SELECT))
+               input_state |= JOY_SELECT;
+            if (ret & BIT(RETRO_DEVICE_ID_JOYPAD_START))
+               input_state |= JOY_RUN;
+            if (ret & BIT(RETRO_DEVICE_ID_JOYPAD_UP))
+               input_state |= JOY_UP;
+            if (ret & BIT(RETRO_DEVICE_ID_JOYPAD_RIGHT))
+               input_state |= JOY_RIGHT;
+            if (ret & BIT(RETRO_DEVICE_ID_JOYPAD_DOWN))
+               input_state |= JOY_DOWN;
+            if (ret & BIT(RETRO_DEVICE_ID_JOYPAD_LEFT))
+               input_state |= JOY_LEFT;
+            if (ret & BIT(RETRO_DEVICE_ID_JOYPAD_Y))
+               input_state |= JOY_III;
+            if (ret & BIT(RETRO_DEVICE_ID_JOYPAD_X))
+               input_state |= JOY_IV;
+            if (ret & BIT(RETRO_DEVICE_ID_JOYPAD_L))
+               input_state |= JOY_V;
+            if (ret & BIT(RETRO_DEVICE_ID_JOYPAD_R))
+               input_state |= JOY_VI;
+            if (ret & BIT(RETRO_DEVICE_ID_JOYPAD_L2))
+               input_state |= JOY_MODE;
 
-            else
-               input_state |= input_state_cb(j, RETRO_DEVICE_JOYPAD, 0, map[i]) ? (1 << i) : 0;
+            // process turbo buttons
+            for (unsigned i = 0; i < MAX_BUTTONS; i++)
+            {
+               if (turbo_enable[j][i] == 1) // Check whether a given button is turbo-capable
+               {
+                  if (ret & BIT(map[i]))
+                  {
+                     if (turbo_counter[j][i] < 2 ) // Turbo buttons only fire when their counter is zero or 1
+                        input_state |= BIT(i);
+                     else
+                        input_state &= ~BIT(i);
+                     turbo_counter[j][i]++; // Counter is incremented by 1
+                     if (turbo_counter[j][i] > turbo_delay) // When the counter exceeds turbo delay return to zero
+                        turbo_counter[j][i] = 0;
+                  }
+                  else
+                     turbo_counter[j][i] = 0; // Reset counter if button is not pressed.
+               }
+
+               // turbo button on/off switch
+               else if (turbo_map[i] != -1 && turbo_toggle && !AVPad6Enabled[j])
+               {
+                  if (ret & BIT(map[i]))
+                  {
+                     if (turbo_toggle_down[j][i] == 0)
+                     {
+                        turbo_toggle_down[j][i]       = 1;
+                        turbo_enable[j][turbo_map[i]] = turbo_enable[j][turbo_map[i]] ^ 1;
+                        MDFN_DispMessage("Pad %i Button %s Turbo %s", j + 1,
+                            i == (!turbo_toggle_alt ? 9 : 14) ? "I" : "II",
+                            turbo_enable[j][turbo_map[i]] ? "ON" : "OFF");
+                     }
+                  }
+                  else
+                     turbo_toggle_down[j][i] = 0;
+               }
+            }
+         }
+
+         else
+         {
+            for (unsigned i = 0; i < MAX_BUTTONS; i++)
+            {
+               if (turbo_enable[j][i] == 1) // Check whether a given button is turbo-capable
+               {
+                  if (input_state_cb(j, RETRO_DEVICE_JOYPAD, 0, map[i]))
+                  {
+                     if (turbo_counter[j][i] < 2) // Turbo buttons only fire when their counter is zero
+                        input_state |= 1 << i;
+                     turbo_counter[j][i]++; // Counter is incremented by 1
+                     if (turbo_counter[j][i] > (turbo_delay)) // When the counter exceeds turbo delay, fire and return to zero
+                     {
+                        input_state |= 1 << i;
+                        turbo_counter[j][i] = 0;
+                     }
+                  }
+                  else
+                     turbo_counter[j][i] = 0; // Reset counter if button is not pressed.
+               }
+
+               else if (turbo_map[i] != -1 && turbo_toggle && !AVPad6Enabled[j])
+               {
+                  if (input_state_cb(j, RETRO_DEVICE_JOYPAD, 0, map[i]))
+                  {
+                     if (turbo_toggle_down[j][i] == 0)
+                     {
+                        turbo_toggle_down[j][i]       = 1;
+                        turbo_enable[j][turbo_map[i]] = turbo_enable[j][turbo_map[i]] ^ 1;
+                        MDFN_DispMessage("Pad %i Button %s Turbo %s", j + 1,
+                            i == (!turbo_toggle_alt ? 9 : 14) ? "I" : "II",
+                            turbo_enable[j][turbo_map[i]] ? "ON" : "OFF");
+                     }
+                  }
+                  else
+                     turbo_toggle_down[j][i] = 0;
+               }
+
+               else
+                  input_state |= input_state_cb(j, RETRO_DEVICE_JOYPAD, 0, map[i]) ? (1 << i) : 0;
+            }
          }
 
          if (disable_softreset == true)
-            if ((input_state & 0xC) == 0xC) input_state &= ~0xC;
+         {
+            if ((input_state & 0xC) == 0xC)
+               input_state &= ~0xC;
+         }
 
          if (up_down_allowed == false)
          {
-            if ((input_state & 0x50) == 0x50) input_state &= ~0x50;
-            if ((input_state & 0xA0) == 0xA0) input_state &= ~0xA0;
+            if ((input_state & 0x50) == 0x50)
+               input_state &= ~0x50;
+            if ((input_state & 0xA0) == 0xA0)
+               input_state &= ~0xA0;
          }
 
          // Input data must be little endian.
@@ -1708,10 +986,10 @@ static void update_input(void)
 
 static float get_aspect_ratio(unsigned width, unsigned height)
 {
-   float par = 0.0f;
+   float par                  = 0.0f;
    float exact_par_per_freq[] = { 8.0f / 7.0f, 6.0f / 7.0f, 4.0f / 7.0f };
 
-   if (aspect_ratio_mode == 1)      // 6:5 DAR
+   if (aspect_ratio_mode == 1) // 6:5 DAR
       return (6.0f / 5.0f);
    else if (aspect_ratio_mode == 2) // 4:3 DAR
       return (4.0f / 3.0f);
@@ -1734,21 +1012,23 @@ static uint64_t video_frames, audio_frames;
 void update_geometry(unsigned width, unsigned height)
 {
    struct retro_system_av_info system_av_info;
-   system_av_info.geometry.base_width = width;
-   system_av_info.geometry.base_height = height;
+   system_av_info.geometry.base_width   = width;
+   system_av_info.geometry.base_height  = height;
+   system_av_info.geometry.max_width    = MEDNAFEN_CORE_GEOMETRY_MAX_W;
+   system_av_info.geometry.max_height   = MEDNAFEN_CORE_GEOMETRY_MAX_H;
    system_av_info.geometry.aspect_ratio = get_aspect_ratio(width, height);
    environ_cb(RETRO_ENVIRONMENT_SET_GEOMETRY, &system_av_info);
 }
 
 void retro_run(void)
 {
-   bool              updated = false;
-   bool              resolution_changed = false;
-   static int16_t    sound_buf[0x10000];
-   static int32_t    rects[FB_HEIGHT];
-   static unsigned   width, height;
+   bool updated            = false;
+   bool resolution_changed = false;
+   static int16_t sound_buf[0x10000];
+   static int32_t rects[FB_HEIGHT];
+   static unsigned width, height;
 
-   MDFNGI *curgame = (MDFNGI*)game;
+   MDFNGI *curgame = (MDFNGI *)game;
 
    input_poll_cb();
 
@@ -1756,50 +1036,44 @@ void retro_run(void)
 
    rects[0] = ~0;
 
-   EmulateSpecStruct spec = {0};
-   spec.surface = surf;
-   spec.SoundRate = 44100;
-   spec.SoundBuf = sound_buf;
-   spec.LineWidths = rects;
-   spec.SoundBufMaxSize = sizeof(sound_buf) / 2;
-   spec.SoundVolume = 1.0;
-   spec.soundmultiplier = 1.0;
-   spec.SoundBufSize = 0;
+   EmulateSpecStruct spec  = { 0 };
+   spec.surface            = surf;
+   spec.SoundRate          = 44100;
+   spec.SoundBuf           = sound_buf;
+   spec.LineWidths         = rects;
+   spec.SoundBufMaxSize    = sizeof(sound_buf) / 2;
+   spec.SoundVolume        = 1.0;
+   spec.soundmultiplier    = 1.0;
+   spec.SoundBufSize       = 0;
    spec.VideoFormatChanged = false;
    spec.SoundFormatChanged = false;
 
    if (memcmp(&last_pixel_format, &spec.surface->format, sizeof(MDFN_PixelFormat)))
    {
       spec.VideoFormatChanged = TRUE;
-      last_pixel_format = spec.surface->format;
+      last_pixel_format       = spec.surface->format;
    }
 
    if (spec.SoundRate != last_sound_rate)
    {
       spec.SoundFormatChanged = true;
-      last_sound_rate = spec.SoundRate;
+      last_sound_rate         = spec.SoundRate;
    }
 
    Emulate(&spec);
 
-   int16 *const SoundBuf = spec.SoundBuf + spec.SoundBufSizeALMS * curgame->soundchan;
-   int32 SoundBufSize = spec.SoundBufSize - spec.SoundBufSizeALMS;
-   const int32 SoundBufMaxSize = spec.SoundBufMaxSize - spec.SoundBufSizeALMS;
-
-   spec.SoundBufSize = spec.SoundBufSizeALMS + SoundBufSize;
-
-   if (width  != spec.DisplayRect.w || height != spec.DisplayRect.h)
+   if (width != spec.DisplayRect.w || height != spec.DisplayRect.h)
       resolution_changed = true;
 
    width  = spec.DisplayRect.w;
    height = spec.DisplayRect.h;
 
-   video_cb(surf->pixels16 + surf->pitchinpix * spec.DisplayRect.y, width, height, FB_WIDTH * 2);
+   video_cb(surf->pixels16 + surf->pitchinpix * spec.DisplayRect.y, width, height, FB_WIDTH << 1);
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE_UPDATE, &updated) && updated)
    {
       check_variables();
-      if(PCE_IsCD)
+      if (PCE_IsCD)
          psg->SetVolume(0.678 * setting_pce_fast_cdpsgvolume / 100);
       update_geometry(width, height);
    }
@@ -1829,25 +1103,25 @@ void retro_get_system_info(struct retro_system_info *info)
 
 void retro_get_system_av_info(struct retro_system_av_info *info)
 {
-   unsigned    width  = MEDNAFEN_CORE_GEOMETRY_BASE_W;
-   unsigned    height = setting_last_scanline - setting_initial_scanline + 1;
+   unsigned width     = MEDNAFEN_CORE_GEOMETRY_BASE_W;
+   unsigned height    = setting_last_scanline - setting_initial_scanline + 1;
    float aspect_ratio = MEDNAFEN_CORE_GEOMETRY_ASPECT_RATIO;
 
    memset(info, 0, sizeof(*info));
 
    if (aspect_ratio_mode == 0) // auto aspect
    {
-      width = 352;
+      width        = 352;
       aspect_ratio = width * (6.0 / 7.0) / height;
    }
    else if (aspect_ratio_mode == 2) // 4:3
    {
-      width = 320;
+      width        = 320;
       aspect_ratio = 4.0 / 3.0;
    }
 
    info->timing.fps            = MEDNAFEN_CORE_TIMING_FPS;
-   info->timing.sample_rate    = 44100;
+   info->timing.sample_rate    = 44100.0;
    info->geometry.base_width   = width;
    info->geometry.base_height  = height;
    info->geometry.max_width    = MEDNAFEN_CORE_GEOMETRY_MAX_W;
@@ -1857,16 +1131,19 @@ void retro_get_system_av_info(struct retro_system_av_info *info)
 
 void retro_deinit()
 {
-   delete surf;
+   if (surf)
+      delete surf;
    surf = NULL;
 
    if (log_cb)
    {
       log_cb(RETRO_LOG_INFO, "[%s]: Samples / Frame: %.5f\n",
-            MEDNAFEN_CORE_NAME, (double)audio_frames / video_frames);
+          MEDNAFEN_CORE_NAME, (double)audio_frames / video_frames);
       log_cb(RETRO_LOG_INFO, "[%s]: Estimated FPS: %.5f\n",
-            MEDNAFEN_CORE_NAME, (double)video_frames * 44100 / audio_frames);
+          MEDNAFEN_CORE_NAME, (double)video_frames * 44100 / audio_frames);
    }
+
+   libretro_supports_bitmasks = false;
 }
 
 unsigned retro_get_region(void)
@@ -1885,22 +1162,22 @@ void retro_set_controller_port_device(unsigned in_port, unsigned device)
    {
       input_type[in_port] = device;
 
-      switch(device)
+      switch (device)
       {
-         case RETRO_DEVICE_JOYPAD:
-            PCEINPUT_SetInput(in_port, "gamepad", &input_buf[in_port][0]);
-            MDFN_printf("Player %u: gamepad\n", in_port + 1);
-            break;
-         case RETRO_DEVICE_MOUSE:
-            PCEINPUT_SetInput(in_port, "mouse", &mousedata[in_port][0]);
-            MDFN_printf("Player %u: mouse\n", in_port + 1);
-            break;
-         case RETRO_DEVICE_NONE:
-            // Do not re-init to "none" as some games tend to behave differently
-            // e.g. Motoroader - cannot change speed during the course preview
-            // PCEINPUT_SetInput(in_port, "none", &input_buf[in_port][0]);
-            MDFN_printf("Player %u: None\n", in_port + 1);
-            break;
+      case RETRO_DEVICE_JOYPAD:
+         PCEINPUT_SetInput(in_port, "gamepad", &input_buf[in_port][0]);
+         MDFN_printf("Player %u: gamepad\n", in_port + 1);
+         break;
+      case RETRO_DEVICE_MOUSE:
+         PCEINPUT_SetInput(in_port, "mouse", &mousedata[in_port][0]);
+         MDFN_printf("Player %u: mouse\n", in_port + 1);
+         break;
+      case RETRO_DEVICE_NONE:
+         // Do not re-init to "none" as some games tend to behave differently
+         // e.g. Motoroader - cannot change speed during the course preview
+         // PCEINPUT_SetInput(in_port, "none", &input_buf[in_port][0]);
+         MDFN_printf("Player %u: None\n", in_port + 1);
+         break;
       }
    }
 }
@@ -1914,6 +1191,7 @@ void retro_set_environment(retro_environment_t cb)
       { "PCE Joypad", RETRO_DEVICE_JOYPAD },
       { "PCE Mouse", RETRO_DEVICE_MOUSE },
       { "None", RETRO_DEVICE_NONE },
+      { NULL, 0 },
    };
 
    static const struct retro_controller_info ports[] = {
@@ -1922,16 +1200,16 @@ void retro_set_environment(retro_environment_t cb)
       { pads, 3 },
       { pads, 3 },
       { pads, 3 },
-      { 0 },
+      { NULL, 0 },
    };
 
    libretro_set_core_options(cb);
-   environ_cb(RETRO_ENVIRONMENT_SET_CONTROLLER_INFO, (void*)ports);
+   environ_cb(RETRO_ENVIRONMENT_SET_CONTROLLER_INFO, (void *)ports);
 
    vfs_iface_info.required_interface_version = 1;
    vfs_iface_info.iface                      = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VFS_INTERFACE, &vfs_iface_info))
-	   filestream_vfs_init(&vfs_iface_info);
+      filestream_vfs_init(&vfs_iface_info);
 }
 
 void retro_set_audio_sample(retro_audio_sample_t cb)
@@ -1963,6 +1241,7 @@ static size_t serialize_size;
 
 size_t retro_serialize_size(void)
 {
+   int runahead = -1;
    StateMem st;
 
    st.data           = NULL;
@@ -1976,14 +1255,25 @@ size_t retro_serialize_size(void)
 
    free(st.data);
 
-   return serialize_size = st.len;
+   serialize_size = st.len;
+
+   if (environ_cb(RETRO_ENVIRONMENT_GET_AUDIO_VIDEO_ENABLE, &runahead))
+   {
+      // Use Fast Savestates
+      if (runahead & 4)
+         // allocate more memory for arcade card + future expansion (2MB + 512KB)
+         // this only affects size of memory usage and not actual savestate file
+         serialize_size += 0x280000;
+   }
+
+   return serialize_size;
 }
 
 bool retro_serialize(void *data, size_t size)
 {
    StateMem st;
-   bool ret          = false;
-   uint8_t *_dat     = (uint8_t*)malloc(size);
+   bool ret      = false;
+   uint8_t *_dat = (uint8_t *)malloc(size);
 
    if (!_dat)
       return false;
@@ -2007,7 +1297,7 @@ bool retro_unserialize(const void *data, size_t size)
 {
    StateMem st;
 
-   st.data           = (uint8_t*)data;
+   st.data           = (uint8_t *)data;
    st.loc            = 0;
    st.len            = size;
    st.malloced       = 0;
@@ -2022,18 +1312,18 @@ void *retro_get_memory_data(unsigned type)
 
    switch (type)
    {
-      case RETRO_MEMORY_SYSTEM_RAM:
-         data = BaseRAM;
-         break;
-      case RETRO_MEMORY_SAVE_RAM:
-         if (IsPopulous)
-            data = (uint8_t*)(ROMSpace + 0x40 * 8192);
-         else
-            data = (uint8_t*)SaveRAM;
-         break;
-      default:
-         data = NULL;
-         break;
+   case RETRO_MEMORY_SYSTEM_RAM:
+      data = BaseRAM;
+      break;
+   case RETRO_MEMORY_SAVE_RAM:
+      if (IsPopulous)
+         data = (uint8_t *)(ROMSpace + 0x40 * 8192);
+      else
+         data = (uint8_t *)SaveRAM;
+      break;
+   default:
+      data = NULL;
+      break;
    }
    return data;
 }
@@ -2044,28 +1334,30 @@ size_t retro_get_memory_size(unsigned type)
 
    switch (type)
    {
-      case RETRO_MEMORY_SYSTEM_RAM:
-         size = IsSGX ? 32768 : 8192;
-         break;
-      case RETRO_MEMORY_SAVE_RAM:
-         if (IsPopulous)
-            size = 32768;
-         else
-            size = 2048;
-         break;
-      default:
-         size = 0;
-         break;
+   case RETRO_MEMORY_SYSTEM_RAM:
+      size = IsSGX ? 32768 : 8192;
+      break;
+   case RETRO_MEMORY_SAVE_RAM:
+      if (IsPopulous)
+         size = 32768;
+      else
+         size = 2048;
+      break;
+   default:
+      size = 0;
+      break;
    }
 
    return size;
 }
 
 void retro_cheat_reset(void)
-{}
+{
+}
 
 void retro_cheat_set(unsigned, bool, const char *)
-{}
+{
+}
 
 void MDFND_Message(const char *str)
 {
@@ -2074,14 +1366,15 @@ void MDFND_Message(const char *str)
 }
 
 void MDFND_MidSync(const EmulateSpecStruct *)
-{}
+{
+}
 
 void MDFN_MidLineUpdate(EmulateSpecStruct *espec, int y)
 {
- //MDFND_MidLineUpdate(espec, y);
+   //MDFND_MidLineUpdate(espec, y);
 }
 
-void MDFND_PrintError(const char* err)
+void MDFND_PrintError(const char *err)
 {
    if (log_cb)
       log_cb(RETRO_LOG_ERROR, "%s\n", err);
@@ -2097,9 +1390,8 @@ extern void MDFND_DispMessage(unsigned char *str);
 
 void MDFND_DispMessage(unsigned char *str)
 {
-   const char *strc = (const char*)str;
-   struct retro_message msg =
-   {
+   const char *strc         = (const char *)str;
+   struct retro_message msg = {
       strc,
       180
    };
@@ -2111,16 +1403,16 @@ void MDFN_DispMessage(const char *format, ...)
 {
    struct retro_message msg;
    va_list ap;
-   char *str        = (char*)malloc(4096 * sizeof(char*));
+   char *str        = (char *)malloc(4096 * sizeof(char *));
    const char *strc = NULL;
 
-   va_start(ap,format);
-   vsnprintf(str, 4096, format,ap);
+   va_start(ap, format);
+   vsnprintf(str, 4096, format, ap);
    va_end(ap);
    strc = str;
 
    msg.frames = 180;
-   msg.msg = strc;
+   msg.msg    = strc;
 
    environ_cb(RETRO_ENVIRONMENT_SET_MESSAGE, &msg);
    free(str);

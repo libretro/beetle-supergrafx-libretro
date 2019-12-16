@@ -3,4 +3,5 @@
 *.dll
 *.dylib
 /old
-
+.clang-format
+.vdcode

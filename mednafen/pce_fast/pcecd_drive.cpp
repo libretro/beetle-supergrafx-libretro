@@ -33,7 +33,7 @@ static uint32 CD_DATA_TRANSFER_RATE;
 static uint32 System_Clock;
 static void (*CDIRQCallback)(int);
 static void (*CDStuffSubchannels)(uint8, int);
-static Blip_Buffer *sbuf[2];
+static Blip_Buffer *sbuf;
 static CDIF *Cur_CDIF;
 
 // Internal operation to the SCSI CD unit.  Only pass 1 or 0 to these macros!
@@ -955,10 +955,10 @@ static INLINE void RunCDDA(uint32 system_timestamp, int32 run_time)
      CDStuffSubchannels(0x00, subindex);
    }
 
-   if(sbuf[0] && sbuf[1])
+   if(sbuf)
    {
-    cdda.CDDASynth.offset_inline(synthtime, sample[0] - cdda.last_sample[0], sbuf[0]);
-    cdda.CDDASynth.offset_inline(synthtime, sample[1] - cdda.last_sample[1], sbuf[1]);
+    cdda.CDDASynth.offset_inline(synthtime, sample[0] - cdda.last_sample[0], &sbuf[0]);
+    cdda.CDDASynth.offset_inline(synthtime, sample[1] - cdda.last_sample[1], &sbuf[1]);
    }
 
    cdda.last_sample[0] = sample[0];
@@ -1250,7 +1250,7 @@ void PCECD_Drive_Close(void)
 
 }
 
-void PCECD_Drive_Init(int cdda_time_div, Blip_Buffer *leftbuf, Blip_Buffer *rightbuf, uint32 TransferRate, uint32 SystemClock, void (*IRQFunc)(int), void (*SSCFunc)(uint8, int))
+void PCECD_Drive_Init(int cdda_time_div, Blip_Buffer* lrbufs, uint32 TransferRate, uint32 SystemClock, void (*IRQFunc)(int), void (*SSCFunc)(uint8, int))
 {
  Cur_CDIF = NULL;
  cd.TrayOpen = false;
@@ -1267,8 +1267,7 @@ void PCECD_Drive_Init(int cdda_time_div, Blip_Buffer *leftbuf, Blip_Buffer *righ
  cdda.CDDAVolume = 65536;
  cdda.CDDASynth.volume(1.0f / 65536);
  cdda.CDDASynth.treble_eq(0);
- sbuf[0] = leftbuf;
- sbuf[1] = rightbuf;
+ sbuf = lrbufs;
 
  CD_DATA_TRANSFER_RATE = TransferRate;
  System_Clock = SystemClock;

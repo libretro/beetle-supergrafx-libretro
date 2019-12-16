@@ -11,6 +11,8 @@ INCFLAGS := -I$(CORE_DIR) -I$(MEDNAFEN_DIR) -I$(MEDNAFEN_DIR)/include -I$(MEDNAF
 
 ifneq ($(HAVE_GRIFFIN),1)
    SOURCES_CXX += \
+    $(CORE_EMU_DIR)/pce.cpp \
+	$(CORE_EMU_DIR)/huc.cpp \
 	$(CORE_EMU_DIR)/huc6280.cpp \
 	$(CORE_EMU_DIR)/input.cpp \
 	$(CORE_EMU_DIR)/pcecd.cpp \
