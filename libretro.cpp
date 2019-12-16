@@ -1,27 +1,27 @@
-#include <stdarg.h>
 #include <math.h>
+#include <stdarg.h>
 
 #include <libretro.h>
 #include <retro_timers.h>
 #include <streams/file_stream.h>
 
-#include "mednafen/mednafen.h"
-#include "mednafen/git.h"
+#include "mednafen/cdrom/CDUtility.h"
+#include "mednafen/cdrom/cdromif.h"
 #include "mednafen/general.h"
+#include "mednafen/git.h"
+#include "mednafen/hw_misc/arcade_card/arcade_card.h"
+#include "mednafen/mednafen.h"
+#include "mednafen/mempatcher.h"
+#include "mednafen/settings-driver.h"
 #include "mednafen/FileWrapper.h"
 
 #include "mednafen/pce_fast/huc.h"
-#include "mednafen/pce_fast/pce.h"
-#include "mednafen/pce_fast/vdc.h"
-#include "mednafen/pce_fast/psg.h"
 #include "mednafen/pce_fast/input.h"
+#include "mednafen/pce_fast/pce.h"
 #include "mednafen/pce_fast/pcecd.h"
 #include "mednafen/pce_fast/pcecd_drive.h"
-#include "mednafen/settings-driver.h"
-#include "mednafen/hw_misc/arcade_card/arcade_card.h"
-#include "mednafen/mempatcher.h"
-#include "mednafen/cdrom/cdromif.h"
-#include "mednafen/cdrom/CDUtility.h"
+#include "mednafen/pce_fast/psg.h"
+#include "mednafen/pce_fast/vdc.h"
 
 #ifdef _MSC_VER
 #include "msvc_compat.h"
@@ -62,26 +62,28 @@ static bool ReadM3U(std::vector<std::string> &file_list, std::string path, unsig
 
    MDFN_GetFilePathComponents(path, &dir_path);
 
-   while(m3u_file.get_line(linebuf, sizeof(linebuf)))
+   while (m3u_file.get_line(linebuf, sizeof(linebuf)))
    {
       std::string efp;
 
-      if(linebuf[0] == '#') continue;
+      if (linebuf[0] == '#')
+         continue;
       MDFN_rtrim(linebuf);
-      if(linebuf[0] == 0) continue;
+      if (linebuf[0] == 0)
+         continue;
 
       efp = MDFN_EvalFIP(dir_path, std::string(linebuf));
 
-      if(efp.size() >= 4 && efp.substr(efp.size() - 4) == ".m3u")
+      if (efp.size() >= 4 && efp.substr(efp.size() - 4) == ".m3u")
       {
-         if(efp == path)
+         if (efp == path)
          {
             log_cb(RETRO_LOG_ERROR, "M3U at \"%s\" references self.\n", efp.c_str());
             result = false;
             goto Breakout;
          }
 
-         if(depth == 99)
+         if (depth == 99)
          {
             log_cb(RETRO_LOG_ERROR, "M3U load recursion too deep!\n");
             result = false;
@@ -98,7 +100,7 @@ Breakout:
    return result;
 }
 
- static std::vector<CDIF *> CDInterfaces;	// FIXME: Cleanup on error out.
+static std::vector<CDIF *> CDInterfaces; // FIXME: Cleanup on error out.
 // TODO: LoadCommon()
 
 MDFNGI *MDFNI_LoadCD(const char *force_module, const char *devicename)
@@ -106,17 +108,15 @@ MDFNGI *MDFNI_LoadCD(const char *force_module, const char *devicename)
    bool ret = false;
    log_cb(RETRO_LOG_INFO, "Loading %s...\n\n", devicename);
 
-   if(devicename && strlen(devicename) > 4 && !strcasecmp(devicename + strlen(devicename) - 4, ".m3u"))
+   if (devicename && strlen(devicename) > 4 && !strcasecmp(devicename + strlen(devicename) - 4, ".m3u"))
    {
       std::vector<std::string> file_list;
 
       if (ReadM3U(file_list, devicename))
          ret = true;
 
-      for(unsigned i = 0; i < file_list.size(); i++)
-      {
+      for (unsigned i = 0; i < file_list.size(); i++)
          CDInterfaces.push_back(CDIF_Open(file_list[i].c_str(), false, old_cdimagecache));
-      }
    }
    else
    {
@@ -134,7 +134,7 @@ MDFNGI *MDFNI_LoadCD(const char *force_module, const char *devicename)
    // Print out a track list for all discs.
    //
    MDFN_indent(1);
-   for(unsigned i = 0; i < CDInterfaces.size(); i++)
+   for (unsigned i = 0; i < CDInterfaces.size(); i++)
    {
       TOC toc;
 
@@ -143,7 +143,7 @@ MDFNGI *MDFNI_LoadCD(const char *force_module, const char *devicename)
       MDFN_printf(_("CD %d Layout:\n"), i + 1);
       MDFN_indent(1);
 
-      for(int32 track = toc.first_track; track <= toc.last_track; track++)
+      for (int32 track = toc.first_track; track <= toc.last_track; track++)
       {
          MDFN_printf(_("Track %2d, LBA: %6d  %s\n"), track, toc.tracks[track].lba, (toc.tracks[track].control & 0x4) ? "DATA" : "AUDIO");
       }
@@ -156,9 +156,9 @@ MDFNGI *MDFNI_LoadCD(const char *force_module, const char *devicename)
 
    MDFN_printf(_("Using module: supergrafx\n\n"));
 
-   if(!(LoadCD(&CDInterfaces)))
+   if (!(LoadCD(&CDInterfaces)))
    {
-      for(unsigned i = 0; i < CDInterfaces.size(); i++)
+      for (unsigned i = 0; i < CDInterfaces.size(); i++)
          delete CDInterfaces[i];
       CDInterfaces.clear();
 
@@ -171,47 +171,47 @@ MDFNGI *MDFNI_LoadCD(const char *force_module, const char *devicename)
    MDFN_LoadGameCheats(NULL);
    MDFNMP_InstallReadPatches();
 
-   return(MDFNGameInfo);
+   return (MDFNGameInfo);
 }
 
 MDFNGI *MDFNI_LoadGame(const char *force_module, const char *name)
 {
    MDFNFILE *GameFile = NULL;
-   MDFNGameInfo = &EmulatedPCE_Fast;
+   MDFNGameInfo       = &EmulatedPCE_Fast;
 
-	if(strlen(name) > 4 && (!strcasecmp(name + strlen(name) - 4, ".cue") || !strcasecmp(name + strlen(name) - 4, ".chd") || !strcasecmp(name + strlen(name) - 4, ".ccd") || !strcasecmp(name + strlen(name) - 4, ".toc") || !strcasecmp(name + strlen(name) - 4, ".m3u")))
-	 return(MDFNI_LoadCD(force_module, name));
+   if (strlen(name) > 4 && (!strcasecmp(name + strlen(name) - 4, ".cue") || !strcasecmp(name + strlen(name) - 4, ".chd") || !strcasecmp(name + strlen(name) - 4, ".ccd") || !strcasecmp(name + strlen(name) - 4, ".toc") || !strcasecmp(name + strlen(name) - 4, ".m3u")))
+      return (MDFNI_LoadCD(force_module, name));
 
    GameFile = file_open(name);
 
-	if(!GameFile)
+   if (!GameFile)
    {
       MDFNGameInfo = NULL;
       return 0;
    }
 
-	//
-	// Load per-game settings
-	//
-	// Maybe we should make a "pgcfg" subdir, and automatically load all files in it?
-	// End load per-game settings
-	//
+   //
+   // Load per-game settings
+   //
+   // Maybe we should make a "pgcfg" subdir, and automatically load all files in it?
+   // End load per-game settings
+   //
 
    Load(name, GameFile);
 
-	MDFN_LoadGameCheats(NULL);
-	MDFNMP_InstallReadPatches();
+   MDFN_LoadGameCheats(NULL);
+   MDFNMP_InstallReadPatches();
 
-	MDFN_indent(-2);
+   MDFN_indent(-2);
 
-   return(MDFNGameInfo);
+   return (MDFNGameInfo);
 }
 
 static int curindent = 0;
 
 void MDFN_indent(int indent)
 {
- curindent += indent;
+   curindent += indent;
 }
 
 static uint8 lastchar = 0;
@@ -223,16 +223,16 @@ void MDFN_printf(const char *format, ...)
    unsigned int x, newlen;
 
    va_list ap;
-   va_start(ap,format);
+   va_start(ap, format);
 
    // First, determine how large our format_temp buffer needs to be.
    uint8 lastchar_backup = lastchar; // Save lastchar!
-   for(newlen=x=0;x<strlen(format);x++)
+   for (newlen = x = 0; x < strlen(format); x++)
    {
-      if(lastchar == '\n' && format[x] != '\n')
+      if (lastchar == '\n' && format[x] != '\n')
       {
          int y;
-         for(y=0;y<curindent;y++)
+         for (y = 0; y < curindent; y++)
             newlen++;
       }
       newlen++;
@@ -243,21 +243,21 @@ void MDFN_printf(const char *format, ...)
 
    // Now, construct our format_temp string
    lastchar = lastchar_backup; // Restore lastchar
-   for(newlen=x=0;x<strlen(format);x++)
+   for (newlen = x = 0; x < strlen(format); x++)
    {
-      if(lastchar == '\n' && format[x] != '\n')
+      if (lastchar == '\n' && format[x] != '\n')
       {
          int y;
-         for(y=0;y<curindent;y++)
+         for (y = 0; y < curindent; y++)
             format_temp[newlen++] = ' ';
       }
       format_temp[newlen++] = format[x];
-      lastchar = format[x];
+      lastchar              = format[x];
    }
 
    format_temp[newlen] = 0;
 
-   temp = (char*)malloc(4096 * sizeof(char));
+   temp = (char *)malloc(4096 * sizeof(char));
    vsnprintf(temp, 4096, format_temp, ap);
    free(format_temp);
 
@@ -269,40 +269,35 @@ void MDFN_printf(const char *format, ...)
 
 void MDFN_PrintError(const char *format, ...)
 {
- char *temp;
+   char *temp;
+   va_list ap;
+   va_start(ap, format);
 
- va_list ap;
+   temp = (char *)malloc(4096 * sizeof(char));
+   vsnprintf(temp, 4096, format, ap);
+   MDFND_PrintError(temp);
+   free(temp);
 
- va_start(ap, format);
- temp = (char*)malloc(4096 * sizeof(char));
- vsnprintf(temp, 4096, format, ap);
- MDFND_PrintError(temp);
- free(temp);
-
- va_end(ap);
+   va_end(ap);
 }
 
 void MDFN_DebugPrintReal(const char *file, const int line, const char *format, ...)
 {
- char *temp;
+   char *temp;
+   va_list ap;
 
- va_list ap;
-
- va_start(ap, format);
-
- temp = (char*)malloc(4096 * sizeof(char));
- vsnprintf(temp, 4096, format, ap);
- fprintf(stderr, "%s:%d  %s\n", file, line, temp);
- free(temp);
-
- va_end(ap);
+   va_start(ap, format);
+   temp = (char *)malloc(4096 * sizeof(char));
+   vsnprintf(temp, 4096, format, ap);
+   fprintf(stderr, "%s:%d  %s\n", file, line, temp);
+   free(temp);
+   va_end(ap);
 }
-
 
 static MDFNGI *game;
 
 struct retro_perf_callback perf_cb;
-retro_get_cpu_features_t perf_get_cpu_features_cb = NULL;
+static retro_get_cpu_features_t perf_get_cpu_features_cb = NULL;
 retro_log_printf_t log_cb;
 static retro_video_refresh_t video_cb;
 static retro_audio_sample_t audio_cb;
@@ -369,7 +364,7 @@ void retro_init(void)
       perf_get_cpu_features_cb = NULL;
 
    setting_initial_scanline = 0;
-   setting_last_scanline = 242;
+   setting_last_scanline    = 242;
 
    check_system_specs();
 }
@@ -384,41 +379,31 @@ bool retro_load_game_special(unsigned, const struct retro_game_info *, size_t)
    return false;
 }
 
-static void set_volume (uint32_t *ptr, unsigned number)
-{
-   switch(number)
-   {
-      default:
-         *ptr = number;
-         break;
-   }
-}
-
-#define        MAX_PLAYERS 5
-#define        MAX_BUTTONS 15
-static uint8_t input_buf[MAX_PLAYERS][2]    = {{0}};
-static int16_t mousedata[MAX_PLAYERS][3]    = {{0}};
-static unsigned int input_type[MAX_PLAYERS] = {0};
+#define MAX_PLAYERS 5
+#define MAX_BUTTONS 15
+static uint8_t input_buf[MAX_PLAYERS][2]    = { { 0 } };
+static int16_t mousedata[MAX_PLAYERS][3]    = { { 0 } };
+static unsigned int input_type[MAX_PLAYERS] = { 0 };
 static float mouse_sensitivity              = 1.0f;
 static bool disable_softreset               = false;
 static bool up_down_allowed                 = false;
 
 // Array to keep track of whether a given player's button is turbo
-static int     turbo_enable[MAX_PLAYERS][MAX_BUTTONS] = {};
+static int turbo_enable[MAX_PLAYERS][MAX_BUTTONS] = {};
 
 // Array to keep track of each buttons turbo status
-static int     turbo_counter[MAX_PLAYERS][MAX_BUTTONS] = {};
+static int turbo_counter[MAX_PLAYERS][MAX_BUTTONS] = {};
 
 // The number of frames between each firing of a turbo button
-static int     turbo_delay;
-static int     turbo_toggle = 1;
-static bool    turbo_toggle_alt = false;
-static int     turbo_toggle_down[MAX_PLAYERS][MAX_BUTTONS] = {};
-static int     aspect_ratio_mode = 0;
+static int turbo_delay;
+static int turbo_toggle                                = 1;
+static bool turbo_toggle_alt                           = false;
+static int turbo_toggle_down[MAX_PLAYERS][MAX_BUTTONS] = {};
+static int aspect_ratio_mode                           = 0;
 
 static void check_variables(void)
 {
-   struct retro_variable var = {0};
+   struct retro_variable var = { 0 };
 
    var.key = "sgx_cdimagecache";
 
@@ -500,11 +485,11 @@ static void check_variables(void)
    }
 
    bool do_cdsettings = false;
-   var.key = "sgx_cddavolume";
+   var.key            = "sgx_cddavolume";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
-      do_cdsettings = true;
+      do_cdsettings               = true;
       setting_pce_fast_cddavolume = atoi(var.value);
    }
 
@@ -512,7 +497,7 @@ static void check_variables(void)
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
-      do_cdsettings = true;
+      do_cdsettings                = true;
       setting_pce_fast_adpcmvolume = atoi(var.value);
    }
 
@@ -520,7 +505,7 @@ static void check_variables(void)
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
-      do_cdsettings = true;
+      do_cdsettings                = true;
       setting_pce_fast_cdpsgvolume = atoi(var.value);
    }
 
@@ -528,16 +513,16 @@ static void check_variables(void)
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
-      do_cdsettings = true;
+      do_cdsettings            = true;
       setting_pce_fast_cdspeed = atoi(var.value);
    }
 
    if (do_cdsettings)
    {
-      PCECD_Settings settings = {0};
-      settings.CDDA_Volume = (double)setting_pce_fast_cddavolume / 100;
-      settings.CD_Speed = setting_pce_fast_cdspeed;
-      settings.ADPCM_Volume = (double)setting_pce_fast_adpcmvolume / 100;
+      PCECD_Settings settings = { 0 };
+      settings.CDDA_Volume    = (double)setting_pce_fast_cddavolume / 100;
+      settings.CD_Speed       = setting_pce_fast_cdspeed;
+      settings.ADPCM_Volume   = (double)setting_pce_fast_adpcmvolume / 100;
 
       if (PCE_IsCD && PCECD_SetSettings(&settings) && log_cb)
          log_cb(RETRO_LOG_INFO, "PCE CD Audio settings changed.\n");
@@ -610,75 +595,75 @@ bool retro_load_game(const struct retro_game_info *info)
       return false;
 
    struct retro_input_descriptor desc[] = {
-      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT,  "D-Pad Left" },
-      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_UP,    "D-Pad Up" },
-      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_DOWN,  "D-Pad Down" },
+      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT, "D-Pad Left" },
+      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_UP, "D-Pad Up" },
+      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_DOWN, "D-Pad Down" },
       { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_RIGHT, "D-Pad Right" },
-      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_B,     "II" },
-      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_A,     "I" },
-      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_X,     "IV" },
-      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_Y,     "III" },
-      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_L,     "V" },
-      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_R,     "VI" },
-      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_L2,    "Mode Switch" },
-      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_SELECT,    "Select" },
-      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_START,    "Run" },
+      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_B, "II" },
+      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_A, "I" },
+      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_X, "IV" },
+      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_Y, "III" },
+      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_L, "V" },
+      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_R, "VI" },
+      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_L2, "Mode Switch" },
+      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_SELECT, "Select" },
+      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_START, "Run" },
 
-      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT,  "D-Pad Left" },
-      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_UP,    "D-Pad Up" },
-      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_DOWN,  "D-Pad Down" },
+      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT, "D-Pad Left" },
+      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_UP, "D-Pad Up" },
+      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_DOWN, "D-Pad Down" },
       { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_RIGHT, "D-Pad Right" },
-      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_B,     "II" },
-      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_A,     "I" },
-      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_X,     "IV" },
-      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_Y,     "III" },
-      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_L,     "V" },
-      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_R,     "VI" },
-      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_L2,    "Mode Switch" },
-      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_SELECT,    "Select" },
-      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_START,    "Run" },
+      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_B, "II" },
+      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_A, "I" },
+      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_X, "IV" },
+      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_Y, "III" },
+      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_L, "V" },
+      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_R, "VI" },
+      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_L2, "Mode Switch" },
+      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_SELECT, "Select" },
+      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_START, "Run" },
 
-      { 2, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT,  "D-Pad Left" },
-      { 2, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_UP,    "D-Pad Up" },
-      { 2, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_DOWN,  "D-Pad Down" },
+      { 2, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT, "D-Pad Left" },
+      { 2, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_UP, "D-Pad Up" },
+      { 2, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_DOWN, "D-Pad Down" },
       { 2, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_RIGHT, "D-Pad Right" },
-      { 2, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_B,     "II" },
-      { 2, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_A,     "I" },
-      { 2, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_X,     "IV" },
-      { 2, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_Y,     "III" },
-      { 2, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_L,     "V" },
-      { 2, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_R,     "VI" },
-      { 2, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_L2,    "Mode Switch" },
-      { 2, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_SELECT,    "Select" },
-      { 2, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_START,    "Run" },
+      { 2, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_B, "II" },
+      { 2, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_A, "I" },
+      { 2, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_X, "IV" },
+      { 2, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_Y, "III" },
+      { 2, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_L, "V" },
+      { 2, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_R, "VI" },
+      { 2, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_L2, "Mode Switch" },
+      { 2, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_SELECT, "Select" },
+      { 2, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_START, "Run" },
 
-      { 3, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT,  "D-Pad Left" },
-      { 3, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_UP,    "D-Pad Up" },
-      { 3, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_DOWN,  "D-Pad Down" },
+      { 3, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT, "D-Pad Left" },
+      { 3, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_UP, "D-Pad Up" },
+      { 3, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_DOWN, "D-Pad Down" },
       { 3, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_RIGHT, "D-Pad Right" },
-      { 3, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_B,     "II" },
-      { 3, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_A,     "I" },
-      { 3, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_X,     "IV" },
-      { 3, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_Y,     "III" },
-      { 3, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_L,     "V" },
-      { 3, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_R,     "VI" },
-      { 3, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_L2,    "Mode Switch" },
-      { 3, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_SELECT,    "Select" },
-      { 3, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_START,    "Run" },
+      { 3, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_B, "II" },
+      { 3, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_A, "I" },
+      { 3, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_X, "IV" },
+      { 3, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_Y, "III" },
+      { 3, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_L, "V" },
+      { 3, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_R, "VI" },
+      { 3, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_L2, "Mode Switch" },
+      { 3, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_SELECT, "Select" },
+      { 3, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_START, "Run" },
 
-      { 4, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT,  "D-Pad Left" },
-      { 4, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_UP,    "D-Pad Up" },
-      { 4, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_DOWN,  "D-Pad Down" },
+      { 4, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT, "D-Pad Left" },
+      { 4, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_UP, "D-Pad Up" },
+      { 4, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_DOWN, "D-Pad Down" },
       { 4, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_RIGHT, "D-Pad Right" },
-      { 4, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_B,     "II" },
-      { 4, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_A,     "I" },
-      { 4, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_X,     "IV" },
-      { 4, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_Y,     "III" },
-      { 4, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_L,     "V" },
-      { 4, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_R,     "VI" },
-      { 4, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_L2,    "Mode Switch" },
-      { 4, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_SELECT,    "Select" },
-      { 4, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_START,    "Run" },
+      { 4, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_B, "II" },
+      { 4, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_A, "I" },
+      { 4, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_X, "IV" },
+      { 4, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_Y, "III" },
+      { 4, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_L, "V" },
+      { 4, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_R, "VI" },
+      { 4, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_L2, "Mode Switch" },
+      { 4, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_SELECT, "Select" },
+      { 4, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_START, "Run" },
 
       { 0 },
    };
@@ -697,7 +682,8 @@ bool retro_load_game(const struct retro_game_info *info)
    surf = new MDFN_Surface(NULL, FB_WIDTH, FB_HEIGHT, FB_WIDTH, pix_fmt);
 
    // Possible endian bug ...
-   for (unsigned i = 0; i < MAX_PLAYERS; i++) {
+   for (unsigned i = 0; i < MAX_PLAYERS; i++)
+   {
       PCEINPUT_SetInput(i, "gamepad", &input_buf[i][0]);
       input_type[i] = RETRO_DEVICE_JOYPAD;
    }
@@ -707,7 +693,7 @@ bool retro_load_game(const struct retro_game_info *info)
 
 void retro_unload_game(void)
 {
-   if(!MDFNGameInfo)
+   if (!MDFNGameInfo)
       return;
 
    MDFN_FlushGameCheats(0);
@@ -718,16 +704,16 @@ void retro_unload_game(void)
 
    MDFNGameInfo = NULL;
 
-   for(unsigned i = 0; i < CDInterfaces.size(); i++)
+   for (unsigned i = 0; i < CDInterfaces.size(); i++)
       delete CDInterfaces[i];
    CDInterfaces.clear();
 }
 
 static void update_input(void)
 {
-   static int turbo_map[]     = { -1,-1,-1,-1,-1,-1,-1,-1, 1, 0,-1,-1,-1,-1,-1 };
-   static int turbo_map_alt[] = { -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, 1, 0 };
-   static unsigned   map[] = {
+   static int turbo_map[]     = { -1, -1, -1, -1, -1, -1, -1, -1, 1, 0, -1, -1, -1, -1, -1 };
+   static int turbo_map_alt[] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 1, 0 };
+   static unsigned map[]      = {
       RETRO_DEVICE_ID_JOYPAD_A,
       RETRO_DEVICE_ID_JOYPAD_B,
       RETRO_DEVICE_ID_JOYPAD_SELECT,
@@ -747,26 +733,26 @@ static void update_input(void)
 
    for (unsigned j = 0; j < MAX_PLAYERS; j++)
    {
-      if (input_type[j] == RETRO_DEVICE_JOYPAD)             // Joypad
+      if (input_type[j] == RETRO_DEVICE_JOYPAD) // Joypad
       {
          uint16_t input_state = 0;
          for (unsigned i = 0; i < MAX_BUTTONS; i++)
          {
-            if (turbo_enable[j][i] == 1)                    // Check whether a given button is turbo-capable
+            if (turbo_enable[j][i] == 1) // Check whether a given button is turbo-capable
             {
                if (input_state_cb(j, RETRO_DEVICE_JOYPAD, 0, map[i]))
                {
-                  if (turbo_counter[j][i] == 0)             // Turbo buttons only fire when their counter is zero
+                  if (turbo_counter[j][i] == 0) // Turbo buttons only fire when their counter is zero
                      input_state |= 1 << i;
-                  turbo_counter[j][i]++;                    // Counter is incremented by 1
-                  if (turbo_counter[j][i] > (turbo_delay))  // When the counter exceeds turbo delay, fire and return to zero
+                  turbo_counter[j][i]++; // Counter is incremented by 1
+                  if (turbo_counter[j][i] > (turbo_delay)) // When the counter exceeds turbo delay, fire and return to zero
                   {
                      input_state |= 1 << i;
                      turbo_counter[j][i] = 0;
                   }
                }
                else
-                  turbo_counter[j][i] = 0;                  // Reset counter if button is not pressed.
+                  turbo_counter[j][i] = 0; // Reset counter if button is not pressed.
             }
 
             else if ((!turbo_toggle_alt ? turbo_map[i] : turbo_map_alt[i]) != -1 && turbo_toggle && !AVPad6Enabled[j])
@@ -775,11 +761,11 @@ static void update_input(void)
                {
                   if (turbo_toggle_down[j][i] == 0)
                   {
-                     turbo_toggle_down[j][i] = 1;
+                     turbo_toggle_down[j][i]                                                = 1;
                      turbo_enable[j][(!turbo_toggle_alt ? turbo_map[i] : turbo_map_alt[i])] = turbo_enable[j][(!turbo_toggle_alt ? turbo_map[i] : turbo_map_alt[i])] ^ 1;
                      MDFN_DispMessage("Pad %i Button %s Turbo %s", j + 1,
-                        i == (!turbo_toggle_alt ? 9 : 14) ? "I" : "II",
-                        turbo_enable[j][(!turbo_toggle_alt ? turbo_map[i] : turbo_map_alt[i])] ? "ON" : "OFF" );
+                         i == (!turbo_toggle_alt ? 9 : 14) ? "I" : "II",
+                         turbo_enable[j][(!turbo_toggle_alt ? turbo_map[i] : turbo_map_alt[i])] ? "ON" : "OFF");
                   }
                }
                else
@@ -791,12 +777,15 @@ static void update_input(void)
          }
 
          if (disable_softreset == true)
-            if ((input_state & 0xC) == 0xC) input_state &= ~0xC;
+            if ((input_state & 0xC) == 0xC)
+               input_state &= ~0xC;
 
          if (up_down_allowed == false)
          {
-            if ((input_state & 0x50) == 0x50) input_state &= ~0x50;
-            if ((input_state & 0xA0) == 0xA0) input_state &= ~0xA0;
+            if ((input_state & 0x50) == 0x50)
+               input_state &= ~0x50;
+            if ((input_state & 0xA0) == 0xA0)
+               input_state &= ~0xA0;
          }
 
          // Input data must be little endian.
@@ -831,10 +820,10 @@ static void update_input(void)
 
 static float get_aspect_ratio(unsigned width, unsigned height)
 {
-   float par = 0.0f;
+   float par                  = 0.0f;
    float exact_par_per_freq[] = { 8.0f / 7.0f, 6.0f / 7.0f, 4.0f / 7.0f };
 
-   if (aspect_ratio_mode == 1)      // 6:5 DAR
+   if (aspect_ratio_mode == 1) // 6:5 DAR
       return (6.0f / 5.0f);
    else if (aspect_ratio_mode == 2) // 4:3 DAR
       return (4.0f / 3.0f);
@@ -857,21 +846,23 @@ static uint64_t video_frames, audio_frames;
 void update_geometry(unsigned width, unsigned height)
 {
    struct retro_system_av_info system_av_info;
-   system_av_info.geometry.base_width = width;
-   system_av_info.geometry.base_height = height;
+   system_av_info.geometry.base_width   = width;
+   system_av_info.geometry.base_height  = height;
+   system_av_info.geometry.max_width    = MEDNAFEN_CORE_GEOMETRY_MAX_W;
+   system_av_info.geometry.max_height   = MEDNAFEN_CORE_GEOMETRY_MAX_H;
    system_av_info.geometry.aspect_ratio = get_aspect_ratio(width, height);
    environ_cb(RETRO_ENVIRONMENT_SET_GEOMETRY, &system_av_info);
 }
 
 void retro_run(void)
 {
-   bool              updated = false;
-   bool              resolution_changed = false;
-   static int16_t    sound_buf[0x10000];
-   static int32_t    rects[FB_HEIGHT];
-   static unsigned   width, height;
+   bool updated            = false;
+   bool resolution_changed = false;
+   static int16_t sound_buf[0x10000];
+   static int32_t rects[FB_HEIGHT];
+   static unsigned width, height;
 
-   MDFNGI *curgame = (MDFNGI*)game;
+   MDFNGI *curgame = (MDFNGI *)game;
 
    input_poll_cb();
 
@@ -879,50 +870,44 @@ void retro_run(void)
 
    rects[0] = ~0;
 
-   EmulateSpecStruct spec = {0};
-   spec.surface = surf;
-   spec.SoundRate = 44100;
-   spec.SoundBuf = sound_buf;
-   spec.LineWidths = rects;
-   spec.SoundBufMaxSize = sizeof(sound_buf) / 2;
-   spec.SoundVolume = 1.0;
-   spec.soundmultiplier = 1.0;
-   spec.SoundBufSize = 0;
+   EmulateSpecStruct spec  = { 0 };
+   spec.surface            = surf;
+   spec.SoundRate          = 44100;
+   spec.SoundBuf           = sound_buf;
+   spec.LineWidths         = rects;
+   spec.SoundBufMaxSize    = sizeof(sound_buf) / 2;
+   spec.SoundVolume        = 1.0;
+   spec.soundmultiplier    = 1.0;
+   spec.SoundBufSize       = 0;
    spec.VideoFormatChanged = false;
    spec.SoundFormatChanged = false;
 
    if (memcmp(&last_pixel_format, &spec.surface->format, sizeof(MDFN_PixelFormat)))
    {
       spec.VideoFormatChanged = TRUE;
-      last_pixel_format = spec.surface->format;
+      last_pixel_format       = spec.surface->format;
    }
 
    if (spec.SoundRate != last_sound_rate)
    {
       spec.SoundFormatChanged = true;
-      last_sound_rate = spec.SoundRate;
+      last_sound_rate         = spec.SoundRate;
    }
 
    Emulate(&spec);
 
-   int16 *const SoundBuf = spec.SoundBuf + spec.SoundBufSizeALMS * curgame->soundchan;
-   int32 SoundBufSize = spec.SoundBufSize - spec.SoundBufSizeALMS;
-   const int32 SoundBufMaxSize = spec.SoundBufMaxSize - spec.SoundBufSizeALMS;
-
-   spec.SoundBufSize = spec.SoundBufSizeALMS + SoundBufSize;
-
-   if (width  != spec.DisplayRect.w || height != spec.DisplayRect.h)
+   if (width != spec.DisplayRect.w || height != spec.DisplayRect.h)
       resolution_changed = true;
 
    width  = spec.DisplayRect.w;
    height = spec.DisplayRect.h;
 
-   video_cb(surf->pixels16 + surf->pitchinpix * spec.DisplayRect.y, width, height, FB_WIDTH * 2);
+   video_cb(surf->pixels16 + surf->pitchinpix * spec.DisplayRect.y, width, height, FB_WIDTH << 1);
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE_UPDATE, &updated) && updated)
    {
       check_variables();
-      if(PCE_IsCD)
+      if (PCE_IsCD)
          psg->SetVolume(0.678 * setting_pce_fast_cdpsgvolume / 100);
       update_geometry(width, height);
    }
@@ -952,25 +937,25 @@ void retro_get_system_info(struct retro_system_info *info)
 
 void retro_get_system_av_info(struct retro_system_av_info *info)
 {
-   unsigned    width  = MEDNAFEN_CORE_GEOMETRY_BASE_W;
-   unsigned    height = setting_last_scanline - setting_initial_scanline + 1;
+   unsigned width     = MEDNAFEN_CORE_GEOMETRY_BASE_W;
+   unsigned height    = setting_last_scanline - setting_initial_scanline + 1;
    float aspect_ratio = MEDNAFEN_CORE_GEOMETRY_ASPECT_RATIO;
 
    memset(info, 0, sizeof(*info));
 
    if (aspect_ratio_mode == 0) // auto aspect
    {
-      width = 352;
+      width        = 352;
       aspect_ratio = width * (6.0 / 7.0) / height;
    }
    else if (aspect_ratio_mode == 2) // 4:3
    {
-      width = 320;
+      width        = 320;
       aspect_ratio = 4.0 / 3.0;
-   }
+   }   
 
    info->timing.fps            = MEDNAFEN_CORE_TIMING_FPS;
-   info->timing.sample_rate    = 44100;
+   info->timing.sample_rate    = 44100.0;
    info->geometry.base_width   = width;
    info->geometry.base_height  = height;
    info->geometry.max_width    = MEDNAFEN_CORE_GEOMETRY_MAX_W;
@@ -980,15 +965,16 @@ void retro_get_system_av_info(struct retro_system_av_info *info)
 
 void retro_deinit()
 {
-   delete surf;
+   if (surf)
+      delete surf;
    surf = NULL;
 
    if (log_cb)
    {
       log_cb(RETRO_LOG_INFO, "[%s]: Samples / Frame: %.5f\n",
-            MEDNAFEN_CORE_NAME, (double)audio_frames / video_frames);
+          MEDNAFEN_CORE_NAME, (double)audio_frames / video_frames);
       log_cb(RETRO_LOG_INFO, "[%s]: Estimated FPS: %.5f\n",
-            MEDNAFEN_CORE_NAME, (double)video_frames * 44100 / audio_frames);
+          MEDNAFEN_CORE_NAME, (double)video_frames * 44100 / audio_frames);
    }
 }
 
@@ -1008,22 +994,22 @@ void retro_set_controller_port_device(unsigned in_port, unsigned device)
    {
       input_type[in_port] = device;
 
-      switch(device)
+      switch (device)
       {
-         case RETRO_DEVICE_JOYPAD:
-            PCEINPUT_SetInput(in_port, "gamepad", &input_buf[in_port][0]);
-            MDFN_printf("Player %u: gamepad\n", in_port + 1);
-            break;
-         case RETRO_DEVICE_MOUSE:
-            PCEINPUT_SetInput(in_port, "mouse", &mousedata[in_port][0]);
-            MDFN_printf("Player %u: mouse\n", in_port + 1);
-            break;
-         case RETRO_DEVICE_NONE:
-            // Do not re-init to "none" as some games tend to behave differently
-            // e.g. Motoroader - cannot change speed during the course preview
-            // PCEINPUT_SetInput(in_port, "none", &input_buf[in_port][0]);
-            MDFN_printf("Player %u: None\n", in_port + 1);
-            break;
+      case RETRO_DEVICE_JOYPAD:
+         PCEINPUT_SetInput(in_port, "gamepad", &input_buf[in_port][0]);
+         MDFN_printf("Player %u: gamepad\n", in_port + 1);
+         break;
+      case RETRO_DEVICE_MOUSE:
+         PCEINPUT_SetInput(in_port, "mouse", &mousedata[in_port][0]);
+         MDFN_printf("Player %u: mouse\n", in_port + 1);
+         break;
+      case RETRO_DEVICE_NONE:
+         // Do not re-init to "none" as some games tend to behave differently
+         // e.g. Motoroader - cannot change speed during the course preview
+         // PCEINPUT_SetInput(in_port, "none", &input_buf[in_port][0]);
+         MDFN_printf("Player %u: None\n", in_port + 1);
+         break;
       }
    }
 }
@@ -1037,6 +1023,7 @@ void retro_set_environment(retro_environment_t cb)
       { "PCE Joypad", RETRO_DEVICE_JOYPAD },
       { "PCE Mouse", RETRO_DEVICE_MOUSE },
       { "None", RETRO_DEVICE_NONE },
+      { NULL, 0 },
    };
 
    static const struct retro_controller_info ports[] = {
@@ -1045,16 +1032,16 @@ void retro_set_environment(retro_environment_t cb)
       { pads, 3 },
       { pads, 3 },
       { pads, 3 },
-      { 0 },
+      { NULL, 0 },
    };
 
    libretro_set_core_options(cb);
-   environ_cb(RETRO_ENVIRONMENT_SET_CONTROLLER_INFO, (void*)ports);
+   environ_cb(RETRO_ENVIRONMENT_SET_CONTROLLER_INFO, (void *)ports);
 
    vfs_iface_info.required_interface_version = 1;
    vfs_iface_info.iface                      = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VFS_INTERFACE, &vfs_iface_info))
-	   filestream_vfs_init(&vfs_iface_info);
+      filestream_vfs_init(&vfs_iface_info);
 }
 
 void retro_set_audio_sample(retro_audio_sample_t cb)
@@ -1105,8 +1092,8 @@ size_t retro_serialize_size(void)
 bool retro_serialize(void *data, size_t size)
 {
    StateMem st;
-   bool ret          = false;
-   uint8_t *_dat     = (uint8_t*)malloc(size);
+   bool ret      = false;
+   uint8_t *_dat = (uint8_t *)malloc(size);
 
    if (!_dat)
       return false;
@@ -1130,7 +1117,7 @@ bool retro_unserialize(const void *data, size_t size)
 {
    StateMem st;
 
-   st.data           = (uint8_t*)data;
+   st.data           = (uint8_t *)data;
    st.loc            = 0;
    st.len            = size;
    st.malloced       = 0;
@@ -1145,18 +1132,18 @@ void *retro_get_memory_data(unsigned type)
 
    switch (type)
    {
-      case RETRO_MEMORY_SYSTEM_RAM:
-         data = BaseRAM;
-         break;
-      case RETRO_MEMORY_SAVE_RAM:
-         if (IsPopulous)
-            data = (uint8_t*)(ROMSpace + 0x40 * 8192);
-         else
-            data = (uint8_t*)SaveRAM;
-         break;
-      default:
-         data = NULL;
-         break;
+   case RETRO_MEMORY_SYSTEM_RAM:
+      data = BaseRAM;
+      break;
+   case RETRO_MEMORY_SAVE_RAM:
+      if (IsPopulous)
+         data = (uint8_t *)(ROMSpace + 0x40 * 8192);
+      else
+         data = (uint8_t *)SaveRAM;
+      break;
+   default:
+      data = NULL;
+      break;
    }
    return data;
 }
@@ -1167,28 +1154,30 @@ size_t retro_get_memory_size(unsigned type)
 
    switch (type)
    {
-      case RETRO_MEMORY_SYSTEM_RAM:
-         size = IsSGX ? 32768 : 8192;
-         break;
-      case RETRO_MEMORY_SAVE_RAM:
-         if (IsPopulous)
-            size = 32768;
-         else
-            size = 2048;
-         break;
-      default:
-         size = 0;
-         break;
+   case RETRO_MEMORY_SYSTEM_RAM:
+      size = IsSGX ? 32768 : 8192;
+      break;
+   case RETRO_MEMORY_SAVE_RAM:
+      if (IsPopulous)
+         size = 32768;
+      else
+         size = 2048;
+      break;
+   default:
+      size = 0;
+      break;
    }
 
    return size;
 }
 
 void retro_cheat_reset(void)
-{}
+{
+}
 
 void retro_cheat_set(unsigned, bool, const char *)
-{}
+{
+}
 
 void MDFND_Message(const char *str)
 {
@@ -1197,14 +1186,15 @@ void MDFND_Message(const char *str)
 }
 
 void MDFND_MidSync(const EmulateSpecStruct *)
-{}
+{
+}
 
 void MDFN_MidLineUpdate(EmulateSpecStruct *espec, int y)
 {
- //MDFND_MidLineUpdate(espec, y);
+   //MDFND_MidLineUpdate(espec, y);
 }
 
-void MDFND_PrintError(const char* err)
+void MDFND_PrintError(const char *err)
 {
    if (log_cb)
       log_cb(RETRO_LOG_ERROR, "%s\n", err);
@@ -1220,9 +1210,8 @@ extern void MDFND_DispMessage(unsigned char *str);
 
 void MDFND_DispMessage(unsigned char *str)
 {
-   const char *strc = (const char*)str;
-   struct retro_message msg =
-   {
+   const char *strc         = (const char *)str;
+   struct retro_message msg = {
       strc,
       180
    };
@@ -1234,16 +1223,16 @@ void MDFN_DispMessage(const char *format, ...)
 {
    struct retro_message msg;
    va_list ap;
-   char *str        = (char*)malloc(4096 * sizeof(char*));
+   char *str        = (char *)malloc(4096 * sizeof(char *));
    const char *strc = NULL;
 
-   va_start(ap,format);
-   vsnprintf(str, 4096, format,ap);
+   va_start(ap, format);
+   vsnprintf(str, 4096, format, ap);
    va_end(ap);
    strc = str;
 
    msg.frames = 180;
-   msg.msg = strc;
+   msg.msg    = strc;
 
    environ_cb(RETRO_ENVIRONMENT_SET_MESSAGE, &msg);
    free(str);
