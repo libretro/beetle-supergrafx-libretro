@@ -30,7 +30,7 @@
 #include "libretro_core_options.h"
 
 #define MEDNAFEN_CORE_NAME_MODULE "pce_fast"
-#define MEDNAFEN_CORE_NAME "Mednafen SuperGrafx"
+#define MEDNAFEN_CORE_NAME "Beetle SuperGrafx"
 #define MEDNAFEN_CORE_VERSION "v1.23.0"
 #define MEDNAFEN_CORE_EXTENSIONS "pce|sgx|cue|ccd|chd"
 #define MEDNAFEN_CORE_TIMING_FPS 59.82
