@@ -29,6 +29,19 @@
 
 #include "libretro_core_options.h"
 
+#define MEDNAFEN_CORE_NAME_MODULE "pce_fast"
+#define MEDNAFEN_CORE_NAME "Mednafen SuperGrafx"
+#define MEDNAFEN_CORE_VERSION "v0.9.41"
+#define MEDNAFEN_CORE_EXTENSIONS "pce|sgx|cue|ccd|chd"
+#define MEDNAFEN_CORE_TIMING_FPS 59.82
+#define MEDNAFEN_CORE_GEOMETRY_BASE_W 512
+#define MEDNAFEN_CORE_GEOMETRY_BASE_H 243
+#define MEDNAFEN_CORE_GEOMETRY_MAX_W 512
+#define MEDNAFEN_CORE_GEOMETRY_MAX_H 243
+#define MEDNAFEN_CORE_GEOMETRY_ASPECT_RATIO (6.0 / 5.0)
+#define FB_WIDTH 512
+#define FB_HEIGHT 243
+
 static bool old_cdimagecache = false;
 std::string retro_base_directory;
 
@@ -589,6 +602,57 @@ static void check_variables(void)
    }
 }
 
+#define PAGESIZE 8192
+
+static void setup_retro_memory_maps()
+{
+   struct retro_memory_descriptor descs[8];
+   struct retro_memory_map        mmaps;
+   int i = 0;
+
+   memset(descs, 0, sizeof(descs));
+
+   descs[i].ptr    = (uint8_t*)BaseRAM;
+   descs[i].start  = 0xf8 * PAGESIZE;
+   descs[i].len    = (IsSGX ? 4 : 1) * PAGESIZE;
+   i++;
+
+   if (IsPopulous)
+   {
+      descs[i].ptr    = (uint8_t*)(ROMSpace + 0x40 * PAGESIZE);
+      descs[i].start  = 0x40 * PAGESIZE;
+      descs[i].len    = 4 * PAGESIZE;
+      i++;
+   }
+   else
+   {
+      descs[i].ptr    = (uint8_t*)SaveRAM;
+      descs[i].start  = 0xf7 * PAGESIZE;
+      descs[i].len    = 2048;
+      i++;
+   }
+
+   if (PCE_IsCD)
+   {
+      // Super System Card RAM
+      descs[i].ptr    = (uint8_t*)(ROMSpace + 0x68 * PAGESIZE);
+      descs[i].start  = 0x68 * PAGESIZE;
+      descs[i].len    = 24 * PAGESIZE;
+      descs[i].select = 0xFFFD0000;
+      i++;
+
+      // CD RAM
+      descs[i].ptr    = (uint8_t*)(ROMSpace + 0x80 * PAGESIZE);
+      descs[i].start  = 0x80 * PAGESIZE;
+      descs[i].len    = 8 * PAGESIZE;
+      i++;
+   }
+
+   mmaps.descriptors = descs;
+   mmaps.num_descriptors = i;
+   environ_cb(RETRO_ENVIRONMENT_SET_MEMORY_MAPS, &mmaps);
+}
+
 bool retro_load_game(const struct retro_game_info *info)
 {
    if (!info || failed_init)
@@ -687,6 +751,8 @@ bool retro_load_game(const struct retro_game_info *info)
       PCEINPUT_SetInput(i, "gamepad", &input_buf[i][0]);
       input_type[i] = RETRO_DEVICE_JOYPAD;
    }
+
+   setup_retro_memory_maps();
 
    return game;
 }

@@ -10,19 +10,6 @@
 #include "../mednafen-memory.h"
 #include "psg.h"
 
-#define MEDNAFEN_CORE_NAME_MODULE "pce_fast"
-#define MEDNAFEN_CORE_NAME "Mednafen SuperGrafx"
-#define MEDNAFEN_CORE_VERSION "v0.9.41"
-#define MEDNAFEN_CORE_EXTENSIONS "pce|sgx|cue|ccd|chd"
-#define MEDNAFEN_CORE_TIMING_FPS 59.82
-#define MEDNAFEN_CORE_GEOMETRY_BASE_W 512
-#define MEDNAFEN_CORE_GEOMETRY_BASE_H 243
-#define MEDNAFEN_CORE_GEOMETRY_MAX_W 512
-#define MEDNAFEN_CORE_GEOMETRY_MAX_H 243
-#define MEDNAFEN_CORE_GEOMETRY_ASPECT_RATIO (6.0 / 5.0)
-#define FB_WIDTH 512
-#define FB_HEIGHT 243
-
 #define PCE_MASTER_CLOCK        21477272.727273
 
 #define DECLFR(x) uint8 MDFN_FASTCALL x (uint32 A)

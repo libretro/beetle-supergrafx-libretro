@@ -606,11 +606,11 @@ MDFNGI EmulatedPCE_Fast =
  0,                              // lcm_height
  NULL,                           // Dummy
 
- MEDNAFEN_CORE_GEOMETRY_BASE_W,  // Nominal width
- MEDNAFEN_CORE_GEOMETRY_BASE_H,  // Nominal height
+ 288,                            // Nominal width
+ 232,                            // Nominal height
 
- FB_WIDTH,                       // Framebuffer width
- FB_HEIGHT,                      // Framebuffer height
+ 512,                            // Framebuffer width
+ 243,                            // Framebuffer height
 
  2,                              // Number of output sound channels
 };
