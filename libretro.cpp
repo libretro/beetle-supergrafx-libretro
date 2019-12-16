@@ -1073,6 +1073,7 @@ static size_t serialize_size;
 
 size_t retro_serialize_size(void)
 {
+   int runahead = -1;
    StateMem st;
 
    st.data           = NULL;
@@ -1086,7 +1087,18 @@ size_t retro_serialize_size(void)
 
    free(st.data);
 
-   return serialize_size = st.len;
+   serialize_size = st.len;
+
+   if (environ_cb(RETRO_ENVIRONMENT_GET_AUDIO_VIDEO_ENABLE, &runahead))
+   {
+      // Use Fast Savestates
+      if (runahead & 4)
+         // allocate more memory for arcade card + future expansion (2MB + 512KB)
+         // this only affects size of memory usage and not actual savestate file
+         serialize_size += 0x280000;
+   }
+
+   return serialize_size;
 }
 
 bool retro_serialize(void *data, size_t size)
