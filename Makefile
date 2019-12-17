@@ -1,7 +1,20 @@
 DEBUG = 0
 FRONTEND_SUPPORTS_RGB565 = 1
 
+ifneq ($(V),1)
+   Q := @
+endif
+
 CORE_DIR := .
+
+SPACE :=
+SPACE := $(SPACE) $(SPACE)
+BACKSLASH :=
+BACKSLASH := \$(BACKSLASH)
+filter_out1 = $(filter-out $(firstword $1),$1)
+filter_out2 = $(call filter_out1,$(call filter_out1,$1))
+unixpath = $(subst \,/,$1)
+unixcygpath = /$(subst :,,$(call unixpath,$1))
 
 ifeq ($(platform),)
 platform = unix
@@ -16,14 +29,23 @@ endif
 else ifneq ($(findstring MINGW,$(shell uname -s)),)
    platform = win
 endif
+else ifneq (,$(findstring armv,$(platform)))
+	ifeq (,$(findstring classic_,$(platform)))
+		override platform += unix
 endif
+else ifneq (,$(findstring rpi,$(platform)))
+   override platform += unix
+endif
+
+# If you have a system with 1GB RAM or more - cache the whole 
+# CD for CD-based systems in order to prevent file access delays/hiccups
+CACHE_CD = 0
 
 HAVE_HES = 0
 NEED_BPP = 16
 NEED_TREMOR = 1
 NEED_BLIP = 1
 NEED_CD = 1
-NEED_THREADING = 1
 NEED_CRC32 = 1
 WANT_NEW_API = 1
 CORE_DEFINE := -DWANT_STEREO_SOUND
@@ -37,17 +59,68 @@ ifeq ($(shell uname -p),powerpc)
 arch = ppc
 endif
 
-ifeq ($(platform), unix)
+# Unix
+ifneq (,$(findstring unix,$(platform)))
    TARGET := $(TARGET_NAME)_libretro.so
    fpic := -fPIC
    SHARED := -shared -Wl,--no-undefined -Wl,--version-script=link.T
-   ifneq ($(shell uname -p | grep -E '((i.|x)86|amd64)'),)
-      IS_X86 = 1
+   ifneq (,$(findstring Haiku,$(shell uname -s)))
+   LDFLAGS += -lroot
+   CXXFLAGS += -fpermissive
+   else
+   LDFLAGS += -lrt
    endif
 
    ifneq ($(findstring Linux,$(shell uname -s)),)
      HAVE_CDROM = 1
    endif
+
+   # Raspberry Pi
+   ifneq (,$(findstring rpi,$(platform)))
+      FLAGS += -fomit-frame-pointer -ffast-math
+      ifneq (,$(findstring rpi1,$(platform)))
+         FLAGS += -DARM -marm -march=armv6j -mfpu=vfp -mfloat-abi=hard
+      else ifneq (,$(findstring rpi2,$(platform)))
+         FLAGS += -DARM -marm -mcpu=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard
+      else ifneq (,$(findstring rpi3,$(platform)))
+         FLAGS += -DARM -marm -mcpu=cortex-a53 -mfpu=neon-fp-armv8 -mfloat-abi=hard
+      endif
+   endif
+   
+# Classic Platforms ####################
+# Platform affix = classic_<ISA>_<µARCH>
+# Help at https://modmyclassic.com/comp
+	
+# (armv7 a7, hard point, neon based) ### 
+# NESC, SNESC, C64 mini 
+else ifeq ($(platform), classic_armv7_a7)
+	TARGET := $(TARGET_NAME)_libretro.so
+	fpic := -fPIC
+	SHARED := -shared -Wl,--no-undefined -Wl,--version-script=link.T
+	FLAGS += -DARM -Ofast \
+	-flto=4 -fwhole-program -fuse-linker-plugin \
+	-fdata-sections -ffunction-sections -Wl,--gc-sections \
+	-fno-stack-protector -fno-ident -fomit-frame-pointer \
+	-falign-functions=1 -falign-jumps=1 -falign-loops=1 \
+	-fno-unwind-tables -fno-asynchronous-unwind-tables -fno-unroll-loops \
+	-fmerge-all-constants -fno-math-errno \
+	-marm -mtune=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard
+	HAVE_NEON = 1
+	ARCH = arm
+  LDFLAGS += -marm -mtune=cortex-a7 -mfpu=neon-vfpv4
+  LDFLAGS += -lrt
+	ifeq ($(shell echo `$(CC) -dumpversion` "< 4.9" | bc -l), 1)
+	  CFLAGS += -march=armv7-a
+	else
+	  CFLAGS += -march=armv7ve
+	  # If gcc is 5.0 or later
+	  ifeq ($(shell echo `$(CC) -dumpversion` ">= 5" | bc -l), 1)
+	    LDFLAGS += -static-libgcc -static-libstdc++
+	  endif
+	endif
+#######################################
+
+# OS X
 else ifeq ($(platform), osx)
    TARGET := $(TARGET_NAME)_libretro.dylib
    fpic := -fPIC
@@ -98,6 +171,7 @@ ifeq ($(IOSSDK),)
    IOSSDK := $(shell xcodebuild -version -sdk appletvos Path)
 endif
 
+# QNX
 else ifeq ($(platform), qnx)
    TARGET := $(TARGET_NAME)_libretro_qnx.so
    fpic := -fPIC
@@ -106,34 +180,40 @@ else ifeq ($(platform), qnx)
    CXX = QCC -Vgcc_ntoarmv7le_cpp
    AR = QCC -Vgcc_ntoarmv7le
    FLAGS += -D__BLACKBERRY_QNX__ -marm -mcpu=cortex-a9 -mfpu=neon -mfloat-abi=softfp
-else ifeq ($(platform), ps3)
+
+# PS3
+else ifneq (,$(filter $(platform), ps3 sncps3 psl1ght))
    TARGET := $(TARGET_NAME)_libretro_ps3.a
-   CC = $(CELL_SDK)/host-win32/ppu/bin/ppu-lv2-gcc.exe
-   CXX = $(CELL_SDK)/host-win32/ppu/bin/ppu-lv2-g++.exe
-   AR = $(CELL_SDK)/host-win32/ppu/bin/ppu-lv2-ar.exe
-   ENDIANNESS_DEFINES := -DMSB_FIRST -DBYTE_ORDER=BIG_ENDIAN
-   OLD_GCC := 1
-   FLAGS += -DARCH_POWERPC_ALTIVEC
    STATIC_LINKING = 1
-else ifeq ($(platform), sncps3)
-   TARGET := $(TARGET_NAME)_libretro_ps3.a
-   CC = $(CELL_SDK)/host-win32/sn/bin/ps3ppusnc.exe
-   CXX = $(CELL_SDK)/host-win32/sn/bin/ps3ppusnc.exe
-   AR = $(CELL_SDK)/host-win32/sn/bin/ps3snarl.exe
    ENDIANNESS_DEFINES := -DMSB_FIRST -DBYTE_ORDER=BIG_ENDIAN
-   CXXFLAGS += -Xc+=exceptions
-   OLD_GCC := 1
-   NO_GCC := 1
-   FLAGS += -DARCH_POWERPC_ALTIVEC
-   STATIC_LINKING = 1
-else ifeq ($(platform), psl1ght)
-   TARGET := $(TARGET_NAME)_libretro_psl1ght.a
-   CC = $(PS3DEV)/ppu/bin/ppu-gcc$(EXE_EXT)
-   CXX = $(PS3DEV)/ppu/bin/ppu-g++$(EXE_EXT)
-   AR = $(PS3DEV)/ppu/bin/ppu-ar$(EXE_EXT)
-   ENDIANNESS_DEFINES := -DMSB_FIRST -DBYTE_ORDER=BIG_ENDIAN
-   FLAGS += -DBYTE_ORDER=BIG_ENDIAN
-   STATIC_LINKING = 1
+
+   # sncps3
+   ifneq (,$(findstring sncps3,$(platform)))
+      CC = $(CELL_SDK)/host-win32/sn/bin/ps3ppusnc.exe
+      CXX = $(CC)
+      AR = $(CELL_SDK)/host-win32/sn/bin/ps3snarl.exe
+      FLAGS += -DARCH_POWERPC_ALTIVEC
+      CXXFLAGS += -Xc+=exceptions
+      OLD_GCC := 1
+      NO_GCC := 1
+
+   # PS3
+   else ifneq (,$(findstring ps3,$(platform)))
+      CC = $(CELL_SDK)/host-win32/ppu/bin/ppu-lv2-gcc.exe
+      CXX = $(CELL_SDK)/host-win32/ppu/bin/ppu-lv2-g++.exe
+      AR = $(CELL_SDK)/host-win32/ppu/bin/ppu-lv2-ar.exe
+      FLAGS += -DARCH_POWERPC_ALTIVEC
+      OLD_GCC := 1
+
+   # Lightweight PS3 Homebrew SDK
+   else ifneq (,$(findstring psl1ght,$(platform)))
+      TARGET := $(TARGET_NAME)_libretro_$(platform).a
+      CC = $(PS3DEV)/ppu/bin/ppu-gcc$(EXE_EXT)
+      CXX = $(PS3DEV)/ppu/bin/ppu-g++$(EXE_EXT)
+      AR = $(PS3DEV)/ppu/bin/ppu-ar$(EXE_EXT)
+   endif
+
+# PSP
 else ifeq ($(platform), psp1)
    TARGET := $(TARGET_NAME)_libretro_psp1.a
    CC = psp-gcc$(EXE_EXT)
@@ -142,6 +222,8 @@ else ifeq ($(platform), psp1)
    FLAGS += -DPSP -G0
    STATIC_LINKING = 1
    EXTRA_INCLUDES := -I$(shell psp-config --pspsdk-path)/include
+
+# Vita
 else ifeq ($(platform), vita)
    TARGET := $(TARGET_NAME)_libretro_vita.a
    CC = arm-vita-eabi-gcc$(EXE_EXT)
@@ -150,44 +232,14 @@ else ifeq ($(platform), vita)
    FLAGS += -DVITA -march=armv7-a -mfpu=neon -mfloat-abi=hard -mlittle-endian -ffast-math
    STATIC_LINKING = 1
    EXTRA_INCLUDES := -I"$(VITASDK)/arm-vita-eabi/include"
+
+# Xbox 360
 else ifeq ($(platform), xenon)
    TARGET := $(TARGET_NAME)_libretro_xenon360.a
    CC = xenon-gcc$(EXE_EXT)
    CXX = xenon-g++$(EXE_EXT)
    AR = xenon-ar$(EXE_EXT)
    ENDIANNESS_DEFINES += -D__LIBXENON__ -m32 -D__ppc__ -DMSB_FIRST -DBYTE_ORDER=BIG_ENDIAN
-   STATIC_LINKING = 1
-else ifeq ($(platform), ngc)
-   TARGET := $(TARGET_NAME)_libretro_ngc.a
-   CC = $(DEVKITPPC)/bin/powerpc-eabi-gcc$(EXE_EXT)
-   CXX = $(DEVKITPPC)/bin/powerpc-eabi-g++$(EXE_EXT)
-   AR = $(DEVKITPPC)/bin/powerpc-eabi-ar$(EXE_EXT)
-   ENDIANNESS_DEFINES += -DGEKKO -DHW_DOL -mrvl -mcpu=750 -meabi -mhard-float -DMSB_FIRST -DBYTE_ORDER=BIG_ENDIAN
-   FLAGS += -U__INT32_TYPE__ -U __UINT32_TYPE__ -D__INT32_TYPE__=int
-
-   EXTRA_INCLUDES := -I$(DEVKITPRO)/libogc/include
-   STATIC_LINKING = 1
-
-else ifeq ($(platform), wii)
-   TARGET := $(TARGET_NAME)_libretro_$(platform).a
-   CC = $(DEVKITPPC)/bin/powerpc-eabi-gcc$(EXE_EXT)
-   CXX = $(DEVKITPPC)/bin/powerpc-eabi-g++$(EXE_EXT)
-   AR = $(DEVKITPPC)/bin/powerpc-eabi-ar$(EXE_EXT)
-   ENDIANNESS_DEFINES += -DGEKKO -DHW_RVL -mrvl -mcpu=750 -meabi -mhard-float -DMSB_FIRST -DBYTE_ORDER=BIG_ENDIAN
-   FLAGS += -U__INT32_TYPE__ -U __UINT32_TYPE__ -D__INT32_TYPE__=int
-
-   EXTRA_INCLUDES := -I$(DEVKITPRO)/libogc/include
-   STATIC_LINKING = 1
-
-else ifeq ($(platform), wiiu)
-   TARGET := $(TARGET_NAME)_libretro_$(platform).a
-   CC = $(DEVKITPPC)/bin/powerpc-eabi-gcc$(EXE_EXT)
-   CXX = $(DEVKITPPC)/bin/powerpc-eabi-g++$(EXE_EXT)
-   AR = $(DEVKITPPC)/bin/powerpc-eabi-ar$(EXE_EXT)
-   ENDIANNESS_DEFINES += -DGEKKO -DWIIU -DHW_RVL -mwup -mcpu=750 -meabi -mhard-float -DMSB_FIRST -DBYTE_ORDER=BIG_ENDIAN
-   FLAGS += -U__INT32_TYPE__ -U __UINT32_TYPE__ -D__INT32_TYPE__=int
-
-   EXTRA_INCLUDES := -I$(DEVKITPRO)/libogc/include
    STATIC_LINKING = 1
 
 # Nintendo Switch (libnx)
@@ -202,66 +254,62 @@ include $(DEVKITPRO)/libnx/switch_rules
     CXXFLAGS := $(ASFLAGS) $(CFLAGS) -fexceptions -fno-rtti -std=gnu++11 
     CFLAGS += -std=gnu11
     STATIC_LINKING = 1
-    
-# Classic Platforms ####################
-# Platform affix = classic_<ISA>_<µARCH>
-# Help at https://modmyclassic.com/comp
-	
-# (armv7 a7, hard point, neon based) ### 
-# NESC, SNESC, C64 mini 
-else ifeq ($(platform), classic_armv7_a7)
-	TARGET := $(TARGET_NAME)_libretro.so
-	fpic := -fPIC
-	SHARED := -shared -Wl,--no-undefined -Wl,--version-script=link.T
-	FLAGS += -DARM -Ofast \
-	-flto=4 -fwhole-program -fuse-linker-plugin \
-	-fdata-sections -ffunction-sections -Wl,--gc-sections \
-	-fno-stack-protector -fno-ident -fomit-frame-pointer \
-	-falign-functions=1 -falign-jumps=1 -falign-loops=1 \
-	-fno-unwind-tables -fno-asynchronous-unwind-tables -fno-unroll-loops \
-	-fmerge-all-constants -fno-math-errno \
-	-marm -mtune=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard
-	HAVE_NEON = 1
-	ARCH = arm
-  LDFLAGS += -marm -mtune=cortex-a7 -mfpu=neon-vfpv4
-  LDFLAGS += -lrt
-  ASFLAGS += -mfpu=neon
-	ifeq ($(shell echo `$(CC) -dumpversion` "< 4.9" | bc -l), 1)
-	  CFLAGS += -march=armv7-a
-	else
-	  CFLAGS += -march=armv7ve
-	  # If gcc is 5.0 or later
-	  ifeq ($(shell echo `$(CC) -dumpversion` ">= 5" | bc -l), 1)
-	    LDFLAGS += -static-libgcc -static-libstdc++
-	  endif
-	endif
-#######################################
 
-else ifneq (,$(findstring armv,$(platform)))
-   TARGET := $(TARGET_NAME)_libretro.so
-   fpic := -fPIC
-   SHARED := -shared -Wl,--no-undefined -Wl,--version-script=link.T
-   CC = gcc
-   IS_X86 = 0
-ifneq (,$(findstring cortexa8,$(platform)))
-   FLAGS += -marm -mcpu=cortex-a8
-   ASFLAGS += -mcpu=cortex-a8
-else ifneq (,$(findstring cortexa9,$(platform)))
-   FLAGS += -marm -mcpu=cortex-a9
-   ASFLAGS += -mcpu=cortex-a9
-endif
-   FLAGS += -marm
-ifneq (,$(findstring neon,$(platform)))
-   FLAGS += -mfpu=neon
-   ASFLAGS += -mfpu=neon
-   HAVE_NEON = 1
-endif
-ifneq (,$(findstring softfloat,$(platform)))
-   FLAGS += -mfloat-abi=softfp
-else ifneq (,$(findstring hardfloat,$(platform)))
-   FLAGS += -mfloat-abi=hard
-endif
-   FLAGS += -DARM
+# Nintendo Game Cube / Wii / WiiU
+else ifneq (,$(filter $(platform), ngc wii wiiu))
+   TARGET := $(TARGET_NAME)_libretro_$(platform).a
+   CC = $(DEVKITPPC)/bin/powerpc-eabi-gcc$(EXE_EXT)
+   CXX = $(DEVKITPPC)/bin/powerpc-eabi-g++$(EXE_EXT)
+   AR = $(DEVKITPPC)/bin/powerpc-eabi-ar$(EXE_EXT)
+   ENDIANNESS_DEFINES += -DGEKKO -mcpu=750 -meabi -mhard-float -DMSB_FIRST -DBYTE_ORDER=BIG_ENDIAN
+   FLAGS += -U__INT32_TYPE__ -U __UINT32_TYPE__ -D__INT32_TYPE__=int
+   EXTRA_INCLUDES := -I$(DEVKITPRO)/libogc/include
+   STATIC_LINKING = 1
+
+   # Nintendo WiiU
+   ifneq (,$(findstring wiiu,$(platform)))
+      ENDIANNESS_DEFINES += -DWIIU -DHW_RVL -mwup
+
+   # Nintendo Wii
+   else ifneq (,$(findstring wii,$(platform)))
+      ENDIANNESS_DEFINES += -DHW_RVL -mrvl
+
+   # Nintendo Game Cube
+   else ifneq (,$(findstring ngc,$(platform)))
+      ENDIANNESS_DEFINES += -DHW_DOL -mrvl
+   endif
+
+# Emscripten
+else ifeq ($(platform), emscripten)
+   TARGET := $(TARGET_NAME)_libretro_$(platform).bc
+   STATIC_LINKING = 1
+
+# else ifneq (,$(findstring armv,$(platform)))
+#    TARGET := $(TARGET_NAME)_libretro.so
+#    fpic := -fPIC
+#    SHARED := -shared -Wl,--no-undefined -Wl,--version-script=link.T
+#    CC = gcc
+#    IS_X86 = 0
+# ifneq (,$(findstring cortexa8,$(platform)))
+#    FLAGS += -marm -mcpu=cortex-a8
+#    ASFLAGS += -mcpu=cortex-a8
+# else ifneq (,$(findstring cortexa9,$(platform)))
+#    FLAGS += -marm -mcpu=cortex-a9
+#    ASFLAGS += -mcpu=cortex-a9
+# endif
+#    FLAGS += -marm
+# ifneq (,$(findstring neon,$(platform)))
+#    FLAGS += -mfpu=neon
+#    ASFLAGS += -mfpu=neon
+#    HAVE_NEON = 1
+# endif
+# ifneq (,$(findstring softfloat,$(platform)))
+#    FLAGS += -mfloat-abi=softfp
+# else ifneq (,$(findstring hardfloat,$(platform)))
+#    FLAGS += -mfloat-abi=hard
+# endif
+#    FLAGS += -DARM
+
 # Windows MSVC 2010 x64
 else ifeq ($(platform), windows_msvc2010_x64)
 	CC  = cl.exe
@@ -432,25 +480,53 @@ LINKOUT  = -o
 ifneq (,$(findstring msvc,$(platform)))
 	OBJOUT = -Fo
 	LINKOUT = -out:
+ifeq ($(STATIC_LINKING),1)
+	LD ?= lib.exe
+	STATIC_LINKING=0
+
+	ifeq ($(DEBUG), 1)
+		CFLAGS += -MTd
+		CXXFLAGS += -MTd
+	else
+		CFLAGS += -MT
+		CXXFLAGS += -MT
+	endif
+else
 	LD = link.exe
+
+	ifeq ($(DEBUG), 1)
+		CFLAGS += -MDd
+		CXXFLAGS += -MDd
+	else
+		CFLAGS += -MD
+		CXXFLAGS += -MD
+	endif
+endif
 else
 	LD = $(CXX)
 endif
 
 $(TARGET): $(OBJECTS)
-ifeq ($(STATIC_LINKING), 1)
+ifeq ($(platform), emscripten)
+	$(CXX) $(CXXFLAGS) $(OBJOUT)$@ $^
+else ifeq ($(STATIC_LINKING), 1)
 	$(AR) rcs $@ $(OBJECTS)
 else
-	$(LD) $(LINKOUT)$@ $^ $(LDFLAGS)
+	$(Q)$(LD) $(LINKOUT)$@ $^ $(LDFLAGS) $(LIBS)
+	@$(if $(Q), $(shell echo echo LD $@),)
 endif
 
 %.o: %.cpp
-	$(CXX) -c $(OBJOUT)$@ $< $(CXXFLAGS)
+	$(Q)$(CXX) -c $(OBJOUT)$@ $< $(CPPFLAGS) $(CXXFLAGS)
+	@$(if $(Q), $(shell echo echo CXX $<),)
 
 %.o: %.c
-	$(CC) -c $(OBJOUT)$@ $< $(CFLAGS)
+	$(Q)$(CC) -c $(OBJOUT)$@ $< $(CPPFLAGS) $(CFLAGS)
+	@$(if $(Q), $(shell echo echo CC $<),)
 
 clean:
-	rm -f $(TARGET) $(OBJECTS)
+	$(Q)rm -f $(OBJECTS)
+	@$(if $(Q), $(shell echo echo rm -f *.o),)
+	rm -f $(TARGET)
 
 .PHONY: clean
