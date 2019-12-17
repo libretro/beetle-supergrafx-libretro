@@ -399,12 +399,17 @@ bool retro_load_game_special(unsigned, const struct retro_game_info *, size_t)
 
 #define MAX_PLAYERS 5
 #define MAX_BUTTONS 15
-static uint8_t input_buf[MAX_PLAYERS][2]    = { { 0 } };
-static int16_t mousedata[MAX_PLAYERS][3]    = { { 0 } };
-static unsigned int input_type[MAX_PLAYERS] = { 0 };
-static float mouse_sensitivity              = 1.0f;
-static bool disable_softreset               = false;
-static bool up_down_allowed                 = false;
+
+typedef union {
+   uint8_t  u8[4 * sizeof(uint16_t)];
+   uint16_t u16[4];
+} INPUT_DATA;
+
+static INPUT_DATA input_buf[MAX_PLAYERS] = { 0 };
+static unsigned input_type[MAX_PLAYERS]  = { 0 };
+static float mouse_sensitivity           = 1.0f;
+static bool disable_softreset            = false;
+static bool up_down_allowed              = false;
 
 // Array to keep track of whether a given player's button is turbo
 static int turbo_enable[MAX_PLAYERS][MAX_BUTTONS] = {};
@@ -753,7 +758,7 @@ bool retro_load_game(const struct retro_game_info *info)
    // Possible endian bug ...
    for (unsigned i = 0; i < MAX_PLAYERS; i++)
    {
-      PCEINPUT_SetInput(i, "gamepad", &input_buf[i][0]);
+      PCEINPUT_SetInput(i, "gamepad", (uint8*)&input_buf[i]);
       input_type[i] = RETRO_DEVICE_JOYPAD;
    }
 
@@ -782,6 +787,7 @@ void retro_unload_game(void)
 
 #define BIT(x)     (1 << (x))
 
+// 1st u8 bits
 #define JOY_I      BIT(0)
 #define JOY_II     BIT(1)
 #define JOY_SELECT BIT(2)
@@ -790,11 +796,12 @@ void retro_unload_game(void)
 #define JOY_RIGHT  BIT(5)
 #define JOY_DOWN   BIT(6)
 #define JOY_LEFT   BIT(7)
-#define JOY_III    BIT(8)
-#define JOY_IV     BIT(9)
-#define JOY_V      BIT(10)
-#define JOY_VI     BIT(11)
-#define JOY_MODE   BIT(12)
+// 2nd u8 bits
+#define JOY_III    BIT(8)  >> 8
+#define JOY_IV     BIT(9)  >> 8
+#define JOY_V      BIT(10) >> 8
+#define JOY_VI     BIT(11) >> 8
+#define JOY_MODE   BIT(12) >> 8
 
 static void update_input(void)
 {
@@ -821,60 +828,68 @@ static void update_input(void)
 
    for (unsigned j = 0; j < MAX_PLAYERS; j++)
    {
-      if (input_type[j] == RETRO_DEVICE_JOYPAD) // Joypad
-      {
-         uint16_t ret = 0;
-         uint16_t input_state = 0;
+      INPUT_DATA *input_state = &(input_buf[j]);
 
+      switch (input_type[j])
+      {
+      case RETRO_DEVICE_JOYPAD:
+      {
          if (libretro_supports_bitmasks)
          {
-            ret = input_state_cb(j, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_MASK);
+            uint16_t ret = input_state_cb(j, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_MASK);
+
+            input_state->u8[0] = 0;
+            input_state->u8[1] = 0;
 
             // process normal buttons
             if (ret & BIT(RETRO_DEVICE_ID_JOYPAD_A))
-               input_state |= JOY_I;
+               input_state->u8[0] |= JOY_I;
             if (ret & BIT(RETRO_DEVICE_ID_JOYPAD_B))
-               input_state |= JOY_II;
+               input_state->u8[0] |= JOY_II;
             if (ret & BIT(RETRO_DEVICE_ID_JOYPAD_SELECT))
-               input_state |= JOY_SELECT;
+               input_state->u8[0] |= JOY_SELECT;
             if (ret & BIT(RETRO_DEVICE_ID_JOYPAD_START))
-               input_state |= JOY_RUN;
+               input_state->u8[0] |= JOY_RUN;
             if (ret & BIT(RETRO_DEVICE_ID_JOYPAD_UP))
-               input_state |= JOY_UP;
+               input_state->u8[0] |= JOY_UP;
             if (ret & BIT(RETRO_DEVICE_ID_JOYPAD_RIGHT))
-               input_state |= JOY_RIGHT;
+               input_state->u8[0] |= JOY_RIGHT;
             if (ret & BIT(RETRO_DEVICE_ID_JOYPAD_DOWN))
-               input_state |= JOY_DOWN;
+               input_state->u8[0] |= JOY_DOWN;
             if (ret & BIT(RETRO_DEVICE_ID_JOYPAD_LEFT))
-               input_state |= JOY_LEFT;
+               input_state->u8[0] |= JOY_LEFT;
             if (ret & BIT(RETRO_DEVICE_ID_JOYPAD_Y))
-               input_state |= JOY_III;
+               input_state->u8[1] |= JOY_III;
             if (ret & BIT(RETRO_DEVICE_ID_JOYPAD_X))
-               input_state |= JOY_IV;
+               input_state->u8[1] |= JOY_IV;
             if (ret & BIT(RETRO_DEVICE_ID_JOYPAD_L))
-               input_state |= JOY_V;
+               input_state->u8[1] |= JOY_V;
             if (ret & BIT(RETRO_DEVICE_ID_JOYPAD_R))
-               input_state |= JOY_VI;
+               input_state->u8[1] |= JOY_VI;
             if (ret & BIT(RETRO_DEVICE_ID_JOYPAD_L2))
-               input_state |= JOY_MODE;
+               input_state->u8[1] |= JOY_MODE;
 
             // process turbo buttons
             for (unsigned i = 0; i < MAX_BUTTONS; i++)
             {
-               if (turbo_enable[j][i] == 1) // Check whether a given button is turbo-capable
+               // Check whether a given button is turbo-capable
+               if (turbo_enable[j][i] == 1)
                {
                   if (ret & BIT(map[i]))
                   {
-                     if (turbo_counter[j][i] < 2 ) // Turbo buttons only fire when their counter is zero or 1
-                        input_state |= BIT(i);
+                     // Turbo buttons only fire when their counter is zero or 1
+                     if (turbo_counter[j][i] < 2)
+                        input_state->u16[0] |= BIT(i);
                      else
-                        input_state &= ~BIT(i);
-                     turbo_counter[j][i]++; // Counter is incremented by 1
-                     if (turbo_counter[j][i] > turbo_delay) // When the counter exceeds turbo delay return to zero
+                        input_state->u16[0] &= ~BIT(i);
+                     turbo_counter[j][i]++;
+                     // When the counter exceeds turbo delay return to zero
+                     if (turbo_counter[j][i] > turbo_delay)
                         turbo_counter[j][i] = 0;
                   }
                   else
-                     turbo_counter[j][i] = 0; // Reset counter if button is not pressed.
+                     // Reset counter if button is not pressed.
+                     turbo_counter[j][i] = 0;
                }
 
                // turbo button on/off switch
@@ -897,25 +912,32 @@ static void update_input(void)
             }
          }
 
+         // if not using input bitmasks
          else
          {
+            input_state->u16[0] = 0;
+
             for (unsigned i = 0; i < MAX_BUTTONS; i++)
             {
-               if (turbo_enable[j][i] == 1) // Check whether a given button is turbo-capable
+               // Check whether a given button is turbo-capable
+               if (turbo_enable[j][i] == 1)
                {
                   if (input_state_cb(j, RETRO_DEVICE_JOYPAD, 0, map[i]))
                   {
-                     if (turbo_counter[j][i] < 2) // Turbo buttons only fire when their counter is zero
-                        input_state |= 1 << i;
-                     turbo_counter[j][i]++; // Counter is incremented by 1
-                     if (turbo_counter[j][i] > (turbo_delay)) // When the counter exceeds turbo delay, fire and return to zero
+                     // Turbo buttons only fire when their counter is less than 2
+                     if (turbo_counter[j][i] < 2)
+                        input_state->u16[0] |= 1 << i;
+                     turbo_counter[j][i]++;
+                     // When the counter exceeds turbo delay, fire and return to zero
+                     if (turbo_counter[j][i] > (turbo_delay))
                      {
-                        input_state |= 1 << i;
+                        input_state->u16[0] |= 1 << i;
                         turbo_counter[j][i] = 0;
                      }
                   }
                   else
-                     turbo_counter[j][i] = 0; // Reset counter if button is not pressed.
+                     // Reset counter if button is not pressed.
+                     turbo_counter[j][i] = 0;
                }
 
                else if (turbo_map[i] != -1 && turbo_toggle && !AVPad6Enabled[j])
@@ -936,50 +958,57 @@ static void update_input(void)
                }
 
                else
-                  input_state |= input_state_cb(j, RETRO_DEVICE_JOYPAD, 0, map[i]) ? (1 << i) : 0;
+                  input_state->u16[0] |= input_state_cb(j, RETRO_DEVICE_JOYPAD, 0, map[i]) ? (1 << i) : 0;
             }
          }
 
          if (disable_softreset == true)
          {
-            if ((input_state & 0xC) == 0xC)
-               input_state &= ~0xC;
+            if ((input_state->u8[0] & 0xC) == 0xC)
+               input_state->u8[0] &= ~0xC;
          }
 
          if (up_down_allowed == false)
          {
-            if ((input_state & 0x50) == 0x50)
-               input_state &= ~0x50;
-            if ((input_state & 0xA0) == 0xA0)
-               input_state &= ~0xA0;
+            if ((input_state->u8[0] & 0x50) == 0x50)
+               input_state->u8[0] &= ~0x50;
+
+            if ((input_state->u8[0] & 0xA0) == 0xA0)
+               input_state->u8[0] &= ~0xA0;
          }
+      } break;
 
-         // Input data must be little endian.
-         input_buf[j][0] = (input_state >> 0) & 0xff;
-         input_buf[j][1] = (input_state >> 8) & 0xff;
-      }
-
-      else if (input_type[j] == RETRO_DEVICE_MOUSE)
+      case RETRO_DEVICE_MOUSE:
       {
-         int16_t mouse_buttons = 0;
+         int mouse_x = input_state_cb(j, RETRO_DEVICE_MOUSE, 0, RETRO_DEVICE_ID_MOUSE_X);
+         int mouse_y = input_state_cb(j, RETRO_DEVICE_MOUSE, 0, RETRO_DEVICE_ID_MOUSE_Y);
 
-         float _x = input_state_cb(j, RETRO_DEVICE_MOUSE, 0, RETRO_DEVICE_ID_MOUSE_X);
-         float _y = input_state_cb(j, RETRO_DEVICE_MOUSE, 0, RETRO_DEVICE_ID_MOUSE_Y);
+         input_state->u16[0] = (int)roundf(mouse_x * mouse_sensitivity);
+         input_state->u16[1] = (int)roundf(mouse_y * mouse_sensitivity);
 
-         mousedata[j][0] = (int)roundf(_x * mouse_sensitivity);
-         mousedata[j][1] = (int)roundf(_y * mouse_sensitivity);
+         input_state->u16[2] = 0;
 
+         // left mouse button
          if (input_state_cb(j, RETRO_DEVICE_MOUSE, 0, RETRO_DEVICE_ID_MOUSE_LEFT))
-            mouse_buttons |= (1 << 0); // left mouse button
+            input_state->u16[2] |= BIT(0);
+
+         // right mouse button
          if (input_state_cb(j, RETRO_DEVICE_MOUSE, 0, RETRO_DEVICE_ID_MOUSE_RIGHT))
-            mouse_buttons |= (1 << 1); // right mouse button
+            input_state->u16[2] |= BIT(1);
+
+         // select
          if (input_state_cb(j, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_SELECT))
-            mouse_buttons |= (1 << 2); // select
+            input_state->u16[2] |= BIT(2);
+
+         // start
          if (input_state_cb(j, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_START) ||
              input_state_cb(j, RETRO_DEVICE_MOUSE, 0, RETRO_DEVICE_ID_MOUSE_MIDDLE))
-            mouse_buttons |= (1 << 3); // start
+            input_state->u16[2] |= BIT(3);
+      } break;
 
-         mousedata[j][2] = mouse_buttons;
+      default:
+         input_state->u16[0] = 0;
+         break;
       }
    }
 }
@@ -1165,11 +1194,11 @@ void retro_set_controller_port_device(unsigned in_port, unsigned device)
       switch (device)
       {
       case RETRO_DEVICE_JOYPAD:
-         PCEINPUT_SetInput(in_port, "gamepad", &input_buf[in_port][0]);
+         PCEINPUT_SetInput(in_port, "gamepad", (uint8*)&input_buf[in_port]);
          MDFN_printf("Player %u: gamepad\n", in_port + 1);
          break;
       case RETRO_DEVICE_MOUSE:
-         PCEINPUT_SetInput(in_port, "mouse", &mousedata[in_port][0]);
+         PCEINPUT_SetInput(in_port, "mouse", (uint8*)&input_buf[in_port]);
          MDFN_printf("Player %u: mouse\n", in_port + 1);
          break;
       case RETRO_DEVICE_NONE:

@@ -129,11 +129,11 @@ uint32 HuC_Load(MDFNFILE *fp)
  }
 
  uint64 m_len = (len + 8191)&~8191;
- bool sf2_mapper = FALSE;
+  bool sf2_mapper = false;
 
  if(m_len >= sf2_threshold)
  {
-  sf2_mapper = TRUE;
+   sf2_mapper = true;
 
   if(m_len != sf2_required_size)
    m_len = sf2_required_size;
@@ -150,7 +150,7 @@ uint32 HuC_Load(MDFNFILE *fp)
 
  uint32 crc = crc32(0, GET_FDATA_PTR(fp) + headerlen, MIN(m_len, len));
 
- MDFN_printf(_("ROM:       %uKiB\n"), MIN(m_len, len) / 1024);
+ MDFN_printf(_("ROM:       %lluKiB\n"), MIN(m_len, len) / 1024);
  MDFN_printf(_("ROM CRC32: 0x%04x\n"), crc);
 
  memset(ROMSpace, 0xFF, 0x88 * 8192 + 8192);
@@ -221,7 +221,7 @@ uint32 HuC_Load(MDFNFILE *fp)
   HuCSF2Latch = 0;
  }
 
- return(crc);
+ return crc;
 }
 
 int HuC_LoadCD(const char *bios_path)
