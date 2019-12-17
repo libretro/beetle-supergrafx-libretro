@@ -18,6 +18,7 @@
 #include "pce.h"
 #include <zlib.h>
 #include "vdc.h"
+#include "psg.h"
 #include "input.h"
 #include "huc.h"
 #include "pcecd.h"
@@ -32,6 +33,17 @@ static char slash = '\\';
 #else
 static char slash = '/';
 #endif
+
+#ifdef _WIN32
+static void sanitize_path(std::string &path)
+{
+   size_t size = path.size();
+   for (size_t i = 0; i < size; i++)
+      if (path[i] == '/')
+         path[i] = '\\';
+}
+#endif
+
 
 extern std::string retro_base_directory;
 
@@ -228,11 +240,11 @@ void Load(const char *name, MDFNFILE *fp)
    uint32 crc = HuC_Load(fp);
 
    if(!strcasecmp(GET_FEXTS_PTR(fp), "sgx"))
-      IsSGX = TRUE;
+      IsSGX = true;
 
    // Space Harrier (Japan)/(USA) is not compatible with SuperGrafx mode
    else if (crc == 0x64580427UL || crc == 0x43b05eb8UL)
-      IsSGX = 0;
+      IsSGX = false;
 
    // Identify sgx games by hash
    else
@@ -343,6 +355,67 @@ static void LoadCommon(void)
  MDFNGameInfo->fps = (uint32)((double)7159090.90909090 / 455 / 263 * 65536 * 256);
 }
 
+static MDFN_COLD bool TestMagicCD(std::vector<CDIF*> *CDInterfaces)
+{
+ static const uint8 magic_test[0x20] = { 0x82, 0xB1, 0x82, 0xCC, 0x83, 0x76, 0x83, 0x8D, 0x83, 0x4F, 0x83, 0x89, 0x83, 0x80, 0x82, 0xCC,
+                                         0x92, 0x98, 0x8D, 0xEC, 0x8C, 0xA0, 0x82, 0xCD, 0x8A, 0x94, 0x8E, 0xAE, 0x89, 0xEF, 0x8E, 0xD0
+                                       };
+ uint8 sector_buffer[2048];
+ CDIF* cdiface = (*CDInterfaces)[0];
+ TOC toc;
+ bool ret = false;
+
+ memset(sector_buffer, 0, sizeof(sector_buffer));
+
+ cdiface->ReadTOC(&toc);
+
+ for(int32 track = toc.first_track; track <= toc.last_track; track++)
+ {
+  if(toc.tracks[track].control & 0x4)
+  {
+   if(cdiface->ReadSector(sector_buffer, toc.tracks[track].lba, 1) != 0x1)
+    break;
+
+   if(!memcmp((char*)sector_buffer, (char *)magic_test, 0x20))
+    ret = true;
+
+   // PCE CD BIOS apparently only looks at the first data track.
+   break;
+  }
+ }
+
+ // If it's a PC-FX CD(Battle Heat), return false.
+ // This is very kludgy.
+ for(int32 track = toc.first_track; track <= toc.last_track; track++)
+ {
+  if(toc.tracks[track].control & 0x4)
+  {
+   if(cdiface->ReadSector(sector_buffer, toc.tracks[track].lba, 1) == 0x1)
+   {
+    if(!strncmp("PC-FX:Hu_CD-ROM", (char*)sector_buffer, strlen("PC-FX:Hu_CD-ROM")))
+    {
+     return false;
+    }
+   }
+  }
+ }
+
+ // Now, test for the Games Express CD games.  The GE BIOS seems to always look at sector 0x10, but only if the first track is a
+ // data track.
+ if(toc.first_track == 1 && (toc.tracks[1].control & 0x4))
+ {
+  if(cdiface->ReadSector(sector_buffer, 0x10, 1) == 0x1)
+  {
+   if(!memcmp((char *)sector_buffer + 0x8, "HACKER CD ROM SYSTEM", 0x14))
+   {
+    ret = true;
+   }
+  }
+ }
+
+ return(ret);
+}
+
 static MDFN_COLD bool DetectSGXCD(std::vector<CDIF*>* CDInterfaces)
 {
  CDIF *cdiface = (*CDInterfaces)[0];
@@ -369,16 +442,6 @@ static MDFN_COLD bool DetectSGXCD(std::vector<CDIF*>* CDInterfaces)
 
  return ret;
 }
-
-#ifdef _WIN32
-static void sanitize_path(std::string &path)
-{
-   size_t size = path.size();
-   for (size_t i = 0; i < size; i++)
-      if (path[i] == '/')
-         path[i] = '\\';
-}
-#endif
 
 int LoadCD(std::vector<CDIF *> *CDInterfaces)
 {
@@ -610,7 +673,7 @@ MDFNGI EmulatedPCE_Fast =
  232,                            // Nominal height
 
  512,                            // Framebuffer width
- 243,                            // Framebuffer height
+ 242,                            // Framebuffer height
 
  2,                              // Number of output sound channels
 };

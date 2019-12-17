@@ -38,6 +38,8 @@ uint8 mouse_index[5];
 static uint8 sel;
 static uint8 read_index = 0;
 
+static bool DisableSR;
+
 static void SyncSettings(void);
 
 void PCEINPUT_SettingChanged(const char *name)
@@ -50,17 +52,36 @@ void PCEINPUT_Init(void)
  SyncSettings();
 }
 
-void PCEINPUT_SetInput(int port, const char *type, void *ptr)
+void PCEINPUT_SetInput(unsigned port, const char *type, uint8 *ptr)
 {
  assert(port < 5);
 
- if(!strcasecmp(type, "gamepad"))
+ if(!strcmp(type, "gamepad"))
   InputTypes[port] = 1;
- else if(!strcasecmp(type, "mouse"))
+ else if(!strcmp(type, "mouse"))
   InputTypes[port] = 2;
  else
   InputTypes[port] = 0;
  data_ptr[port] = (uint8 *)ptr;
+}
+
+void INPUT_TransformInput(void)
+{
+ for(int x = 0; x < 5; x++)
+ {
+  if(InputTypes[x] == 1)
+  {
+   if(DisableSR)
+   {
+    uint16 tmp = MDFN_de16lsb(data_ptr[x]);
+
+    if((tmp & 0xC) == 0xC)
+     tmp &= ~0xC;
+
+    MDFN_en16lsb(data_ptr[x], tmp);
+   }
+  }
+ }
 }
 
 void INPUT_Frame(void)
@@ -150,7 +171,7 @@ uint8 INPUT_Read(unsigned int A)
   {
    if(InputTypes[tmp_ri] == 1) // Gamepad
    {
-    if(AVPad6Which[tmp_ri] && AVPad6Enabled[tmp_ri])
+    if(AVPad6Which[tmp_ri] && (pce_jp_data[tmp_ri] & 0x1000))
     {
      if(sel & 1)
       ret ^= 0x0F;
@@ -321,5 +342,5 @@ InputInfoStruct PCEInputInfo =
 static void SyncSettings(void)
 {
  MDFNGameInfo->mouse_sensitivity = MDFN_GetSettingF("pce_fast.mouse_sensitivity");
- InputDeviceInfo[1].IDII = MDFN_GetSettingB("pce_fast.disable_softreset") ? GamepadIDII_DSR : GamepadIDII;
+ DisableSR = MDFN_GetSettingB("pce_fast.disable_softreset");
 }
