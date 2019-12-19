@@ -522,43 +522,60 @@ static void check_variables(void)
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
-      do_cdsettings               = true;
-      setting_pce_fast_cddavolume = atoi(var.value);
+      int newval = atoi(var.value);
+      if (setting_pce_fast_cddavolume != newval)
+      {
+         do_cdsettings               = true;
+         setting_pce_fast_cddavolume = newval;
+      }
    }
 
    var.key = "sgx_adpcmvolume";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
-      do_cdsettings                = true;
-      setting_pce_fast_adpcmvolume = atoi(var.value);
+      int newval = atoi(var.value);
+      if (setting_pce_fast_adpcmvolume != newval)
+      {
+         do_cdsettings                = true;
+         setting_pce_fast_adpcmvolume = newval;
+      }
    }
 
    var.key = "sgx_cdpsgvolume";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
-      do_cdsettings                = true;
-      setting_pce_fast_cdpsgvolume = atoi(var.value);
+      int newval = atoi(var.value);
+      if (setting_pce_fast_cdpsgvolume != newval)
+      {
+         do_cdsettings                = true;
+         setting_pce_fast_cdpsgvolume = newval;
+      }
    }
 
    var.key = "sgx_cdspeed";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
-      do_cdsettings            = true;
-      setting_pce_fast_cdspeed = atoi(var.value);
+      int newval = atoi(var.value);
+      if (setting_pce_fast_cdspeed != newval)
+      {
+         do_cdsettings            = true;
+         setting_pce_fast_cdspeed = newval;
+      }
    }
 
-   if (do_cdsettings)
+   if (PCE_IsCD && do_cdsettings)
    {
       PCECD_Settings settings = { 0 };
       settings.CDDA_Volume    = (double)setting_pce_fast_cddavolume / 100;
       settings.CD_Speed       = setting_pce_fast_cdspeed;
       settings.ADPCM_Volume   = (double)setting_pce_fast_adpcmvolume / 100;
+      PCECD_SetSettings(&settings);
 
-      if (PCE_IsCD && PCECD_SetSettings(&settings) && log_cb)
-         log_cb(RETRO_LOG_INFO, "PCE CD Audio settings changed.\n");
+      psg->SetVolume(0.678 * setting_pce_fast_cdpsgvolume / 100);
+      log_cb(RETRO_LOG_INFO, "PCE CD Audio settings changed.\n");
    }
 
    var.key = "sgx_turbo_toggle";
@@ -1069,12 +1086,7 @@ void retro_run(void)
    video_cb(surf->pixels16 + surf->pitchinpix * spec.DisplayRect.y, width, height, FB_WIDTH << 1);
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE_UPDATE, &updated) && updated)
-   {
       check_variables();
-      if (PCE_IsCD)
-         psg->SetVolume(0.678 * setting_pce_fast_cdpsgvolume / 100);
-      update_geometry(width, height);
-   }
 
    if (resolution_changed)
       update_geometry(width, height);
