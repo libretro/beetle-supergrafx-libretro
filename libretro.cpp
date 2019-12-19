@@ -167,7 +167,7 @@ MDFNGI *MDFNI_LoadCD(const char *force_module, const char *devicename)
    }
    MDFN_indent(-1);
 
-   MDFN_printf(_("Using module: supergrafx\n\n"));
+   MDFN_printf(_("Using module: supergrafx\n"));
 
    if (!(LoadCD(&CDInterfaces)))
    {
@@ -415,7 +415,7 @@ static bool up_down_allowed              = false;
 static int turbo_enable[MAX_PLAYERS][MAX_BUTTONS] = {};
 
 // Array to keep track of each buttons turbo status
-static int turbo_counter[MAX_PLAYERS][MAX_BUTTONS] = {};
+static int turbo_counter[MAX_PLAYERS][2] = {};
 
 // The number of frames between each firing of a turbo button
 static int turbo_delay;
@@ -455,6 +455,16 @@ static void check_variables(void)
          setting_pce_fast_cdbios = "syscard1.pce";
       else if (strcmp(var.value, "Games Express") == 0)
          setting_pce_fast_cdbios = "gexpress.pce";
+   }
+
+   var.key = "sgx_detect_gexpress";
+
+   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+   {
+      if (strcmp(var.value, "disabled") == 0)
+         setting_pce_fast_gexpress = false;
+      else if (strcmp(var.value, "enabled") == 0)
+         setting_pce_fast_gexpress = true;
    }
 
    var.key = "sgx_forcesgx";
@@ -512,53 +522,81 @@ static void check_variables(void)
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
-      do_cdsettings               = true;
-      setting_pce_fast_cddavolume = atoi(var.value);
+      int newval = atoi(var.value);
+      if (setting_pce_fast_cddavolume != newval)
+      {
+         do_cdsettings               = true;
+         setting_pce_fast_cddavolume = newval;
+      }
    }
 
    var.key = "sgx_adpcmvolume";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
-      do_cdsettings                = true;
-      setting_pce_fast_adpcmvolume = atoi(var.value);
+      int newval = atoi(var.value);
+      if (setting_pce_fast_adpcmvolume != newval)
+      {
+         do_cdsettings                = true;
+         setting_pce_fast_adpcmvolume = newval;
+      }
    }
 
    var.key = "sgx_cdpsgvolume";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
-      do_cdsettings                = true;
-      setting_pce_fast_cdpsgvolume = atoi(var.value);
+      int newval = atoi(var.value);
+      if (setting_pce_fast_cdpsgvolume != newval)
+      {
+         do_cdsettings                = true;
+         setting_pce_fast_cdpsgvolume = newval;
+      }
    }
 
    var.key = "sgx_cdspeed";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
-      do_cdsettings            = true;
-      setting_pce_fast_cdspeed = atoi(var.value);
+      int newval = atoi(var.value);
+      if (setting_pce_fast_cdspeed != newval)
+      {
+         do_cdsettings            = true;
+         setting_pce_fast_cdspeed = newval;
+      }
    }
 
-   if (do_cdsettings)
+   if (PCE_IsCD && do_cdsettings)
    {
       PCECD_Settings settings = { 0 };
       settings.CDDA_Volume    = (double)setting_pce_fast_cddavolume / 100;
       settings.CD_Speed       = setting_pce_fast_cdspeed;
       settings.ADPCM_Volume   = (double)setting_pce_fast_adpcmvolume / 100;
+      PCECD_SetSettings(&settings);
 
-      if (PCE_IsCD && PCECD_SetSettings(&settings) && log_cb)
-         log_cb(RETRO_LOG_INFO, "PCE CD Audio settings changed.\n");
+      psg->SetVolume(0.678 * setting_pce_fast_cdpsgvolume / 100);
+      log_cb(RETRO_LOG_INFO, "PCE CD Audio settings changed.\n");
    }
 
    var.key = "sgx_turbo_toggle";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
-      if (strcmp(var.value, "enabled") == 0)
+      int oldval = turbo_toggle;
+      if (strcmp(var.value, "switch") == 0)
          turbo_toggle = 1;
+      else if (strcmp(var.value, "dedicated") == 0)
+         turbo_toggle = 2;
       else
          turbo_toggle = 0;
+      if (turbo_toggle != oldval)
+      {
+         for (unsigned i = 0; i < MAX_PLAYERS; i++)
+         {
+            turbo_enable[i][0] = 0;
+            turbo_enable[i][1] = 0;
+         }
+      }
    }
 
    var.key = "sgx_turbo_delay";
@@ -803,29 +841,106 @@ void retro_unload_game(void)
 #define JOY_VI     BIT(11) >> 8
 #define JOY_MODE   BIT(12) >> 8
 
+static unsigned turbo_map_layout[2][2] = {
+   { RETRO_DEVICE_ID_JOYPAD_X, RETRO_DEVICE_ID_JOYPAD_Y },
+   { RETRO_DEVICE_ID_JOYPAD_R3, RETRO_DEVICE_ID_JOYPAD_L3 }
+};
+
+static unsigned map[] = {
+   RETRO_DEVICE_ID_JOYPAD_A,
+   RETRO_DEVICE_ID_JOYPAD_B,
+   RETRO_DEVICE_ID_JOYPAD_SELECT,
+   RETRO_DEVICE_ID_JOYPAD_START,
+   RETRO_DEVICE_ID_JOYPAD_UP,
+   RETRO_DEVICE_ID_JOYPAD_RIGHT,
+   RETRO_DEVICE_ID_JOYPAD_DOWN,
+   RETRO_DEVICE_ID_JOYPAD_LEFT,
+   RETRO_DEVICE_ID_JOYPAD_Y,
+   RETRO_DEVICE_ID_JOYPAD_X,
+   RETRO_DEVICE_ID_JOYPAD_L,
+   RETRO_DEVICE_ID_JOYPAD_R,
+   RETRO_DEVICE_ID_JOYPAD_L2,
+   RETRO_DEVICE_ID_JOYPAD_L3,
+   RETRO_DEVICE_ID_JOYPAD_R3
+};
+
+static void update_input_turbo(int port, INPUT_DATA *input_state, uint16_t input_data)
+{
+   unsigned *turbo_map = turbo_map_layout[turbo_toggle_alt];
+
+   // We only care about JOY_I and JOY_II (bit0 and bit 1)
+   for (unsigned i = 0; i < 2; i++)
+   {
+      // Check whether a given button is turbo-enabled
+      if (turbo_enable[port][i] == 1)
+      {
+         int which = 0;
+
+         if (turbo_toggle == 1)
+            which = map[i];
+         else if (turbo_toggle == 2)
+            which = turbo_map_layout[0][i];
+
+         if (input_data & BIT(which)) // retropad to pce_joypad
+         {
+            // Turbo buttons only fire when their counter is zero or 1
+            // FIXME: In some games, the buttons requires more frames held for specific action to react 
+            // e.g. an Attack button can react in just 1 frame while a Jump needs to have the buttons
+            // held for 3 frames before it can be registered as a "Jump" action
+            if (turbo_counter[port][i] < 2)
+               input_state->u8[0] |= (JOY_I + i);
+            else
+               input_state->u8[0] &= ~(JOY_I + i);
+            if (++turbo_counter[port][i] > turbo_delay) {
+               input_state->u8[0] |= (JOY_I + i);
+               turbo_counter[port][i] = 0;
+            }
+         }
+         else
+            turbo_counter[port][i] = 0;
+      }
+
+      // turbo mode
+      {
+         static int last_mode;
+         static bool changed;
+
+         if (last_mode != turbo_toggle)
+         {
+            last_mode = turbo_toggle;
+            changed = true;
+         }
+
+         // switch
+         if (turbo_toggle == 1)
+         {
+            if (input_data & BIT(turbo_map[i]))
+            {
+               if (turbo_toggle_down[port][i] == 0)
+               {
+                  turbo_toggle_down[port][i] ^= 1;
+                  turbo_enable[port][i] ^= 1;
+                  MDFN_DispMessage("Pad %i Button %s Turbo %s", port + 1,
+                      i ? "II" : "I", turbo_enable[port][i] ? "ON" : "OFF");
+               }
+            }
+            else
+               turbo_toggle_down[port][i] = 0;
+         }
+
+         // dedicated turbo buttons
+         else if (turbo_toggle == 2 && changed)
+         {
+            turbo_enable[port][0] = 1;
+            turbo_enable[port][1] = 1;
+            changed = false;
+         }
+      }
+   }
+}
+
 static void update_input(void)
 {
-   static int turbo_map_0[]   = { -1, -1, -1, -1, -1, -1, -1, -1, 1, 0, -1, -1, -1, -1, -1 };
-   static int turbo_map_1[]   = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 1, 0 };
-   static int *turbo_map      = (turbo_toggle_alt == 0) ? turbo_map_0 : turbo_map_1;
-   static unsigned map[]      = {
-      RETRO_DEVICE_ID_JOYPAD_A,
-      RETRO_DEVICE_ID_JOYPAD_B,
-      RETRO_DEVICE_ID_JOYPAD_SELECT,
-      RETRO_DEVICE_ID_JOYPAD_START,
-      RETRO_DEVICE_ID_JOYPAD_UP,
-      RETRO_DEVICE_ID_JOYPAD_RIGHT,
-      RETRO_DEVICE_ID_JOYPAD_DOWN,
-      RETRO_DEVICE_ID_JOYPAD_LEFT,
-      RETRO_DEVICE_ID_JOYPAD_Y,
-      RETRO_DEVICE_ID_JOYPAD_X,
-      RETRO_DEVICE_ID_JOYPAD_L,
-      RETRO_DEVICE_ID_JOYPAD_R,
-      RETRO_DEVICE_ID_JOYPAD_L2,
-      RETRO_DEVICE_ID_JOYPAD_L3,
-      RETRO_DEVICE_ID_JOYPAD_R3
-   };
-
    for (unsigned j = 0; j < MAX_PLAYERS; j++)
    {
       INPUT_DATA *input_state = &(input_buf[j]);
@@ -879,47 +994,9 @@ static void update_input(void)
          if (ret & BIT(RETRO_DEVICE_ID_JOYPAD_L2))
             input_state->u8[1] |= JOY_MODE;
 
-         // process turbo buttons
-         for (unsigned i = 0; i < MAX_BUTTONS; i++)
-         {
-            // Check whether a given button is turbo-capable
-            if (turbo_enable[j][i] == 1)
-            {
-               if (ret & BIT(map[i]))
-               {
-                  // Turbo buttons only fire when their counter is zero or 1
-                  if (turbo_counter[j][i] < 2)
-                     input_state->u16[0] |= BIT(i);
-                  else
-                     input_state->u16[0] &= ~BIT(i);
-                  turbo_counter[j][i]++;
-                  // When the counter exceeds turbo delay return to zero
-                  if (turbo_counter[j][i] > turbo_delay)
-                     turbo_counter[j][i] = 0;
-               }
-               else
-                  // Reset counter if button is not pressed.
-                  turbo_counter[j][i] = 0;
-            }
-
-            // turbo button on/off switch
-            else if (turbo_map[i] != -1 && turbo_toggle && !AVPad6Enabled[j])
-            {
-               if (ret & BIT(map[i]))
-               {
-                  if (turbo_toggle_down[j][i] == 0)
-                  {
-                     turbo_toggle_down[j][i]       = 1;
-                     turbo_enable[j][turbo_map[i]] = turbo_enable[j][turbo_map[i]] ^ 1;
-                     MDFN_DispMessage("Pad %i Button %s Turbo %s", j + 1,
-                         i == (!turbo_toggle_alt ? 9 : 14) ? "I" : "II",
-                         turbo_enable[j][turbo_map[i]] ? "ON" : "OFF");
-                  }
-               }
-               else
-                  turbo_toggle_down[j][i] = 0;
-            }
-         }
+         // process turbo buttons only when in 2-button mode
+         if (turbo_toggle != 0 && !AVPad6Enabled[j])
+            update_input_turbo(j, input_state, ret);
 
          if (disable_softreset == true)
          {
@@ -1059,12 +1136,7 @@ void retro_run(void)
    video_cb(surf->pixels16 + surf->pitchinpix * spec.DisplayRect.y, width, height, FB_WIDTH << 1);
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE_UPDATE, &updated) && updated)
-   {
       check_variables();
-      if (PCE_IsCD)
-         psg->SetVolume(0.678 * setting_pce_fast_cdpsgvolume / 100);
-      update_geometry(width, height);
-   }
 
    if (resolution_changed)
       update_geometry(width, height);

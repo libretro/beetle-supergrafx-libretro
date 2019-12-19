@@ -74,6 +74,17 @@ struct retro_core_option_definition option_defs_us[] = {
       "System Card 3"
    },
    {
+      "sgx_detect_gexpress",
+      "Detect Games Express CD (Restart)",
+      "When enabled, loading Games Express CD games will automatically load the Games Express CD Card bios regardless of CD BIOS setting.",
+      {
+         { "enabled", NULL },
+         { "disabled", NULL },
+         { NULL, NULL },
+      },
+      "enabled"
+   },
+   {
       "sgx_forcesgx",
       "Force SuperGrafx Emulation (Restart)",
       "This is helpful to run homebrew games or isolate games that will not run in SuperGrafx mode. (like Space Harrier). Savestates are not compatible with each mode. It's better to leave this option at default (Off) unless needed. Known Supergrafx games (like Dai-Makaimura, Aldyns) will automatically switch to SuperGrafx regardless of this option.",
@@ -356,7 +367,6 @@ struct retro_core_option_definition option_defs_us[] = {
       "Turbo Delay",
       "Adjust turbo delay.",
       {
-         { "2", NULL },
          { "3", NULL },
          { "4", NULL },
          { "5", NULL },
@@ -378,11 +388,12 @@ struct retro_core_option_definition option_defs_us[] = {
    },
    {
       "sgx_turbo_toggle",
-      "Turbo ON/OFF Toggle",
-      "Enables Turbo ON/OFF inputs.",
+      "Turbo Hotkey Mode",
+      "Turns turbo hotkeys into either an on/off switch or a dedicated turbo button. When disabled, all turbo functions are disabled. (Default hotkeys are X/Y buttons).",
       {
          { "disabled", NULL },
-         { "enabled", NULL },
+         { "switch", "On/Off Toggle" },
+         { "dedicated", "Dedicated Turbo Buttons" },
          { NULL, NULL },
       },
       "disabled"
@@ -390,10 +401,10 @@ struct retro_core_option_definition option_defs_us[] = {
    {
       "sgx_turbo_toggle_hotkey",
       "Alternate Turbo Hotkey",
-      "Enables Alternate Turbo ON/OFF inputs. You can avoid remapping Button III and IV when switching to 6-button gamepad mode with this.",
+      "When enabled, assigns a different turbo hotkeys (Default X/Y or L3/R3). Works only when option Turbo Hotkey Mode is in On/Off Toggle mode. You can avoid remapping Button III and IV when switching to 6-button gamepad mode with this.",
       {
-         { "disabled", NULL },
-         { "enabled", NULL },
+         { "disabled", "X/Y" },
+         { "enabled", "L3/R3" },
          { NULL, NULL },
       },
       "disabled"

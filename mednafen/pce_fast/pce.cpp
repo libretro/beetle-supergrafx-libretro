@@ -353,13 +353,55 @@ static void LoadCommon(void)
  PCE_Power();
 
  MDFNGameInfo->fps = (uint32)((double)7159090.90909090 / 455 / 263 * 65536 * 256);
+ MDFN_printf("\n");
+}
+
+static bool DetectGECD(CDIF *cdiface)	// Very half-assed detection until(if) we get ISO-9660 reading code.
+{
+ uint8 sector_buffer[2048];
+ TOC toc;
+
+ cdiface->ReadTOC(&toc);
+
+ // Now, test for the Games Express CD games.  The GE BIOS seems to always look at sector 0x10, but only if the first track is a
+ // data track.
+ if(toc.first_track == 1 && (toc.tracks[1].control & 0x4))
+ {
+  if(cdiface->ReadSector(sector_buffer, 0x10, 1) == 0x1)
+  {
+   if(!memcmp((char *)sector_buffer + 0x8, "HACKER CD ROM SYSTEM", 0x14))
+    return(true);
+
+   if(!memcmp((char *)sector_buffer + 0x01, "CD001", 0x5))
+   {
+    if(cdiface->ReadSector(sector_buffer, 0x14, 1) == 0x1)
+    {
+     static const uint32 known_crcs[] =
+     {
+      0xd7b47c06,	// AV Tanjou
+      0x86aec522,	// Bishoujo Jyanshi [...]
+      0xc8d1b5ef,	// CD Bishoujo [...]
+      0x0bdbde64,	// CD Pachisuro [...]
+     };
+     uint32 zecrc = crc32(0, sector_buffer, 2048);
+
+     //printf("%04x\n", zecrc);
+     for(unsigned int i = 0; i < sizeof(known_crcs) / sizeof(uint32); i++)
+      if(known_crcs[i] == zecrc)
+       return(true);
+    }
+   }
+  }
+ }
+
+ return(false);
 }
 
 static MDFN_COLD bool TestMagicCD(std::vector<CDIF*> *CDInterfaces)
 {
- static const uint8 magic_test[0x20] = { 0x82, 0xB1, 0x82, 0xCC, 0x83, 0x76, 0x83, 0x8D, 0x83, 0x4F, 0x83, 0x89, 0x83, 0x80, 0x82, 0xCC,
-                                         0x92, 0x98, 0x8D, 0xEC, 0x8C, 0xA0, 0x82, 0xCD, 0x8A, 0x94, 0x8E, 0xAE, 0x89, 0xEF, 0x8E, 0xD0
-                                       };
+ static const uint8 magic_test[0x20] = { 0x82, 0xB1, 0x82, 0xCC, 0x83, 0x76, 0x83, 0x8D, 0x83, 0x4F, 0x83, 0x89, 0x83, 0x80, 0x82, 0xCC,  
+				   	 0x92, 0x98, 0x8D, 0xEC, 0x8C, 0xA0, 0x82, 0xCD, 0x8A, 0x94, 0x8E, 0xAE, 0x89, 0xEF, 0x8E, 0xD0
+				       };
  uint8 sector_buffer[2048];
  CDIF* cdiface = (*CDInterfaces)[0];
  TOC toc;
@@ -400,18 +442,8 @@ static MDFN_COLD bool TestMagicCD(std::vector<CDIF*> *CDInterfaces)
   }
  }
 
- // Now, test for the Games Express CD games.  The GE BIOS seems to always look at sector 0x10, but only if the first track is a
- // data track.
- if(toc.first_track == 1 && (toc.tracks[1].control & 0x4))
- {
-  if(cdiface->ReadSector(sector_buffer, 0x10, 1) == 0x1)
-  {
-   if(!memcmp((char *)sector_buffer + 0x8, "HACKER CD ROM SYSTEM", 0x14))
-   {
-    ret = true;
-   }
-  }
- }
+ if(DetectGECD(cdiface))
+  ret = true;
 
  return(ret);
 }
@@ -445,7 +477,9 @@ static MDFN_COLD bool DetectSGXCD(std::vector<CDIF*>* CDInterfaces)
 
 int LoadCD(std::vector<CDIF *> *CDInterfaces)
 {
- std::string bios_path = retro_base_directory + slash + MDFN_GetSettingS("pce_fast.cdbios");
+ std::string bios_filename = MDFN_GetSettingB("sgx_detect_gexpress") ?
+   (DetectGECD((*CDInterfaces)[0]) ? "gexpress.pce" : MDFN_GetSettingS("pce_fast.cdbios")) : MDFN_GetSettingS("pce_fast.cdbios");
+ std::string bios_path = retro_base_directory + slash + bios_filename;
 
 #ifdef _WIN32
  sanitize_path(bios_path);
