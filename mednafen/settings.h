@@ -1,6 +1,7 @@
 #ifndef MDFN_SETTINGS_H
 #define MDFN_SETTINGS_H
 
+extern bool setting_pce_fast_gexpress;
 extern bool setting_pce_fast_forcesgx;
 extern bool setting_pce_fast_nospritelimit;
 extern int setting_initial_scanline;

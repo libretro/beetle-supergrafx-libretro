@@ -74,6 +74,17 @@ struct retro_core_option_definition option_defs_us[] = {
       "System Card 3"
    },
    {
+      "sgx_detect_gexpress",
+      "Detect Games Express CD (Restart)",
+      "When enabled, loading Games Express CD games will automatically load the Games Express CD Card bios regardless of CD BIOS setting.",
+      {
+         { "enabled", NULL },
+         { "disabled", NULL },
+         { NULL, NULL },
+      },
+      "enabled"
+   },
+   {
       "sgx_forcesgx",
       "Force SuperGrafx Emulation (Restart)",
       "This is helpful to run homebrew games or isolate games that will not run in SuperGrafx mode. (like Space Harrier). Savestates are not compatible with each mode. It's better to leave this option at default (Off) unless needed. Known Supergrafx games (like Dai-Makaimura, Aldyns) will automatically switch to SuperGrafx regardless of this option.",

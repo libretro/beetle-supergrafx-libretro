@@ -167,7 +167,7 @@ MDFNGI *MDFNI_LoadCD(const char *force_module, const char *devicename)
    }
    MDFN_indent(-1);
 
-   MDFN_printf(_("Using module: supergrafx\n\n"));
+   MDFN_printf(_("Using module: supergrafx\n"));
 
    if (!(LoadCD(&CDInterfaces)))
    {
@@ -455,6 +455,16 @@ static void check_variables(void)
          setting_pce_fast_cdbios = "syscard1.pce";
       else if (strcmp(var.value, "Games Express") == 0)
          setting_pce_fast_cdbios = "gexpress.pce";
+   }
+
+   var.key = "sgx_detect_gexpress";
+
+   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+   {
+      if (strcmp(var.value, "disabled") == 0)
+         setting_pce_fast_gexpress = false;
+      else if (strcmp(var.value, "enabled") == 0)
+         setting_pce_fast_gexpress = true;
    }
 
    var.key = "sgx_forcesgx";

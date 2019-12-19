@@ -21,6 +21,7 @@
 #include <string>
 #include "settings.h"
 
+bool setting_pce_fast_gexpress = true;
 bool setting_pce_fast_forcesgx = true;
 bool setting_pce_fast_nospritelimit = false;
 int setting_initial_scanline = 0;
@@ -79,6 +80,8 @@ double MDFN_GetSettingF(const char *name)
 
 bool MDFN_GetSettingB(const char *name)
 {
+   if (!strcmp("sgx_detect_gexpress", name))
+      return setting_pce_fast_gexpress;
    if (!strcmp("cheats", name))
       return 0;
    /* LIBRETRO */
