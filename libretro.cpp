@@ -1072,8 +1072,6 @@ static float get_aspect_ratio(unsigned width, unsigned height)
    return (float)width * par / (float)height;
 }
 
-static uint64_t video_frames, audio_frames;
-
 void update_geometry(unsigned width, unsigned height)
 {
    struct retro_system_av_info system_av_info;
@@ -1141,9 +1139,6 @@ void retro_run(void)
    if (resolution_changed)
       update_geometry(width, height);
 
-   video_frames++;
-   audio_frames += spec.SoundBufSize;
-
    audio_batch_cb(spec.SoundBuf, spec.SoundBufSize);
 }
 
@@ -1194,15 +1189,6 @@ void retro_deinit()
    if (surf)
       delete surf;
    surf = NULL;
-
-   if (log_cb)
-   {
-      log_cb(RETRO_LOG_INFO, "[%s]: Samples / Frame: %.5f\n",
-          MEDNAFEN_CORE_NAME, (double)audio_frames / video_frames);
-      log_cb(RETRO_LOG_INFO, "[%s]: Estimated FPS: %.5f\n",
-          MEDNAFEN_CORE_NAME, (double)video_frames * 44100 / audio_frames);
-   }
-
    libretro_supports_bitmasks = false;
 }
 
