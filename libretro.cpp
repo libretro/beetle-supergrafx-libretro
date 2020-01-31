@@ -421,8 +421,10 @@ static int turbo_counter[MAX_PLAYERS][2] = {};
 static int turbo_delay;
 static int turbo_toggle                                = 1;
 static bool turbo_toggle_alt                           = false;
-static int turbo_toggle_down[MAX_PLAYERS][MAX_BUTTONS] = {};
 static int aspect_ratio_mode                           = 0;
+
+static int turbo_toggle_down[MAX_PLAYERS][MAX_BUTTONS] = {};
+static int AVPad6_toggle_down[MAX_PLAYERS]        = { 0 };
 
 static void check_variables(void)
 {
@@ -884,7 +886,7 @@ static void update_input_turbo(int port, INPUT_DATA *input_state, uint16_t input
          if (input_data & BIT(which)) // retropad to pce_joypad
          {
             // Turbo buttons only fire when their counter is zero or 1
-            // FIXME: In some games, the buttons requires more frames held for specific action to react 
+            // FIXME: In some games, the buttons requires more frames held for specific action to react
             // e.g. an Attack button can react in just 1 frame while a Jump needs to have the buttons
             // held for 3 frames before it can be registered as a "Jump" action
             if (turbo_counter[port][i] < 2)
@@ -991,12 +993,24 @@ static void update_input(void)
             input_state->u8[1] |= JOY_V;
          if (ret & BIT(RETRO_DEVICE_ID_JOYPAD_R))
             input_state->u8[1] |= JOY_VI;
-         if (ret & BIT(RETRO_DEVICE_ID_JOYPAD_L2))
-            input_state->u8[1] |= JOY_MODE;
+         input_buf->u8[1] |= AVPad6Enabled[j] ? JOY_MODE : 0;
 
          // process turbo buttons only when in 2-button mode
          if (turbo_toggle != 0 && !AVPad6Enabled[j])
             update_input_turbo(j, input_state, ret);
+
+         // 2/6 buttom mode switching
+         if (ret & BIT(RETRO_DEVICE_ID_JOYPAD_L2))
+         {
+            if (AVPad6_toggle_down[j] == 0)
+            {
+               AVPad6_toggle_down[j] = !AVPad6_toggle_down[j];
+               AVPad6Enabled[j] = !AVPad6Enabled[j];
+               MDFN_DispMessage("%d-button mode selected for pad %d", AVPad6Enabled[j] ? 6 : 2, j + 1);
+            }            
+         }
+         else
+            AVPad6_toggle_down[j] = 0;
 
          if (disable_softreset == true)
          {
