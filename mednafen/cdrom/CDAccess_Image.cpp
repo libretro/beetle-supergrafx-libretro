@@ -770,7 +770,9 @@ void CDAccess_Image::ImageOpen(const char *path, bool image_memcache)
  NumTracks = 1 + LastTrack - FirstTrack;
 
  int32 RunningLBA = 0;
+#if 0
  int32 LastIndex = 0;
+#endif
  long FileOffset = 0;
 
  for(int x = FirstTrack; x < (FirstTrack + NumTracks); x++)
@@ -806,7 +808,9 @@ void CDAccess_Image::ImageOpen(const char *path, bool image_memcache)
   {
    if(Tracks[x].FirstFileInstance) 
    {
+#if 0
     LastIndex = 0;
+#endif
     FileOffset = 0;
    }
 

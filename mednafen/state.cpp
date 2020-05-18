@@ -208,7 +208,7 @@ static int WriteStateChunk(StateMem *st, const char *sname, SFORMAT *sf)
    uint8_t sname_tmp[32];
 
    memset(sname_tmp, 0, sizeof(sname_tmp));
-   strncpy((char *)sname_tmp, sname, 32);
+   memcpy((char *)sname_tmp, sname, 32);
 
    if(strlen(sname) > 32)
       printf("Warning: section name is too long: %s\n", sname);

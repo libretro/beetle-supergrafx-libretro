@@ -402,7 +402,9 @@ case 1:
 void CDAccess_CCD::CheckSubQSanity(void)
 {
  size_t checksum_pass_counter = 0;
+#if 0
  int prev_lba = INT_MAX;
+#endif
  uint8 prev_track = 0;
 
  for(size_t s = 0; s < img_numsectors; s++)
@@ -448,7 +450,9 @@ void CDAccess_CCD::CheckSubQSanity(void)
      int lba = ((BCD_to_U8(am_bcd) * 60 + BCD_to_U8(as_bcd)) * 75 + BCD_to_U8(af_bcd)) - 150;
      uint8 track = BCD_to_U8(track_bcd);
 
+#if 0
      prev_lba = lba;
+#endif
 
      if(track < prev_track)
       throw MDFN_Error(0, _("Garbage subchannel Q data detected(bad track number)"));
