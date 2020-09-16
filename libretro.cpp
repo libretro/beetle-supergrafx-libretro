@@ -993,7 +993,7 @@ static void update_input(void)
             input_state->u8[1] |= JOY_V;
          if (ret & BIT(RETRO_DEVICE_ID_JOYPAD_R))
             input_state->u8[1] |= JOY_VI;
-         input_buf->u8[1] |= AVPad6Enabled[j] ? JOY_MODE : 0;
+         input_state->u8[1] |= AVPad6Enabled[j] ? JOY_MODE : 0;
 
          // process turbo buttons only when in 2-button mode
          if (turbo_toggle != 0 && !AVPad6Enabled[j])
