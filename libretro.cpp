@@ -401,8 +401,8 @@ bool retro_load_game_special(unsigned, const struct retro_game_info *, size_t)
 #define MAX_BUTTONS 15
 
 typedef union {
-   uint8_t  u8[4 * sizeof(uint16_t)];
-   uint16_t u16[4];
+   uint8_t  u8[2 * sizeof(uint16_t) + 1];
+   uint16_t u16[2];
 } INPUT_DATA;
 
 static INPUT_DATA input_buf[MAX_PLAYERS] = { 0 };
@@ -837,11 +837,11 @@ void retro_unload_game(void)
 #define JOY_DOWN   BIT(6)
 #define JOY_LEFT   BIT(7)
 // 2nd u8 bits
-#define JOY_III    BIT(8)  >> 8
-#define JOY_IV     BIT(9)  >> 8
-#define JOY_V      BIT(10) >> 8
-#define JOY_VI     BIT(11) >> 8
-#define JOY_MODE   BIT(12) >> 8
+#define JOY_III    BIT(8)
+#define JOY_IV     BIT(9)
+#define JOY_V      BIT(10)
+#define JOY_VI     BIT(11)
+#define JOY_MODE   BIT(12)
 
 static unsigned turbo_map_layout[2][2] = {
    { RETRO_DEVICE_ID_JOYPAD_X, RETRO_DEVICE_ID_JOYPAD_Y },
@@ -868,7 +868,7 @@ static unsigned map[] = {
 
 static void update_input_turbo(int port, INPUT_DATA *input_state, uint16_t input_data)
 {
-   unsigned *turbo_map = turbo_map_layout[turbo_toggle_alt];
+   unsigned *turbo_map = &(turbo_map_layout[turbo_toggle_alt][0]);
 
    // We only care about JOY_I and JOY_II (bit0 and bit 1)
    for (unsigned i = 0; i < 2; i++)
@@ -890,11 +890,11 @@ static void update_input_turbo(int port, INPUT_DATA *input_state, uint16_t input
             // e.g. an Attack button can react in just 1 frame while a Jump needs to have the buttons
             // held for 3 frames before it can be registered as a "Jump" action
             if (turbo_counter[port][i] < 2)
-               input_state->u8[0] |= (JOY_I + i);
+               input_state->u16[0] |= (JOY_I + i);
             else
-               input_state->u8[0] &= ~(JOY_I + i);
+               input_state->u16[0] &= ~(JOY_I + i);
             if (++turbo_counter[port][i] > turbo_delay) {
-               input_state->u8[0] |= (JOY_I + i);
+               input_state->u16[0] |= (JOY_I + i);
                turbo_counter[port][i] = 0;
             }
          }
@@ -965,35 +965,35 @@ static void update_input(void)
                ret |= input_state_cb(j, RETRO_DEVICE_JOYPAD, 0, id) ? BIT(id) : 0;
          }
 
-         input_state->u8[0] = 0;
-         input_state->u8[1] = 0;
+         input_state->u16[0] = 0;
 
          // process normal buttons
          if (ret & BIT(RETRO_DEVICE_ID_JOYPAD_A))
-            input_state->u8[0] |= JOY_I;
+            input_state->u16[0] |= JOY_I;
          if (ret & BIT(RETRO_DEVICE_ID_JOYPAD_B))
-            input_state->u8[0] |= JOY_II;
+            input_state->u16[0] |= JOY_II;
          if (ret & BIT(RETRO_DEVICE_ID_JOYPAD_SELECT))
-            input_state->u8[0] |= JOY_SELECT;
+            input_state->u16[0] |= JOY_SELECT;
          if (ret & BIT(RETRO_DEVICE_ID_JOYPAD_START))
-            input_state->u8[0] |= JOY_RUN;
+            input_state->u16[0] |= JOY_RUN;
          if (ret & BIT(RETRO_DEVICE_ID_JOYPAD_UP))
-            input_state->u8[0] |= JOY_UP;
+            input_state->u16[0] |= JOY_UP;
          if (ret & BIT(RETRO_DEVICE_ID_JOYPAD_RIGHT))
-            input_state->u8[0] |= JOY_RIGHT;
+            input_state->u16[0] |= JOY_RIGHT;
          if (ret & BIT(RETRO_DEVICE_ID_JOYPAD_DOWN))
-            input_state->u8[0] |= JOY_DOWN;
+            input_state->u16[0] |= JOY_DOWN;
          if (ret & BIT(RETRO_DEVICE_ID_JOYPAD_LEFT))
-            input_state->u8[0] |= JOY_LEFT;
+            input_state->u16[0] |= JOY_LEFT;
          if (ret & BIT(RETRO_DEVICE_ID_JOYPAD_Y))
-            input_state->u8[1] |= JOY_III;
+            input_state->u16[0] |= JOY_III;
          if (ret & BIT(RETRO_DEVICE_ID_JOYPAD_X))
-            input_state->u8[1] |= JOY_IV;
+            input_state->u16[0] |= JOY_IV;
          if (ret & BIT(RETRO_DEVICE_ID_JOYPAD_L))
-            input_state->u8[1] |= JOY_V;
+            input_state->u16[0] |= JOY_V;
          if (ret & BIT(RETRO_DEVICE_ID_JOYPAD_R))
-            input_state->u8[1] |= JOY_VI;
-         input_state->u8[1] |= AVPad6Enabled[j] ? JOY_MODE : 0;
+            input_state->u16[0] |= JOY_VI;
+         if (AVPad6Enabled[j])
+            input_state->u16[0] |= JOY_MODE;
 
          // process turbo buttons only when in 2-button mode
          if (turbo_toggle != 0 && !AVPad6Enabled[j])
@@ -1014,17 +1014,17 @@ static void update_input(void)
 
          if (disable_softreset == true)
          {
-            if ((input_state->u8[0] & 0xC) == 0xC)
-               input_state->u8[0] &= ~0xC;
+            if ((input_state->u16[0] & 0xC) == 0xC)
+               input_state->u16[0] &= ~0xC;
          }
 
          if (up_down_allowed == false)
          {
-            if ((input_state->u8[0] & 0x50) == 0x50)
-               input_state->u8[0] &= ~0x50;
+            if ((input_state->u16[0] & 0x50) == 0x50)
+               input_state->u16[0] &= ~0x50;
 
-            if ((input_state->u8[0] & 0xA0) == 0xA0)
-               input_state->u8[0] &= ~0xA0;
+            if ((input_state->u16[0] & 0xA0) == 0xA0)
+               input_state->u16[0] &= ~0xA0;
          }
       } break;
 
@@ -1036,28 +1036,33 @@ static void update_input(void)
          input_state->u16[0] = (int)roundf(mouse_x * mouse_sensitivity);
          input_state->u16[1] = (int)roundf(mouse_y * mouse_sensitivity);
 
-         input_state->u16[2] = 0;
+         input_state->u8[4] = 0;
 
          // left mouse button
          if (input_state_cb(j, RETRO_DEVICE_MOUSE, 0, RETRO_DEVICE_ID_MOUSE_LEFT))
-            input_state->u16[2] |= BIT(0);
+            input_state->u8[4] |= BIT(0);
 
          // right mouse button
          if (input_state_cb(j, RETRO_DEVICE_MOUSE, 0, RETRO_DEVICE_ID_MOUSE_RIGHT))
-            input_state->u16[2] |= BIT(1);
+            input_state->u8[4] |= BIT(1);
 
          // select
          if (input_state_cb(j, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_SELECT))
-            input_state->u16[2] |= BIT(2);
+            input_state->u8[4] |= BIT(2);
 
          // start
          if (input_state_cb(j, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_START) ||
              input_state_cb(j, RETRO_DEVICE_MOUSE, 0, RETRO_DEVICE_ID_MOUSE_MIDDLE))
-            input_state->u16[2] |= BIT(3);
+            input_state->u8[4] |= BIT(3);
       } break;
 
       default:
-         input_state->u16[0] = 0;
+         // just set 0 for unused ports
+         input_state->u8[0] = 0;
+         input_state->u8[1] = 0;
+         input_state->u8[2] = 0;
+         input_state->u8[3] = 0;
+         input_state->u8[4] = 0;         
          break;
       }
    }
