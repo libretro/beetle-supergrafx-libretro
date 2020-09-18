@@ -103,7 +103,7 @@ typedef struct
 
 extern vdc_t vdc_chips[2];
 
-void VDC_SetPixelFormat(const MDFN_PixelFormat &format) MDFN_COLD;
+void VDC_SetPixelFormat(const uint8* CustomColorMap, const uint32 CustomColorMapLen) MDFN_COLD;
 void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES);
 void VDC_SetLayerEnableMask(uint64 mask);
 

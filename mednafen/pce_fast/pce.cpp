@@ -561,7 +561,7 @@ void Emulate(EmulateSpecStruct *espec)
 #endif
 
  if(espec->VideoFormatChanged)
-  VDC_SetPixelFormat(espec->surface->format); //.Rshift, espec->surface->format.Gshift, espec->surface->format.Bshift);
+  VDC_SetPixelFormat(espec->CustomPalette, espec->CustomPaletteNumEntries);
 
  if(espec->SoundFormatChanged)
  {
