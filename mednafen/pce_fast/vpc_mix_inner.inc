@@ -31,8 +31,8 @@
                 break;
 	 }
 
-    if (vdc1_pixel & ALPHA_MASK)
-     target[x] = MAKECOLOR_PCE(vdc2_pixel);
-    else
-     target[x] = MAKECOLOR_PCE(vdc1_pixel);
-
+	const uint16 *cm16 = systemColorMap16[vce.CR >> 7];
+	if (vdc1_pixel & ALPHA_MASK)
+	 target[x] = cm16[vdc2_pixel & 0x1ff];
+	else
+     target[x] = cm16[vdc1_pixel & 0x1ff];

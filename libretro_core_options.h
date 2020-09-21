@@ -50,6 +50,17 @@ extern "C" {
 
 struct retro_core_option_definition option_defs_us[] = {
    {
+      "sgx_palette",
+      "Colour Palette",
+      "Composite tries to recreate the original console output and can show more details in some games.",
+      {
+         { "RGB", NULL },
+         { "Composite", NULL },
+         { NULL, NULL},
+      },
+      "RGB"
+   },
+   {
       "sgx_cdimagecache",
       "CD Image Cache (Restart)",
       "Loads the complete image in memory at startup. Can potentially decrease loading times at the cost of increased startup time.",

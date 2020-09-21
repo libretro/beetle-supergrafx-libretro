@@ -32,6 +32,7 @@ The spectrum peaked at 15734 Hz.  21477272.727272... / 3 / 15734 = 455.00(CPU cy
 #include "../FileStream.h"
 #include <math.h>
 
+static uint16 systemColorMap16[2][512];	// 0 = normal, 1 = strip colorburst
 static uint32 userle; // User layer enable.
 static uint32 disabled_layer_color;
 
@@ -58,6 +59,8 @@ vdc_t vdc_chips[2];
 
 static INLINE void FixPCache(int entry)
 {
+ const uint16 *cm16 = systemColorMap16[vce.CR >> 7];
+
  if(!(entry & 0xFF))
  {
   uint32 color = vce.color_table[entry & 0x100];
@@ -66,22 +69,23 @@ static INLINE void FixPCache(int entry)
    if (VDC_TotalChips == 2)
     vce.color_table_cache[(entry & 0x100) + (x << 4)] = color | ALPHA_MASK;
    else
-    vce.color_table_cache[(entry & 0x100) + (x << 4)] = MAKECOLOR_PCE(color);
+    vce.color_table_cache[(entry & 0x100) + (x << 4)] = cm16[color];
   }
  }
 
  if(entry & 0xF)
  {
+
    uint32 color = vce.color_table[entry];
 
-  // For SuperGrafx VPCsprite handling to work
-  if(entry & 0x100)
-   color |= ALPHA_MASK << 2;
+   // For SuperGrafx VPCsprite handling to work
+   if(entry & 0x100)
+     color |= ALPHA_MASK << 2;
 
-  if (VDC_TotalChips == 2)
-   vce.color_table_cache[entry] = color;
-  else
-   vce.color_table_cache[entry] = MAKECOLOR_PCE(color);
+   if (VDC_TotalChips == 2)
+    vce.color_table_cache[entry] = color;
+   else
+    vce.color_table_cache[entry] = cm16[color & 0x1ff];
  }
 }
 
@@ -211,8 +215,49 @@ vpc_t vpc;
 #define VDCS_VD		0x20 // Vertical blank interrupt occurred
 #define VDCS_BSY	0x40 // VDC is waiting for a CPU access slot during the active display area??
 
-void VDC_SetPixelFormat(const MDFN_PixelFormat &format)
+void VDC_SetPixelFormat(const uint8* CustomColorMap, const uint32 CustomColorMapLen)
 {
+ for(int x = 0; x < 512; x++)
+ {
+  int r, g, b;
+  int sc_r, sc_g, sc_b;
+
+  if(CustomColorMap)
+  {
+   r = CustomColorMap[x * 3 + 0];
+   g = CustomColorMap[x * 3 + 1];
+   b = CustomColorMap[x * 3 + 2];
+  }
+  else
+  {
+   b = 36 * (x & 0x007);
+   r = 36 * ((x & 0x038) >> 3);
+   g = 36 * ((x & 0x1c0) >> 6);
+  }
+
+  if(CustomColorMap && CustomColorMapLen == 1024)
+  {
+   sc_r = CustomColorMap[(512 + x) * 3 + 0];
+   sc_g = CustomColorMap[(512 + x) * 3 + 1];
+   sc_b = CustomColorMap[(512 + x) * 3 + 2];
+  }
+  else
+  {
+   double y;
+
+   y = floor(0.5 + 0.300 * r + 0.589 * g + 0.111 * b);
+
+   if(y < 0)
+     y = 0;
+
+   if(y > 255)
+     y = 255;
+
+   sc_r = sc_g = sc_b = y;
+  }
+  systemColorMap16[0][x] = MAKECOLOR(r, g, b, 0);
+  systemColorMap16[1][x] = MAKECOLOR(sc_r, sc_g, sc_b, 0);
+ }
  // I know the temptation is there, but don't combine these two loops just
  // because they loop 512 times ;)
  for(int x = 0; x < 512; x++)
