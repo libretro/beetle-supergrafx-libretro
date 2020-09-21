@@ -352,7 +352,7 @@ struct RETRO_DEVICE_INFO {
 struct RETRO_INPUT {
    bool use_bitmasks;
    // mouse options
-   bool mouse_sensitivity;
+   float mouse_sensitivity;
 
    // The number of frames between each firing of a turbo button
    int turbo_delay;
