@@ -1992,38 +1992,10 @@ void MDFND_Message(const char *str)
       log_cb(RETRO_LOG_INFO, "%s", str);
 }
 
-void MDFND_MidSync(const EmulateSpecStruct *)
-{
-}
-
-void MDFN_MidLineUpdate(EmulateSpecStruct *espec, int y)
-{
-   //MDFND_MidLineUpdate(espec, y);
-}
-
 void MDFND_PrintError(const char *err)
 {
    if (log_cb)
       log_cb(RETRO_LOG_ERROR, "%s\n", err);
-}
-
-void MDFND_Sleep(unsigned int time)
-{
-   retro_sleep(time);
-}
-
-/* forward declarations */
-extern void MDFND_DispMessage(unsigned char *str);
-
-void MDFND_DispMessage(unsigned char *str)
-{
-   const char *strc         = (const char *)str;
-   struct retro_message msg = {
-      strc,
-      180
-   };
-
-   environ_cb(RETRO_ENVIRONMENT_SET_MESSAGE, &msg);
 }
 
 void MDFN_DispMessage(const char *format, ...)
@@ -2043,8 +2015,4 @@ void MDFN_DispMessage(const char *format, ...)
 
    environ_cb(RETRO_ENVIRONMENT_SET_MESSAGE, &msg);
    free(str);
-}
-
-void MDFN_ResetMessages(void)
-{
 }
