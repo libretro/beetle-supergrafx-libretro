@@ -13,12 +13,6 @@ extern std::vector<MDFNGI *>MDFNSystems;
 void MDFN_indent(int indent);
 void MDFN_printf(const char *format, ...);
 
-#define MDFNI_printf MDFN_printf
-
-/* Displays an error.  Can block or not. */
-void MDFND_PrintError(const char *s);
-void MDFND_Message(const char *s);
-
 uint32 MDFND_GetTime(void);
 
 #ifdef WANT_THREADING
@@ -51,7 +45,6 @@ MDFNGI *MDFNI_LoadCD(const char *sysname, const char *devicename);
 void MDFNI_SetBaseDirectory(const char *dir);
 
 void MDFN_DispMessage(const char *format, ...);
-#define MDFNI_DispMessage MDFN_DispMessage
 
 uint32 MDFNI_CRC32(uint32 crc, uint8 *buf, uint32 len);
 

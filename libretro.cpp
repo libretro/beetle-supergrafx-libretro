@@ -793,7 +793,9 @@ void MDFN_printf(const char *format, ...)
    vsnprintf(temp, 4096, format_temp, ap);
    free(format_temp);
 
-   MDFND_Message(temp);
+   if (log_cb)
+      log_cb(RETRO_LOG_INFO, "%s", temp);
+
    free(temp);
 
    va_end(ap);
@@ -807,7 +809,10 @@ void MDFN_PrintError(const char *format, ...)
 
    temp = (char *)malloc(4096 * sizeof(char));
    vsnprintf(temp, 4096, format, ap);
-   MDFND_PrintError(temp);
+
+   if (log_cb)
+      log_cb(RETRO_LOG_ERROR, "%s\n", temp);
+
    free(temp);
 
    va_end(ap);
@@ -1984,18 +1989,6 @@ void retro_cheat_reset(void)
 
 void retro_cheat_set(unsigned, bool, const char *)
 {
-}
-
-void MDFND_Message(const char *str)
-{
-   if (log_cb)
-      log_cb(RETRO_LOG_INFO, "%s", str);
-}
-
-void MDFND_PrintError(const char *err)
-{
-   if (log_cb)
-      log_cb(RETRO_LOG_ERROR, "%s\n", err);
 }
 
 void MDFN_DispMessage(const char *format, ...)
