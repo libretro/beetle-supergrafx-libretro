@@ -890,8 +890,15 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
 
  if(!skip)
  {
+  DisplayRect->x = 0;
+  DisplayRect->w = 256;
+
   DisplayRect->y = MDFN_GetSettingUI("pce_fast.slstart");
   DisplayRect->h = MDFN_GetSettingUI("pce_fast.slend") - DisplayRect->y + 1;
+
+  // Hack for the input latency-reduction hack, part 1.
+  for(int y = DisplayRect->y; y < DisplayRect->y + DisplayRect->h; y++)
+   LineWidths[y] = 0;
  }
 
  //Change 352 mode width without restart
@@ -1159,6 +1166,11 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
     MixVPC(DisplayRect->w, line_buffer[0] + DisplayRect->x, line_buffer[1] + DisplayRect->x, surface->pixels16 + (frame_counter - 14) * surface->pitchinpix + DisplayRect->x);
   }
 
+  if(SHOULD_DRAW && fc_vrm)
+  {
+   MDFN_MidLineUpdate(espec, frame_counter - 14);
+  }
+
   for(unsigned chip = 0; chip < VDC_TotalChips; chip++)
    if((vdc_chips[chip].CR & 0x08) && need_vbi[chip])
     vdc_chips[chip].status |= VDCS_VD;
@@ -1211,6 +1223,22 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
  } while(frame_counter != VBlankFL); // big frame loop!
 
   DisplayRect->w = defined_width[vce.dot_clock];
+
+ // Hack for the input latency-reduction hack, part 2. 
+ if(!skip)
+ {
+  for(int y = DisplayRect->y; y < DisplayRect->y + DisplayRect->h; y++)
+  {
+   if(!LineWidths[y])
+   {
+    LineWidths[y] = DisplayRect->w;
+
+    DrawOverscan(&vdc_chips[0], surface->pixels16 + y * surface->pitchinpix, DisplayRect);
+
+    MDFN_MidLineUpdate(espec, y);
+   }
+  }
+ }
 }
 
 void VDC_Reset(void)
