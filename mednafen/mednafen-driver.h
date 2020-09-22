@@ -35,10 +35,10 @@ int MDFND_UnlockMutex(MDFN_Mutex *mutex);
 /* End threading support. */
 #endif
 
-/* path = path of game/file to load.  returns NULL on failure. */
-MDFNGI *MDFNI_LoadGame(const char *force_module, const char *path);
+/* path = path of game/file to load.  returns false on failure. */
+bool MDFNI_LoadGame(const char *force_module, const char *path);
 
-MDFNGI *MDFNI_LoadCD(const char *sysname, const char *devicename);
+bool MDFNI_LoadCD(const char *sysname, const char *devicename);
 
 /* Sets the base directory(save states, snapshots, etc. are saved in directories
    below this directory. */

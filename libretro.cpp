@@ -635,7 +635,7 @@ Breakout:
 static std::vector<CDIF *> CDInterfaces; // FIXME: Cleanup on error out.
 // TODO: LoadCommon()
 
-MDFNGI *MDFNI_LoadCD(const char *force_module, const char *devicename)
+bool MDFNI_LoadCD(const char *force_module, const char *devicename)
 {
    bool ret = false;
    log_cb(RETRO_LOG_INFO, "Loading %s...\n\n", devicename);
@@ -659,7 +659,7 @@ MDFNGI *MDFNI_LoadCD(const char *force_module, const char *devicename)
    if (!ret)
    {
       log_cb(RETRO_LOG_ERROR, "Error opening CD.\n");
-      return NULL;
+      return false;
    }
 
    //
@@ -676,9 +676,7 @@ MDFNGI *MDFNI_LoadCD(const char *force_module, const char *devicename)
       MDFN_indent(1);
 
       for (int32 track = toc.first_track; track <= toc.last_track; track++)
-      {
          MDFN_printf(_("Track %2d, LBA: %6d  %s\n"), track, toc.tracks[track].lba, (toc.tracks[track].control & 0x4) ? "DATA" : "AUDIO");
-      }
 
       MDFN_printf("Leadout: %6d\n", toc.tracks[100].lba);
       MDFN_indent(-1);
@@ -695,7 +693,7 @@ MDFNGI *MDFNI_LoadCD(const char *force_module, const char *devicename)
       CDInterfaces.clear();
 
       MDFNGameInfo = NULL;
-      return NULL;
+      return false;
    }
 
    //MDFNI_SetLayerEnableMask(~0ULL);
@@ -703,10 +701,10 @@ MDFNGI *MDFNI_LoadCD(const char *force_module, const char *devicename)
    MDFN_LoadGameCheats(NULL);
    MDFNMP_InstallReadPatches();
 
-   return (MDFNGameInfo);
+   return true;
 }
 
-MDFNGI *MDFNI_LoadGame(const char *force_module, const char *name)
+bool MDFNI_LoadGame(const char *force_module, const char *name)
 {
    MDFNFILE *GameFile = NULL;
    MDFNGameInfo       = &EmulatedPCE_Fast;
@@ -719,7 +717,7 @@ MDFNGI *MDFNI_LoadGame(const char *force_module, const char *name)
    if (!GameFile)
    {
       MDFNGameInfo = NULL;
-      return 0;
+      return false;
    }
 
    //
@@ -736,7 +734,7 @@ MDFNGI *MDFNI_LoadGame(const char *force_module, const char *name)
 
    MDFN_indent(-2);
 
-   return (MDFNGameInfo);
+   return true;
 }
 
 static int curindent = 0;
@@ -817,8 +815,6 @@ void MDFN_PrintError(const char *format, ...)
 
    va_end(ap);
 }
-
-static MDFNGI *game;
 
 struct retro_perf_callback perf_cb;
 static retro_get_cpu_features_t perf_get_cpu_features_cb = NULL;
@@ -1314,7 +1310,7 @@ bool retro_load_game(const struct retro_game_info *info)
 
    check_variables();
 
-   game = MDFNI_LoadGame(MEDNAFEN_CORE_NAME_MODULE, info->path);
+   bool game = MDFNI_LoadGame(MEDNAFEN_CORE_NAME_MODULE, info->path);
    if (!game)
       return false;
 
@@ -1655,8 +1651,6 @@ void retro_run(void)
    static int32_t rects[FB_HEIGHT];
    static unsigned width, height;
    static bool last_palette_format;
-
-   MDFNGI *curgame = (MDFNGI *)game;
 
    input_poll_cb();
 
