@@ -13,14 +13,7 @@ extern std::vector<MDFNGI *>MDFNSystems;
 void MDFN_indent(int indent);
 void MDFN_printf(const char *format, ...);
 
-#define MDFNI_printf MDFN_printf
-
-/* Displays an error.  Can block or not. */
-void MDFND_PrintError(const char *s);
-void MDFND_Message(const char *s);
-
 uint32 MDFND_GetTime(void);
-void MDFND_Sleep(uint32 ms);
 
 #ifdef WANT_THREADING
 /* Being threading support. */
@@ -42,17 +35,16 @@ int MDFND_UnlockMutex(MDFN_Mutex *mutex);
 /* End threading support. */
 #endif
 
-/* path = path of game/file to load.  returns NULL on failure. */
-MDFNGI *MDFNI_LoadGame(const char *force_module, const char *path);
+/* path = path of game/file to load.  returns false on failure. */
+bool MDFNI_LoadGame(const char *force_module, const char *path);
 
-MDFNGI *MDFNI_LoadCD(const char *sysname, const char *devicename);
+bool MDFNI_LoadCD(const char *sysname, const char *devicename);
 
 /* Sets the base directory(save states, snapshots, etc. are saved in directories
    below this directory. */
 void MDFNI_SetBaseDirectory(const char *dir);
 
 void MDFN_DispMessage(const char *format, ...);
-#define MDFNI_DispMessage MDFN_DispMessage
 
 uint32 MDFNI_CRC32(uint32 crc, uint8 *buf, uint32 len);
 
