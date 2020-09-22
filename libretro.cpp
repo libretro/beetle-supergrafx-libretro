@@ -1451,7 +1451,7 @@ static void update_input_turbo(int port, int &input_state, int input_data)
    // switch
    if (r_input.turbo_toggle == 1)
    {
-      int turbo_map[2] = {
+      unsigned turbo_map[2] = {
          turbo_map_layout[r_input.turbo_toggle_alt][0],
          turbo_map_layout[r_input.turbo_toggle_alt][1]
       };
