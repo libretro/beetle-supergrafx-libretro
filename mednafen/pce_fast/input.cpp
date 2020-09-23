@@ -19,21 +19,22 @@
 #include "input.h"
 #include "../mednafen-endian.h"
 
+bool AVPad6Enabled[5] = { 0 };
+
 static int InputTypes[5];
 static uint8 *data_ptr[5];
 
 static bool AVPad6Which[5]; // Lower(8 buttons) or higher(4 buttons).
-bool AVPad6Enabled[5];
 
-uint16 pce_jp_data[5];
+static uint16 pce_jp_data[5];
 
 static int64 mouse_last_meow[5];
 
 static int32 mouse_x[5], mouse_y[5];
 static uint16 mouse_rel[5];
 
-uint8 pce_mouse_button[5];
-uint8 mouse_index[5];
+static uint8 pce_mouse_button[5];
+static uint8 mouse_index[5];
 
 static uint8 sel;
 static uint8 read_index = 0;
