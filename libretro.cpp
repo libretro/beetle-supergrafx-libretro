@@ -1972,6 +1972,15 @@ void retro_cheat_set(unsigned, bool, const char *)
 {
 }
 
+void MDFND_MidSync(const EmulateSpecStruct *)
+{
+}
+
+void MDFN_MidLineUpdate(EmulateSpecStruct *espec, int y)
+{
+   //MDFND_MidLineUpdate(espec, y);
+}
+
 void MDFN_DispMessage(const char *format, ...)
 {
    struct retro_message msg;

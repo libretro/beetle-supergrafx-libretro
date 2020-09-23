@@ -34,6 +34,7 @@ void MDFN_LoadGameCheats(void *override);
 void MDFN_FlushGameCheats(int nosave);
 
 void MDFN_MidSync(EmulateSpecStruct *espec);
+void MDFN_MidLineUpdate(EmulateSpecStruct *espec, int y);
 
 #include "mednafen-driver.h"
 
