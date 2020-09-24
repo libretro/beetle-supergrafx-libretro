@@ -111,7 +111,7 @@ static void Cleanup(void)
       PCECD_Close();
 
    if(HuCROM)
-      MDFN_free(HuCROM);
+      free(HuCROM);
    HuCROM = NULL;
 }
 
@@ -142,7 +142,7 @@ uint32 HuC_Load(MDFNFILE *fp)
  IsPopulous = 0;
  PCE_IsCD = 0;
 
- if(!(HuCROM = (uint8 *)MDFN_malloc(m_len, _("HuCard ROM"))))
+ if(!(HuCROM = (uint8 *)malloc(m_len)))
     return 0;
 
  memset(HuCROM, 0xFF, m_len);
