@@ -374,6 +374,17 @@ struct retro_core_option_definition option_defs_us[] = {
       "1"
    },
    {
+      "sgx_multitap",
+      "Multitap",
+      "Enables up to 5-player multitap emulation. Leave it (enabled). Disabling it is only needed on some cases (Cho Aniki).",
+      {
+         { "enabled", NULL },
+         { "disabled", NULL },
+         { NULL, NULL},
+      },
+      "enabled"
+   },
+   {
       "sgx_turbo_delay",
       "Turbo Delay",
       "Adjust turbo delay.",

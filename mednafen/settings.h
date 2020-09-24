@@ -4,6 +4,7 @@
 extern bool setting_pce_fast_gexpress;
 extern bool setting_pce_fast_forcesgx;
 extern bool setting_pce_fast_nospritelimit;
+extern bool setting_pce_fast_multitap;
 extern int setting_initial_scanline;
 extern int setting_last_scanline;
 extern int setting_pce_overclocked;
@@ -11,7 +12,7 @@ extern int setting_pce_hoverscan;
 extern int setting_pce_fast_cddavolume;
 extern int setting_pce_fast_adpcmvolume;
 extern int setting_pce_fast_cdpsgvolume;
-extern uint32_t setting_pce_fast_cdspeed;
+extern int setting_pce_fast_cdspeed;
 extern std::string setting_pce_fast_cdbios;
 extern bool OrderOfGriffonFix;
 

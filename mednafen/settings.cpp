@@ -21,17 +21,18 @@
 #include <string>
 #include "settings.h"
 
-bool setting_pce_fast_gexpress = true;
-bool setting_pce_fast_forcesgx = true;
+bool setting_pce_fast_gexpress      = true;
+bool setting_pce_fast_forcesgx      = true;
 bool setting_pce_fast_nospritelimit = false;
-int setting_initial_scanline = 0;
-int setting_last_scanline = 242;
-int setting_pce_hoverscan = 352;
-int setting_pce_overclocked = 1;
-int setting_pce_fast_cddavolume = 100;
-int setting_pce_fast_adpcmvolume = 100;
-int setting_pce_fast_cdpsgvolume = 100;
-uint32_t setting_pce_fast_cdspeed = 1;
+bool setting_pce_fast_multitap      = false;
+int setting_initial_scanline        = 0;
+int setting_last_scanline           = 242;
+int setting_pce_hoverscan           = 352;
+int setting_pce_overclocked         = 1;
+int setting_pce_fast_cddavolume     = 100;
+int setting_pce_fast_adpcmvolume    = 100;
+int setting_pce_fast_cdpsgvolume    = 100;
+int setting_pce_fast_cdspeed        = 1;
 std::string setting_pce_fast_cdbios = "syscard3.pce";
 
 bool OrderOfGriffonFix = false;
@@ -88,7 +89,7 @@ bool MDFN_GetSettingB(const char *name)
    if (!strcmp("libretro.cd_load_into_ram", name))
       return 0;
    if (!strcmp("pce_fast.input.multitap", name))
-      return 1;
+      return setting_pce_fast_multitap;
    if (!strcmp("pce_fast.arcadecard", name))
       return 1;
    if (!strcmp("pce_fast.forcesgx", name))

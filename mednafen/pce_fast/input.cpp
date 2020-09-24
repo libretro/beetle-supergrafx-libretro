@@ -40,6 +40,7 @@ static uint8 sel;
 static uint8 read_index = 0;
 
 static bool DisableSR;
+static bool EnableMultitap;
 
 static void SyncSettings(void);
 
@@ -141,53 +142,103 @@ static INLINE bool CheckLM(int n)
    return (0);
 }
 
+static uint8 ReadPortMouse(int n)
+{
+   uint8 ret = 0xF;
+
+   if (sel & 1)
+   {
+      CheckLM(n);
+      ret ^= 0xF;
+      ret ^= mouse_rel[n] & 0xF;
+
+      mouse_rel[n] >>= 4;
+   }
+   else
+      ret ^= pce_mouse_button[n] & 0xF;
+   return (ret);
+}
+
+static uint8 ReadPortGamepad(int n)
+{
+   uint8 ret = 0xF;
+
+   if (AVPad6Which[n] && (pce_jp_data[n] & 0x1000))
+   {
+      if (sel & 1)
+         ret ^= 0x0F;
+      else
+         ret ^= (pce_jp_data[n] >> 8) & 0x0F;
+   }
+   else
+   {
+      if (sel & 1)
+         ret ^= (pce_jp_data[n] >> 4) & 0x0F;
+      else
+         ret ^= pce_jp_data[n] & 0x0F;
+   }
+
+   return (ret);
+}
+
+static uint8 ReadPort(int n)
+{
+   uint8 ret = 0xF;
+
+   if (!InputTypes[n])
+      ret ^= 0xF;
+   else if (InputTypes[n] == 2) // Mouse
+      ret = ReadPortMouse(n);
+   else if (InputTypes[n] == 1) // Gamepad
+      ret = ReadPortGamepad(n);
+
+   return (ret);
+}
+
+static void WritePort(int n, uint8 V)
+{
+   if (InputTypes[n] == 1)
+   {
+      if (!(sel & 1) && (V & 1))
+         AVPad6Which[n] = !AVPad6Which[n];
+   }
+}
+
+static uint8 ReadPortMultitap(int n)
+{
+   uint8 ret = 0xF;
+
+   if (n > 4)
+      ret ^= 0xF;
+   else
+      ret = ReadPort(n);
+
+   return (ret);
+}
+
+static void WritePortMultitap(uint8 V)
+{
+   for (int i = 0; i < 5; i++)
+      WritePort(i, V);
+
+   if ((V & 1) && !(sel & 2) && (V & 2))
+      read_index = 0;
+   else if ((V & 1) && !(sel & 1))
+   {
+      if (read_index < 255)
+         read_index++;
+   }
+}
+
 uint8 INPUT_Read(unsigned int A)
 {
    uint8 ret = 0xF;
    int tmp_ri = read_index;
 
-   if (tmp_ri > 4)
-      ret ^= 0xF;
+   if (EnableMultitap)
+      ret = ReadPortMultitap(tmp_ri);
    else
-   {
-      if (!InputTypes[tmp_ri])
-         ret ^= 0xF;
-      else if (InputTypes[tmp_ri] == 2) // Mouse
-      {
-         if (sel & 1)
-         {
-            CheckLM(tmp_ri);
-            ret ^= 0xF;
-            ret ^= mouse_rel[tmp_ri] & 0xF;
-
-            mouse_rel[tmp_ri] >>= 4;
-         }
-         else
-            ret ^= pce_mouse_button[tmp_ri] & 0xF;
-      }
-      else
-      {
-         if (InputTypes[tmp_ri] == 1) // Gamepad
-         {
-            if (AVPad6Which[tmp_ri] && (pce_jp_data[tmp_ri] & 0x1000))
-            {
-               if (sel & 1)
-                  ret ^= 0x0F;
-               else
-                  ret ^= (pce_jp_data[tmp_ri] >> 8) & 0x0F;
-            }
-            else
-            {
-               if (sel & 1)
-                  ret ^= (pce_jp_data[tmp_ri] >> 4) & 0x0F;
-               else
-                  ret ^= pce_jp_data[tmp_ri] & 0x0F;
-            }
-            if (!(sel & 1))
-               AVPad6Which[tmp_ri] = !AVPad6Which[tmp_ri];
-         }
-      }
-   }
+      ret = ReadPort(0);
 
    if (!PCE_IsCD)
       ret |= 0x80; // Set when CDROM is not attached
@@ -201,15 +252,11 @@ uint8 INPUT_Read(unsigned int A)
 
 void INPUT_Write(unsigned int A, uint8 V)
 {
-   if ((V & 1) && !(sel & 2) && (V & 2))
-   {
-      read_index = 0;
-   }
-   else if ((V & 1) && !(sel & 1))
-   {
-      if (read_index < 255)
-         read_index++;
-   }
+   if (EnableMultitap)
+      WritePortMultitap(V);
+   else
+      WritePort(0, V);
+
    sel = V & 3;
 }
 
@@ -340,5 +387,6 @@ InputInfoStruct PCEInputInfo =
 static void SyncSettings(void)
 {
    MDFNGameInfo->mouse_sensitivity = MDFN_GetSettingF("pce_fast.mouse_sensitivity");
+   EnableMultitap = MDFN_GetSettingB("pce_fast.input.multitap");
    DisableSR = MDFN_GetSettingB("pce_fast.disable_softreset");
 }

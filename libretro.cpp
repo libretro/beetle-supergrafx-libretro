@@ -1115,6 +1115,21 @@ static void check_variables(void)
       }
    }
 
+   var.key = "sgx_multitap";
+
+   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+   {
+      bool oldval = setting_pce_fast_multitap;
+
+      if (strcmp(var.value, "enabled") == 0)
+         setting_pce_fast_multitap = true;
+      else
+         setting_pce_fast_multitap = false;
+
+      if (setting_pce_fast_multitap != oldval)
+         PCEINPUT_SettingChanged(NULL);
+   }
+
    var.key = "sgx_turbo_delay";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
@@ -1472,7 +1487,9 @@ static void update_input_turbo(int port, int &input_state, int input_data)
 
 static void update_input(void)
 {
-   for (unsigned port = 0; port < MAX_PLAYERS; port++)
+   unsigned max_port = setting_pce_fast_multitap ? MAX_PLAYERS : 1;
+
+   for (unsigned port = 0; port < max_port; port++)
    {
       RETRO_DEVICE_INFO *cur_device = &(r_input.device[port]);
 
