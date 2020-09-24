@@ -12,7 +12,6 @@
 #include "mednafen/hw_misc/arcade_card/arcade_card.h"
 #include "mednafen/mednafen.h"
 #include "mednafen/mempatcher.h"
-#include "mednafen/settings-driver.h"
 #include "mednafen/FileWrapper.h"
 
 #include "mednafen/pce_fast/huc.h"
