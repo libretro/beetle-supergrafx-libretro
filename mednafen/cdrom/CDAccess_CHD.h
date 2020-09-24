@@ -19,6 +19,9 @@
 ** 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
+#ifndef CDACCESS_CHD_H
+#define CDACCESS_CHD_H
+
 #include <mednafen/FileStream.h>
 #include <mednafen/MemoryStream.h>
 
@@ -98,3 +101,5 @@ class CDAccess_CHD : public CDAccess
   /* last hunknum read */
   int oldhunk;
 };
+
+#endif /* CDACCESS_CHD_H */

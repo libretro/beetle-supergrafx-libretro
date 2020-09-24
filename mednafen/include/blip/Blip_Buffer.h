@@ -1,6 +1,10 @@
 // Band-limited sound synthesis buffer
 // Various changes and hacks for use in Mednafen.
 
+// Blip_Buffer 0.4.1
+#ifndef BLIP_BUFFER_H
+#define BLIP_BUFFER_H
+
 #ifdef __GNUC__
  #define blip_inline inline __attribute__((always_inline))
 #else
@@ -9,10 +13,6 @@
 
 #include <limits.h>
 #include <stdint.h>
-
-// Blip_Buffer 0.4.1
-#ifndef BLIP_BUFFER_H
-#define BLIP_BUFFER_H
 
 // Internal
 typedef int32_t blip_long;
