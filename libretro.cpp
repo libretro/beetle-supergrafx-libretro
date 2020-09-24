@@ -847,7 +847,6 @@ struct RETRO_DEVICE_INFO {
    // Array to keep track of each buttons turbo status
    int turbo_counter[MAX_BUTTONS];
    int turbo_toggle_down[MAX_BUTTONS];
-   int AVPad6_toggle_down;
    uint8_t data[5];
 };
 
@@ -1549,26 +1548,12 @@ static void update_input(void)
             input_state |= JOY_V;
          if (ret & BIT(RETRO_DEVICE_ID_JOYPAD_R))
             input_state |= JOY_VI;
-         if (AVPad6Enabled[port])
+         if (ret & BIT(RETRO_DEVICE_ID_JOYPAD_L2))
             input_state |= JOY_MODE;
 
          // process turbo buttons only when in 2-button mode
          if (r_input.turbo_toggle != 0 && !AVPad6Enabled[port])
             update_input_turbo(port, input_state, ret);
-
-         // 2/6 buttom mode switching
-         if (ret & BIT(RETRO_DEVICE_ID_JOYPAD_L2))
-         {
-            if (cur_device->AVPad6_toggle_down == 0)
-            {
-               cur_device->AVPad6_toggle_down = !cur_device->AVPad6_toggle_down;
-               AVPad6Enabled[port] = !AVPad6Enabled[port];
-               MDFN_DispMessage("%d-button mode selected for pad %d",
-                  AVPad6Enabled[port] ? 6 : 2, port + 1);
-            }
-         }
-         else
-            cur_device->AVPad6_toggle_down = 0;
 
          if (r_input.up_down_allowed == false)
          {

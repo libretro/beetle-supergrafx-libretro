@@ -93,6 +93,14 @@ void INPUT_Frame(void)
       if (InputTypes[x] == 1)
       {
          uint16 new_data = data_ptr[x][0] | (data_ptr[x][1] << 8);
+
+         if ((new_data & 0x1000)  && !(pce_jp_data[x] & 0x1000))
+         {
+            AVPad6Enabled[x] = !AVPad6Enabled[x];
+            MDFN_DispMessage("%d-button mode selected for pad %d",
+                  AVPad6Enabled[x] ? 6 : 2, x + 1);
+         }
+
          pce_jp_data[x] = new_data;
       }
       else if (InputTypes[x] == 2)
@@ -163,7 +171,7 @@ static uint8 ReadPortGamepad(int n)
 {
    uint8 ret = 0xF;
 
-   if (AVPad6Which[n] && (pce_jp_data[n] & 0x1000))
+   if (AVPad6Which[n] && AVPad6Enabled[n])
    {
       if (sel & 1)
          ret ^= 0x0F;
