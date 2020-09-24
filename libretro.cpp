@@ -862,7 +862,6 @@ struct RETRO_INPUT {
    bool turbo_toggle_alt;
 
    // system options
-   bool disable_softreset;
    bool up_down_allowed;
 
    RETRO_DEVICE_INFO device[MAX_PLAYERS];
@@ -942,6 +941,7 @@ bool retro_load_game_special(unsigned, const struct retro_game_info *, size_t)
 
 static void check_variables(void)
 {
+   bool input_changed = false;
    struct retro_variable var = { 0 };
 
    var.key = "sgx_cdimagecache";
@@ -1127,7 +1127,7 @@ static void check_variables(void)
          setting_pce_fast_multitap = false;
 
       if (setting_pce_fast_multitap != oldval)
-         PCEINPUT_SettingChanged(NULL);
+         input_changed = true;
    }
 
    var.key = "sgx_turbo_delay";
@@ -1170,7 +1170,17 @@ static void check_variables(void)
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
-      r_input.disable_softreset = (strcmp(var.value, "enabled") == 0);
+      bool oldval = setting_pce_fast_softreset;
+
+      setting_pce_fast_softreset = (bool)(strcmp(var.value, "enabled") == 0);
+
+      if (setting_pce_fast_softreset != oldval)
+         input_changed = true;
+   }
+
+   if (input_changed)
+   {
+      PCEINPUT_SettingChanged(NULL);
    }
 
    var.key = "sgx_up_down_allowed";
@@ -1559,12 +1569,6 @@ static void update_input(void)
          }
          else
             cur_device->AVPad6_toggle_down = 0;
-
-         if (r_input.disable_softreset == true)
-         {
-            if ((input_state & 0xC) == 0xC)
-               input_state &= ~0xC;
-         }
 
          if (r_input.up_down_allowed == false)
          {

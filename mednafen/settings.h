@@ -5,6 +5,7 @@ extern bool setting_pce_fast_gexpress;
 extern bool setting_pce_fast_forcesgx;
 extern bool setting_pce_fast_nospritelimit;
 extern bool setting_pce_fast_multitap;
+extern bool setting_pce_fast_softreset;
 extern int setting_initial_scanline;
 extern int setting_last_scanline;
 extern int setting_pce_overclocked;
