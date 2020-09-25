@@ -1,4 +1,4 @@
-/* Copyright  (C) 2010-2019 The RetroArch team
+/* Copyright  (C) 2010-2020 The RetroArch team
  *
  * ---------------------------------------------------------------------------------------
  * The following license statement only applies to this file (stdstring.h).
@@ -35,6 +35,8 @@
 
 RETRO_BEGIN_DECLS
 
+#define strcpy_literal(a, b) strcpy(a, b)
+
 static INLINE bool string_is_empty(const char *data)
 {
    return !data || (*data == '\0');
@@ -43,6 +45,44 @@ static INLINE bool string_is_empty(const char *data)
 static INLINE bool string_is_equal(const char *a, const char *b)
 {
    return (a && b) ? !strcmp(a, b) : false;
+}
+
+static INLINE bool string_starts_with_size(const char *str, const char *prefix,
+      size_t size)
+{
+   return (str && prefix) ? !strncmp(prefix, str, size) : false;
+}
+
+static INLINE bool string_starts_with(const char *str, const char *prefix)
+{
+   return (str && prefix) ? !strncmp(prefix, str, strlen(prefix)) : false;
+}
+
+static INLINE bool string_ends_with_size(const char *str, const char *suffix,
+      size_t str_len, size_t suffix_len)
+{
+   return (str_len < suffix_len) ? false :
+         !memcmp(suffix, str + (str_len - suffix_len), suffix_len);
+}
+
+static INLINE bool string_ends_with(const char *str, const char *suffix)
+{
+   if (!str || !suffix)
+      return false;
+   return string_ends_with_size(str, suffix, strlen(str), strlen(suffix));
+}
+
+/* Returns the length of 'str' (c.f. strlen()), but only
+ * checks the first 'size' characters
+ * - If 'str' is NULL, returns 0
+ * - If 'str' is not NULL and no '\0' character is found
+ *   in the first 'size' characters, returns 'size' */
+static INLINE size_t strlen_size(const char *str, size_t size)
+{
+   size_t i = 0;
+   if (str)
+      while (i < size && str[i]) i++;
+   return i;
 }
 
 #define STRLEN_CONST(x)                   ((sizeof((x))-1))
@@ -71,23 +111,8 @@ static INLINE bool string_is_equal_case_insensitive(const char *a,
    return (result == 0);
 }
 
-static INLINE bool string_is_equal_noncase(const char *a, const char *b)
-{
-   int result              = 0;
-   const unsigned char *p1 = (const unsigned char*)a;
-   const unsigned char *p2 = (const unsigned char*)b;
-
-   if (!a || !b)
-      return false;
-   if (p1 == p2)
-      return false;
-
-   while ((result = tolower (*p1) - tolower (*p2++)) == 0)
-      if (*p1++ == '\0')
-         break;
-
-   return (result == 0);
-}
+/* Deprecated alias, all callers should use string_is_equal_case_insensitive instead */
+#define string_is_equal_noncase string_is_equal_case_insensitive
 
 char *string_to_upper(char *s);
 
@@ -121,7 +146,7 @@ char *word_wrap(char *buffer, const char *string,
  *    char *str      = "1,2,3,4,5,6,7,,,10,";
  *    char **str_ptr = &str;
  *    char *token    = NULL;
- *    while((token = string_tokenize(str_ptr, ",")))
+ *    while ((token = string_tokenize(str_ptr, ",")))
  *    {
  *        printf("%s\n", token);
  *        free(token);
@@ -140,6 +165,15 @@ void string_replace_all_chars(char *str, char find, char replace);
 /* Converts string to unsigned integer.
  * Returns 0 if string is invalid  */
 unsigned string_to_unsigned(const char *str);
+
+/* Converts hexadecimal string to unsigned integer.
+ * Handles optional leading '0x'.
+ * Returns 0 if string is invalid  */
+unsigned string_hex_to_unsigned(const char *str);
+
+char *string_init(const char *src);
+
+void string_set(char **string, const char *src);
 
 RETRO_END_DECLS
 

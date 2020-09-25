@@ -8,4 +8,9 @@
    subject to change. Applications should only use zlib.h.
  */
 
+#ifndef INFFAST_H
+#define INFFAST_H
+
 void ZLIB_INTERNAL inflate_fast OF((z_streamp strm, unsigned start));
+
+#endif /* INFFAST_H */

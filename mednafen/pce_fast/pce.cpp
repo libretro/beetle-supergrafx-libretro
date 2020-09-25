@@ -510,6 +510,8 @@ void CloseGame(void)
 
 void Emulate(EmulateSpecStruct *espec)
 {
+ INPUT_TransformInput();
+
  INPUT_Frame();
 
  MDFNMP_ApplyPeriodicCheats();

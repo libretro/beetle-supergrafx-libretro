@@ -1,4 +1,4 @@
-/* Copyright  (C) 2010-2018 The RetroArch team
+/* Copyright  (C) 2010-2020 The RetroArch team
  *
  * ---------------------------------------------------------------------------------------
  * The following license statement only applies to this file (stdstring.c).
@@ -25,6 +25,18 @@
 
 #include <string/stdstring.h>
 #include <encodings/utf.h>
+
+char *string_init(const char *src)
+{
+   return src ? strdup(src) : NULL;
+}
+
+void string_set(char **string, const char *src)
+{
+   free(*string);
+   *string = string_init(src);
+}
+
 
 char *string_to_upper(char *s)
 {
@@ -107,18 +119,18 @@ char *string_replace_substring(const char *in,
 /* Remove leading whitespaces */
 char *string_trim_whitespace_left(char *const s)
 {
-   if(s && *s)
+   if (s && *s)
    {
       size_t len     = strlen(s);
       char *current  = s;
 
-      while(*current && isspace((unsigned char)*current))
+      while (*current && isspace((unsigned char)*current))
       {
          ++current;
          --len;
       }
 
-      if(s != current)
+      if (s != current)
          memmove(s, current, len + 1);
    }
 
@@ -128,12 +140,12 @@ char *string_trim_whitespace_left(char *const s)
 /* Remove trailing whitespaces */
 char *string_trim_whitespace_right(char *const s)
 {
-   if(s && *s)
+   if (s && *s)
    {
       size_t len     = strlen(s);
       char  *current = s + len - 1;
 
-      while(current != s && isspace((unsigned char)*current))
+      while (current != s && isspace((unsigned char)*current))
       {
          --current;
          --len;
@@ -190,7 +202,7 @@ char *word_wrap(char* buffer, const char *string, int line_width, bool unicode, 
             buffer[i] = string[i];
             char_len--;
             i++;
-         } while(char_len);
+         } while (char_len);
 
          /* check for newlines embedded in the original input
           * and reset the index */
@@ -248,7 +260,7 @@ char *word_wrap(char* buffer, const char *string, int line_width, bool unicode, 
  *    char *str      = "1,2,3,4,5,6,7,,,10,";
  *    char **str_ptr = &str;
  *    char *token    = NULL;
- *    while((token = string_tokenize(str_ptr, ",")))
+ *    while ((token = string_tokenize(str_ptr, ",")))
  *    {
  *        printf("%s\n", token);
  *        free(token);
@@ -328,7 +340,7 @@ void string_replace_all_chars(char *str, char find, char replace)
    if (string_is_empty(str))
       return;
 
-   while((str_ptr = strchr(str_ptr, find)) != NULL)
+   while ((str_ptr = strchr(str_ptr, find)))
       *str_ptr++ = replace;
 }
 
@@ -343,9 +355,42 @@ unsigned string_to_unsigned(const char *str)
 
    for (ptr = str; *ptr != '\0'; ptr++)
    {
-      if (!isdigit(*ptr))
+      if (!isdigit((unsigned char)*ptr))
          return 0;
    }
 
    return (unsigned)strtoul(str, NULL, 10);
+}
+
+/* Converts hexadecimal string to unsigned integer.
+ * Handles optional leading '0x'.
+ * Returns 0 if string is invalid  */
+unsigned string_hex_to_unsigned(const char *str)
+{
+   const char *hex_str = str;
+   const char *ptr     = NULL;
+   size_t len;
+
+   if (string_is_empty(str))
+      return 0;
+
+   /* Remove leading '0x', if required */
+   len = strlen(str);
+
+   if (len >= 2)
+      if ((str[0] == '0') &&
+          ((str[1] == 'x') || (str[1] == 'X')))
+         hex_str = str + 2;
+
+   if (string_is_empty(hex_str))
+      return 0;
+
+   /* Check for valid characters */
+   for (ptr = hex_str; *ptr != '\0'; ptr++)
+   {
+      if (!isxdigit((unsigned char)*ptr))
+         return 0;
+   }
+
+   return (unsigned)strtoul(hex_str, NULL, 16);
 }

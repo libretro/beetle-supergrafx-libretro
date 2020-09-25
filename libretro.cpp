@@ -847,7 +847,6 @@ struct RETRO_DEVICE_INFO {
    // Array to keep track of each buttons turbo status
    int turbo_counter[MAX_BUTTONS];
    int turbo_toggle_down[MAX_BUTTONS];
-   int AVPad6_toggle_down;
    uint8_t data[5];
 };
 
@@ -862,7 +861,6 @@ struct RETRO_INPUT {
    bool turbo_toggle_alt;
 
    // system options
-   bool disable_softreset;
    bool up_down_allowed;
 
    RETRO_DEVICE_INFO device[MAX_PLAYERS];
@@ -942,6 +940,7 @@ bool retro_load_game_special(unsigned, const struct retro_game_info *, size_t)
 
 static void check_variables(void)
 {
+   bool input_changed = false;
    struct retro_variable var = { 0 };
 
    var.key = "sgx_cdimagecache";
@@ -1115,6 +1114,21 @@ static void check_variables(void)
       }
    }
 
+   var.key = "sgx_multitap";
+
+   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+   {
+      bool oldval = setting_pce_fast_multitap;
+
+      if (strcmp(var.value, "enabled") == 0)
+         setting_pce_fast_multitap = true;
+      else
+         setting_pce_fast_multitap = false;
+
+      if (setting_pce_fast_multitap != oldval)
+         input_changed = true;
+   }
+
    var.key = "sgx_turbo_delay";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
@@ -1155,7 +1169,17 @@ static void check_variables(void)
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
-      r_input.disable_softreset = (strcmp(var.value, "enabled") == 0);
+      bool oldval = setting_pce_fast_softreset;
+
+      setting_pce_fast_softreset = (bool)(strcmp(var.value, "enabled") == 0);
+
+      if (setting_pce_fast_softreset != oldval)
+         input_changed = true;
+   }
+
+   if (input_changed)
+   {
+      PCEINPUT_SettingChanged(NULL);
    }
 
    var.key = "sgx_up_down_allowed";
@@ -1472,7 +1496,9 @@ static void update_input_turbo(int port, int &input_state, int input_data)
 
 static void update_input(void)
 {
-   for (unsigned port = 0; port < MAX_PLAYERS; port++)
+   unsigned max_port = setting_pce_fast_multitap ? MAX_PLAYERS : 1;
+
+   for (unsigned port = 0; port < max_port; port++)
    {
       RETRO_DEVICE_INFO *cur_device = &(r_input.device[port]);
 
@@ -1522,32 +1548,12 @@ static void update_input(void)
             input_state |= JOY_V;
          if (ret & BIT(RETRO_DEVICE_ID_JOYPAD_R))
             input_state |= JOY_VI;
-         if (AVPad6Enabled[port])
+         if (ret & BIT(RETRO_DEVICE_ID_JOYPAD_L2))
             input_state |= JOY_MODE;
 
          // process turbo buttons only when in 2-button mode
          if (r_input.turbo_toggle != 0 && !AVPad6Enabled[port])
             update_input_turbo(port, input_state, ret);
-
-         // 2/6 buttom mode switching
-         if (ret & BIT(RETRO_DEVICE_ID_JOYPAD_L2))
-         {
-            if (cur_device->AVPad6_toggle_down == 0)
-            {
-               cur_device->AVPad6_toggle_down = !cur_device->AVPad6_toggle_down;
-               AVPad6Enabled[port] = !AVPad6Enabled[port];
-               MDFN_DispMessage("%d-button mode selected for pad %d",
-                  AVPad6Enabled[port] ? 6 : 2, port + 1);
-            }
-         }
-         else
-            cur_device->AVPad6_toggle_down = 0;
-
-         if (r_input.disable_softreset == true)
-         {
-            if ((input_state & 0xC) == 0xC)
-               input_state &= ~0xC;
-         }
 
          if (r_input.up_down_allowed == false)
          {

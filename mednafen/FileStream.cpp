@@ -51,6 +51,7 @@ FileStream::FileStream(const char *path, const int mode)
 
 FileStream::~FileStream()
 {
+   close();
 }
 
 uint64 FileStream::read(void *data, uint64 count, bool error_on_eos)
