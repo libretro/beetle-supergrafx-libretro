@@ -214,10 +214,21 @@ bool CDAccess_CHD::Load(const std::string &path, bool image_memcache)
   return true;
 }
 
-CDAccess_CHD::~CDAccess_CHD()
+void CDAccess_CHD::Cleanup(void)
 {
-  if (chd != NULL)
-    chd_close(chd);
+ if (chd != NULL)
+  chd_close(chd);
+
+ if (hunkmem != NULL)
+ {
+   free(hunkmem);
+   hunkmem = NULL;
+ }
+}
+
+CDAccess_CHD::~CDAccess_CHD()
+{ 
+  Cleanup();
 }
 
 bool CDAccess_CHD::Read_CHD_Hunk_RAW(uint8_t *buf, int32_t lba, CHDFILE_TRACK_INFO* track)
