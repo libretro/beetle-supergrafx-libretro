@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "video.h"
+#include "video/surface.h"
 
 #include <libretro.h>
 
