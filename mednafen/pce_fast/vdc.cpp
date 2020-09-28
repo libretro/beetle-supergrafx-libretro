@@ -775,31 +775,19 @@ static void DrawSprites(vdc_t *vdc, const int32 end, uint16 *spr_linebuf)
       {
          const uint8 *pix_source = vdc->spr_tile_cache[SpriteList[i].no][SpriteList[i].sub_y];
 
+         int32 inc = -1;
+         int32 pos  = 15;
+
          if (SpriteList[i].flags & SPRF_HFLIP)
          {
-            for (int32 x = 0; x < 16; x++)
-            {
-               const uint32 raw_pixel = pix_source[x];
-               if (raw_pixel)
-               {
-                  if (((uint32)pos + x) >= (uint32)end) // Covers negative and overflowing the right side(to prevent spurious sprite hits)
-                     continue;
-
-                  if (dest_pix[x] & 0x100)
-                  {
-                     vdc->status |= VDCS_CR;
-                     VDC_DEBUG("Sprite hit IRQ");
-                     HuC6280_IRQBegin(MDFN_IQIRQ1);
-                  }
-                  dest_pix[x] = raw_pixel | prio_or;
-               }
-            }
+            inc = 1;
+            pos  = 0;
          }
-         else
+
          {
-            for (int32 x = 0; x < 16; x++)
+            for (int32 x = 0; x < 16; x++, pos += inc)
             {
-               const uint32 raw_pixel = pix_source[15 - x];
+               const uint32 raw_pixel = pix_source[pos];
                if (raw_pixel)
                {
                   if (((uint32)pos + x) >= (uint32)end) // Covers negative and overflowing the right side(to prevent spurious sprite hits)
@@ -820,21 +808,20 @@ static void DrawSprites(vdc_t *vdc, const int32 end, uint16 *spr_linebuf)
       {
          const uint8 *pix_source = vdc->spr_tile_cache[SpriteList[i].no][SpriteList[i].sub_y];
 
-         // x must be signed, for "pos + x" to not be promoted to unsigned, which will cause a stack overflow.
+         int32 inc = -1;
+         int32 pos  = 15;
+
          if (SpriteList[i].flags & SPRF_HFLIP)
          {
-            for (int32 x = 0; x < 16; x++)
-            {
-               const uint32 raw_pixel = pix_source[x];
-               if (raw_pixel)
-                  dest_pix[x] = raw_pixel | prio_or;
-            }
+            inc = 1;
+            pos  = 0;
          }
-         else
+
+         // x must be signed, for "pos + x" to not be promoted to unsigned, which will cause a stack overflow.
          {
-            for (int32 x = 0; x < 16; x++)
+            for (int32 x = 0; x < 16; x++, pos += inc)
             {
-               const uint32 raw_pixel = pix_source[15 - x];
+               const uint32 raw_pixel = pix_source[pos];
                if (raw_pixel)
                   dest_pix[x] = raw_pixel | prio_or;
             }
