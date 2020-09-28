@@ -565,10 +565,12 @@ static void DrawBG(const vdc_t *vdc, const uint32 count, uint8 *target)
       const uint16 *BAT_Base = &vdc->VRAM[bat_y];
       const uint64 *CG_Base = &vdc->bg_tile_cache[0][line_sub];
 
-      if ((vdc->MWR & 0x3) == 0x3)
-      {
-         const uint64 cg_mask = (vdc->MWR & 0x80) ? 0xCCCCCCCCCCCCCCCCULL : 0x3333333333333333ULL;
+      uint64 cg_mask = 0xFFFFFFFFFFFFFFFFFFF;
 
+      if ((vdc->MWR & 0x3) == 0x3) // 2-bit CG rendering, else normal CG rendering
+         cg_mask = (vdc->MWR & 0x80) ? 0xCCCCCCCCCCCCCCCCULL : 0x3333333333333333ULL;
+
+      {
          for (int x = count - 1; x >= 0; x -= 8)
          {
             const uint16 bat = BAT_Base[bat_boom];
@@ -579,20 +581,7 @@ static void DrawBG(const vdc_t *vdc, const uint32 count, uint8 *target)
             bat_boom = (bat_boom + 1) & bat_width_mask;
             target64++;
          }
-      } // End 2-bit CG rendering
-      else
-      {
-         for (int x = count - 1; x >= 0; x -= 8)
-         {
-            const uint16 bat = BAT_Base[bat_boom];
-            const uint64 color_or = cblock_exlut[bat >> 12];
-
-            *target64 = CG_Base[(bat & 0xFFF) * 8] | color_or;
-
-            bat_boom = (bat_boom + 1) & bat_width_mask;
-            target64++;
-         }
-      } // End normal CG rendering
+      }
    }
 }
 
