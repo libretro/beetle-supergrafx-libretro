@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "video.h"
+#include "video/surface.h"
 
 #include <libretro.h>
 
@@ -61,14 +61,11 @@ typedef enum
 		// It's also rather a special case of game module->driver code communication.
 } InputDeviceInputType;
 
-#include "git-virtb.h"
-
 typedef struct
 {
 	const char *SettingName;	// No spaces, shouldbe all a-z0-9 and _. Definitely no ~!
 	const char *Name;
-	/*const InputDeviceInputVB VirtButton;*/
-        const int ConfigOrder;          // Configuration order during in-game config process, -1 for no config.
+	const int ConfigOrder;          // Configuration order during in-game config process, -1 for no config.
 	const InputDeviceInputType Type;
 	const char *ExcludeName;	// SettingName of a button that can't be pressed at the same time as this button
 					// due to physical limitations.

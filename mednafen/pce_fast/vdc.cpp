@@ -26,7 +26,6 @@ The spectrum peaked at 15734 Hz.  21477272.727272... / 3 / 15734 = 455.00(CPU cy
 */
 
 #include "pce.h"
-#include "../video.h"
 #include "vdc.h"
 #include "pcecd.h"
 #include "../FileStream.h"
