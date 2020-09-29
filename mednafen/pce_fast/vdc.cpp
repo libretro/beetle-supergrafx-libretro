@@ -565,10 +565,12 @@ static void DrawBG(const vdc_t *vdc, const uint32 count, uint8 *target)
       const uint16 *BAT_Base = &vdc->VRAM[bat_y];
       const uint64 *CG_Base = &vdc->bg_tile_cache[0][line_sub];
 
-      if ((vdc->MWR & 0x3) == 0x3)
-      {
-         const uint64 cg_mask = (vdc->MWR & 0x80) ? 0xCCCCCCCCCCCCCCCCULL : 0x3333333333333333ULL;
+      uint64 cg_mask = 0xFFFFFFFFFFFFFFFFFFF;
 
+      if ((vdc->MWR & 0x3) == 0x3) // 2-bit CG rendering, else normal CG rendering
+         cg_mask = (vdc->MWR & 0x80) ? 0xCCCCCCCCCCCCCCCCULL : 0x3333333333333333ULL;
+
+      {
          for (int x = count - 1; x >= 0; x -= 8)
          {
             const uint16 bat = BAT_Base[bat_boom];
@@ -579,20 +581,7 @@ static void DrawBG(const vdc_t *vdc, const uint32 count, uint8 *target)
             bat_boom = (bat_boom + 1) & bat_width_mask;
             target64++;
          }
-      } // End 2-bit CG rendering
-      else
-      {
-         for (int x = count - 1; x >= 0; x -= 8)
-         {
-            const uint16 bat = BAT_Base[bat_boom];
-            const uint64 color_or = cblock_exlut[bat >> 12];
-
-            *target64 = CG_Base[(bat & 0xFFF) * 8] | color_or;
-
-            bat_boom = (bat_boom + 1) & bat_width_mask;
-            target64++;
-         }
-      } // End normal CG rendering
+      }
    }
 }
 
@@ -775,31 +764,19 @@ static void DrawSprites(vdc_t *vdc, const int32 end, uint16 *spr_linebuf)
       {
          const uint8 *pix_source = vdc->spr_tile_cache[SpriteList[i].no][SpriteList[i].sub_y];
 
+         int32 inc = -1;
+         int32 pos  = 15;
+
          if (SpriteList[i].flags & SPRF_HFLIP)
          {
-            for (int32 x = 0; x < 16; x++)
-            {
-               const uint32 raw_pixel = pix_source[x];
-               if (raw_pixel)
-               {
-                  if (((uint32)pos + x) >= (uint32)end) // Covers negative and overflowing the right side(to prevent spurious sprite hits)
-                     continue;
-
-                  if (dest_pix[x] & 0x100)
-                  {
-                     vdc->status |= VDCS_CR;
-                     VDC_DEBUG("Sprite hit IRQ");
-                     HuC6280_IRQBegin(MDFN_IQIRQ1);
-                  }
-                  dest_pix[x] = raw_pixel | prio_or;
-               }
-            }
+            inc = 1;
+            pos  = 0;
          }
-         else
+
          {
-            for (int32 x = 0; x < 16; x++)
+            for (int32 x = 0; x < 16; x++, pos += inc)
             {
-               const uint32 raw_pixel = pix_source[15 - x];
+               const uint32 raw_pixel = pix_source[pos];
                if (raw_pixel)
                {
                   if (((uint32)pos + x) >= (uint32)end) // Covers negative and overflowing the right side(to prevent spurious sprite hits)
@@ -820,21 +797,20 @@ static void DrawSprites(vdc_t *vdc, const int32 end, uint16 *spr_linebuf)
       {
          const uint8 *pix_source = vdc->spr_tile_cache[SpriteList[i].no][SpriteList[i].sub_y];
 
-         // x must be signed, for "pos + x" to not be promoted to unsigned, which will cause a stack overflow.
+         int32 inc = -1;
+         int32 pos  = 15;
+
          if (SpriteList[i].flags & SPRF_HFLIP)
          {
-            for (int32 x = 0; x < 16; x++)
-            {
-               const uint32 raw_pixel = pix_source[x];
-               if (raw_pixel)
-                  dest_pix[x] = raw_pixel | prio_or;
-            }
+            inc = 1;
+            pos  = 0;
          }
-         else
+
+         // x must be signed, for "pos + x" to not be promoted to unsigned, which will cause a stack overflow.
          {
-            for (int32 x = 0; x < 16; x++)
+            for (int32 x = 0; x < 16; x++, pos += inc)
             {
-               const uint32 raw_pixel = pix_source[15 - x];
+               const uint32 raw_pixel = pix_source[pos];
                if (raw_pixel)
                   dest_pix[x] = raw_pixel | prio_or;
             }
