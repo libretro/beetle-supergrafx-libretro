@@ -41,6 +41,8 @@
 #define FB_WIDTH 512
 #define FB_HEIGHT 243
 
+#define SAMPLE_RATE 44100.0
+
 static bool old_cdimagecache = false;
 static bool use_palette = false;
 std::string retro_base_directory;
@@ -1643,9 +1645,11 @@ void update_geometry(unsigned width, unsigned height)
    struct retro_system_av_info system_av_info;
    system_av_info.geometry.base_width   = width;
    system_av_info.geometry.base_height  = height;
+   system_av_info.geometry.aspect_ratio = get_aspect_ratio(width, height);
    system_av_info.geometry.max_width    = MEDNAFEN_CORE_GEOMETRY_MAX_W;
    system_av_info.geometry.max_height   = MEDNAFEN_CORE_GEOMETRY_MAX_H;
-   system_av_info.geometry.aspect_ratio = get_aspect_ratio(width, height);
+   system_av_info.timing.fps            = MEDNAFEN_CORE_TIMING_FPS;
+   system_av_info.timing.sample_rate    = SAMPLE_RATE;
    environ_cb(RETRO_ENVIRONMENT_SET_GEOMETRY, &system_av_info);
 }
 
@@ -1666,7 +1670,7 @@ void retro_run(void)
 
    EmulateSpecStruct spec  = { 0 };
    spec.surface            = surf;
-   spec.SoundRate          = 44100;
+   spec.SoundRate          = SAMPLE_RATE;
    spec.SoundBuf           = sound_buf;
    spec.LineWidths         = rects;
    spec.SoundBufMaxSize    = sizeof(sound_buf) / 2;
@@ -1749,7 +1753,7 @@ void retro_get_system_av_info(struct retro_system_av_info *info)
    }
 
    info->timing.fps            = MEDNAFEN_CORE_TIMING_FPS;
-   info->timing.sample_rate    = 44100.0;
+   info->timing.sample_rate    = SAMPLE_RATE;
    info->geometry.base_width   = width;
    info->geometry.base_height  = height;
    info->geometry.max_width    = MEDNAFEN_CORE_GEOMETRY_MAX_W;
