@@ -41,6 +41,10 @@
 #define FB_WIDTH 512
 #define FB_HEIGHT 243
 
+#define SAMPLE_RATE 44100.0
+
+static bool geometry_changed = false;
+
 static bool old_cdimagecache = false;
 static bool use_palette = false;
 std::string retro_base_directory;
@@ -1140,12 +1144,17 @@ static void check_variables(void)
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      int oldvalue = aspect_ratio_mode;
+
       if (strcmp(var.value, "auto") == 0)
          aspect_ratio_mode = 0;
       else if (strcmp(var.value, "6:5") == 0)
          aspect_ratio_mode = 1;
       else if (strcmp(var.value, "4:3") == 0)
          aspect_ratio_mode = 2;
+
+      if (aspect_ratio_mode != oldvalue)
+         geometry_changed = true;
    }
 
    var.key = "sgx_turbo_toggle_hotkey";
@@ -1638,21 +1647,22 @@ static float get_aspect_ratio(unsigned width, unsigned height)
    return (float)width * par / (float)height;
 }
 
-void update_geometry(unsigned width, unsigned height)
+static void update_geometry(unsigned width, unsigned height)
 {
    struct retro_system_av_info system_av_info;
    system_av_info.geometry.base_width   = width;
    system_av_info.geometry.base_height  = height;
+   system_av_info.geometry.aspect_ratio = get_aspect_ratio(width, height);
    system_av_info.geometry.max_width    = MEDNAFEN_CORE_GEOMETRY_MAX_W;
    system_av_info.geometry.max_height   = MEDNAFEN_CORE_GEOMETRY_MAX_H;
-   system_av_info.geometry.aspect_ratio = get_aspect_ratio(width, height);
+   system_av_info.timing.fps            = MEDNAFEN_CORE_TIMING_FPS;
+   system_av_info.timing.sample_rate    = SAMPLE_RATE;
    environ_cb(RETRO_ENVIRONMENT_SET_GEOMETRY, &system_av_info);
 }
 
 void retro_run(void)
 {
    bool updated            = false;
-   bool resolution_changed = false;
    static int16_t sound_buf[0x10000];
    static int32_t rects[FB_HEIGHT];
    static unsigned width, height;
@@ -1666,7 +1676,7 @@ void retro_run(void)
 
    EmulateSpecStruct spec  = { 0 };
    spec.surface            = surf;
-   spec.SoundRate          = 44100;
+   spec.SoundRate          = SAMPLE_RATE;
    spec.SoundBuf           = sound_buf;
    spec.LineWidths         = rects;
    spec.SoundBufMaxSize    = sizeof(sound_buf) / 2;
@@ -1699,20 +1709,23 @@ void retro_run(void)
    Emulate(&spec);
 
    if (width != spec.DisplayRect.w || height != spec.DisplayRect.h)
-      resolution_changed = true;
+      geometry_changed = true;
 
    width  = spec.DisplayRect.w;
    height = spec.DisplayRect.h;
 
    video_cb(surf->pixels16 + surf->pitchinpix * spec.DisplayRect.y, width, height, FB_WIDTH << 1);
 
+   audio_batch_cb(spec.SoundBuf, spec.SoundBufSize);
+
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE_UPDATE, &updated) && updated)
       check_variables();
 
-   if (resolution_changed)
+   if (geometry_changed)
+   {
+      geometry_changed = false;
       update_geometry(width, height);
-
-   audio_batch_cb(spec.SoundBuf, spec.SoundBufSize);
+   }
 }
 
 void retro_get_system_info(struct retro_system_info *info)
@@ -1749,7 +1762,7 @@ void retro_get_system_av_info(struct retro_system_av_info *info)
    }
 
    info->timing.fps            = MEDNAFEN_CORE_TIMING_FPS;
-   info->timing.sample_rate    = 44100.0;
+   info->timing.sample_rate    = SAMPLE_RATE;
    info->geometry.base_width   = width;
    info->geometry.base_height  = height;
    info->geometry.max_width    = MEDNAFEN_CORE_GEOMETRY_MAX_W;
