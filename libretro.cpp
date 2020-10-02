@@ -2038,9 +2038,9 @@ void retro_cheat_set(unsigned index, bool enabled, const char *code)
          // only accept codes in of valid address range
          // raw address = 0x1F0000 - 0x1F1FFF or physical address 0xF82xxx - 0xF83xxx (RAM) 
          // raw address = 0x0D0000 - 0x10FFFF (SYSTEM CARD RAM / CD-RAM)
-         if ((a >= 0x1F0000) && (a < 0x1F2000) ||  // main RAM
-            (a >= 0x100000) && (a < 0x110000)  ||  // CD RAM
-            (a >= 0x00D000) && (a < 0x10FFFF))     // System Card RAM
+         if (((a >= 0x1F0000) && (a < 0x1F2000)) ||  // main RAM
+            ((a >= 0x100000) && (a < 0x110000))  ||  // CD RAM
+            ((a >= 0x00D000) && (a < 0x10FFFF)))     // System Card RAM
          {
             if (!MDFNI_AddCheat(name, a, v, 0, 'R', 1, 0))
                log_cb(RETRO_LOG_DEBUG, "Failed to set code: '%s:%02x'\n", codepart,v);
