@@ -140,7 +140,7 @@ static bool SubWrite(StateMem *st, SFORMAT *sf, const char *name_prefix = NULL)
 
       if(slen >= 255)
       {
-         printf("Warning:  state variable name possibly too long: %s %s %s %d\n", sf->name, name_prefix, nameo, slen);
+         printf("Warning:  state variable name possibly too long: %s %s %s %d\n", sf->name, name_prefix ? name_prefix : "", nameo, slen);
          slen = 255;
       }
 
