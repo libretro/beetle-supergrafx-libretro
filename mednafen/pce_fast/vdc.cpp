@@ -54,6 +54,17 @@ static unsigned int VDC_TotalChips;
 vce_t vce;
 vdc_t vdc_chips[2];
 
+static INLINE void MDFN_FastU32MemsetM8(uint32_t *array, uint32_t value_32, unsigned int u32len)
+{
+   uint32_t *ai;
+   for(ai = array; ai < array + u32len; ai += 2)
+   {
+      ai[0] = value_32;
+      ai[1] = value_32;
+   }
+}
+
+
 #define MAKECOLOR_PCE(val) ((((val & 0x038) >> 3) << 13) | (((((val & 0x038) >> 3) & 0x6) << 10) | (((val & 0x1c0) >> 6) << 8) | (((val & 0x1c0) >> 6) << 5) | ((val & 0x007) << 2) | ((val & 0x007) >> 1)))
 
 static INLINE void FixPCache(int entry)

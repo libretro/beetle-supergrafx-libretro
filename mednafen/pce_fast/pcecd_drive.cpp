@@ -16,7 +16,6 @@
  */
 
 #include "../mednafen.h"
-#include "../clamp.h"
 #include <math.h>
 #include <retro_miscellaneous.h>
 #include "pcecd_drive.h"

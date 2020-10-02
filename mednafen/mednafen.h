@@ -37,6 +37,5 @@ void MDFN_MidSync(EmulateSpecStruct *espec);
 void MDFN_MidLineUpdate(EmulateSpecStruct *espec, int y);
 
 #include "mednafen-endian.h"
-#include "mednafen-memory.h"
 
 #endif
