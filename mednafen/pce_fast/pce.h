@@ -7,7 +7,6 @@
 #include "../mednafen.h"
 #include "../state.h"
 #include "../general.h"
-#include "../mednafen-memory.h"
 #include "psg.h"
 
 #define PCE_MASTER_CLOCK        21477272.727273
