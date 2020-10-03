@@ -1213,50 +1213,35 @@ static void check_variables(void)
 
 static void setup_retro_memory_maps()
 {
-   struct retro_memory_descriptor descs[8];
-   struct retro_memory_map        mmaps;
-   int i = 0;
+   // ROMSpace map (each page is 8K size):
+   // not entirely "rom" space as the name suggest
+   // but also maps R/W memory depending on card
+   //
+   // Page 0x40 - 0x40, RW
+   // Used as the save ram when using Populus hucard, else
+   // its the Arcard RAM when using carts that supports it.
+   //
+   // 0x40 - 0x80, RW
+   // Used when running Street Fighter 2 hucard
+   //
+   // Here's the map when using CD-based games
+   // 0x68 - 0x80 - RW - System Card RAM
+   // 0x80 - 0x88 - RW - CD RAM
+   //
+   // in most cases, 0x00-0x80 is mapped to HuCard rom or CD bios unless
+   // overwritten above
 
-   memset(descs, 0, sizeof(descs));
-
-   descs[i].ptr    = (uint8_t*)BaseRAM;
-   descs[i].start  = 0xf8 * PAGESIZE;
-   descs[i].len    = (IsSGX ? 4 : 1) * PAGESIZE;
-   i++;
-
-   if (IsPopulous)
-   {
-      descs[i].ptr    = (uint8_t*)(ROMSpace + 0x40 * PAGESIZE);
-      descs[i].start  = 0x40 * PAGESIZE;
-      descs[i].len    = 4 * PAGESIZE;
-      i++;
-   }
-   else
-   {
-      descs[i].ptr    = (uint8_t*)SaveRAM;
-      descs[i].start  = 0xf7 * PAGESIZE;
-      descs[i].len    = 2048;
-      i++;
-   }
-
-   if (PCE_IsCD)
-   {
-      // Super System Card RAM
-      descs[i].ptr    = (uint8_t*)(ROMSpace + 0x68 * PAGESIZE);
-      descs[i].start  = 0x68 * PAGESIZE;
-      descs[i].len    = 24 * PAGESIZE;
-      descs[i].select = 0xFFFD0000;
-      i++;
-
-      // CD RAM
-      descs[i].ptr    = (uint8_t*)(ROMSpace + 0x80 * PAGESIZE);
-      descs[i].start  = 0x80 * PAGESIZE;
-      descs[i].len    = 8 * PAGESIZE;
-      i++;
-   }
-
-   mmaps.descriptors = descs;
-   mmaps.num_descriptors = i;
+   uint32_t ramsize = (IsSGX ? 4 : 1) * PAGESIZE;
+   struct retro_memory_descriptor descs[] = {
+      { 0, ROMSpace, 0,               0, 0, 0,    0x88 * PAGESIZE, NULL },
+      // 0x88 - 0xf7 unmapped
+      { 0, SaveRAM,  0, 0xf7 * PAGESIZE, 0, 0,               2048, NULL },
+      { 0, BaseRAM,  0, 0xf8 * PAGESIZE, 0, 0, ramsize * PAGESIZE, NULL }
+   };
+   struct retro_memory_map mmaps = {
+      descs,
+      sizeof(descs) / sizeof(descs[0])
+   };
    environ_cb(RETRO_ENVIRONMENT_SET_MEMORY_MAPS, &mmaps);
 }
 
