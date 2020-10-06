@@ -609,7 +609,7 @@ static void DoNEC_PCE_SAPSP(const uint8 *cdb)
 ********************************************************/
 static void DoNEC_PCE_SAPEP(const uint8 *cdb)
 {
- uint32 new_read_sec_end;
+ uint32 new_read_sec_end = 0;
 
  //printf("Set audio end: %02x %02x %02x %02x %02x %02x %02x\n", cdb[9], cdb[1], cdb[2], cdb[3], cdb[4], cdb[5], cdb[6]);
 
