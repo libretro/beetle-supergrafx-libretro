@@ -47,7 +47,7 @@ static bool geometry_changed = false;
 
 static bool old_cdimagecache = false;
 static bool use_palette = false;
-std::string retro_base_directory;
+const char *retro_base_directory = NULL;
 
 extern MDFNGI EmulatedPCE_Fast;
 MDFNGI *MDFNGameInfo = &EmulatedPCE_Fast;
@@ -625,7 +625,7 @@ void MDFN_printf(const char *format, ...)
    free(format_temp);
 
    if (log_cb)
-      log_cb(RETRO_LOG_INFO, "%s", temp);
+      log_cb(RETRO_LOG_DEBUG, "%s", temp);
 
    free(temp);
 
@@ -835,8 +835,6 @@ static MDFN_PixelFormat last_pixel_format;
 
 static MDFN_Surface *surf;
 
-static bool failed_init;
-
 #include "mednafen/pce_fast/pcecd.h"
 
 #define MAX_PLAYERS 5
@@ -895,22 +893,7 @@ void retro_init(void)
    const char *dir = NULL;
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_SYSTEM_DIRECTORY, &dir) && dir)
-   {
       retro_base_directory = dir;
-      // Make sure that we don't have any lingering slashes, etc, as they break Windows.
-      size_t last = retro_base_directory.find_last_not_of("/\\");
-      if (last != std::string::npos)
-         last++;
-
-      retro_base_directory = retro_base_directory.substr(0, last);
-   }
-   else
-   {
-      /* TODO: Add proper fallback */
-      if (log_cb)
-         log_cb(RETRO_LOG_WARN, "System directory is not defined. Fallback on using same dir as ROM for system directory later ...\n");
-      failed_init = true;
-   }
 
    enum retro_pixel_format rgb565 = RETRO_PIXEL_FORMAT_RGB565;
    if (environ_cb(RETRO_ENVIRONMENT_SET_PIXEL_FORMAT, &rgb565) && log_cb)
@@ -1231,7 +1214,7 @@ static void setup_retro_memory_maps()
    // in most cases, 0x00-0x80 is mapped to HuCard rom or CD bios unless
    // overwritten above
 
-   uint32_t ramsize = (IsSGX ? 4 : 1) * PAGESIZE;
+   uint32_t ramsize = (IsSGX ? 4 : 1);
    struct retro_memory_descriptor descs[] = {
       { 0, ROMSpace, 0,               0, 0, 0,    0x88 * PAGESIZE, NULL },
       // 0x88 - 0xf7 unmapped
@@ -1247,7 +1230,7 @@ static void setup_retro_memory_maps()
 
 bool retro_load_game(const struct retro_game_info *info)
 {
-   if (!info || failed_init)
+   if (!info)
       return false;
 
    struct retro_input_descriptor desc[] = {
