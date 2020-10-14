@@ -14,7 +14,7 @@ extern int setting_pce_fast_cddavolume;
 extern int setting_pce_fast_adpcmvolume;
 extern int setting_pce_fast_cdpsgvolume;
 extern int setting_pce_fast_cdspeed;
-extern std::string setting_pce_fast_cdbios;
+extern const char *setting_pce_fast_cdbios;
 extern bool OrderOfGriffonFix;
 
 bool MDFN_LoadSettings(const char *path, const char *section = NULL, bool override = false);
@@ -30,5 +30,5 @@ uint64 MDFN_GetSettingUI(const char *name);
 int64 MDFN_GetSettingI(const char *name);
 double MDFN_GetSettingF(const char *name);
 bool MDFN_GetSettingB(const char *name);
-std::string MDFN_GetSettingS(const char *name);
+const char *MDFN_GetSettingS(const char *name);
 #endif

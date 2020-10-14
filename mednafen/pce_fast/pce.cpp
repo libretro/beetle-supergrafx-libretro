@@ -45,7 +45,7 @@ static void sanitize_path(std::string &path)
 #endif
 
 
-extern std::string retro_base_directory;
+extern const char *retro_base_directory;
 
 extern MDFNGI EmulatedPCE_Fast;
 
@@ -477,22 +477,22 @@ static MDFN_COLD bool DetectSGXCD(std::vector<CDIF*>* CDInterfaces)
 
 int LoadCD(std::vector<CDIF *> *CDInterfaces)
 {
- std::string bios_filename = MDFN_GetSettingB("sgx_detect_gexpress") ?
-   (DetectGECD((*CDInterfaces)[0]) ? "gexpress.pce" : MDFN_GetSettingS("pce_fast.cdbios")) : MDFN_GetSettingS("pce_fast.cdbios");
- std::string bios_path = retro_base_directory + slash + bios_filename;
+ const char *bios_filename = MDFN_GetSettingS("pce_fast.cdbios");
+ char bios_path[2048] = { 0 };
 
-#ifdef _WIN32
- sanitize_path(bios_path);
-#endif
+ if (MDFN_GetSettingB("sgx_detect_gexpress") && DetectGECD((*CDInterfaces)[0]))
+   bios_filename = "gexpress.pce";
+
+ snprintf(bios_path, sizeof(bios_path), "%s%c%s", retro_base_directory, slash, bios_filename);
 
  if (log_cb)
-  log_cb(RETRO_LOG_INFO, "Loading bios %s\n", bios_path.c_str());
+  log_cb(RETRO_LOG_INFO, "Loading bios %s\n", bios_path);
 
  IsSGX = DetectSGXCD(CDInterfaces);
 
  LoadCommonPre();
 
- if(!HuC_LoadCD(bios_path.c_str()))
+ if(!HuC_LoadCD(bios_path))
   return(0);
 
  PCECD_Drive_SetDisc(true, NULL, true);

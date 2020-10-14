@@ -34,7 +34,7 @@ int setting_pce_fast_cddavolume     = 100;
 int setting_pce_fast_adpcmvolume    = 100;
 int setting_pce_fast_cdpsgvolume    = 100;
 int setting_pce_fast_cdspeed        = 1;
-std::string setting_pce_fast_cdbios = "syscard3.pce";
+const char *setting_pce_fast_cdbios = "syscard3.pce";
 
 bool OrderOfGriffonFix = false;
 
@@ -115,7 +115,7 @@ bool MDFN_GetSettingB(const char *name)
    return 0;
 }
 
-std::string MDFN_GetSettingS(const char *name)
+const char *MDFN_GetSettingS(const char *name)
 {
    if (!strcmp("pce_fast.cdbios", name))
       return setting_pce_fast_cdbios;

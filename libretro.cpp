@@ -47,7 +47,7 @@ static bool geometry_changed = false;
 
 static bool old_cdimagecache = false;
 static bool use_palette = false;
-std::string retro_base_directory;
+const char *retro_base_directory = NULL;
 
 extern MDFNGI EmulatedPCE_Fast;
 MDFNGI *MDFNGameInfo = &EmulatedPCE_Fast;
@@ -897,12 +897,6 @@ void retro_init(void)
    if (environ_cb(RETRO_ENVIRONMENT_GET_SYSTEM_DIRECTORY, &dir) && dir)
    {
       retro_base_directory = dir;
-      // Make sure that we don't have any lingering slashes, etc, as they break Windows.
-      size_t last = retro_base_directory.find_last_not_of("/\\");
-      if (last != std::string::npos)
-         last++;
-
-      retro_base_directory = retro_base_directory.substr(0, last);
    }
    else
    {
