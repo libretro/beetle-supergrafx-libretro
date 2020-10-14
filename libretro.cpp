@@ -835,8 +835,6 @@ static MDFN_PixelFormat last_pixel_format;
 
 static MDFN_Surface *surf;
 
-static bool failed_init;
-
 #include "mednafen/pce_fast/pcecd.h"
 
 #define MAX_PLAYERS 5
@@ -895,16 +893,7 @@ void retro_init(void)
    const char *dir = NULL;
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_SYSTEM_DIRECTORY, &dir) && dir)
-   {
       retro_base_directory = dir;
-   }
-   else
-   {
-      /* TODO: Add proper fallback */
-      if (log_cb)
-         log_cb(RETRO_LOG_WARN, "System directory is not defined. Fallback on using same dir as ROM for system directory later ...\n");
-      failed_init = true;
-   }
 
    enum retro_pixel_format rgb565 = RETRO_PIXEL_FORMAT_RGB565;
    if (environ_cb(RETRO_ENVIRONMENT_SET_PIXEL_FORMAT, &rgb565) && log_cb)
@@ -1241,7 +1230,7 @@ static void setup_retro_memory_maps()
 
 bool retro_load_game(const struct retro_game_info *info)
 {
-   if (!info || failed_init)
+   if (!info)
       return false;
 
    struct retro_input_descriptor desc[] = {
