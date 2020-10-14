@@ -625,7 +625,7 @@ void MDFN_printf(const char *format, ...)
    free(format_temp);
 
    if (log_cb)
-      log_cb(RETRO_LOG_INFO, "%s", temp);
+      log_cb(RETRO_LOG_DEBUG, "%s", temp);
 
    free(temp);
 
