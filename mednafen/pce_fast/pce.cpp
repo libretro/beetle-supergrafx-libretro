@@ -239,7 +239,7 @@ void Load(const char *name, MDFNFILE *fp)
 
    uint32 crc = HuC_Load(fp);
 
-   if(!strcasecmp(GET_FEXTS_PTR(fp), "sgx"))
+   if(!strcasecmp(fp->ext, "sgx"))
       IsSGX = true;
 
    // Space Harrier (Japan)/(USA) is not compatible with SuperGrafx mode

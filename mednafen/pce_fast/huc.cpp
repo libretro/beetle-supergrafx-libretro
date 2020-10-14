@@ -119,7 +119,7 @@ uint32 HuC_Load(MDFNFILE *fp)
 {
  uint32 sf2_threshold = 2048 * 1024;
  uint32 sf2_required_size = 2048 * 1024 + 512 * 1024;
- uint64 len = GET_FSIZE_PTR(fp);
+ uint64 len = fp->size;
 
  uint64 headerlen = 0;
  if(len & 512) // Skip copier header.
@@ -146,9 +146,9 @@ uint32 HuC_Load(MDFNFILE *fp)
     return 0;
 
  memset(HuCROM, 0xFF, m_len);
- memcpy(HuCROM, GET_FDATA_PTR(fp) + headerlen, MIN(m_len, len));
+ memcpy(HuCROM, fp->data + headerlen, MIN(m_len, len));
 
- uint32 crc = crc32(0, GET_FDATA_PTR(fp) + headerlen, MIN(m_len, len));
+ uint32 crc = crc32(0, fp->data + headerlen, MIN(m_len, len));
 
  MDFN_printf(_("ROM:       %lluKiB\n"), MIN(m_len, len) / 1024);
  MDFN_printf(_("ROM CRC32: 0x%04x\n"), crc);
@@ -227,17 +227,26 @@ uint32 HuC_Load(MDFNFILE *fp)
 int HuC_LoadCD(const char *bios_path)
 {
    MDFNFILE *fp = file_open(bios_path);
+   uint64 len = 0;
+   uint64 headerlen = 0;
 
    if (!fp)
    {
       if (log_cb)
          log_cb(RETRO_LOG_ERROR, "Failed to load bios!\n");
       return(0);
-  }
+   }
+
+   len = fp->size;
+   if (len & 512)
+   {
+      headerlen = 512;
+      len &= ~512;
+   }
 
    memset(ROMSpace, 0xFF, 262144);
 
-   memcpy(ROMSpace, GET_FDATA_PTR(fp) + (GET_FSIZE_PTR(fp) & 512), ((GET_FSIZE_PTR(fp) & ~512) > 262144) ? 262144 : (GET_FSIZE_PTR(fp) &~ 512) );
+   memcpy(ROMSpace, fp->data + headerlen, MIN(len, (uint64)262144));
 
    file_close(fp);
 
