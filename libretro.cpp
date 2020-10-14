@@ -1214,7 +1214,7 @@ static void setup_retro_memory_maps()
    // in most cases, 0x00-0x80 is mapped to HuCard rom or CD bios unless
    // overwritten above
 
-   uint32_t ramsize = (IsSGX ? 4 : 1) * PAGESIZE;
+   uint32_t ramsize = (IsSGX ? 4 : 1);
    struct retro_memory_descriptor descs[] = {
       { 0, ROMSpace, 0,               0, 0, 0,    0x88 * PAGESIZE, NULL },
       // 0x88 - 0xf7 unmapped
