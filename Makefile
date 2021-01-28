@@ -152,9 +152,15 @@ endif
    OSX_LT_MAVERICKS = `(( $(OSXVER) <= 9)) && echo "YES"`
 ifeq ($(OSX_LT_MAVERICKS),"YES")
    fpic += -mmacosx-version-min=10.1
-else
-	fpic += -stdlib=libc++
 endif
+   fpic += -stdlib=libc++
+   ifeq ($(CROSS_COMPILE),1)
+	TARGET_RULE   = -target $(LIBRETRO_APPLE_PLATFORM) -isysroot $(LIBRETRO_APPLE_ISYSROOT)
+	CFLAGS   += $(TARGET_RULE)
+	CPPFLAGS += $(TARGET_RULE)
+	CXXFLAGS += $(TARGET_RULE)
+	LDFLAGS  += $(TARGET_RULE)
+   endif
 
 # iOS
 else ifneq (,$(findstring ios,$(platform)))
@@ -536,20 +542,17 @@ ifeq ($(platform), emscripten)
 else ifeq ($(STATIC_LINKING), 1)
 	$(AR) rcs $@ $(OBJECTS)
 else
-	$(Q)$(LD) $(LINKOUT)$@ $^ $(LDFLAGS) $(LIBS)
-	@$(if $(Q), $(shell echo echo LD $@),)
+	$(LD) $(LINKOUT)$@ $^ $(LDFLAGS) $(LIBS)
 endif
 
 %.o: %.cpp
-	$(Q)$(CXX) -c $(OBJOUT)$@ $< $(CPPFLAGS) $(CXXFLAGS)
-	@$(if $(Q), $(shell echo echo CXX $<),)
+	$(CXX) -c $(OBJOUT)$@ $< $(CPPFLAGS) $(CXXFLAGS)
 
 %.o: %.c
-	$(Q)$(CC) -c $(OBJOUT)$@ $< $(CPPFLAGS) $(CFLAGS)
-	@$(if $(Q), $(shell echo echo CC $<),)
+	$(CC) -c $(OBJOUT)$@ $< $(CPPFLAGS) $(CFLAGS)
 
 clean:
-	$(Q)rm -f $(OBJECTS)
+	rm -f $(OBJECTS)
 	@$(if $(Q), $(shell echo echo rm -f *.o),)
 	rm -f $(TARGET)
 
