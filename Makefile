@@ -23,6 +23,9 @@ ifeq ($(shell uname -s),)
 else ifneq ($(findstring Darwin,$(shell uname -s)),)
    platform = osx
    arch = intel
+ifeq ($(shell uname -p),arm)
+   arch = arm
+endif
 ifeq ($(shell uname -p),powerpc)
    arch = ppc
 endif
@@ -54,10 +57,6 @@ HAVE_CDROM = 0
 
 TARGET_NAME := mednafen_supergrafx
 
-arch = intel
-ifeq ($(shell uname -p),powerpc)
-arch = ppc
-endif
 
 # Unix
 ifneq (,$(findstring unix,$(platform)))
@@ -152,6 +151,15 @@ endif
    OSX_LT_MAVERICKS = `(( $(OSXVER) <= 9)) && echo "YES"`
 ifeq ($(OSX_LT_MAVERICKS),"YES")
    fpic += -mmacosx-version-min=10.1
+endif
+ifeq ($(UNIVERSAL),1)
+arch = intel
+ifeq ($(shell uname -p),arm)
+arch = arm
+endif
+ifeq ($(shell uname -p),powerpc)
+arch = ppc
+endif
 endif
    fpic += -stdlib=libc++
    ifeq ($(CROSS_COMPILE),1)
