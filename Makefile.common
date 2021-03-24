@@ -140,13 +140,7 @@ ifeq ($(NEED_CD), 1)
 endif
 
 ifeq ($(HAVE_CHD), 1)
-	FLAGS += -DHAVE_CHD -D_7ZIP_ST -DPACKAGE_VERSION=\"1.3.2\" -DFLAC_API_EXPORTS -DFLAC__HAS_OGG=0 -DHAVE_LROUND -DHAVE_STDINT_H -DHAVE_STDLIB_H
-ifeq (,$(findstring msvc,$(platform)))
-	FLAGS += -DHAVE_SYS_PARAM_H
-endif
-	ifeq ($(platform), win)
-		FLAGS += -DHAVE_FSEEKO
-	endif
+	FLAGS += -DHAVE_CHD -D_7ZIP_ST
 
 	# crc32 included in zlib, don't generate duplicate symbol
 	NEED_CRC32 = 0
