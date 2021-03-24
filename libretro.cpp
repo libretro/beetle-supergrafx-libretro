@@ -1743,10 +1743,15 @@ void retro_get_system_av_info(struct retro_system_av_info *info)
    info->geometry.aspect_ratio = aspect_ratio;
 }
 
-void retro_deinit()
+void retro_deinit(void)
 {
    if (surf)
+   {
+      if (surf->pixels16)
+         free(surf->pixels16);
+      surf->pixels16 = NULL;
       delete surf;
+   }
    surf = NULL;
    r_input.use_bitmasks = false;
 }
