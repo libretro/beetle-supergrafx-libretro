@@ -18,31 +18,9 @@ INCFLAGS := \
 	-I$(LIBRETRO_COMM_DIR)/include
 
 LIBCHDR_INCFLAGS = \
-	-I$(DEPS_DIR)/flac-1.3.3/include \
-	-I$(DEPS_DIR)/flac-1.3.3/src/include \
 	-I$(DEPS_DIR)/lzma-19.00/include \
 	-I$(DEPS_DIR)/libchdr/include
 LIBCHDR_SOURCES_C = \
-	$(DEPS_DIR)/flac-1.3.3/src/bitmath.c \
-	$(DEPS_DIR)/flac-1.3.3/src/bitreader.c \
-	$(DEPS_DIR)/flac-1.3.3/src/cpu.c \
-	$(DEPS_DIR)/flac-1.3.3/src/crc.c \
-	$(DEPS_DIR)/flac-1.3.3/src/fixed.c \
-	$(DEPS_DIR)/flac-1.3.3/src/fixed_intrin_sse2.c \
-	$(DEPS_DIR)/flac-1.3.3/src/fixed_intrin_ssse3.c \
-	$(DEPS_DIR)/flac-1.3.3/src/float.c \
-	$(DEPS_DIR)/flac-1.3.3/src/format.c \
-	$(DEPS_DIR)/flac-1.3.3/src/lpc.c \
-	$(DEPS_DIR)/flac-1.3.3/src/lpc_intrin_avx2.c \
-	$(DEPS_DIR)/flac-1.3.3/src/lpc_intrin_sse2.c \
-	$(DEPS_DIR)/flac-1.3.3/src/lpc_intrin_sse41.c \
-	$(DEPS_DIR)/flac-1.3.3/src/lpc_intrin_sse.c \
-	$(DEPS_DIR)/flac-1.3.3/src/md5.c \
-	$(DEPS_DIR)/flac-1.3.3/src/memory.c \
-	$(DEPS_DIR)/flac-1.3.3/src/metadata_iterators.c \
-	$(DEPS_DIR)/flac-1.3.3/src/metadata_object.c \
-	$(DEPS_DIR)/flac-1.3.3/src/stream_decoder.c \
-	$(DEPS_DIR)/flac-1.3.3/src/window.c \
 	$(DEPS_DIR)/lzma-19.00/src/Alloc.c \
 	$(DEPS_DIR)/lzma-19.00/src/Bra86.c \
 	$(DEPS_DIR)/lzma-19.00/src/BraIA64.c \
@@ -50,7 +28,6 @@ LIBCHDR_SOURCES_C = \
 	$(DEPS_DIR)/lzma-19.00/src/Delta.c \
 	$(DEPS_DIR)/lzma-19.00/src/LzFind.c \
 	$(DEPS_DIR)/lzma-19.00/src/Lzma86Dec.c \
-	$(DEPS_DIR)/lzma-19.00/src/Lzma86Enc.c \
 	$(DEPS_DIR)/lzma-19.00/src/LzmaDec.c \
 	$(DEPS_DIR)/lzma-19.00/src/LzmaEnc.c \
 	$(DEPS_DIR)/lzma-19.00/src/Sort.c \
@@ -188,9 +165,6 @@ endif
 	else
 		INCFLAGS += $(LIBCHDR_INCFLAGS)
 		SOURCES_C += $(LIBCHDR_SOURCES_C)
-		ifeq ($(WINDOWS_VERSION), 1)
-			SOURCES_C += $(DEPS_DIR)/flac-1.3.3/src/windows_unicode_filenames.c
-		endif
 	endif
 
    SOURCES_CXX += $(CDROM_DIR)/CDAccess_CHD.cpp
