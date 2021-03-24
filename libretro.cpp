@@ -745,6 +745,7 @@ bool MDFNI_LoadCD(const char *force_module, const char *devicename)
       return false;
    }
 
+#ifdef DEBUG
    //
    // Print out a track list for all discs.
    //
@@ -768,6 +769,7 @@ bool MDFNI_LoadCD(const char *force_module, const char *devicename)
    MDFN_indent(-1);
 
    MDFN_printf(_("Using module: supergrafx\n"));
+#endif
 
    if (!(LoadCD(&CDInterfaces)))
    {
@@ -925,38 +927,41 @@ bool retro_load_game_special(unsigned, const struct retro_game_info *, size_t)
    return false;
 }
 
-static void check_variables(void)
+static void check_variables(bool loaded)
 {
    bool input_changed = false;
    struct retro_variable var = { 0 };
 
-   var.key = "sgx_cdimagecache";
-
-   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+   if (!loaded)
    {
-      bool cdimage_cache = true;
+      var.key = "sgx_cdimagecache";
 
-      if (strcmp(var.value, "enabled") == 0)
-         cdimage_cache = true;
-      else if (strcmp(var.value, "disabled") == 0)
-         cdimage_cache = false;
+      if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+      {
+         bool cdimage_cache = true;
 
-      if (cdimage_cache != old_cdimagecache)
-         old_cdimagecache = cdimage_cache;
-   }
+         if (strcmp(var.value, "enabled") == 0)
+            cdimage_cache = true;
+         else if (strcmp(var.value, "disabled") == 0)
+            cdimage_cache = false;
 
-   var.key = "sgx_cdbios";
+         if (cdimage_cache != old_cdimagecache)
+            old_cdimagecache = cdimage_cache;
+      }
 
-   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
-   {
-      if (strcmp(var.value, "System Card 3") == 0)
-         setting_pce_fast_cdbios = "syscard3.pce";
-      else if (strcmp(var.value, "System Card 2") == 0)
-         setting_pce_fast_cdbios = "syscard2.pce";
-      else if (strcmp(var.value, "System Card 1") == 0)
-         setting_pce_fast_cdbios = "syscard1.pce";
-      else if (strcmp(var.value, "Games Express") == 0)
-         setting_pce_fast_cdbios = "gexpress.pce";
+      var.key = "sgx_cdbios";
+
+      if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+      {
+         if (strcmp(var.value, "System Card 3") == 0)
+            setting_pce_fast_cdbios = "syscard3.pce";
+         else if (strcmp(var.value, "System Card 2") == 0)
+            setting_pce_fast_cdbios = "syscard2.pce";
+         else if (strcmp(var.value, "System Card 1") == 0)
+            setting_pce_fast_cdbios = "syscard1.pce";
+         else if (strcmp(var.value, "Games Express") == 0)
+            setting_pce_fast_cdbios = "gexpress.pce";
+      }
    }
 
    var.key = "sgx_detect_gexpress";
@@ -1309,7 +1314,7 @@ bool retro_load_game(const struct retro_game_info *info)
 
    environ_cb(RETRO_ENVIRONMENT_SET_INPUT_DESCRIPTORS, desc);
 
-   check_variables();
+   check_variables(false);
 
    bool game = MDFNI_LoadGame(MEDNAFEN_CORE_NAME_MODULE, info->path);
    if (!game)
@@ -1687,7 +1692,7 @@ void retro_run(void)
    audio_batch_cb(spec.SoundBuf, spec.SoundBufSize);
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE_UPDATE, &updated) && updated)
-      check_variables();
+      check_variables(true);
 
    if (geometry_changed)
    {

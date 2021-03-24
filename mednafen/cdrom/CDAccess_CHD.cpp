@@ -219,7 +219,7 @@ void CDAccess_CHD::Cleanup(void)
  if (chd != NULL)
   chd_close(chd);
 
- if (hunkmem != NULL)
+ if (hunkmem)
  {
    free(hunkmem);
    hunkmem = NULL;
