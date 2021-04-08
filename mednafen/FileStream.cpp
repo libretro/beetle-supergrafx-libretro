@@ -40,13 +40,6 @@ FileStream::FileStream(const char *path, const int mode)
   fp = fopen(path, "wb");
  else
   fp = fopen(path, "rb");
-
- if(!fp)
- {
-  ErrnoHolder ene(errno);
-
-  throw(MDFN_Error(ene.Errno(), _("Error opening file %s"), ene.StrError()));
- }
 }
 
 FileStream::~FileStream()
@@ -54,7 +47,7 @@ FileStream::~FileStream()
    close();
 }
 
-uint64 FileStream::read(void *data, uint64 count, bool error_on_eos)
+uint64 FileStream::read(void *data, uint64 count)
 {
    return fread(data, 1, count, fp);
 }
