@@ -154,11 +154,6 @@ ifeq ($(HAVE_CHD), 1)
    SOURCES_CXX += $(CDROM_DIR)/CDAccess_CHD.cpp
 endif
 
-ifeq ($(NEED_CRC32), 1)
-	FLAGS += -DWANT_CRC32
-	SOURCES_C += $(CORE_DIR)/scrc32.c
-endif
-
 ifeq ($(NEED_TREMOR), 1)
 	SOURCES_C += $(wildcard $(MEDNAFEN_DIR)/tremor/*.c)
 	FLAGS += -DNEED_TREMOR
