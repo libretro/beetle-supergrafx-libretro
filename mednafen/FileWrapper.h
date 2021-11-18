@@ -1,7 +1,9 @@
 #ifndef __MDFN_FILEWRAPPER_H
 #define __MDFN_FILEWRAPPER_H
 
-// A stdio FILE wrapper(with some BSD and POSIXisms, and a little dash of Win32, thrown in for special behaviors)
+#include <streams/file_stream.h>
+
+// An RFILE wrapper(with some BSD and POSIXisms, and a little dash of Win32, thrown in for special behaviors)
 class FileWrapper
 {
  public:
@@ -33,8 +35,6 @@ class FileWrapper
 
  int64 size(void);
 
- void flush(void);
-
  void close(void);	// Flushes and closes the underlying OS/C lib file.  Calling any other method of this class after a call to
 			// this method is illegal(except for the implicit call to the destructor).
 			//
@@ -48,7 +48,7 @@ class FileWrapper
  FileWrapper & operator=(const FileWrapper &);    // Assignment operator
  FileWrapper(const FileWrapper &);		// Copy constructor
 
- FILE *fp;
+ RFILE *fp;
  const int OpenedMode;
 };
 

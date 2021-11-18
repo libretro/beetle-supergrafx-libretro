@@ -15,10 +15,10 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-// TODO/WIP
-
 #ifndef __MDFN_FILESTREAM_H
 #define __MDFN_FILESTREAM_H
+
+#include <streams/file_stream.h>
 
 #include "Stream.h"
 #include "FileWrapper.h"
@@ -45,9 +45,7 @@ class FileStream : public Stream
  virtual void close(void);
 
  private:
- FILE *fp;
+ RFILE *fp;
 };
-
-
 
 #endif

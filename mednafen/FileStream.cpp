@@ -1,5 +1,3 @@
-// TODO/WIP
-
 /* Mednafen - Multi-system Emulator
  *
  * This program is free software; you can redistribute it and/or modify
@@ -17,7 +15,6 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include <sys/stat.h>
 #include "mednafen.h"
 #include "Stream.h"
 #include "FileStream.h"
@@ -25,21 +22,23 @@
 #include <stdarg.h>
 #include <string.h>
 
-#ifdef _WIN32
-#include <io.h>
-#else
-#include <unistd.h>
-#endif
-
-#define fseeko fseek
-#define ftello ftell
+extern "C" {
+RFILE* rfopen(const char *path, const char *mode);
+int rfclose(RFILE* stream);
+int64_t rfread(void* buffer,
+   size_t elem_size, size_t elem_count, RFILE* stream);
+int64_t rfwrite(void const* buffer,
+   size_t elem_size, size_t elem_count, RFILE* stream);
+int64_t rfseek(RFILE* stream, int64_t offset, int origin);
+int64_t rftell(RFILE* stream);
+}
 
 FileStream::FileStream(const char *path, const int mode)
 {
  if(mode == FileStream::MODE_WRITE)
-  fp = fopen(path, "wb");
+  fp = rfopen(path, "wb");
  else
-  fp = fopen(path, "rb");
+  fp = rfopen(path, "rb");
 }
 
 FileStream::~FileStream()
@@ -49,31 +48,27 @@ FileStream::~FileStream()
 
 uint64 FileStream::read(void *data, uint64 count)
 {
-   return fread(data, 1, count, fp);
+   return rfread(data, 1, count, fp);
 }
 
 void FileStream::write(const void *data, uint64 count)
 {
-   fwrite(data, 1, count, fp);
+   rfwrite(data, 1, count, fp);
 }
 
 void FileStream::seek(int64 offset, int whence)
 {
-   fseeko(fp, offset, whence);
+   rfseek(fp, offset, whence);
 }
 
 int64 FileStream::tell(void)
 {
-   return ftello(fp);
+   return rftell(fp);
 }
 
 int64 FileStream::size(void)
 {
-   struct stat buf;
-
-   fstat(fileno(fp), &buf);
-
-   return(buf.st_size);
+   return filestream_get_size(fp);
 }
 
 void FileStream::close(void)
@@ -81,7 +76,7 @@ void FileStream::close(void)
    if(!fp)
       return;
 
-   FILE *tmp = fp;
+   RFILE *tmp = fp;
    fp = NULL;
-   fclose(tmp);
+   rfclose(tmp);
 }

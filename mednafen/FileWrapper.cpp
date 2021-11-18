@@ -15,24 +15,24 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include <sys/stat.h>
 #include "mednafen.h"
 #include "FileWrapper.h"
 
 #include <stdarg.h>
 #include <string.h>
 
-#ifdef _WIN32
-#include <io.h>
-#else
-#include <unistd.h>
-#endif
-
-// Some really bad preprocessor abuse follows to handle platforms that don't have fseeko and ftello...and of course
-// for largefile support on Windows:
-
-#define fseeko fseek
-#define ftello ftell
+extern "C" {
+RFILE* rfopen(const char *path, const char *mode);
+int rfclose(RFILE* stream);
+int64_t rfread(void* buffer,
+   size_t elem_size, size_t elem_count, RFILE* stream);
+int64_t rfwrite(void const* buffer,
+   size_t elem_size, size_t elem_count, RFILE* stream);
+int rfputc(int character, RFILE * stream);
+char *rfgets(char *buffer, int maxCount, RFILE* stream);
+int64_t rfseek(RFILE* stream, int64_t offset, int origin);
+int64_t rftell(RFILE* stream);
+}
 
 // For special uses, IE in classes that take a path or a FileWrapper & in the constructor, and the FileWrapper non-pointer member
 // is in the initialization list for the path constructor but not the constructor with FileWrapper&
@@ -40,9 +40,9 @@
 FileWrapper::FileWrapper(const char *path, const int mode, const char *purpose) : OpenedMode(mode)
 {
  if(mode == MODE_WRITE)
-  fp = fopen(path, "wb");
+  fp = rfopen(path, "wb");
  else
-  fp = fopen(path, "rb");
+  fp = rfopen(path, "rb");
 
  if(!fp)
  {
@@ -62,29 +62,24 @@ void FileWrapper::close(void)
    if(!fp)
       return;
 
-   FILE *tmp = fp;
+   RFILE *tmp = fp;
    fp = NULL;
-   fclose(tmp);
+   rfclose(tmp);
 }
 
 uint64 FileWrapper::read(void *data, uint64 count, bool error_on_eof)
 {
-   return fread(data, 1, count, fp);
-}
-
-void FileWrapper::flush(void)
-{
-   fflush(fp);
+   return rfread(data, 1, count, fp);
 }
 
 void FileWrapper::write(const void *data, uint64 count)
 {
-   fwrite(data, 1, count, fp);
+   rfwrite(data, 1, count, fp);
 }
 
 void FileWrapper::put_char(int c)
 {
-   fputc(c, fp);
+   rfputc(c, fp);
 }
 
 void FileWrapper::put_string(const char *str)
@@ -101,25 +96,21 @@ void FileWrapper::put_string(const std::string &str)
 
 char *FileWrapper::get_line(char *buf_s, int buf_size)
 {
-   return ::fgets(buf_s, buf_size, fp);
+   return rfgets(buf_s, buf_size, fp);
 }
 
 
 void FileWrapper::seek(int64 offset, int whence)
 {
-   fseeko(fp, offset, whence);
+   rfseek(fp, offset, whence);
 }
 
 int64 FileWrapper::size(void)
 {
-   struct stat buf;
-
-   fstat(fileno(fp), &buf);
-
-   return(buf.st_size);
+   return filestream_get_size(fp);
 }
 
 int64 FileWrapper::tell(void)
 {
-   return ftello(fp);
+   return rftell(fp);
 }
