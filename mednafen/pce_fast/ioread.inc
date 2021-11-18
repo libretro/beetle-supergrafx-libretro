@@ -135,4 +135,3 @@
 
  }
  #undef PCEF_CASEL
- //printf("Meow: %08x, %02x:%04x\n", A, A >> 13, A & 0x1FFF);

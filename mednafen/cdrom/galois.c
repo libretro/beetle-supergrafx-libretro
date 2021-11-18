@@ -22,7 +22,6 @@
  *  or direct your browser at http://www.gnu.org.
  */
 
-#include <stdio.h>
 #include <stdlib.h>
 #include "galois.h"
 
@@ -59,12 +58,6 @@ GaloisTables* CreateGaloisTables(int32_t gf_generator)
       b = b << 1;
       if(b & GF_FIELDSIZE)
          b = b ^ gf_generator;
-   }
-
-   if(b!=1) 
-   {
-      printf("Failed to create the Galois field log tables!\n");
-      exit(1);
    }
 
    /* we're even closed using infinity (makes things easier) */

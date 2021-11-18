@@ -92,16 +92,7 @@ HuC6280 HuCPU;
  #define FixPC_PC()
 #endif
 
-//#define IncPC() { HU_PC++; if(!(GetRealPC() & 0x1FFF)) printf("Bank crossing: %04x\n", GetRealPC()); }
-//#define IncPC() HU_PC++;
-#if 0
-#define IncPC() { HU_PC++; if(!(GetRealPC() & 0x1FFF) && 	\
-	HuCPU.MPR[(GetRealPC() - 1) >> 13] != (HuCPU.MPR[(GetRealPC()) >> 13] - 1)) \
-	printf("Bank crossing: %04x, %02x, %02x\n", GetRealPC(), HuCPU.MPR[(GetRealPC() - 1) >> 13], 	\
-	HuCPU.MPR[GetRealPC() >> 13]); }
-#else
 #define IncPC() HU_PC++;
-#endif
 
 #ifdef HUC6280_CRAZY_VERSION
  #define RdAtPC() (*(uint8*)HU_PC)
@@ -552,10 +543,6 @@ void HuC6280_Reset(void)
   
 void HuC6280_Init(void)
 {
- //printf("%zu\n", sizeof(HuC6280));
- //printf("%d\n", (int)((uint8*)&HuCPU.previous_next_user_event - (uint8*)&HuCPU));
- //printf("%d\n", (int)((uint8*)&HuCPU.IRQlow - (uint8*)&HuCPU));
-
 	memset(&HuCPU,0,sizeof(HuCPU));
 
  #ifdef HUC6280_LAZY_FLAGS
@@ -673,7 +660,6 @@ void HuC6280_Run(int32 cycles)
 	   }
 	  }	// end if(HU_IRQlow)
 
-	  //printf("%04x\n", GetRealPC());
 	  HU_PI = HU_P;
 	  HuCPU.IRQMaskDelay = HuCPU.IRQMask;
 

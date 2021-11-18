@@ -22,12 +22,6 @@
 #include "../cdrom/cdromif.h"
 #include "../cdrom/SimpleFIFO.h"
 
-static inline void SCSIDBG(const char *format, ...)
-{
-//printf("SCSI: " format "\n",  ## __VA_ARGS__);
-}
-//#define SCSIDBG(format, ...) { }
-
 static uint32 CD_DATA_TRANSFER_RATE;
 static uint32 System_Clock;
 static void (*CDIRQCallback)(int);
@@ -142,8 +136,6 @@ static INLINE void MakeSense(uint8 target[18], uint8 key, uint8 asc, uint8 ascq,
  target[14] = fru;		// Field Replaceable Unit code
 }
 
-static void (*SCSILog)(const char *, const char *format, ...);
-
 static pcecd_drive_timestamp_t lastts;
 static int64 monotonic_timestamp;
 static int64 pce_lastsapsp_timestamp;
@@ -222,25 +214,21 @@ void PCECD_Drive_Power(pcecd_drive_timestamp_t system_timestamp)
 void PCECD_Drive_SetDB(uint8 data)
 {
  cd_bus.DB = data;
- //printf("Set DB: %02x\n", data);
 }
 
 void PCECD_Drive_SetACK(bool set)
 {
  SetkingACK(set);
- //printf("Set ACK: %d\n", set);
 }
 
 void PCECD_Drive_SetSEL(bool set)
 {
  SetkingSEL(set);
- //printf("Set SEL: %d\n", set);
 }
 
 void PCECD_Drive_SetRST(bool set)
 {
  SetkingRST(set);
- //printf("Set RST: %d\n", set);
 }
 
 static void GenSubQFromSubPW(void)
@@ -249,17 +237,7 @@ static void GenSubQFromSubPW(void)
 
  subq_deinterleave(cd.SubPWBuf, SubQBuf);
 
- //printf("Real %d/ SubQ %d - ", read_sec, BCD_to_U8(SubQBuf[7]) * 75 * 60 + BCD_to_U8(SubQBuf[8]) * 75 + BCD_to_U8(SubQBuf[9]) - 150);
- // Debug code, remove me.
- //for(int i = 0; i < 0xC; i++)
- // printf("%02x ", SubQBuf[i]);
- //printf("\n");
-
- if(!subq_check_checksum(SubQBuf))
- {
-  SCSIDBG("SubQ checksum error!");
- }
- else
+ if(subq_check_checksum(SubQBuf))
  {
   memcpy(cd.SubQBuf_Last, SubQBuf, 0xC);
 
@@ -267,10 +245,6 @@ static void GenSubQFromSubPW(void)
 
   if(adr <= 0x3)
    memcpy(cd.SubQBuf[adr], SubQBuf, 0xC);
-
-  //if(adr == 0x02)
-  //for(int i = 0; i < 12; i++)
-  // printf("%02x\n", cd.SubQBuf[0x2][i]);
  }
 }
 
@@ -314,7 +288,6 @@ static void GenSubQFromSubPW(void)
 
 static void ChangePhase(const unsigned int new_phase)
 {
- //printf("New phase: %d %lld\n", new_phase, monotonic_timestamp);
  switch(new_phase)
  {
   case PHASE_BUS_FREE:
@@ -367,10 +340,7 @@ static void SendStatusAndMessage(uint8 status, uint8 message)
 {
  // This should never ever happen, but that doesn't mean it won't. ;)
  if(din.CanRead())
- {
-  printf("BUG: %d bytes still in SCSI CD FIFO\n", din.CanRead());
   din.Flush();
- }
 
  cd.message_pending = message;
 
@@ -425,8 +395,6 @@ void PCECD_Drive_SetDisc(bool new_tray_open, CDIF *cdif, bool no_emu_side_effect
 
 static void CommandCCError(int key, int asc = 0, int ascq = 0)
 {
- //printf("CC Error: %02x %02x %02x\n", key, asc, ascq);
-
  cd.key_pending = key;
  cd.asc_pending = asc;
  cd.ascq_pending = ascq;
@@ -465,13 +433,6 @@ static void DoREADBase(uint32 sa, uint32 sc)
  {
   CommandCCError(SENSEKEY_MEDIUM_ERROR, NSE_HEADER_READ_ERROR);
   return;
- }
-
- if(SCSILog)
- {
-  int Track = TOC_FindTrackByLBA(&toc, sa);
-  uint32 Offset = sa - toc.tracks[Track].lba; //Cur_CDIF->GetTrackStartPositionLBA(Track);
-  SCSILog("SCSI", "Read: start=0x%08x(track=%d, offs=0x%08x), cnt=0x%08x", sa, Track, Offset, sc);
  }
 
  SectorAddr = sa;
@@ -525,7 +486,6 @@ static void DoREAD6(const uint8 *cdb)
  // TODO: confirm real PCE does this(PC-FX does at least).
  if(!sc)
  {
-  //SCSIDBG("READ(6) with count == 0.\n");
   sc = 256;
  }
 
@@ -541,10 +501,9 @@ static void DoNEC_PCE_SAPSP(const uint8 *cdb)
 {
  uint32 new_read_sec_start;
 
- //printf("Set audio start: %02x %02x %02x %02x %02x %02x %02x\n", cdb[9], cdb[1], cdb[2], cdb[3], cdb[4], cdb[5], cdb[6]);
  switch (cdb[9] & 0xc0)
  {
-  default:  //SCSIDBG("Unknown SAPSP 9: %02x\n", cdb[9]);
+  default:  
   case 0x00:
    new_read_sec_start = (cdb[3] << 16) | (cdb[4] << 8) | cdb[5];
    break;
@@ -566,7 +525,6 @@ static void DoNEC_PCE_SAPSP(const uint8 *cdb)
    break;
  }
 
- //printf("%lld\n", (long long)(monotonic_timestamp - pce_lastsapsp_timestamp) * 1000 / System_Clock);
  if(cdda.CDDAStatus == CDDASTATUS_PLAYING && new_read_sec_start == read_sec_start && ((int64)(monotonic_timestamp - pce_lastsapsp_timestamp) * 1000 / System_Clock) < 190)
  {
   pce_lastsapsp_timestamp = monotonic_timestamp;
@@ -611,12 +569,8 @@ static void DoNEC_PCE_SAPEP(const uint8 *cdb)
 {
  uint32 new_read_sec_end = 0;
 
- //printf("Set audio end: %02x %02x %02x %02x %02x %02x %02x\n", cdb[9], cdb[1], cdb[2], cdb[3], cdb[4], cdb[5], cdb[6]);
-
  switch (cdb[9] & 0xc0)
  {
-  //default: SCSIDBG("Unknown SAPEP 9: %02x\n", cdb[9]);
-
   case 0x00:
    new_read_sec_end = (cdb[3] << 16) | (cdb[4] << 8) | cdb[5];
    break;
@@ -737,8 +691,7 @@ static void DoNEC_PCE_GETDIRINFO(const uint8 *cdb)
 
  switch(cdb[1])
  {
-  default: //MDFN_DispMessage("Unknown GETDIRINFO Mode: %02x", cdb[1]);
-	   //printf("Unknown GETDIRINFO Mode: %02x", cdb[1]);
+  default:
   case 0x0:
    data_in[0] = U8_to_BCD(toc.first_track);
    data_in[1] = U8_to_BCD(toc.last_track);
@@ -979,12 +932,7 @@ static INLINE void RunCDRead(uint32 system_timestamp, int32 run_time)
   {
    if(din.CanWrite() < 2048)
    {
-    //printf("Carp: %d %d %d\n", din.CanWrite(), SectorCount, CDReadTimer);
-    //CDReadTimer = (cd.data_in_size - cd.data_in_pos) * 10;
-    
     CDReadTimer += (uint64) 1 * 2048 * System_Clock / CD_DATA_TRANSFER_RATE;
-
-    //CDReadTimer += (uint64) 1 * 128 * System_Clock / CD_DATA_TRANSFER_RATE;
    }
    else
    {
@@ -1049,14 +997,7 @@ static INLINE void RunCDRead(uint32 system_timestamp, int32 run_time)
 
 uint32 PCECD_Drive_Run(pcecd_drive_timestamp_t system_timestamp)
 {
- int32 run_time = system_timestamp - lastts;
-
- if(system_timestamp < lastts)
- {
-  fprintf(stderr, "Meow: %d %d\n", system_timestamp, lastts);
-  assert(system_timestamp >= lastts);
- }
-
+ int32 run_time       = system_timestamp - lastts;
  monotonic_timestamp += run_time;
 
  lastts = system_timestamp;
@@ -1072,10 +1013,7 @@ uint32 PCECD_Drive_Run(pcecd_drive_timestamp_t system_timestamp)
  cd.last_RST_signal = RST_signal;
 
  if(ResetNeeded)
- {
-  //puts("RST");
   VirtualReset();
- }
  else switch(CurrentPhase)
  {
   case PHASE_BUS_FREE:
@@ -1088,7 +1026,6 @@ uint32 PCECD_Drive_Run(pcecd_drive_timestamp_t system_timestamp)
   case PHASE_COMMAND:
     if(REQ_signal && ACK_signal)	// Data bus is valid nowww
     {
-     //printf("Command Phase Byte I->T: %02x, %d\n", cd_bus.DB, cd.command_buffer_pos);
      cd.command_buffer[cd.command_buffer_pos++] = cd_bus.DB;
      SetREQ(false);
     }
@@ -1102,31 +1039,9 @@ uint32 PCECD_Drive_Run(pcecd_drive_timestamp_t system_timestamp)
       while(cmd_info_ptr->pretty_name && cmd_info_ptr->cmd != cd.command_buffer[0])
        cmd_info_ptr++;
   
-      if(SCSILog)
-      {
-       char log_buffer[1024];
-       int lb_pos;
-
-       log_buffer[0] = 0;
-       
-       lb_pos = snprintf(log_buffer, 1024, "Command: %02x, %s  ", cd.command_buffer[0], cmd_info_ptr->pretty_name ? cmd_info_ptr->pretty_name : "!!BAD COMMAND!!");
-
-       for(int i = 0; i < RequiredCDBLen[cd.command_buffer[0] >> 4]; i++)
-        lb_pos += snprintf(log_buffer + lb_pos, 1024 - lb_pos, "%02x ", cd.command_buffer[i]);
-
-       SCSILog("SCSI", "%s", log_buffer);
-       //puts(log_buffer);
-      }
-
-
       if(cmd_info_ptr->pretty_name == NULL)	// Command not found!
       {
        CommandCCError(SENSEKEY_ILLEGAL_REQUEST, NSE_INVALID_COMMAND);
-
-       //SCSIDBG("Bad Command: %02x\n", cd.command_buffer[0]);
-
-       if(SCSILog)
-        SCSILog("SCSI", "Bad Command: %02x", cd.command_buffer[0]);
 
        cd.command_buffer_pos = 0;
       }
@@ -1178,7 +1093,6 @@ uint32 PCECD_Drive_Run(pcecd_drive_timestamp_t system_timestamp)
   case PHASE_DATA_IN:
     if(!REQ_signal && !ACK_signal)
     {
-     //puts("REQ and ACK false");
      if(din.CanRead() == 0)	// aaand we're done!
      {
       CDIRQCallback(0x8000 | PCECD_Drive_IRQ_DATA_TRANSFER_READY);
@@ -1198,7 +1112,6 @@ uint32 PCECD_Drive_Run(pcecd_drive_timestamp_t system_timestamp)
     }
     if(REQ_signal && ACK_signal)
     {
-     //puts("REQ and ACK true");
      SetREQ(false);
     }
     break;
@@ -1235,11 +1148,6 @@ uint32 PCECD_Drive_Run(pcecd_drive_timestamp_t system_timestamp)
  return(next_time);
 }
 
-void PCECD_Drive_SetLog(void (*logfunc)(const char *, const char *, ...))
-{
- SCSILog = logfunc;
-}
-
 void PCECD_Drive_SetTransferRate(uint32 TransferRate)
 {
  CD_DATA_TRANSFER_RATE = TransferRate;
@@ -1257,10 +1165,6 @@ void PCECD_Drive_Init(int cdda_time_div, Blip_Buffer* lrbufs, uint32 TransferRat
 
  monotonic_timestamp = 0;
  lastts = 0;
-
- SCSILog = NULL;
-
- //din = new SimpleFIFO<uint8>(2048);
 
  cdda.CDDATimeDiv = cdda_time_div;
 
@@ -1348,7 +1252,6 @@ int PCECD_Drive_StateAction(StateMem * sm, int load, int data_only, const char *
    cdda.CDDADiv = 1;
 
   cdda.CDDAReadPos %= 588 + 1;
-  //printf("%d %d %d\n", din.in_count, din.read_pos, din.write_pos);
  }
 
  return (ret);

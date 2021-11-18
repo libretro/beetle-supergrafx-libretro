@@ -150,9 +150,6 @@ uint32 HuC_Load(MDFNFILE *fp)
 
  uint32 crc = crc32(0, fp->data + headerlen, MIN(m_len, len));
 
- MDFN_printf(_("ROM:       %lluKiB\n"), MIN(m_len, len) / 1024);
- MDFN_printf(_("ROM CRC32: 0x%04x\n"), crc);
-
  memset(ROMSpace, 0xFF, 0x88 * 8192 + 8192);
 
  if(m_len == 0x60000)
@@ -188,8 +185,6 @@ uint32 HuC_Load(MDFNFILE *fp)
 
   IsPopulous = 1;
 
-  MDFN_printf("Populous\n");
-
   for(int x = 0x40; x < 0x44; x++)
   {
    HuCPU.FastMap[x] = &PopRAM[(x & 3) * 8192];
@@ -217,7 +212,6 @@ uint32 HuC_Load(MDFNFILE *fp)
    HuCPU.PCERead[x] = HuCSF2Read;
   }
   HuCPU.PCEWrite[0] = HuCSF2Write;
-  MDFN_printf("Street Fighter 2 Mapper\n");
   HuCSF2Latch = 0;
  }
 
@@ -253,7 +247,6 @@ int HuC_LoadCD(const char *bios_path)
    PCE_IsCD = 1;
    PCE_InitCD();
 
-   MDFN_printf(_("Arcade Card Emulation:  %s\n"), PCE_ACEnabled ? _("Enabled") : _("Disabled"));
    for(int x = 0; x < 0x40; x++)
    {
       HuCPU.FastMap[x] = &ROMSpace[x * 8192];

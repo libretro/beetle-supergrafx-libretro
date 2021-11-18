@@ -17,7 +17,6 @@
  ********************************************************************/
 
 #include <stdlib.h>
-#include <stdio.h>
 #include <errno.h>
 #include <string.h>
 #include <math.h>
@@ -57,9 +56,13 @@
  * harder to understand anyway.  The high level functions are last.  Begin
  * grokking near the end of the file */
 
+#define VSEEK_END	2
+#define VSEEK_CUR	1
+#define VSEEK_SET	0
 
 /* read a little more data from the file/pipe into the ogg_sync framer */
-static long _get_data(OggVorbis_File *vf){
+static long _get_data(OggVorbis_File *vf)
+{
   errno=0;
   if(!(vf->callbacks.read_func))return(-1);
   if(vf->datasource){
@@ -78,15 +81,15 @@ static long _get_data(OggVorbis_File *vf){
 	  return(-1);
 	}
     return(bytes);
-  }else
-    return(0);
+  }
+  return(0);
 }
 
 /* save a tiny smidge of verbosity to make the code more readable */
 static int _seek_helper(OggVorbis_File *vf,int64_t offset){
   if(vf->datasource){
     if(!(vf->callbacks.seek_func)||
-       (vf->callbacks.seek_func)(vf->datasource, offset, SEEK_SET) == -1)
+       (vf->callbacks.seek_func)(vf->datasource, offset, VSEEK_SET) == -1)
       return OV_EREAD;
     vf->offset=offset;
     ogg_sync_reset(&vf->oy);
@@ -635,7 +638,7 @@ static int _open_seekable2(OggVorbis_File *vf){
 
   /* we can seek, so set out learning all about this file */
   if(vf->callbacks.seek_func && vf->callbacks.tell_func){
-    (vf->callbacks.seek_func)(vf->datasource,0,SEEK_END);
+    (vf->callbacks.seek_func)(vf->datasource,0,VSEEK_END);
     vf->offset=vf->end=(vf->callbacks.tell_func)(vf->datasource);
   }else{
     vf->offset=vf->end=-1;
@@ -874,16 +877,9 @@ static int _fetch_and_process_packet(OggVorbis_File *vf,
   }
 }
 
-/* if, eg, 64 bit stdio is configured by default, this will build with
-   fseek64 */
-static int _fseek64_wrap(FILE *f,int64_t off,int whence){
-  if(f==NULL)return(-1);
-  return fseek(f,off,whence);
-}
-
 static int _ov_open1(void *f,OggVorbis_File *vf,const char *initial,
                      long ibytes, ov_callbacks callbacks){
-  int offsettest=((f && callbacks.seek_func)?callbacks.seek_func(f,0,SEEK_CUR):-1);
+  int offsettest=((f && callbacks.seek_func)?callbacks.seek_func(f,0,VSEEK_CUR):-1);
   uint32_t *serialno_list=NULL;
   int serialno_list_size=0;
   int ret;
@@ -1008,55 +1004,6 @@ int ov_open_callbacks(void *f,OggVorbis_File *vf,
   return _ov_open2(vf);
 }
 
-int ov_open(FILE *f,OggVorbis_File *vf,const char *initial,long ibytes){
-  ov_callbacks callbacks = {
-    (size_t (*)(void *, size_t, size_t, void *))  fread,
-    (int (*)(void *, int64_t, int))              _fseek64_wrap,
-    (int (*)(void *))                             fclose,
-    (long (*)(void *))                            ftell
-  };
-
-  return ov_open_callbacks((void *)f, vf, initial, ibytes, callbacks);
-}
-
-int ov_fopen(const char *path,OggVorbis_File *vf){
-  int ret;
-  FILE *f = fopen(path,"rb");
-  if(!f) return -1;
-
-  ret = ov_open(f,vf,NULL,0);
-  if(ret) fclose(f);
-  return ret;
-}
-
-
-/* Only partially open the vorbis file; test for Vorbisness, and load
-   the headers for the first chain.  Do not seek (although test for
-   seekability).  Use ov_test_open to finish opening the file, else
-   ov_clear to close/free it. Same return codes as open. */
-
-int ov_test_callbacks(void *f,OggVorbis_File *vf,
-    const char *initial,long ibytes,ov_callbacks callbacks)
-{
-  return _ov_open1(f,vf,initial,ibytes,callbacks);
-}
-
-int ov_test(FILE *f,OggVorbis_File *vf,const char *initial,long ibytes){
-  ov_callbacks callbacks = {
-    (size_t (*)(void *, size_t, size_t, void *))  fread,
-    (int (*)(void *, int64_t, int))              _fseek64_wrap,
-    (int (*)(void *))                             fclose,
-    (long (*)(void *))                            ftell
-  };
-
-  return ov_test_callbacks((void *)f, vf, initial, ibytes, callbacks);
-}
-
-int ov_test_open(OggVorbis_File *vf){
-  if(vf->ready_state!=PARTOPEN)return(OV_EINVAL);
-  return _ov_open2(vf);
-}
-
 /* How many logical bitstreams in this physical bitstream? */
 long ov_streams(OggVorbis_File *vf){
   return vf->links;
@@ -1112,30 +1059,13 @@ long ov_bitrate(OggVorbis_File *vf,int i){
   }
 }
 
-/* returns the actual bitrate since last call.  returns -1 if no
-   additional data to offer since last call (or at beginning of stream),
-   EINVAL if stream is only partially open
-*/
-long ov_bitrate_instant(OggVorbis_File *vf){
-  int link=(vf->seekable?vf->current_link:0);
-  long ret;
-  if(vf->ready_state<OPENED)return(OV_EINVAL);
-  if(vf->samptrack==0)return(OV_FALSE);
-  ret=vf->bittrack/vf->samptrack*vf->vi[link].rate;
-  vf->bittrack=0;
-  vf->samptrack=0;
-  return(ret);
-}
-
 /* Guess */
 long ov_serialnumber(OggVorbis_File *vf,int i){
   if(i>=vf->links)return(ov_serialnumber(vf,vf->links-1));
   if(!vf->seekable && i>=0)return(ov_serialnumber(vf,-1));
-  if(i<0){
+  if(i<0)
     return(vf->current_serialno);
-  }else{
-    return(vf->serialnos[i]);
-  }
+  return(vf->serialnos[i]);
 }
 
 /* returns: total raw (compressed) length of content if i==-1
@@ -1190,9 +1120,8 @@ int64_t ov_time_total(OggVorbis_File *vf,int i){
     for(i=0;i<vf->links;i++)
       acc+=ov_time_total(vf,i);
     return(acc);
-  }else{
-    return(((int64_t)vf->pcmlengths[i*2+1])*1000/vf->vi[i].rate);
   }
+  return(((int64_t)vf->pcmlengths[i*2+1])*1000/vf->vi[i].rate);
 }
 
 /* seek to an offset relative to the *compressed* data. This also
@@ -1803,24 +1732,6 @@ vorbis_info *ov_info(OggVorbis_File *vf,int link){
         return vf->vi+link;
   }else{
     return vf->vi;
-  }
-}
-
-/* grr, strong typing, grr, no templates/inheritence, grr */
-vorbis_comment *ov_comment(OggVorbis_File *vf,int link){
-  if(vf->seekable){
-    if(link<0)
-      if(vf->ready_state>=STREAMSET)
-        return vf->vc+vf->current_link;
-      else
-        return vf->vc;
-    else
-      if(link>=vf->links)
-        return NULL;
-      else
-        return vf->vc+link;
-  }else{
-    return vf->vc;
   }
 }
 

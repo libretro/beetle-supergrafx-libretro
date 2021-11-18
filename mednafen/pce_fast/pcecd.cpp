@@ -56,7 +56,6 @@ static int32 pcecd_drive_ne;
 // ADPCM variables and whatnot
 static inline void ADPCM_DEBUG(const char *format, ...)
 {
-/*printf("[Half=%d, End=%d, Playing=%d] "x, ADPCM.HalfReached, ADPCM.EndReached, ADPCM.Playing, ## __VA_ARGS__);*/ 
 }
 
 typedef Blip_Synth<blip_good_quality, 16384> ADSynth;
@@ -207,10 +206,6 @@ static void StuffSubchannel(uint8 meow, int subindex)
 
 static void CDIRQ(int type)
 {
- #ifdef PCECD_DEBUG
- if(type != 0x8000 || _Port[0x3] & 0x60)
-  printf("CDIRQ: %d\n", type);
- #endif
  if(type & 0x8000)
  {
   type &= 0x7FFF;
@@ -454,7 +449,6 @@ uint8 PCECD_Read(uint32 timestamp, uint32 A)
     break;
 
    case 0xc:
-    //printf("ADPCM Status Read: %d\n", timestamp);
     ret = 0x00;
 
     ret |= (ADPCM.EndReached) ? 0x01 : 0x00;
@@ -468,10 +462,6 @@ uint8 PCECD_Read(uint32 timestamp, uint32 A)
     break;
   }
  }
-
- #ifdef PCECD_DEBUG
- printf("Read: %04x %02x, %d\n", A, ret, timestamp);
- #endif
 
  return(ret);
 }
@@ -498,10 +488,6 @@ void PCECD_Write(uint32 timestamp, uint32 physAddr, uint8 data)
 {
 	const uint8 V = data;
 
-	#ifdef PCECD_DEBUG
-	printf("Write: (PC=%04x, t=%6d) %04x %02x; MSG: %d, REQ: %d, ACK: %d, CD: %d, IO: %d, BSY: %d, SEL: %d\n", HuCPU.PC, timestamp, physAddr, data, PCECD_Drive_GetMSG(), PCECD_Drive_GetREQ(), PCECD_Drive_GetACK(), PCECD_Drive_GetCD(), PCECD_Drive_GetIO(), PCECD_Drive_GetBSY(), PCECD_Drive_GetSEL());
-	#endif
-
 	PCECD_Run(timestamp);
 
 	switch (physAddr & 0xf)
@@ -524,13 +510,6 @@ void PCECD_Write(uint32 timestamp, uint32 physAddr, uint8 data)
 			break;
 
 		case 0x2:		// $1802
-			#ifdef PCECD_DEBUG
-			if(!(_Port[0x3] & _Port[2] & 0x40) && (_Port[0x3] & data & 0x40))
-			 puts("IRQ on waah 0x40");
-			if(!(_Port[0x3] & _Port[2] & 0x20) && (_Port[0x3] & data & 0x20))
-			 puts("IRQ on waah 0x20");
-			#endif
-
 			PCECD_Drive_SetACK(data & 0x80);
 			pcecd_drive_ne = PCECD_Drive_Run(timestamp);
 			_Port[2] = data;
@@ -697,10 +676,6 @@ void PCECD_Write(uint32 timestamp, uint32 physAddr, uint8 data)
 		case 0xf:
 			Fader.Command = V;
 
-			#ifdef PCECD_DEBUG
-			printf("Fade: %02x\n", data);
-			#endif
-
 			// Cancel fade
 			if(!(V & 0x8))
 			{
@@ -777,7 +752,6 @@ static INLINE void ADPCM_PB_Run(int32 basetime, int32 run_time)
 
 static INLINE void ADPCM_Run(const int32 clocks, const int32 timestamp)
 {
- //printf("ADPCM Run: %d\n", clocks);
  ADPCM_PB_Run(timestamp, clocks);
 
  if(ADPCM.WritePending > 0)
@@ -843,9 +817,6 @@ void PCECD_Run(uint32 in_timestamp)
  int32 clocks = in_timestamp - lastts;
  int32 running_ts = lastts;
 
- //printf("Run Begin: Clocks=%d(%d - %d), cl=%d\n", clocks, in_timestamp, lastts, CalcNextEvent);
- //fflush(stdout);
-
  while(clocks > 0)
  {
   int32 chunk_clocks = CalcNextEvent(clocks);
@@ -861,12 +832,7 @@ void PCECD_Run(uint32 in_timestamp)
     PCECD_Drive_SetACK(false);
     PCECD_Drive_Run(running_ts);
     if(PCECD_Drive_GetCD())
-    {
      _Port[0xb] &= ~1;
-     #ifdef PCECD_DEBUG
-     puts("DMA End");
-     #endif
-    }
    }
   }
 

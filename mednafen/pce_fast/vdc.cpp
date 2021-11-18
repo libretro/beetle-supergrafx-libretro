@@ -133,13 +133,8 @@ static INLINE void CheckFixSpriteTileCache(vdc_t *which_vdc, uint16 no, uint32 s
    if ((special | 0x80) == which_vdc->spr_tile_clean[no])
       return;
 
-   //printf("Oops: %d, %d, %d\n", no, special | 0x100, which_vdc->spr_tile_clean[no]);
    if ((no * 64) >= VRAM_Size)
    {
-      //printf("Unmapped: %d\n", no);
-      //VDC_UNDEFINED("Unmapped VRAM sprite tile read");
-      // Unnecessary, since we reset the sprite tile cache to 0 on reset/init anyway.
-      //memset(which_vdc->spr_tile_cache[no], 0x00, 16 * 16 * sizeof(uint16));
    }
    else if (special)
    {
@@ -296,7 +291,6 @@ DECLFR(VCE_Read)
 
 DECLFW(VCE_Write)
 {
-   //printf("%04x %02x, %04x\n", A, V, HuCPU.PC);
    switch (A & 0x7)
    {
    case 0:
@@ -335,7 +329,6 @@ DECLFW(VDC_Write_ST)
    if (VDC_TotalChips == 2)
       A |= vpc.st_mode ? 0x10 : 0;
 
-   //printf("WriteST: %04x %02x\n", A, V);
    VDC_Write(A, V);
 }
 
@@ -359,9 +352,6 @@ static void DoDMA(vdc_t *vdc)
             FixTileCache(vdc, vdc->DESR);
             vdc->spr_tile_clean[vdc->DESR >> 6] = 0;
          }
-
-         //if(vdc->DCR & 0xC)
-         //printf("Pllal: %02x\n", vdc->DCR);
 
          vdc->SOUR += (((vdc->DCR & 0x4) >> 1) ^ 2) - 1;
          vdc->DESR += (((vdc->DCR & 0x8) >> 2) ^ 2) - 1;
@@ -388,7 +378,6 @@ DECLFW(VDC_Write)
    int chip = 0;
    vdc_t *vdc;
 
-   //printf("VDC Write: %04x %02x\n", A, V);
    if (VDC_TotalChips == 2)
    {
       A &= 0x1F;
@@ -432,9 +421,6 @@ DECLFW(VDC_Write)
       vdc = &vdc_chips[0];
       A &= 0x3;
    }
-   //if((A == 0x2 || A == 0x3) && ((vdc->select & 0x1f) >= 0x09) && ((vdc->select & 0x1f) <= 0x13))
-
-   //printf("%04x, %02x: %02x, %d\n", A, vdc->select, V, vdc->display_counter);
 
    switch (A)
    {
@@ -473,11 +459,6 @@ DECLFW(VDC_Write)
                FixTileCache(vdc, vdc->MAWR);
                vdc->spr_tile_clean[vdc->MAWR >> 6] = 0;
             }
-            else
-            {
-               //VDC_UNDEFINED("Unmapped VRAM write");
-               //printf("VROOM: %04x, %02x\n", vdc->MAWR, (vdc->CR >> 11) & 0x3);
-            }
             vdc->MAWR += vram_inc_tab[(vdc->CR >> 11) & 0x3];
          }
          break;
@@ -496,7 +477,6 @@ DECLFW(VDC_Write)
          REGSETP(vdc->BYR, V, msb);
          vdc->BYR &= 0x1FF;
          vdc->BG_YOffset = vdc->BYR; // Set it on LSB and MSB writes(only changing on MSB breaks Youkai Douchuuki)
-         //printf("%04x\n", HuCPU.PC);
          break;
       case 0x09:
          REGSETP(vdc->MWR, V, msb);
@@ -546,7 +526,6 @@ DECLFW(VDC_Write)
          REGSETP(vdc->SATB, V, msb);
          vdc->SATBPending = 1;
          break;
-         //	    default: printf("Oops 2: %04x %02x\n", vdc->select, V);break;
       }
       break;
    }
@@ -730,7 +709,6 @@ static void DrawSprites(vdc_t *vdc, const int32 end, uint16 *spr_linebuf)
 
          SpriteList[active_sprites].flags = flags;
 
-         //printf("Found: %d %d\n", vdc->RCRCount, x);
          SpriteList[active_sprites].x = x;
          SpriteList[active_sprites].palette_index = palette_index;
 
@@ -914,7 +892,6 @@ static void DrawOverscan(const vdc_t *vdc, uint16_t *target, const MDFN_Rect *lw
    if (VDC_TotalChips == 2)
       os_color &= 0x1FF;
 
-   //printf("%d %d\n", lw->x, lw->w);
    int x = lw->x;
 
    if (!full)
@@ -975,7 +952,6 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
 
       bool need_vbi[2] = {false, false};
 
-#if 1
       int32 line_leadin1   = 0;
       int32 magical        = 0;
       int32 cyc_tot        = 0;
@@ -1000,33 +976,7 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
       if (cyc_tot < 0)
          cyc_tot = 0;
       line_leadin1 = cyc_tot;
-#endif
 
-#if 0
-  {
-   int vdc_to_master = 4;
-
-   line_leadin1 = 1365 - ((M_vdc_HDW + 1) * 8 - 4 + 6) * vdc_to_master;
-
-   if(line_leadin1 < 0)
-   {
-    line_leadin1 = 0;
-    puts("Eep");
-   }
-
-   if(M_vdc_HDS > 2)
-    line_leadin1 += 2;
-
-   line_leadin1 = line_leadin1 / 3;
-  }
-
-  if(line_leadin1 < 0)
-   line_leadin1 = 0;
-  else if(line_leadin1 > 400)
-   line_leadin1 = 400;
-#endif
-
-      //printf("%d\n", line_leadin1);
       if (max_dc < vce.dot_clock)
          max_dc = vce.dot_clock;
 

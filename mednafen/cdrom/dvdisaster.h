@@ -44,7 +44,6 @@
 #include <sys/types.h>
 #include <stdarg.h>
 #include <stddef.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #ifdef _WIN32
@@ -143,18 +142,6 @@ void OrQVector(unsigned char*, unsigned char, int);
 int DecodePQ(ReedSolomonTables*, unsigned char*, int, int*, int);
 
 int CountC2Errors(unsigned char*);
-
-/***
- *** misc.c 
- ***/
-
-char* sgettext(char*);
-char* sgettext_utf8(char*);
-
-int64 uchar_to_int64(unsigned char*);
-void int64_to_uchar(unsigned char*, int64);
-
-void CalcSectors(int64, int64*, int*);
 
 /***
  *** recover-raw.c

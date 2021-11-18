@@ -283,7 +283,6 @@ static bool TestConditions(const char *string)
  unsigned int bytelen;
  bool passed = 1;
 
- //printf("TR: %s\n", string);
  while(sscanf(string, "%u %c %63s %63s %63s", &bytelen, &endian, address, operation, value) == 5 && passed)
  {
   uint32 v_address;
@@ -312,7 +311,6 @@ static bool TestConditions(const char *string)
    value_at_address |= MemRead(v_address + x) << shiftie;
   }
 
-  //printf("A: %08x, V: %08llx, VA: %08llx, OP: %s\n", v_address, v_value, value_at_address, operation);
   if(!strcmp(operation, ">="))
   {
    if(!(value_at_address >= v_value))
@@ -373,14 +371,11 @@ static bool TestConditions(const char *string)
    if(value_at_address | v_value)
     passed = 0;
   }
-  else
-   puts("Invalid operation");
   string = strchr(string, ',');
-  if(string == NULL)
+  if(!string)
    break;
   else
    string++;
-  //printf("Foo: %s\n", string);
  }
 
  return(passed);

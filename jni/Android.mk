@@ -5,7 +5,6 @@ CORE_DIR := $(LOCAL_PATH)/..
 DEBUG                    := 0
 FRONTEND_SUPPORTS_RGB565 := 1
 NEED_BPP                 := 16
-WANT_NEW_API             := 0
 NEED_BLIP                := 1
 NEED_CD                  := 1
 NEED_STEREO_SOUND        := 1

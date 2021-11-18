@@ -18,7 +18,6 @@ class AudioReader
   {
    if(LastReadPos != frame_offset)
    {
-    //puts("SEEK");
     if(!Seek_(frame_offset))
      return(0);
     LastReadPos = frame_offset;

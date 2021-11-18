@@ -8,8 +8,6 @@
 #include "mednafen.h"
 #include <errno.h>
 
-#include <stdio.h>	// For SEEK_* defines, which we will use in Stream out of FORCE OF HABIT.
-
 class Stream
 {
  public:

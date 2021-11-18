@@ -69,13 +69,11 @@ uint8 PCEIODataBuffer;
 
 static DECLFR(PCEBusRead)
 {
- //printf("BUS Read: %02x %04x\n", A >> 13, A);
  return(0xFF);
 }
 
 static DECLFW(PCENullWrite)
 {
- //printf("Null Write: %02x, %08x %02x\n", A >> 13, A, V);
 }
 
 static DECLFR(BaseRAMReadSGX)
@@ -184,12 +182,6 @@ bool PCE_InitCD(void)
  cd_settings.ADPCM_Volume = (double)MDFN_GetSettingUI("pce_fast.adpcmvolume") / 100;
  cd_settings.ADPCM_LPF = MDFN_GetSettingB("pce_fast.adpcmlp");
 
- if(cd_settings.CDDA_Volume != 1.0)
-  MDFN_printf(_("CD-DA Volume: %d%%\n"), (int)(100 * cd_settings.CDDA_Volume));
-
- if(cd_settings.ADPCM_Volume != 1.0)
-  MDFN_printf(_("ADPCM Volume: %d%%\n"), (int)(100 * cd_settings.ADPCM_Volume));
-
  return(PCECD_Init(&cd_settings, PCECDIRQCB, PCE_MASTER_CLOCK, pce_overclocked, sbuf));
 }
 
@@ -256,7 +248,6 @@ void Load(const char *name, MDFNFILE *fp)
 			if(sgx_table[i].crc == crc)
 			{
 				IsSGX = true;
-				MDFN_printf("SuperGrafx: %s\n", sgx_table[i].name);
 				break;
 			}
          ++i;
@@ -276,12 +267,6 @@ static void LoadCommonPre(void)
  // FIXME:  Make these globals less global!
  pce_overclocked = MDFN_GetSettingUI("pce_fast.ocmultiplier");
  PCE_ACEnabled = MDFN_GetSettingB("pce_fast.arcadecard");
-
- if(pce_overclocked > 1)
-  MDFN_printf(_("CPU overclock: %dx\n"), pce_overclocked);
-
- if(MDFN_GetSettingUI("pce_fast.cdspeed") > 1)
-  MDFN_printf(_("CD-ROM speed:  %ux\n"), (unsigned int)MDFN_GetSettingUI("pce_fast.cdspeed"));
 
  for(int x = 0; x < 0x100; x++)
  {
@@ -305,7 +290,6 @@ static void LoadCommon(void)
 
  if(IsSGX)
  {
-  MDFN_printf("SuperGrafx Emulation Enabled.\n");
   HuCPU.PCERead[0xF8] = HuCPU.PCERead[0xF9] = HuCPU.PCERead[0xFA] = HuCPU.PCERead[0xFB] = BaseRAMReadSGX;
   HuCPU.PCEWrite[0xF8] = HuCPU.PCEWrite[0xF9] = HuCPU.PCEWrite[0xFA] = HuCPU.PCEWrite[0xFB] = BaseRAMWriteSGX;
 
@@ -339,14 +323,7 @@ static void LoadCommon(void)
  if(PCE_IsCD)
  {
   unsigned int cdpsgvolume = MDFN_GetSettingUI("pce_fast.cdpsgvolume");
-
-  if(cdpsgvolume != 100)
-  {
-   MDFN_printf(_("CD PSG Volume: %d%%\n"), cdpsgvolume);
-  }
-
   psg->SetVolume(0.678 * cdpsgvolume / 100);
-
  }
 
  PCEINPUT_Init();
@@ -354,7 +331,6 @@ static void LoadCommon(void)
  PCE_Power();
 
  MDFNGameInfo->fps = (uint32)((double)7159090.90909090 / 455 / 263 * 65536 * 256);
- MDFN_printf("\n");
 }
 
 static bool DetectGECD(CDIF *cdiface)	// Very half-assed detection until(if) we get ISO-9660 reading code.
@@ -386,7 +362,6 @@ static bool DetectGECD(CDIF *cdiface)	// Very half-assed detection until(if) we 
      };
      uint32 zecrc = crc32(0, sector_buffer, 2048);
 
-     //printf("%04x\n", zecrc);
      for(unsigned int i = 0; i < sizeof(known_crcs) / sizeof(uint32); i++)
       if(known_crcs[i] == zecrc)
        return(true);
@@ -612,10 +587,6 @@ int StateAction(void *data, int load, int data_only)
   SFEND
  };
  StateMem *sm = (StateMem*)data;
-
- //for(int i = 8192; i < 32768; i++)
- // if(BaseRAM[i] != 0xFF)
- //  printf("%d %02x\n", i, BaseRAM[i]);
 
  int ret = MDFNSS_StateAction(sm, load, data_only, StateRegs, "MAIN", false);
 
