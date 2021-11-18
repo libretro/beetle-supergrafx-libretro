@@ -16,8 +16,9 @@
  */
 
 #include <retro_miscellaneous.h>
-#include "pce.h"
+#include <file/file_path.h>
 #include <zlib.h>
+#include "pce.h"
 #include "vdc.h"
 #include "psg.h"
 #include "input.h"
@@ -28,12 +29,6 @@
 #include "../mempatcher.h"
 #include "../cdrom/cdromif.h"
 #include "../mednafen-endian.h"
-
-#ifdef _WIN32
-static char slash = '\\';
-#else
-static char slash = '/';
-#endif
 
 #ifdef _WIN32
 static void sanitize_path(std::string &path)
@@ -459,7 +454,7 @@ int LoadCD(std::vector<CDIF *> *CDInterfaces)
  if (MDFN_GetSettingB("sgx_detect_gexpress") && DetectGECD((*CDInterfaces)[0]))
    bios_filename = "gexpress.pce";
 
- snprintf(bios_path, sizeof(bios_path), "%s%c%s", retro_base_directory, slash, bios_filename);
+ fill_pathname_join(bios_path, retro_base_directory, bios_filename, sizeof(bios_path));
 
  if (log_cb)
   log_cb(RETRO_LOG_INFO, "Loading bios %s\n", bios_path);
