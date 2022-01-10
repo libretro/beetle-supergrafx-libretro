@@ -43,6 +43,7 @@
 
 #define SAMPLE_RATE 44100.0
 
+static bool libretro_supports_option_categories = false;
 static bool geometry_changed = false;
 
 static bool old_cdimagecache = false;
@@ -1813,7 +1814,9 @@ void retro_set_environment(retro_environment_t cb)
       { NULL, 0 },
    };
 
-   libretro_set_core_options(cb);
+   libretro_supports_option_categories = false;
+   libretro_set_core_options(cb,
+      &libretro_supports_option_categories);
    environ_cb(RETRO_ENVIRONMENT_SET_CONTROLLER_INFO, (void *)ports);
 
    vfs_iface_info.required_interface_version = 1;
