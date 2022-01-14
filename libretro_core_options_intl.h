@@ -705,7 +705,7 @@ struct retro_core_options_v2 options_ar = {
 #define OPTION_VAL_0_50_AST "0,50"
 #define OPTION_VAL_0_75_AST "0,75"
 #define OPTION_VAL_1_00_AST "1,00"
-#define OPTION_VAL_1_25_AST NULL
+#define OPTION_VAL_1_25_AST "1,25"
 #define OPTION_VAL_1_50_AST "1,50"
 #define OPTION_VAL_1_75_AST "1,75"
 #define OPTION_VAL_2_00_AST "2,00"
@@ -1945,7 +1945,7 @@ struct retro_core_options_v2 options_ca = {
 #define CATEGORY_VIDEO_INFO_0_CHS NULL
 #define CATEGORY_INPUT_LABEL_CHS "输入"
 #define CATEGORY_INPUT_INFO_0_CHS NULL
-#define CATEGORY_HACKS_LABEL_CHS NULL
+#define CATEGORY_HACKS_LABEL_CHS "模拟修改"
 #define CATEGORY_HACKS_INFO_0_CHS "配置处理器超时和模拟精确参数，影响低级性能和兼容性。"
 #define CATEGORY_CD_LABEL_CHS NULL
 #define CATEGORY_CD_INFO_0_CHS NULL
@@ -5115,7 +5115,7 @@ struct retro_core_options_v2 options_da = {
 #define CATEGORY_VIDEO_INFO_0_DE NULL
 #define CATEGORY_INPUT_LABEL_DE NULL
 #define CATEGORY_INPUT_INFO_0_DE NULL
-#define CATEGORY_HACKS_LABEL_DE NULL
+#define CATEGORY_HACKS_LABEL_DE "Emulations-Hacks"
 #define CATEGORY_HACKS_INFO_0_DE "Parameter für Prozessorübertaktung und Emulationsgenauigkeit, die sich auf die Low-Level-Leistung und Kompatibilität auswirken, anpassen."
 #define CATEGORY_CD_LABEL_DE NULL
 #define CATEGORY_CD_INFO_0_DE NULL
@@ -7017,7 +7017,7 @@ struct retro_core_options_v2 options_eo = {
 #define CATEGORY_VIDEO_INFO_0_ES "Cambia las opciones de relación de aspecto, omisión de fotogramas y otros ajustes de la salida de imagen."
 #define CATEGORY_INPUT_LABEL_ES "Entrada"
 #define CATEGORY_INPUT_INFO_0_ES "Configura la entrada de las pistolas de luz, el ratón o el NegCon."
-#define CATEGORY_HACKS_LABEL_ES NULL
+#define CATEGORY_HACKS_LABEL_ES "Arreglos de emulación"
 #define CATEGORY_HACKS_INFO_0_ES "Cambia las opciones de velocidad del procesador y de precisión de la emulación que afectan al rendimiento a bajo nivel y a la compatibilidad."
 #define CATEGORY_CD_LABEL_ES NULL
 #define CATEGORY_CD_INFO_0_ES "Cambia los ajustes relacionados con los juegos de CD."
@@ -7031,13 +7031,13 @@ struct retro_core_options_v2 options_eo = {
 #define OPTION_VAL_6_5_ES NULL
 #define OPTION_VAL_4_3_ES NULL
 #define SGX_HOVERSCAN_LABEL_ES "Sobrebarrido horizontal (solo para el modo de 352 px de ancho)"
-#define SGX_HOVERSCAN_INFO_0_ES NULL
+#define SGX_HOVERSCAN_INFO_0_ES "Selecciona el ancho máximo de la imagen que se mostrará. Un valor bajo recortará la parte derecha (para los juegos con un ancho de 352 px)."
 #define OPTION_VAL_352_ES "352 (por defecto)"
-#define SGX_INITIAL_SCANLINE_LABEL_ES NULL
-#define SGX_INITIAL_SCANLINE_INFO_0_ES NULL
+#define SGX_INITIAL_SCANLINE_LABEL_ES "Línea de barrido inicial"
+#define SGX_INITIAL_SCANLINE_INFO_0_ES "Indica la primera línea de barrido que se renderizará. Un valor muy alto recortará la parte superior de la imagen."
 #define OPTION_VAL_3_ES "3 (por defecto)"
-#define SGX_LAST_SCANLINE_LABEL_ES NULL
-#define SGX_LAST_SCANLINE_INFO_0_ES NULL
+#define SGX_LAST_SCANLINE_LABEL_ES "Línea de barrido final"
+#define SGX_LAST_SCANLINE_INFO_0_ES "Indica la última línea de barrido que se renderizará. Un valor muy bajo recortará la parte inferior de la imagen."
 #define OPTION_VAL_242_ES "242 (por defecto)"
 #define SGX_MOUSE_SENSITIVITY_LABEL_ES "Sensibilidad del ratón"
 #define SGX_MOUSE_SENSITIVITY_INFO_0_ES "Un valor más alto hará que el cursor del ratón se desplace más rápido."
@@ -8285,7 +8285,7 @@ struct retro_core_options_v2 options_fa = {
 #define CATEGORY_VIDEO_INFO_0_FI NULL
 #define CATEGORY_INPUT_LABEL_FI "Syöte"
 #define CATEGORY_INPUT_INFO_0_FI NULL
-#define CATEGORY_HACKS_LABEL_FI NULL
+#define CATEGORY_HACKS_LABEL_FI "Emulointikikat"
 #define CATEGORY_HACKS_INFO_0_FI "Määritä prosessorin ylikellotus- ja emuloinnin tarkkuuden asetukset, jotka vaikuttavat matalan tason suorituskykyyn ja yhteensopivuuteen."
 #define CATEGORY_CD_LABEL_FI NULL
 #define CATEGORY_CD_INFO_0_FI NULL
@@ -8919,7 +8919,7 @@ struct retro_core_options_v2 options_fi = {
 #define CATEGORY_VIDEO_INFO_0_FR "Configurer les paramètres du rognage de l'affichage, du saut d'images et autres pour la sortie vidéo."
 #define CATEGORY_INPUT_LABEL_FR "Entrées"
 #define CATEGORY_INPUT_INFO_0_FR "Configurer les entrées du pistolet, de la souris et du negCon."
-#define CATEGORY_HACKS_LABEL_FR NULL
+#define CATEGORY_HACKS_LABEL_FR "Hacks d'émulation"
 #define CATEGORY_HACKS_INFO_0_FR "Configurer les paramètres d'overclocking du processeur et de la précision d'émulation qui affectent les performances de bas niveau et la compatibilité."
 #define CATEGORY_CD_LABEL_FR NULL
 #define CATEGORY_CD_INFO_0_FR "Configurer les réglages relatifs aux jeux CD."
@@ -8933,13 +8933,13 @@ struct retro_core_options_v2 options_fi = {
 #define OPTION_VAL_6_5_FR NULL
 #define OPTION_VAL_4_3_FR NULL
 #define SGX_HOVERSCAN_LABEL_FR "Surbalayage horizontal (Mode largeur 352 uniquement)"
-#define SGX_HOVERSCAN_INFO_0_FR NULL
+#define SGX_HOVERSCAN_INFO_0_FR "Choisir la largeur d'image maximale à afficher. Les valeurs inférieures recadreront le côté droit de l'image (pour les jeux de 352 px de largeur)."
 #define OPTION_VAL_352_FR "352 (par défaut)"
-#define SGX_INITIAL_SCANLINE_LABEL_FR NULL
-#define SGX_INITIAL_SCANLINE_INFO_0_FR NULL
+#define SGX_INITIAL_SCANLINE_LABEL_FR "Ligne de balayage initiale"
+#define SGX_INITIAL_SCANLINE_INFO_0_FR "Première ligne de balayage rendue. Des valeurs plus élevées recadreront le haut de l'image."
 #define OPTION_VAL_3_FR "3 (par défaut)"
-#define SGX_LAST_SCANLINE_LABEL_FR NULL
-#define SGX_LAST_SCANLINE_INFO_0_FR NULL
+#define SGX_LAST_SCANLINE_LABEL_FR "Dernière ligne de balayage"
+#define SGX_LAST_SCANLINE_INFO_0_FR "Dernière ligne de balayage rendue. Des valeurs moins élevées recadreront le bas de l'image."
 #define OPTION_VAL_242_FR "242 (par défaut)"
 #define SGX_MOUSE_SENSITIVITY_LABEL_FR "Sensibilité de la souris"
 #define SGX_MOUSE_SENSITIVITY_INFO_0_FR "Des valeurs plus élevées rendront le curseur de la souris plus rapide."
@@ -9553,7 +9553,7 @@ struct retro_core_options_v2 options_fr = {
 #define CATEGORY_VIDEO_INFO_0_GL NULL
 #define CATEGORY_INPUT_LABEL_GL "Entrada"
 #define CATEGORY_INPUT_INFO_0_GL NULL
-#define CATEGORY_HACKS_LABEL_GL NULL
+#define CATEGORY_HACKS_LABEL_GL "Hacks de emulación"
 #define CATEGORY_HACKS_INFO_0_GL "Configurar os parámetros do overclocking e a precisión da emulación do procesador que afecten ó rendemento e á compatibilidade de baixo nivel."
 #define CATEGORY_CD_LABEL_GL NULL
 #define CATEGORY_CD_INFO_0_GL NULL
@@ -12089,7 +12089,7 @@ struct retro_core_options_v2 options_id = {
 #define CATEGORY_VIDEO_INFO_0_IT "Configurare il ritaglio dello schermo, il salto dei fotogrammi e altri parametri di output dell'immagine."
 #define CATEGORY_INPUT_LABEL_IT NULL
 #define CATEGORY_INPUT_INFO_0_IT "Configura la pistola ottica, il mouse e l'ingresso Negcon."
-#define CATEGORY_HACKS_LABEL_IT NULL
+#define CATEGORY_HACKS_LABEL_IT "Hack di Emulazione"
 #define CATEGORY_HACKS_INFO_0_IT "Configura i parametri di precisione di overclocking e emulazione del processore che influenzano prestazioni e compatibilità di basso livello."
 #define CATEGORY_CD_LABEL_IT NULL
 #define CATEGORY_CD_INFO_0_IT "Configura le impostazioni relative ai giochi CD."
@@ -12098,18 +12098,18 @@ struct retro_core_options_v2 options_id = {
 #define OPTION_VAL_RGB_IT NULL
 #define OPTION_VAL_COMPOSITE_IT "Composito"
 #define SGX_ASPECT_RATIO_LABEL_IT "Rapporto Dimensioni"
-#define SGX_ASPECT_RATIO_INFO_0_IT "Scegli il rapporto di aspetto del contenuto preferito. Quando si utilizzano giochi che cambiano costantemente tra le modalità 256 e 352 e utilizzando l'aspetto automatico, è meglio impostare la larghezza orizzontale a 342 per minimizzare il ridimensionamento e le linee nere extra in quanto questa larghezza è in rapporto di 256 modalità di larghezza (o qualcosa di simile, basta provare con Asuka 100% che è uno dei giochi che cambiano tra queste modalità)."
+#define SGX_ASPECT_RATIO_INFO_0_IT "Scegli il rapporto di aspetto del contenuto preferito. Quando si utilizzano giochi che cambiano costantemente tra le modalità 256 e 352 e utilizzando l'aspetto automatico, è meglio impostare la larghezza orizzontale a 342 per ridurre al minimo il ridimensionamento e le linee nere extra in quanto questa larghezza è in rapporto di 256 modalità di larghezza (o qualcosa di simile, basta provare con Asuka 100% che è uno dei giochi che cambiano tra queste modalità)."
 #define OPTION_VAL_AUTO_IT NULL
 #define OPTION_VAL_6_5_IT NULL
 #define OPTION_VAL_4_3_IT NULL
 #define SGX_HOVERSCAN_LABEL_IT "Overscan Orizzontale (Solo Modalità Larghezza 352)"
-#define SGX_HOVERSCAN_INFO_0_IT NULL
+#define SGX_HOVERSCAN_INFO_0_IT "Scegli la larghezza massima dell'immagine da visualizzare. Valori inferiori ritaglieranno il lato destro dell'immagine (per i giochi a larghezza di 352 px)."
 #define OPTION_VAL_352_IT "352 (Predefinito)"
-#define SGX_INITIAL_SCANLINE_LABEL_IT NULL
-#define SGX_INITIAL_SCANLINE_INFO_0_IT NULL
+#define SGX_INITIAL_SCANLINE_LABEL_IT "Scanline Iniziale"
+#define SGX_INITIAL_SCANLINE_INFO_0_IT "Prima scanline renderizzata. Valori più alti ritaglieranno la parte superiore dell'immagine."
 #define OPTION_VAL_3_IT "3 (Predefinito)"
-#define SGX_LAST_SCANLINE_LABEL_IT NULL
-#define SGX_LAST_SCANLINE_INFO_0_IT NULL
+#define SGX_LAST_SCANLINE_LABEL_IT "Ultima Scanline"
+#define SGX_LAST_SCANLINE_INFO_0_IT "Ultima scanline renderizzata. I valori più bassi ritaglieranno la parte inferiore dell'immagine."
 #define OPTION_VAL_242_IT "242 (predefinito)"
 #define SGX_MOUSE_SENSITIVITY_LABEL_IT "Sensibilità Del Mouse"
 #define SGX_MOUSE_SENSITIVITY_INFO_0_IT "Valori più alti renderanno il cursore del mouse più veloce."
@@ -12723,7 +12723,7 @@ struct retro_core_options_v2 options_it = {
 #define CATEGORY_VIDEO_INFO_0_JA NULL
 #define CATEGORY_INPUT_LABEL_JA "入力"
 #define CATEGORY_INPUT_INFO_0_JA NULL
-#define CATEGORY_HACKS_LABEL_JA NULL
+#define CATEGORY_HACKS_LABEL_JA "エミュレーションハック"
 #define CATEGORY_HACKS_INFO_0_JA NULL
 #define CATEGORY_CD_LABEL_JA NULL
 #define CATEGORY_CD_INFO_0_JA NULL
@@ -13357,7 +13357,7 @@ struct retro_core_options_v2 options_ja = {
 #define CATEGORY_VIDEO_INFO_0_KO NULL
 #define CATEGORY_INPUT_LABEL_KO "입력"
 #define CATEGORY_INPUT_INFO_0_KO NULL
-#define CATEGORY_HACKS_LABEL_KO NULL
+#define CATEGORY_HACKS_LABEL_KO "에뮬레이션 핵"
 #define CATEGORY_HACKS_INFO_0_KO "성능과 호환성에 영향을 끼치는 프로세서 오버클러킹 및 에뮬레이션 정확도 옵션 등을 설정합니다."
 #define CATEGORY_CD_LABEL_KO NULL
 #define CATEGORY_CD_INFO_0_KO NULL
@@ -15893,7 +15893,7 @@ struct retro_core_options_v2 options_oc = {
 #define CATEGORY_VIDEO_INFO_0_PL "Skonfiguruj przycinanie wyświetlania, pominięcie ramki i inne parametry wyjściowe obrazu."
 #define CATEGORY_INPUT_LABEL_PL "Wejście"
 #define CATEGORY_INPUT_INFO_0_PL NULL
-#define CATEGORY_HACKS_LABEL_PL NULL
+#define CATEGORY_HACKS_LABEL_PL "Hacki emulacyjne"
 #define CATEGORY_HACKS_INFO_0_PL "Skonfiguruj przetaktowanie procesora i dokładność emulacji wpływające na niską wydajność i kompatybilność."
 #define CATEGORY_CD_LABEL_PL NULL
 #define CATEGORY_CD_INFO_0_PL "Skonfiguruj ustawienia związane z grami CD."
@@ -15907,7 +15907,7 @@ struct retro_core_options_v2 options_oc = {
 #define OPTION_VAL_6_5_PL NULL
 #define OPTION_VAL_4_3_PL NULL
 #define SGX_HOVERSCAN_LABEL_PL NULL
-#define SGX_HOVERSCAN_INFO_0_PL NULL
+#define SGX_HOVERSCAN_INFO_0_PL "Wybierz maksymalną szerokość obrazu, która ma być wyświetlana. Niższe wartości będą przycinać prawą stronę obrazu (dla gier 352 px szerokości)."
 #define OPTION_VAL_352_PL "352 (domyślnie)"
 #define SGX_INITIAL_SCANLINE_LABEL_PL NULL
 #define SGX_INITIAL_SCANLINE_INFO_0_PL NULL
@@ -16527,7 +16527,7 @@ struct retro_core_options_v2 options_pl = {
 #define CATEGORY_VIDEO_INFO_0_PT_BR NULL
 #define CATEGORY_INPUT_LABEL_PT_BR "Entrada"
 #define CATEGORY_INPUT_INFO_0_PT_BR NULL
-#define CATEGORY_HACKS_LABEL_PT_BR NULL
+#define CATEGORY_HACKS_LABEL_PT_BR "Hacks de emulação"
 #define CATEGORY_HACKS_INFO_0_PT_BR "Configure os parâmetros de precisão de overclock e emulação do processador que afetam o baixo desempenho e a compatibilidade."
 #define CATEGORY_CD_LABEL_PT_BR NULL
 #define CATEGORY_CD_INFO_0_PT_BR NULL
@@ -18429,7 +18429,7 @@ struct retro_core_options_v2 options_ro = {
 #define CATEGORY_VIDEO_INFO_0_RU NULL
 #define CATEGORY_INPUT_LABEL_RU "Ввод"
 #define CATEGORY_INPUT_INFO_0_RU "Настройки ввода для светового пистолета, мыши и NegCon."
-#define CATEGORY_HACKS_LABEL_RU NULL
+#define CATEGORY_HACKS_LABEL_RU "Хаки эмуляции"
 #define CATEGORY_HACKS_INFO_0_RU "Настройка разгона процессора и параметров точности эмуляции, влияющих на производительность и совместимость."
 #define CATEGORY_CD_LABEL_RU NULL
 #define CATEGORY_CD_INFO_0_RU NULL
@@ -21033,16 +21033,16 @@ struct retro_core_options_v2 options_sr = {
 #define OPTION_VAL_SYSTEM_CARD_3_SV NULL
 #define SGX_DETECT_GEXPRESS_LABEL_SV NULL
 #define SGX_DETECT_GEXPRESS_INFO_0_SV NULL
-#define SGX_CDSPEED_LABEL_SV NULL
-#define SGX_CDSPEED_LABEL_CAT_SV NULL
+#define SGX_CDSPEED_LABEL_SV "(CD) CD-hastighet"
+#define SGX_CDSPEED_LABEL_CAT_SV "CD-hastighet"
 #define SGX_CDSPEED_INFO_0_SV NULL
-#define SGX_ADPCMVOLUME_LABEL_SV NULL
+#define SGX_ADPCMVOLUME_LABEL_SV "(CD) ADPCM Volym %"
 #define SGX_ADPCMVOLUME_LABEL_CAT_SV NULL
 #define SGX_ADPCMVOLUME_INFO_0_SV NULL
 #define SGX_ADPCMVOLUME_INFO_1_SV NULL
-#define SGX_CDDAVOLUME_LABEL_SV NULL
+#define SGX_CDDAVOLUME_LABEL_SV "(CD) CDDA Volym %"
 #define SGX_CDDAVOLUME_LABEL_CAT_SV NULL
-#define SGX_CDPSGVOLUME_LABEL_SV NULL
+#define SGX_CDPSGVOLUME_LABEL_SV "(CD) PSG Volym %"
 #define SGX_CDPSGVOLUME_LABEL_CAT_SV NULL
 #define SGX_FORCESGX_LABEL_SV NULL
 #define SGX_FORCESGX_INFO_0_SV NULL
@@ -21599,7 +21599,7 @@ struct retro_core_options_v2 options_sv = {
 #define CATEGORY_VIDEO_INFO_0_TR "Görüntü kırpma, kare atlama ve diğer görüntü çıktı parametrelerini yapılandırın."
 #define CATEGORY_INPUT_LABEL_TR "Giriş"
 #define CATEGORY_INPUT_INFO_0_TR "Light gun, fare ve NegCon girişini yapılandırın."
-#define CATEGORY_HACKS_LABEL_TR NULL
+#define CATEGORY_HACKS_LABEL_TR "Emülatör Geliştirmeleri"
 #define CATEGORY_HACKS_INFO_0_TR "Düşük seviyeli performans ve uyumluluğu etkileyen işlemci hız aşırtma ve emulatör doğruluğu parametrelerini yapılandırın."
 #define CATEGORY_CD_LABEL_TR NULL
 #define CATEGORY_CD_INFO_0_TR "CD oyunlarıyla ilgili ayarları yapılandırın."
@@ -21615,10 +21615,10 @@ struct retro_core_options_v2 options_sv = {
 #define SGX_HOVERSCAN_LABEL_TR "Yatay Aşırı Tarama (Yalnızca 352 Genişlik Kipi)"
 #define SGX_HOVERSCAN_INFO_0_TR NULL
 #define OPTION_VAL_352_TR "352 (Varsayılan)"
-#define SGX_INITIAL_SCANLINE_LABEL_TR NULL
+#define SGX_INITIAL_SCANLINE_LABEL_TR "İlk Tarama Çizgisi"
 #define SGX_INITIAL_SCANLINE_INFO_0_TR NULL
 #define OPTION_VAL_3_TR "3 (Varsayılan)"
-#define SGX_LAST_SCANLINE_LABEL_TR NULL
+#define SGX_LAST_SCANLINE_LABEL_TR "Son Tarama Çizgisi"
 #define SGX_LAST_SCANLINE_INFO_0_TR NULL
 #define OPTION_VAL_242_TR "242 (Varsayılan)"
 #define SGX_MOUSE_SENSITIVITY_LABEL_TR "Fare Hassasiyeti"
@@ -22233,7 +22233,7 @@ struct retro_core_options_v2 options_tr = {
 #define CATEGORY_VIDEO_INFO_0_UK NULL
 #define CATEGORY_INPUT_LABEL_UK "Ввід"
 #define CATEGORY_INPUT_INFO_0_UK NULL
-#define CATEGORY_HACKS_LABEL_UK NULL
+#define CATEGORY_HACKS_LABEL_UK "Гаки емуляції"
 #define CATEGORY_HACKS_INFO_0_UK "Налаштування розгону процесора та точності емуляції, що впливають на низькорівневу продуктивність та сумісність."
 #define CATEGORY_CD_LABEL_UK NULL
 #define CATEGORY_CD_INFO_0_UK NULL
