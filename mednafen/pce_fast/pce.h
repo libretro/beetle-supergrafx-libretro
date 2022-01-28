@@ -34,7 +34,7 @@ extern uint8 BaseRAM[32768 + 8192];
 extern bool PCE_IsCD;
 
 int LoadCD(std::vector<CDIF *> *CDInterfaces);
-void Load(const char *name, MDFNFILE *fp);
+void Load(const uint8_t *data, size_t size, const char *ext);
 void DoSimpleCommand(int cmd);
 void CloseGame(void);
 void Emulate(EmulateSpecStruct *espec);
