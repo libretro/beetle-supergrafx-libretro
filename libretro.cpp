@@ -30,7 +30,7 @@
 
 #define MEDNAFEN_CORE_NAME_MODULE "pce_fast"
 #define MEDNAFEN_CORE_NAME "Beetle SuperGrafx"
-#define MEDNAFEN_CORE_VERSION "v1.23.0"
+#define MEDNAFEN_CORE_VERSION "v1.29.0"
 #define MEDNAFEN_CORE_EXTENSIONS "pce|sgx|cue|ccd|chd|toc|m3u"
 #define MEDNAFEN_CORE_TIMING_FPS 59.82
 #define MEDNAFEN_CORE_GEOMETRY_BASE_W 512
