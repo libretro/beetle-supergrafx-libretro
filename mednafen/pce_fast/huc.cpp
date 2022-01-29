@@ -115,17 +115,17 @@ static void Cleanup(void)
    HuCROM = NULL;
 }
 
-uint32 HuC_Load(MDFNFILE *fp)
+uint32 HuC_Load(const uint8_t *data, size_t size)
 {
  uint32 sf2_threshold = 2048 * 1024;
  uint32 sf2_required_size = 2048 * 1024 + 512 * 1024;
- uint64 len = fp->size;
+ uint64 len = size;
 
  uint64 headerlen = 0;
  if(len & 512) // Skip copier header.
  {
   headerlen = 512;
-  len &= ~headerlen;  
+  len &= ~headerlen;
  }
 
  uint64 m_len = (len + 8191)&~8191;
@@ -146,9 +146,9 @@ uint32 HuC_Load(MDFNFILE *fp)
     return 0;
 
  memset(HuCROM, 0xFF, m_len);
- memcpy(HuCROM, fp->data + headerlen, MIN(m_len, len));
+ memcpy(HuCROM, data + headerlen, MIN(m_len, len));
 
- uint32 crc = crc32(0, fp->data + headerlen, MIN(m_len, len));
+ uint32 crc = crc32(0, (const unsigned char *)data + headerlen, MIN(m_len, len));
 
  memset(ROMSpace, 0xFF, 0x88 * 8192 + 8192);
 

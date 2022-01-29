@@ -213,7 +213,7 @@ static const struct
    { 0, NULL },
 };
 
-void Load(const char *name, MDFNFILE *fp)
+void Load(const uint8_t *data, size_t size, const char *ext)
 {
    IsSGX = 0;
 
@@ -225,15 +225,10 @@ void Load(const char *name, MDFNFILE *fp)
       HuCPU.PCEWrite[x] = PCENullWrite;
    }
 
-   uint32 crc = HuC_Load(fp);
+   uint32 crc = HuC_Load(data, size);
 
-   if(!strcasecmp(fp->ext, "sgx"))
+   if(!strcasecmp(ext, "sgx"))
       IsSGX = true;
-
-   // Space Harrier (Japan)/(USA) is not compatible with SuperGrafx mode
-   else if (crc == 0x64580427UL || crc == 0x43b05eb8UL)
-      IsSGX = false;
-
    // Identify sgx games by hash
    else
    {
@@ -248,6 +243,10 @@ void Load(const char *name, MDFNFILE *fp)
          ++i;
 		}
    }
+
+   // Space Harrier (Japan)/(USA) is not compatible with SuperGrafx mode
+   if (crc == 0x64580427UL || crc == 0x43b05eb8UL)
+      IsSGX = false;
 
    if(crc == 0xfae0fc60)
       OrderOfGriffonFix = true;

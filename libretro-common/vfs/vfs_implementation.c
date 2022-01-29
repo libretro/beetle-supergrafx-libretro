@@ -62,6 +62,9 @@
 #  include <sys/dirent.h>
 #  include <orbisFile.h>
 #  endif
+#  if defined(WIIU)
+#  include <malloc.h>
+#  endif
 #endif
 
 #include <fcntl.h>
@@ -130,6 +133,13 @@
 #include <pspkernel.h>
 #endif
 
+#if defined(__PS3__) || defined(__PSL1GHT__)
+#include <defines/ps3_defines.h>
+#if defined(__PSL1GHT__)
+#include <lv2/sysfs.h>
+#endif
+#endif
+
 #if defined(VITA)
 #define FIO_S_ISDIR SCE_S_ISDIR
 #endif
@@ -155,7 +165,9 @@
 
 #include <vfs/vfs_implementation.h>
 #include <libretro.h>
+#if defined(HAVE_MMAP)
 #include <memmap.h>
+#endif
 #include <encodings/utf.h>
 #include <compat/fopen_utf8.h>
 #include <file/file_path.h>
@@ -440,7 +452,14 @@ libretro_vfs_implementation_file *retro_vfs_file_open_impl(
          if (stream->fp)
             setvbuf(stream->fp, stream->buf, _IOFBF, 0x10000);
       }
-#elif !defined(PSP)
+#elif defined(WIIU)
+      if (stream->scheme != VFS_SCHEME_CDROM)
+      {
+         const int bufsize = 128*1024;
+         stream->buf = (char*)memalign(0x40, bufsize);
+         if (stream->fp)
+            setvbuf(stream->fp, stream->buf, _IOFBF, bufsize);
+      }
       if (stream->scheme != VFS_SCHEME_CDROM)
       {
          stream->buf = (char*)calloc(1, 0x4000);
@@ -870,7 +889,7 @@ int retro_vfs_stat_impl(const char *path, int32_t *size)
 {
    bool is_dir               = false;
    bool is_character_special = false;
-#if defined(VITA) || defined(PSP)
+#if defined(VITA)
    /* Vita / PSP */
    SceIoStat buf;
    int dir_ret;
@@ -909,6 +928,19 @@ int retro_vfs_stat_impl(const char *path, int32_t *size)
    orbisDclose(dir_ret);
 
    is_character_special      = S_ISCHR(buf.st_mode);
+#elif defined(__PSL1GHT__) || defined(__PS3__)
+   /* Lowlevel Lv2 */
+   sysFSStat buf;
+
+   if (!path || !*path)
+      return 0;
+   if (sysFsStat(path, &buf) < 0)
+      return 0;
+
+   if (size)
+      *size                  = (int32_t)buf.st_size;
+
+   is_dir                    = ((buf.st_mode & S_IFMT) == S_IFDIR);
 #elif defined(_WIN32)
    /* Windows */
    DWORD file_info;
@@ -1025,7 +1057,7 @@ int retro_vfs_mkdir_impl(const char *dir)
 #endif
 #elif defined(IOS)
    int ret = mkdir(dir, 0755);
-#elif defined(VITA) || defined(PSP)
+#elif defined(VITA)
    int ret = sceIoMkdir(dir, 0777);
 #elif defined(ORBIS)
    int ret = orbisMkdir(dir, 0755);
@@ -1078,9 +1110,13 @@ struct libretro_vfs_implementation_dir
    HANDLE directory;
    bool next;
    char path[PATH_MAX_LENGTH];
-#elif defined(VITA) || defined(PSP)
+#elif defined(VITA)
    SceUID directory;
    SceIoDirent entry;
+#elif defined(__PSL1GHT__) || defined(__PS3__)
+   int error;
+   int directory;
+   sysFSDirent entry;
 #elif defined(ORBIS)
    int directory;
    struct dirent entry;
@@ -1094,8 +1130,10 @@ static bool dirent_check_error(libretro_vfs_implementation_dir *rdir)
 {
 #if defined(_WIN32)
    return (rdir->directory == INVALID_HANDLE_VALUE);
-#elif defined(VITA) || defined(PSP) || defined(ORBIS)
+#elif defined(VITA) || defined(ORBIS)
    return (rdir->directory < 0);
+#elif defined(__PSL1GHT__) || defined(__PS3__)
+   return (rdir->error != FS_SUCCEEDED);
 #else
    return !(rdir->directory);
 #endif
@@ -1154,11 +1192,13 @@ libretro_vfs_implementation_dir *retro_vfs_opendir_impl(
       free(path_wide);
 #endif
 
-#elif defined(VITA) || defined(PSP)
+#elif defined(VITA)
    rdir->directory       = sceIoDopen(name);
 #elif defined(_3DS)
    rdir->directory       = !string_is_empty(name) ? opendir(name) : NULL;
    rdir->entry           = NULL;
+#elif defined(__PSL1GHT__) || defined(__PS3__)
+   rdir->error           = sysFsOpendir(name, &rdir->directory);
 #elif defined(ORBIS)
    rdir->directory       = orbisDopen(name);
 #else
@@ -1192,8 +1232,12 @@ bool retro_vfs_readdir_impl(libretro_vfs_implementation_dir *rdir)
 
    rdir->next = true;
    return (rdir->directory != INVALID_HANDLE_VALUE);
-#elif defined(VITA) || defined(PSP)
+#elif defined(VITA)
    return (sceIoDread(rdir->directory, &rdir->entry) > 0);
+#elif defined(__PSL1GHT__) || defined(__PS3__)
+   uint64_t nread;
+   rdir->error = sysFsReaddir(rdir->directory, &rdir->entry, &nread);
+   return (nread != 0);
 #elif defined(ORBIS)
    return (orbisDread(rdir->directory, &rdir->entry) > 0);
 #else
@@ -1214,7 +1258,7 @@ const char *retro_vfs_dirent_get_name_impl(libretro_vfs_implementation_dir *rdir
    if (name)
       free(name);
    return (char*)rdir->entry.cFileName;
-#elif defined(VITA) || defined(PSP) || defined(ORBIS)
+#elif defined(VITA) || defined(ORBIS) || defined(__PSL1GHT__) || defined(__PS3__)
    return rdir->entry.d_name;
 #else
    if (!rdir || !rdir->entry)
@@ -1228,13 +1272,12 @@ bool retro_vfs_dirent_is_dir_impl(libretro_vfs_implementation_dir *rdir)
 #if defined(_WIN32)
    const WIN32_FIND_DATA *entry = (const WIN32_FIND_DATA*)&rdir->entry;
    return entry->dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY;
-#elif defined(PSP) || defined(VITA)
-   const SceIoDirent *entry     = (const SceIoDirent*)&rdir->entry;
-#if defined(PSP)
-   return (entry->d_stat.st_attr & FIO_SO_IFDIR) == FIO_SO_IFDIR;
 #elif defined(VITA)
+   const SceIoDirent *entry     = (const SceIoDirent*)&rdir->entry;
    return SCE_S_ISDIR(entry->d_stat.st_mode);
-#endif
+#elif defined(__PSL1GHT__) || defined(__PS3__)
+   sysFSDirent *entry          = (sysFSDirent*)&rdir->entry;
+   return (entry->d_type == FS_TYPE_DIR);
 #elif defined(ORBIS)
    const struct dirent *entry   = &rdir->entry;
    if (entry->d_type == DT_DIR)
@@ -1269,8 +1312,10 @@ int retro_vfs_closedir_impl(libretro_vfs_implementation_dir *rdir)
 #if defined(_WIN32)
    if (rdir->directory != INVALID_HANDLE_VALUE)
       FindClose(rdir->directory);
-#elif defined(VITA) || defined(PSP)
+#elif defined(VITA)
    sceIoDclose(rdir->directory);
+#elif defined(__PSL1GHT__) || defined(__PS3__)
+   rdir->error = sysFsClosedir(rdir->directory);
 #elif defined(ORBIS)
    orbisDclose(rdir->directory);
 #else

@@ -30,8 +30,8 @@
 
 #define MEDNAFEN_CORE_NAME_MODULE "pce_fast"
 #define MEDNAFEN_CORE_NAME "Beetle SuperGrafx"
-#define MEDNAFEN_CORE_VERSION "v1.23.0"
-#define MEDNAFEN_CORE_EXTENSIONS "pce|sgx|cue|ccd|chd"
+#define MEDNAFEN_CORE_VERSION "v1.29.0"
+#define MEDNAFEN_CORE_EXTENSIONS "pce|sgx|cue|ccd|chd|toc|m3u"
 #define MEDNAFEN_CORE_TIMING_FPS 59.82
 #define MEDNAFEN_CORE_GEOMETRY_BASE_W 512
 #define MEDNAFEN_CORE_GEOMETRY_BASE_H 243
@@ -719,16 +719,23 @@ Breakout:
 static std::vector<CDIF *> CDInterfaces; // FIXME: Cleanup on error out.
 // TODO: LoadCommon()
 
-bool MDFNI_LoadCD(const char *force_module, const char *devicename)
+bool MDFNI_LoadCD(const char *path, const char *ext)
 {
    bool ret = false;
-   log_cb(RETRO_LOG_INFO, "Loading %s...\n\n", devicename);
 
-   if (devicename && strlen(devicename) > 4 && !strcasecmp(devicename + strlen(devicename) - 4, ".m3u"))
+   if (!path || !ext)
+   {
+      log_cb(RETRO_LOG_ERROR, "Error opening CD - invalid path\n");
+      return false;
+   }
+
+   log_cb(RETRO_LOG_INFO, "Loading %s...\n\n", ext);
+
+   if (!strcasecmp(ext, "m3u"))
    {
       std::vector<std::string> file_list;
 
-      if (ReadM3U(file_list, devicename))
+      if (ReadM3U(file_list, path))
          ret = true;
 
       for (unsigned i = 0; i < file_list.size(); i++)
@@ -736,7 +743,7 @@ bool MDFNI_LoadCD(const char *force_module, const char *devicename)
    }
    else
    {
-      CDInterfaces.push_back(CDIF_Open(devicename, false, old_cdimagecache));
+      CDInterfaces.push_back(CDIF_Open(path, false, old_cdimagecache));
       ret = true;
    }
 
@@ -790,20 +797,48 @@ bool MDFNI_LoadCD(const char *force_module, const char *devicename)
    return true;
 }
 
-bool MDFNI_LoadGame(const char *force_module, const char *name)
+static bool MDFNI_LoadGame(const char *path, const char *ext,
+      const uint8_t *data, size_t size)
 {
-   MDFNFILE *GameFile = NULL;
-   MDFNGameInfo       = &EmulatedPCE_Fast;
+   MDFNFILE *GameFile          = NULL;
+   MDFNGameInfo                = &EmulatedPCE_Fast;
+   const uint8_t *content_data = NULL;
+   size_t content_size         = 0;
 
-   if (strlen(name) > 4 && (!strcasecmp(name + strlen(name) - 4, ".cue") || !strcasecmp(name + strlen(name) - 4, ".chd") || !strcasecmp(name + strlen(name) - 4, ".ccd") || !strcasecmp(name + strlen(name) - 4, ".toc") || !strcasecmp(name + strlen(name) - 4, ".m3u")))
-      return (MDFNI_LoadCD(force_module, name));
+   if(ext &&
+      (!strcasecmp(ext, "cue") ||
+       !strcasecmp(ext, "ccd") ||
+       !strcasecmp(ext, "chd") ||
+       !strcasecmp(ext, "toc") ||
+       !strcasecmp(ext, "m3u")))
+      return MDFNI_LoadCD(path, ext);
 
-   GameFile = file_open(name);
-
-   if (!GameFile)
+   /* Check whether we already have a valid
+    * data buffer */
+   if (data)
    {
-      MDFNGameInfo = NULL;
-      return false;
+      content_data = data;
+      content_size = size;
+   }
+   else
+   {
+      if (!path)
+      {
+         log_cb(RETRO_LOG_ERROR, "Error loading content - invalid path\n");
+         return false;
+      }
+
+      /* Load content from file */
+      GameFile = file_open(path);
+
+      if(!GameFile)
+      {
+         MDFNGameInfo = NULL;
+         return false;
+      }
+
+      content_data = GameFile->data;
+      content_size = GameFile->size;
    }
 
    //
@@ -813,13 +848,15 @@ bool MDFNI_LoadGame(const char *force_module, const char *name)
    // End load per-game settings
    //
 
-   Load(name, GameFile);
+   Load(content_data, content_size, ext);
 
    MDFN_LoadGameCheats(NULL);
    MDFNMP_InstallReadPatches();
 
    MDFN_indent(-2);
 
+   if (GameFile)
+      file_close(GameFile);
    return true;
 }
 
@@ -1236,9 +1273,6 @@ static void setup_retro_memory_maps()
 
 bool retro_load_game(const struct retro_game_info *info)
 {
-   if (!info)
-      return false;
-
    struct retro_input_descriptor desc[] = {
       { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT, "D-Pad Left" },
       { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_UP, "D-Pad Up" },
@@ -1313,12 +1347,54 @@ bool retro_load_game(const struct retro_game_info *info)
       { 0 },
    };
 
+   const struct retro_game_info_ext *info_ext = NULL;
+   const uint8_t *content_data                = NULL;
+   size_t content_size                        = 0;
+   const char *content_path                   = NULL;
+   char content_ext[8];
+
+   content_ext[0] = '\0';
+
+   /* Attempt to fetch extended game info */
+   if (environ_cb(RETRO_ENVIRONMENT_GET_GAME_INFO_EXT, &info_ext))
+   {
+      content_data = (const uint8_t *)info_ext->data;
+      content_size = info_ext->size;
+
+      /* Content path information is only required
+       * if we do not have a valid data buffer */
+      if (!content_data)
+      {
+         content_path = info_ext->full_path;
+
+         strncpy(content_ext, info_ext->ext, sizeof(content_ext));
+         content_ext[sizeof(content_ext) - 1] = '\0';
+      }
+   }
+   else
+   {
+      const char *ext = NULL;
+
+      if (!info || !info->path)
+         return false;
+
+      content_data = NULL;
+      content_size = 0;
+      content_path = info->path;
+
+      if ((ext = strrchr(info->path, '.')))
+      {
+         strncpy(content_ext, ext + 1, sizeof(content_ext));
+         content_ext[sizeof(content_ext) - 1] = '\0';
+      }
+   }
+
    environ_cb(RETRO_ENVIRONMENT_SET_INPUT_DESCRIPTORS, desc);
 
    check_variables(false);
 
-   bool game = MDFNI_LoadGame(MEDNAFEN_CORE_NAME_MODULE, info->path);
-   if (!game)
+   if (!MDFNI_LoadGame(content_path, content_ext,
+         content_data, content_size))
       return false;
 
    MDFN_PixelFormat pix_fmt(MDFN_COLORSPACE_RGB, 16, 8, 0, 13);
@@ -1336,7 +1412,7 @@ bool retro_load_game(const struct retro_game_info *info)
 
    setup_retro_memory_maps();
 
-   return game;
+   return true;
 }
 
 void retro_unload_game(void)
@@ -1823,6 +1899,16 @@ void retro_set_environment(retro_environment_t cb)
    vfs_iface_info.iface                      = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VFS_INTERFACE, &vfs_iface_info))
       filestream_vfs_init(&vfs_iface_info);
+
+   static const struct retro_system_content_info_override content_overrides[] = {
+      {
+         "pce|sgx", /* extensions */
+         false,     /* need_fullpath */
+         false      /* persistent_data */
+      },
+      { NULL, false, false }
+   };
+   environ_cb(RETRO_ENVIRONMENT_SET_CONTENT_INFO_OVERRIDE, (void*)content_overrides);
 }
 
 void retro_set_audio_sample(retro_audio_sample_t cb)

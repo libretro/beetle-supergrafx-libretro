@@ -18,7 +18,7 @@
 #ifndef __PCE_HUC_H
 #define __PCE_HUC_H
 
-uint32 HuC_Load(MDFNFILE *fp);
+uint32 HuC_Load(const uint8_t *data, size_t size);
 int HuC_LoadCD(const char *bios_path);
 void HuC_SaveNV(void) MDFN_COLD;
 void HuC_Kill(void) MDFN_COLD;
