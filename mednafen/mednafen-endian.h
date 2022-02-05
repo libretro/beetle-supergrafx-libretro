@@ -2,6 +2,7 @@
 #define __MDFN_ENDIAN_H
 
 #include <stdint.h>
+#include <stdio.h>
 
 #include <retro_inline.h>
 
