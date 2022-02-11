@@ -5112,7 +5112,7 @@ struct retro_core_options_v2 options_da = {
 /* RETRO_LANGUAGE_DE */
 
 #define CATEGORY_VIDEO_LABEL_DE NULL
-#define CATEGORY_VIDEO_INFO_0_DE NULL
+#define CATEGORY_VIDEO_INFO_0_DE "Bildausschnitt, Frameskipping und andere Parameter für die Bildausgabe anpassen."
 #define CATEGORY_INPUT_LABEL_DE NULL
 #define CATEGORY_INPUT_INFO_0_DE "Lightgun-, Maus- und NegCon-Eingabe anpassen."
 #define CATEGORY_HACKS_LABEL_DE "Emulations-Hacks"
@@ -5128,14 +5128,14 @@ struct retro_core_options_v2 options_da = {
 #define OPTION_VAL_AUTO_DE "Automatisch"
 #define OPTION_VAL_6_5_DE NULL
 #define OPTION_VAL_4_3_DE NULL
-#define SGX_HOVERSCAN_LABEL_DE NULL
+#define SGX_HOVERSCAN_LABEL_DE "Horizontaler Overscan (nur 352 Breitenmodus)"
 #define SGX_HOVERSCAN_INFO_0_DE "Die maximale Bildbreite, die angezeigt werden soll. Bei niedrigeren Werten wird die rechte Seite des Bildes abgeschnitten (bei Spielen mit 352 px Bildbreite)."
 #define OPTION_VAL_352_DE "352 (Standard)"
 #define SGX_INITIAL_SCANLINE_LABEL_DE "Erste Scanline"
-#define SGX_INITIAL_SCANLINE_INFO_0_DE NULL
+#define SGX_INITIAL_SCANLINE_INFO_0_DE "Erste gerenderte Scanline. Höhere Werte schneiden den oberen Teil des Bildes ab."
 #define OPTION_VAL_3_DE "3 (Standard)"
 #define SGX_LAST_SCANLINE_LABEL_DE "Letzte Scanline"
-#define SGX_LAST_SCANLINE_INFO_0_DE NULL
+#define SGX_LAST_SCANLINE_INFO_0_DE "Letzte gerenderte Scanline. Niedrigere Werte schneiden den unteren Teil des Bildes ab."
 #define OPTION_VAL_242_DE "242 (Standard)"
 #define SGX_MOUSE_SENSITIVITY_LABEL_DE "Mausempfindlichkeit"
 #define SGX_MOUSE_SENSITIVITY_INFO_0_DE "Höhere Werte erhöhen die Geschwindigkeit des Mauszeigers."
@@ -5169,37 +5169,37 @@ struct retro_core_options_v2 options_da = {
 #define SGX_TURBO_TOGGLE_INFO_0_DE NULL
 #define OPTION_VAL_SWITCH_DE NULL
 #define OPTION_VAL_DEDICATED_DE NULL
-#define SGX_TURBO_TOGGLE_HOTKEY_LABEL_DE NULL
+#define SGX_TURBO_TOGGLE_HOTKEY_LABEL_DE "Alternative Turbo-Hotkeys"
 #define SGX_TURBO_TOGGLE_HOTKEY_INFO_0_DE NULL
-#define SGX_TURBO_DELAY_LABEL_DE NULL
-#define SGX_TURBO_DELAY_INFO_0_DE NULL
+#define SGX_TURBO_DELAY_LABEL_DE "Turbo-Verzögerung"
+#define SGX_TURBO_DELAY_INFO_0_DE "Die Zeit zwischen den Turbo-Signalen (in Frames) einstellen."
 #define SGX_CDIMAGECACHE_LABEL_DE "CD-Abbild-Cache (Neustart erforderlich)"
 #define SGX_CDIMAGECACHE_INFO_0_DE "Das komplette Abbild beim Start in den Arbeitsspeicher laden. Kann die Ladezeiten auf Kosten einer längeren Startzeit verkürzen."
 #define SGX_CDBIOS_LABEL_DE "CD-BIOS (Neustart erforderlich)"
-#define SGX_CDBIOS_INFO_0_DE NULL
+#define SGX_CDBIOS_INFO_0_DE "Die meisten Spiele können auf \"System Card 3\" laufen. \"Games Express\" wird für einige nicht lizenzierte Spiele benötigt."
 #define OPTION_VAL_GAMES_EXPRESS_DE NULL
 #define OPTION_VAL_SYSTEM_CARD_1_DE NULL
 #define OPTION_VAL_SYSTEM_CARD_2_DE NULL
 #define OPTION_VAL_SYSTEM_CARD_3_DE NULL
 #define SGX_DETECT_GEXPRESS_LABEL_DE NULL
 #define SGX_DETECT_GEXPRESS_INFO_0_DE NULL
-#define SGX_CDSPEED_LABEL_DE NULL
-#define SGX_CDSPEED_LABEL_CAT_DE NULL
-#define SGX_CDSPEED_INFO_0_DE NULL
-#define SGX_ADPCMVOLUME_LABEL_DE NULL
-#define SGX_ADPCMVOLUME_LABEL_CAT_DE NULL
-#define SGX_ADPCMVOLUME_INFO_0_DE NULL
-#define SGX_ADPCMVOLUME_INFO_1_DE NULL
-#define SGX_CDDAVOLUME_LABEL_DE NULL
-#define SGX_CDDAVOLUME_LABEL_CAT_DE NULL
-#define SGX_CDPSGVOLUME_LABEL_DE NULL
+#define SGX_CDSPEED_LABEL_DE "(CD) CD-Geschwindigkeit"
+#define SGX_CDSPEED_LABEL_CAT_DE "CD-Geschwindigkeit"
+#define SGX_CDSPEED_INFO_0_DE "Höhere Werte ermöglichen schnellere Ladezeiten, können aber Probleme mit einigen Spielen verursachen."
+#define SGX_ADPCMVOLUME_LABEL_DE "(CD) ADPCM Lautstärke %"
+#define SGX_ADPCMVOLUME_LABEL_CAT_DE "ADPCM Lautstärke %"
+#define SGX_ADPCMVOLUME_INFO_0_DE "Nur für CD-Spiele. Diese Lautstärke zu hoch einzustellen kann zu Übersteuerung führen."
+#define SGX_ADPCMVOLUME_INFO_1_DE "Diese Lautstärke zu hoch einzustellen kann zu Übersteuerung führen."
+#define SGX_CDDAVOLUME_LABEL_DE "(CD) CDDA Lautstärke %"
+#define SGX_CDDAVOLUME_LABEL_CAT_DE "CDDA Lautstärke %"
+#define SGX_CDPSGVOLUME_LABEL_DE "(CD) PSG Lautstärke %"
 #define SGX_CDPSGVOLUME_LABEL_CAT_DE NULL
 #define SGX_FORCESGX_LABEL_DE NULL
 #define SGX_FORCESGX_INFO_0_DE NULL
-#define SGX_NOSPRITELIMIT_LABEL_DE NULL
-#define SGX_NOSPRITELIMIT_INFO_0_DE NULL
-#define SGX_OCMULTIPLIER_LABEL_DE NULL
-#define SGX_OCMULTIPLIER_INFO_0_DE NULL
+#define SGX_NOSPRITELIMIT_LABEL_DE "Kein Sprite-Limit"
+#define SGX_NOSPRITELIMIT_INFO_0_DE "Die Hardware-Beschränkung von 16 Sprites pro Scanline entfernen. WARNUNG: Kann bei einigen Spielen zu Grafikfehlern führen."
+#define SGX_OCMULTIPLIER_LABEL_DE "CPU-Übertaktungsmultiplikator (Neustart erforderlich)"
+#define SGX_OCMULTIPLIER_INFO_0_DE "Höhere Werte können Slowdowns in Spielen reduzieren. WARNUNG: Kann Grafikfehler und Abstürze verursachen."
 
 struct retro_core_option_v2_category option_cats_de[] = {
    {
@@ -5771,7 +5771,7 @@ struct retro_core_options_v2 options_de = {
 #define SGX_LAST_SCANLINE_LABEL_EL NULL
 #define SGX_LAST_SCANLINE_INFO_0_EL NULL
 #define OPTION_VAL_242_EL "242 (Προεπιλογή)"
-#define SGX_MOUSE_SENSITIVITY_LABEL_EL NULL
+#define SGX_MOUSE_SENSITIVITY_LABEL_EL "Ευαισθησία Ποντικιού"
 #define SGX_MOUSE_SENSITIVITY_INFO_0_EL NULL
 #define OPTION_VAL_0_25_EL NULL
 #define OPTION_VAL_0_50_EL NULL
@@ -5805,7 +5805,7 @@ struct retro_core_options_v2 options_de = {
 #define OPTION_VAL_DEDICATED_EL NULL
 #define SGX_TURBO_TOGGLE_HOTKEY_LABEL_EL NULL
 #define SGX_TURBO_TOGGLE_HOTKEY_INFO_0_EL NULL
-#define SGX_TURBO_DELAY_LABEL_EL NULL
+#define SGX_TURBO_DELAY_LABEL_EL "Καθυστέρηση Τούρμπο"
 #define SGX_TURBO_DELAY_INFO_0_EL NULL
 #define SGX_CDIMAGECACHE_LABEL_EL NULL
 #define SGX_CDIMAGECACHE_INFO_0_EL NULL
