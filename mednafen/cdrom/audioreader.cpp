@@ -94,7 +94,6 @@ class OggVorbisReader : public AudioReader
 
  private:
  OggVorbis_File ovfile;
- Stream *fw;
 };
 
 
@@ -111,47 +110,36 @@ static int iov_seek_func(void *user_data, int64_t offset, int whence)
 {
  Stream *fw = (Stream*)user_data;
 
- try
+ if (fw)
  {
   fw->seek(offset, whence);
   return(0);
  }
- catch(...)
- {
-  return(-1);
- }
+ return(-1);
 }
 
 static int iov_close_func(void *user_data)
 {
  Stream *fw = (Stream*)user_data;
 
- try
+ if (fw)
  {
   fw->close();
   return(0);
  }
- catch(...)
- {
-  return EOF;
- }
+ return EOF;
 }
 
 static long iov_tell_func(void *user_data)
 {
  Stream *fw = (Stream*)user_data;
 
- try
- {
+ if (fw)
   return fw->tell();
- }
- catch(...)
- {
-  return(-1);
- }
+ return(-1);
 }
 
-OggVorbisReader::OggVorbisReader(Stream *fp) : fw(fp)
+OggVorbisReader::OggVorbisReader(Stream *fp)
 {
  ov_callbacks cb;
 
@@ -230,51 +218,32 @@ class SFReader : public AudioReader
  SNDFILE *sf;
  SF_INFO sfinfo;
  SF_VIRTUAL_IO sfvf;
-
- Stream *fw;
 };
 
 static sf_count_t isf_get_filelen(void *user_data)
 {
  Stream *fw = (Stream*)user_data;
-
- try
- {
-  return fw->size();
- }
- catch(...)
- {
-  return(-1);
- }
+ if (fw)
+   return fw->size();
+ return -1;
 }
 
 static sf_count_t isf_seek(sf_count_t offset, int whence, void *user_data)
 {
  Stream *fw = (Stream*)user_data;
 
- try
- {
-  fw->seek(offset, whence);
-  return fw->tell();
- }
- catch(...)
- {
-  return(-1);
- }
+ if (!fw)
+   return -1;
+ fw->seek(offset, whence);
+ return fw->tell();
 }
 
 static sf_count_t isf_read(void *ptr, sf_count_t count, void *user_data)
 {
  Stream *fw = (Stream*)user_data;
-
- try
- {
-  return fw->read(ptr, count, false);
- }
- catch(...)
- {
-  return(0);
- }
+ if (fw)
+   return fw->read(ptr, count, false);
+ return 0;
 }
 
 static sf_count_t isf_write(const void *ptr, sf_count_t count, void *user_data)
@@ -286,17 +255,12 @@ static sf_count_t isf_tell(void *user_data)
 {
  Stream *fw = (Stream*)user_data;
 
- try
- {
-  return fw->tell();
- }
- catch(...)
- {
-  return(-1);
- }
+ if (fw)
+    return fw->tell();
+ return -1;
 }
 
-SFReader::SFReader(Stream *fp) : fw(fp)
+SFReader::SFReader(Stream *fp)
 {
  fp->seek(0, SEEK_SET);
 

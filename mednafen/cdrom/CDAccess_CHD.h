@@ -85,15 +85,8 @@ class CDAccess_CHD : public CDAccess
   int32_t FirstTrack;
   int32_t LastTrack;
   int32_t total_sectors;
-  uint8_t disc_type;
   TOC toc;
   CHDFILE_TRACK_INFO Tracks[100]; // Track #0(HMM?) through 99
-
-  //struct disc;
-  //struct session sessions[DISC_MAX_SESSIONS];
-  int num_sessions;
-  //struct track tracks[DISC_MAX_TRACKS];
-  int num_tracks;
 
   chd_file *chd;
   /* hunk data cache */
