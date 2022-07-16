@@ -135,13 +135,8 @@ static size_t UnQuotify(const std::string &src, size_t source_offset, std::strin
    if(in_quote)
    {
     source_offset++;
-// Not sure which behavior is most useful(or correct :b).
-#if 0
-    in_quote = false;
-    already_normal = true;
-#else
+    // Not sure which behavior is most useful(or correct :b).
     break;
-#endif
    }
    else
     in_quote = 1;
@@ -304,26 +299,6 @@ static void MDFN_strtoupper(std::string &str)
   }
  }
 }
-
-#if 0
-std::string MDFN_toupper(const std::string &str)
-{
- const size_t len = str.length();
- std::string new_str;
-
- new_str.reserve(len);
-
- for(size_t x = 0; x < len; x++)
- {
-  int c = str[x];
-
-  if(c >= 'a' && c <= 'z')
-   c = c - 'a' + 'A';
-
-  new_str.push_back(c);
- }
-}
-#endif
 
 void CDAccess_Image::ImageOpen(const char *path, bool image_memcache)
 {
@@ -759,13 +734,9 @@ void CDAccess_Image::ImageOpen(const char *path, bool image_memcache)
   throw(MDFN_Error(0, _("No tracks found!\n")));
  }
 
- FirstTrack = FirstTrack;
  NumTracks = 1 + LastTrack - FirstTrack;
 
  int32 RunningLBA = 0;
-#if 0
- int32 LastIndex = 0;
-#endif
  long FileOffset = 0;
 
  for(int x = FirstTrack; x < (FirstTrack + NumTracks); x++)
@@ -801,9 +772,6 @@ void CDAccess_Image::ImageOpen(const char *path, bool image_memcache)
   {
    if(Tracks[x].FirstFileInstance) 
    {
-#if 0
-    LastIndex = 0;
-#endif
     FileOffset = 0;
    }
 
