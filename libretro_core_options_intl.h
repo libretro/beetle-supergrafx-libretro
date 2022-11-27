@@ -677,7 +677,7 @@ struct retro_core_options_v2 options_ar = {
 #define CATEGORY_VIDEO_INFO_0_AST NULL
 #define CATEGORY_INPUT_LABEL_AST "Entrada"
 #define CATEGORY_INPUT_INFO_0_AST NULL
-#define CATEGORY_HACKS_LABEL_AST NULL
+#define CATEGORY_HACKS_LABEL_AST "Hacks de la emulación"
 #define CATEGORY_HACKS_INFO_0_AST NULL
 #define CATEGORY_CD_LABEL_AST NULL
 #define CATEGORY_CD_INFO_0_AST NULL
@@ -721,7 +721,7 @@ struct retro_core_options_v2 options_ar = {
 #define OPTION_VAL_4_50_AST "4,50"
 #define OPTION_VAL_4_75_AST "4,75"
 #define OPTION_VAL_5_00_AST "5,00"
-#define SGX_UP_DOWN_ALLOWED_LABEL_AST NULL
+#define SGX_UP_DOWN_ALLOWED_LABEL_AST "Permitir les direiciones opuestes"
 #define SGX_UP_DOWN_ALLOWED_INFO_0_AST NULL
 #define SGX_DISABLE_SOFTRESET_LABEL_AST NULL
 #define SGX_DISABLE_SOFTRESET_INFO_0_AST NULL
@@ -1319,9 +1319,9 @@ struct retro_core_options_v2 options_ast = {
 #define SGX_PALETTE_INFO_0_CA NULL
 #define OPTION_VAL_RGB_CA NULL
 #define OPTION_VAL_COMPOSITE_CA NULL
-#define SGX_ASPECT_RATIO_LABEL_CA NULL
+#define SGX_ASPECT_RATIO_LABEL_CA "Relació d'aspecte"
 #define SGX_ASPECT_RATIO_INFO_0_CA NULL
-#define OPTION_VAL_AUTO_CA NULL
+#define OPTION_VAL_AUTO_CA "Automàtic"
 #define OPTION_VAL_6_5_CA NULL
 #define OPTION_VAL_4_3_CA NULL
 #define SGX_HOVERSCAN_LABEL_CA NULL
@@ -1335,26 +1335,26 @@ struct retro_core_options_v2 options_ast = {
 #define OPTION_VAL_242_CA NULL
 #define SGX_MOUSE_SENSITIVITY_LABEL_CA NULL
 #define SGX_MOUSE_SENSITIVITY_INFO_0_CA NULL
-#define OPTION_VAL_0_25_CA NULL
-#define OPTION_VAL_0_50_CA NULL
-#define OPTION_VAL_0_75_CA NULL
-#define OPTION_VAL_1_00_CA NULL
-#define OPTION_VAL_1_25_CA NULL
-#define OPTION_VAL_1_50_CA NULL
-#define OPTION_VAL_1_75_CA NULL
-#define OPTION_VAL_2_00_CA NULL
-#define OPTION_VAL_2_25_CA NULL
-#define OPTION_VAL_2_50_CA NULL
-#define OPTION_VAL_2_75_CA NULL
-#define OPTION_VAL_3_00_CA NULL
-#define OPTION_VAL_3_25_CA NULL
-#define OPTION_VAL_3_50_CA NULL
-#define OPTION_VAL_3_75_CA NULL
-#define OPTION_VAL_4_00_CA NULL
-#define OPTION_VAL_4_25_CA NULL
-#define OPTION_VAL_4_50_CA NULL
-#define OPTION_VAL_4_75_CA NULL
-#define OPTION_VAL_5_00_CA NULL
+#define OPTION_VAL_0_25_CA "0,25"
+#define OPTION_VAL_0_50_CA "0,50"
+#define OPTION_VAL_0_75_CA "0,75"
+#define OPTION_VAL_1_00_CA "1,00"
+#define OPTION_VAL_1_25_CA "1,25"
+#define OPTION_VAL_1_50_CA "1,50"
+#define OPTION_VAL_1_75_CA "1,75"
+#define OPTION_VAL_2_00_CA "2,00"
+#define OPTION_VAL_2_25_CA "2,25"
+#define OPTION_VAL_2_50_CA "2,50"
+#define OPTION_VAL_2_75_CA "2,75"
+#define OPTION_VAL_3_00_CA "3,00"
+#define OPTION_VAL_3_25_CA "3,25"
+#define OPTION_VAL_3_50_CA "3,50"
+#define OPTION_VAL_3_75_CA "3,75"
+#define OPTION_VAL_4_00_CA "4,00"
+#define OPTION_VAL_4_25_CA "4,25"
+#define OPTION_VAL_4_50_CA "4,50"
+#define OPTION_VAL_4_75_CA "4,75"
+#define OPTION_VAL_5_00_CA "5,00"
 #define SGX_UP_DOWN_ALLOWED_LABEL_CA NULL
 #define SGX_UP_DOWN_ALLOWED_INFO_0_CA NULL
 #define SGX_DISABLE_SOFTRESET_LABEL_CA NULL
@@ -2575,34 +2575,34 @@ struct retro_core_options_v2 options_chs = {
 
 /* RETRO_LANGUAGE_CHT */
 
-#define CATEGORY_VIDEO_LABEL_CHT "視訊"
-#define CATEGORY_VIDEO_INFO_0_CHT NULL
+#define CATEGORY_VIDEO_LABEL_CHT "影像"
+#define CATEGORY_VIDEO_INFO_0_CHT "變更畫面裁切、跳幀和影像輸出相關的設定。"
 #define CATEGORY_INPUT_LABEL_CHT "輸入"
-#define CATEGORY_INPUT_INFO_0_CHT NULL
-#define CATEGORY_HACKS_LABEL_CHT NULL
-#define CATEGORY_HACKS_INFO_0_CHT NULL
-#define CATEGORY_CD_LABEL_CHT NULL
+#define CATEGORY_INPUT_INFO_0_CHT "變更輸入裝置相關的設定。"
+#define CATEGORY_HACKS_LABEL_CHT "進階"
+#define CATEGORY_HACKS_INFO_0_CHT "變更模擬器進階設定。"
+#define CATEGORY_CD_LABEL_CHT "光碟機"
 #define CATEGORY_CD_INFO_0_CHT NULL
-#define SGX_PALETTE_LABEL_CHT NULL
-#define SGX_PALETTE_INFO_0_CHT NULL
+#define SGX_PALETTE_LABEL_CHT "配色"
+#define SGX_PALETTE_INFO_0_CHT "設定 <合成> 時嘗試重建原色影像輸出，可在部分遊戲中顯示更多細節。"
 #define OPTION_VAL_RGB_CHT NULL
 #define OPTION_VAL_COMPOSITE_CHT NULL
-#define SGX_ASPECT_RATIO_LABEL_CHT "長寬比"
+#define SGX_ASPECT_RATIO_LABEL_CHT "寬高比"
 #define SGX_ASPECT_RATIO_INFO_0_CHT NULL
 #define OPTION_VAL_AUTO_CHT "自動"
 #define OPTION_VAL_6_5_CHT NULL
 #define OPTION_VAL_4_3_CHT NULL
 #define SGX_HOVERSCAN_LABEL_CHT NULL
-#define SGX_HOVERSCAN_INFO_0_CHT NULL
-#define OPTION_VAL_352_CHT NULL
-#define SGX_INITIAL_SCANLINE_LABEL_CHT NULL
-#define SGX_INITIAL_SCANLINE_INFO_0_CHT NULL
-#define OPTION_VAL_3_CHT NULL
-#define SGX_LAST_SCANLINE_LABEL_CHT NULL
-#define SGX_LAST_SCANLINE_INFO_0_CHT NULL
-#define OPTION_VAL_242_CHT NULL
-#define SGX_MOUSE_SENSITIVITY_LABEL_CHT NULL
-#define SGX_MOUSE_SENSITIVITY_INFO_0_CHT NULL
+#define SGX_HOVERSCAN_INFO_0_CHT "設定影像顯示的最大寬度。過低的值將裁剪影像右側(寬度352像素的遊戲)。"
+#define OPTION_VAL_352_CHT "352 (預設)"
+#define SGX_INITIAL_SCANLINE_LABEL_CHT "初始掃描線"
+#define SGX_INITIAL_SCANLINE_INFO_0_CHT "設定最初渲染的掃描線。過高的值將裁剪影像頂部。"
+#define OPTION_VAL_3_CHT "3 (預設)"
+#define SGX_LAST_SCANLINE_LABEL_CHT "最後掃描線"
+#define SGX_LAST_SCANLINE_INFO_0_CHT "設定最後渲染的掃描線。過低的值將裁剪影像底部。"
+#define OPTION_VAL_242_CHT "242 (預設)"
+#define SGX_MOUSE_SENSITIVITY_LABEL_CHT "滑鼠靈敏度"
+#define SGX_MOUSE_SENSITIVITY_INFO_0_CHT "數值越高游標移動速度越快。"
 #define OPTION_VAL_0_25_CHT NULL
 #define OPTION_VAL_0_50_CHT NULL
 #define OPTION_VAL_0_75_CHT NULL
@@ -2631,39 +2631,39 @@ struct retro_core_options_v2 options_chs = {
 #define SGX_MULTITAP_INFO_0_CHT NULL
 #define SGX_TURBO_TOGGLE_LABEL_CHT NULL
 #define SGX_TURBO_TOGGLE_INFO_0_CHT NULL
-#define OPTION_VAL_SWITCH_CHT NULL
+#define OPTION_VAL_SWITCH_CHT "開關"
 #define OPTION_VAL_DEDICATED_CHT NULL
 #define SGX_TURBO_TOGGLE_HOTKEY_LABEL_CHT NULL
 #define SGX_TURBO_TOGGLE_HOTKEY_INFO_0_CHT NULL
 #define SGX_TURBO_DELAY_LABEL_CHT NULL
 #define SGX_TURBO_DELAY_INFO_0_CHT NULL
-#define SGX_CDIMAGECACHE_LABEL_CHT NULL
-#define SGX_CDIMAGECACHE_INFO_0_CHT NULL
-#define SGX_CDBIOS_LABEL_CHT NULL
-#define SGX_CDBIOS_INFO_0_CHT NULL
-#define OPTION_VAL_GAMES_EXPRESS_CHT NULL
-#define OPTION_VAL_SYSTEM_CARD_1_CHT NULL
-#define OPTION_VAL_SYSTEM_CARD_2_CHT NULL
-#define OPTION_VAL_SYSTEM_CARD_3_CHT NULL
+#define SGX_CDIMAGECACHE_LABEL_CHT "光碟映像檔快取 (需要重新啟動)"
+#define SGX_CDIMAGECACHE_INFO_0_CHT "執行時將光碟映像檔，完整載入到記憶體中。拖延開啟時間，縮短讀取時間。"
+#define SGX_CDBIOS_LABEL_CHT "光碟系統卡 (需要重新啟動)"
+#define SGX_CDBIOS_INFO_0_CHT "設定 <系統卡 3 (日版/美版)> 支援較多的授權遊戲。未授權遊戲需要 <遊戲特快卡> 來執行。"
+#define OPTION_VAL_GAMES_EXPRESS_CHT "遊戲特快卡"
+#define OPTION_VAL_SYSTEM_CARD_1_CHT "系統卡 1 (日版)"
+#define OPTION_VAL_SYSTEM_CARD_2_CHT "系統卡 2 (日版)"
+#define OPTION_VAL_SYSTEM_CARD_3_CHT "系統卡 3 (日版)"
 #define SGX_DETECT_GEXPRESS_LABEL_CHT NULL
 #define SGX_DETECT_GEXPRESS_INFO_0_CHT NULL
-#define SGX_CDSPEED_LABEL_CHT NULL
-#define SGX_CDSPEED_LABEL_CAT_CHT NULL
-#define SGX_CDSPEED_INFO_0_CHT NULL
-#define SGX_ADPCMVOLUME_LABEL_CHT NULL
-#define SGX_ADPCMVOLUME_LABEL_CAT_CHT NULL
+#define SGX_CDSPEED_LABEL_CHT "(光碟機) 讀取速度"
+#define SGX_CDSPEED_LABEL_CAT_CHT "讀取速度"
+#define SGX_CDSPEED_INFO_0_CHT "高倍速可加快載入時間，但可能導致遊戲出現問題。"
+#define SGX_ADPCMVOLUME_LABEL_CHT "(光碟) ADPCM 音量 %"
+#define SGX_ADPCMVOLUME_LABEL_CAT_CHT "ADPCM 音量 %"
 #define SGX_ADPCMVOLUME_INFO_0_CHT NULL
 #define SGX_ADPCMVOLUME_INFO_1_CHT NULL
-#define SGX_CDDAVOLUME_LABEL_CHT NULL
-#define SGX_CDDAVOLUME_LABEL_CAT_CHT NULL
+#define SGX_CDDAVOLUME_LABEL_CHT "(光碟) CDDA 音量 %"
+#define SGX_CDDAVOLUME_LABEL_CAT_CHT "CDDA 音量 %"
 #define SGX_CDPSGVOLUME_LABEL_CHT NULL
-#define SGX_CDPSGVOLUME_LABEL_CAT_CHT NULL
+#define SGX_CDPSGVOLUME_LABEL_CAT_CHT "PSG 音量 %"
 #define SGX_FORCESGX_LABEL_CHT NULL
 #define SGX_FORCESGX_INFO_0_CHT NULL
-#define SGX_NOSPRITELIMIT_LABEL_CHT NULL
-#define SGX_NOSPRITELIMIT_INFO_0_CHT NULL
+#define SGX_NOSPRITELIMIT_LABEL_CHT "沒有素材限制"
+#define SGX_NOSPRITELIMIT_INFO_0_CHT "刪除每條掃描線16張素材的硬體限制。警告: 可能導致遊戲圖形故障。"
 #define SGX_OCMULTIPLIER_LABEL_CHT NULL
-#define SGX_OCMULTIPLIER_INFO_0_CHT NULL
+#define SGX_OCMULTIPLIER_INFO_0_CHT "較高的值可降低遊戲中的延遲。警告: 可能導致故障崩潰。"
 
 struct retro_core_option_v2_category option_cats_cht[] = {
    {
@@ -3210,33 +3210,33 @@ struct retro_core_options_v2 options_cht = {
 /* RETRO_LANGUAGE_CS */
 
 #define CATEGORY_VIDEO_LABEL_CS NULL
-#define CATEGORY_VIDEO_INFO_0_CS NULL
+#define CATEGORY_VIDEO_INFO_0_CS "Konfigurace ořezu zobrazení, přeskočení snímku a dalších parametrů výstupu obrazu."
 #define CATEGORY_INPUT_LABEL_CS "Vstup"
-#define CATEGORY_INPUT_INFO_0_CS NULL
-#define CATEGORY_HACKS_LABEL_CS NULL
-#define CATEGORY_HACKS_INFO_0_CS NULL
+#define CATEGORY_INPUT_INFO_0_CS "Konfigurace světelné pistole, myši a vstupu NegCon."
+#define CATEGORY_HACKS_LABEL_CS "Emulace Hacků"
+#define CATEGORY_HACKS_INFO_0_CS "Konfigurace parametrů přetaktování procesoru a přesnosti emulace ovlivňujících výkon a kompatibilitu na nízké úrovni."
 #define CATEGORY_CD_LABEL_CS NULL
-#define CATEGORY_CD_INFO_0_CS NULL
-#define SGX_PALETTE_LABEL_CS NULL
-#define SGX_PALETTE_INFO_0_CS NULL
+#define CATEGORY_CD_INFO_0_CS "Konfigurace nastavení týkajících se her na CD."
+#define SGX_PALETTE_LABEL_CS "Paleta Barev"
+#define SGX_PALETTE_INFO_0_CS "Kompozitně se snaží obnovit původní výstup z konzole a v některých hrách může zobrazit více detailů."
 #define OPTION_VAL_RGB_CS NULL
-#define OPTION_VAL_COMPOSITE_CS NULL
-#define SGX_ASPECT_RATIO_LABEL_CS "Poměr stran"
-#define SGX_ASPECT_RATIO_INFO_0_CS NULL
+#define OPTION_VAL_COMPOSITE_CS "Kompozitní"
+#define SGX_ASPECT_RATIO_LABEL_CS "Poměr Stran"
+#define SGX_ASPECT_RATIO_INFO_0_CS "Zvolte preferovaný poměr stran obsahu. Při používání her, které neustále přepínají mezi režimy 256 a 352 a používají automatický poměr stran, je nejlepší nastavit horizontální šířku na 342, aby se minimalizovala změna velikosti a černé čáry navíc, protože tato šířka je v poměru k režimu šířky 256 (nebo něco podobného, stačí vyzkoušet s Asuka 100%, což je jedna z her, které přepínají mezi těmito režimy)."
 #define OPTION_VAL_AUTO_CS NULL
 #define OPTION_VAL_6_5_CS NULL
 #define OPTION_VAL_4_3_CS NULL
-#define SGX_HOVERSCAN_LABEL_CS NULL
-#define SGX_HOVERSCAN_INFO_0_CS NULL
-#define OPTION_VAL_352_CS NULL
-#define SGX_INITIAL_SCANLINE_LABEL_CS NULL
-#define SGX_INITIAL_SCANLINE_INFO_0_CS NULL
-#define OPTION_VAL_3_CS NULL
-#define SGX_LAST_SCANLINE_LABEL_CS NULL
-#define SGX_LAST_SCANLINE_INFO_0_CS NULL
-#define OPTION_VAL_242_CS NULL
-#define SGX_MOUSE_SENSITIVITY_LABEL_CS NULL
-#define SGX_MOUSE_SENSITIVITY_INFO_0_CS NULL
+#define SGX_HOVERSCAN_LABEL_CS "Horizontální Overscan (Pouze Režim Šířky 352)"
+#define SGX_HOVERSCAN_INFO_0_CS "Zvolte maximální šířku obrázku, který se má zobrazit. Nižší hodnoty oříznou pravou stranu obrázku (pro hry o šířce 352 px)."
+#define OPTION_VAL_352_CS "352 (Výchozí)"
+#define SGX_INITIAL_SCANLINE_LABEL_CS "Počáteční Skenovací Linie"
+#define SGX_INITIAL_SCANLINE_INFO_0_CS "První vykreslená skenovací linie. Vyšší hodnoty oříznou horní část obrázku."
+#define OPTION_VAL_3_CS "3 (Výchozí)"
+#define SGX_LAST_SCANLINE_LABEL_CS "Poslední Skenovací Linie"
+#define SGX_LAST_SCANLINE_INFO_0_CS "Poslední vykreslená skenovací linie. Nižší hodnoty oříznou spodní část obrázku."
+#define OPTION_VAL_242_CS "242 (Výchozí)"
+#define SGX_MOUSE_SENSITIVITY_LABEL_CS "Citlivost Myši"
+#define SGX_MOUSE_SENSITIVITY_INFO_0_CS "Při vyšších hodnotách se kurzor myši pohybuje rychleji."
 #define OPTION_VAL_0_25_CS NULL
 #define OPTION_VAL_0_50_CS NULL
 #define OPTION_VAL_0_75_CS NULL
@@ -3256,48 +3256,48 @@ struct retro_core_options_v2 options_cht = {
 #define OPTION_VAL_4_25_CS NULL
 #define OPTION_VAL_4_50_CS NULL
 #define OPTION_VAL_4_75_CS NULL
-#define OPTION_VAL_5_00_CS NULL
+#define OPTION_VAL_5_00_CS "2.50"
 #define SGX_UP_DOWN_ALLOWED_LABEL_CS NULL
-#define SGX_UP_DOWN_ALLOWED_INFO_0_CS NULL
-#define SGX_DISABLE_SOFTRESET_LABEL_CS NULL
-#define SGX_DISABLE_SOFTRESET_INFO_0_CS NULL
-#define SGX_MULTITAP_LABEL_CS NULL
-#define SGX_MULTITAP_INFO_0_CS NULL
-#define SGX_TURBO_TOGGLE_LABEL_CS NULL
-#define SGX_TURBO_TOGGLE_INFO_0_CS NULL
-#define OPTION_VAL_SWITCH_CS NULL
-#define OPTION_VAL_DEDICATED_CS NULL
-#define SGX_TURBO_TOGGLE_HOTKEY_LABEL_CS NULL
-#define SGX_TURBO_TOGGLE_HOTKEY_INFO_0_CS NULL
-#define SGX_TURBO_DELAY_LABEL_CS NULL
-#define SGX_TURBO_DELAY_INFO_0_CS NULL
-#define SGX_CDIMAGECACHE_LABEL_CS NULL
-#define SGX_CDIMAGECACHE_INFO_0_CS NULL
-#define SGX_CDBIOS_LABEL_CS NULL
-#define SGX_CDBIOS_INFO_0_CS NULL
+#define SGX_UP_DOWN_ALLOWED_INFO_0_CS "Povolení této funkce umožní stisknout / rychle střídat / držet současně levý i pravý směr (nebo nahoru a dolů). To může způsobit závady založené na pohybu."
+#define SGX_DISABLE_SOFTRESET_LABEL_CS "Zakázat Měkký Reset (RUN+SELECT)"
+#define SGX_DISABLE_SOFTRESET_INFO_0_CS "Při současném stisknutí tlačítek RUN a SELECT se místo resetování dočasně vypnou obě tlačítka."
+#define SGX_MULTITAP_LABEL_CS "Multitap 5-portový Ovladač"
+#define SGX_MULTITAP_INFO_0_CS "Umožňuje emulaci až 5 hráčů ve více lidech. Vypnutí této funkce je nutné pouze v některých případech (např. Cho Aniki)."
+#define SGX_TURBO_TOGGLE_LABEL_CS "Režim Turbo Hotkey"
+#define SGX_TURBO_TOGGLE_INFO_0_CS "Povolení turbo tlačítek. Klávesové zkratky (tlačítka III a IV) se mohou chovat jako přepínače nebo jako vyhrazená turbo tlačítka (pro použití je třeba je podržet)."
+#define OPTION_VAL_SWITCH_CS "Přepínač"
+#define OPTION_VAL_DEDICATED_CS "Věnováno"
+#define SGX_TURBO_TOGGLE_HOTKEY_LABEL_CS "Alternativní Hotkey Turbo"
+#define SGX_TURBO_TOGGLE_HOTKEY_INFO_0_CS "Přiřazení tlačítek L3/R3 zařízení RetroPad jako turbo klávesových zkratek namísto tlačítek III a IV. Funguje pouze v režimu 'Přepínač' a pouze pokud není tlačítkům L3/R3 nic přiřazeno. Pomocí této funkce se můžete vyhnout přemapování tlačítek III a IV při přepnutí do režimu šestitlačítkového ovladače."
+#define SGX_TURBO_DELAY_LABEL_CS "Zpoždění Turba"
+#define SGX_TURBO_DELAY_INFO_0_CS "Nastavení doby mezi nástupem turba (ve snímcích)."
+#define SGX_CDIMAGECACHE_LABEL_CS "Vyrovnávací Paměť Obrazu CD (Nutný Restart)"
+#define SGX_CDIMAGECACHE_INFO_0_CS "Načíst kompletní obraz do paměti při spuštění. Může potenciálně zkrátit dobu načítání za cenu prodloužení doby spouštění."
+#define SGX_CDBIOS_LABEL_CS "CD BIOS (Nutný Restart)"
+#define SGX_CDBIOS_INFO_0_CS "Většinu her lze spustit na 'Systémová Karta 3'. Pro některé nelicencované hry je zapotřebí 'Games Express'."
 #define OPTION_VAL_GAMES_EXPRESS_CS NULL
-#define OPTION_VAL_SYSTEM_CARD_1_CS NULL
-#define OPTION_VAL_SYSTEM_CARD_2_CS NULL
-#define OPTION_VAL_SYSTEM_CARD_3_CS NULL
-#define SGX_DETECT_GEXPRESS_LABEL_CS NULL
-#define SGX_DETECT_GEXPRESS_INFO_0_CS NULL
-#define SGX_CDSPEED_LABEL_CS NULL
-#define SGX_CDSPEED_LABEL_CAT_CS NULL
-#define SGX_CDSPEED_INFO_0_CS NULL
-#define SGX_ADPCMVOLUME_LABEL_CS NULL
-#define SGX_ADPCMVOLUME_LABEL_CAT_CS NULL
-#define SGX_ADPCMVOLUME_INFO_0_CS NULL
-#define SGX_ADPCMVOLUME_INFO_1_CS NULL
-#define SGX_CDDAVOLUME_LABEL_CS NULL
-#define SGX_CDDAVOLUME_LABEL_CAT_CS NULL
-#define SGX_CDPSGVOLUME_LABEL_CS NULL
-#define SGX_CDPSGVOLUME_LABEL_CAT_CS NULL
-#define SGX_FORCESGX_LABEL_CS NULL
-#define SGX_FORCESGX_INFO_0_CS NULL
-#define SGX_NOSPRITELIMIT_LABEL_CS NULL
-#define SGX_NOSPRITELIMIT_INFO_0_CS NULL
-#define SGX_OCMULTIPLIER_LABEL_CS NULL
-#define SGX_OCMULTIPLIER_INFO_0_CS NULL
+#define OPTION_VAL_SYSTEM_CARD_1_CS "Systémová Karta 1"
+#define OPTION_VAL_SYSTEM_CARD_2_CS "Systémová Karta 2"
+#define OPTION_VAL_SYSTEM_CARD_3_CS "Systémová Karta 3"
+#define SGX_DETECT_GEXPRESS_LABEL_CS "Detekovat Express CD Hry (Vyžadován Restart)"
+#define SGX_DETECT_GEXPRESS_INFO_0_CS "Automatické načítání systému Hry Express BIOS bez ohledu na nastavení systému CD BIOS při načítání her na CD Hry Express."
+#define SGX_CDSPEED_LABEL_CS "(CD) Rychlost CD"
+#define SGX_CDSPEED_LABEL_CAT_CS "Rychlost CD"
+#define SGX_CDSPEED_INFO_0_CS "Vyšší hodnoty umožňují rychlejší načítání, ale u několika her mohou způsobit problémy."
+#define SGX_ADPCMVOLUME_LABEL_CS "(CD) ADPCM Hlasitost %"
+#define SGX_ADPCMVOLUME_LABEL_CAT_CS "ADPCM Hlasitost %"
+#define SGX_ADPCMVOLUME_INFO_0_CS "Pouze hra na CD. Příliš vysoké nastavení tohoto ovladače hlasitosti může způsobit oříznutí vzorku."
+#define SGX_ADPCMVOLUME_INFO_1_CS "Příliš vysoké nastavení tohoto ovladače hlasitosti může způsobit oříznutí vzorku."
+#define SGX_CDDAVOLUME_LABEL_CS "(CD) CDDA Hlasitost %"
+#define SGX_CDDAVOLUME_LABEL_CAT_CS "CDDA Hlasitost %"
+#define SGX_CDPSGVOLUME_LABEL_CS "(CD) PSG Hlasitost %"
+#define SGX_CDPSGVOLUME_LABEL_CAT_CS "CD PSG Hlasitost %"
+#define SGX_FORCESGX_LABEL_CS "Vynucení Emulace SuperGrafx (Nutný Restart)"
+#define SGX_FORCESGX_INFO_0_CS "To je užitečné pro spouštění homebrew her nebo pro izolaci her, které nelze spustit v režimu SuperGrafx (například Space Harrier). Stavy uložení nejsou kompatibilní s jednotlivými režimy. Pokud to není nutné, je lepší tuto volbu nechat vypnutou. Známé hry pro SuperGrafx (například Dai-Makaimura, Aldyns) se automaticky přepnou do režimu SuperGrafx bez ohledu na tuto volbu."
+#define SGX_NOSPRITELIMIT_LABEL_CS "Žádný Limit Spritu"
+#define SGX_NOSPRITELIMIT_INFO_0_CS "Odstranění hardwarového limitu 16 bodů na řádek. UPOZORNĚNÍ: V některých hrách může způsobovat grafické závady."
+#define SGX_OCMULTIPLIER_LABEL_CS "Násobitel Přetaktování CPU (Nutný Restart)"
+#define SGX_OCMULTIPLIER_INFO_0_CS "Vyšší hodnoty mohou snížit zpomalení ve hrách. VAROVÁNÍ: Může způsobit závady a pády."
 
 struct retro_core_option_v2_category option_cats_cs[] = {
    {
@@ -5113,18 +5113,18 @@ struct retro_core_options_v2 options_da = {
 
 #define CATEGORY_VIDEO_LABEL_DE NULL
 #define CATEGORY_VIDEO_INFO_0_DE "Bildausschnitt, Frameskipping und andere Parameter für die Bildausgabe anpassen."
-#define CATEGORY_INPUT_LABEL_DE NULL
+#define CATEGORY_INPUT_LABEL_DE "Eingabe"
 #define CATEGORY_INPUT_INFO_0_DE "Lightgun-, Maus- und NegCon-Eingabe anpassen."
 #define CATEGORY_HACKS_LABEL_DE "Emulations-Hacks"
 #define CATEGORY_HACKS_INFO_0_DE "Parameter für Prozessorübertaktung und Emulationsgenauigkeit, die sich auf die Low-Level-Leistung und Kompatibilität auswirken, anpassen."
 #define CATEGORY_CD_LABEL_DE NULL
-#define CATEGORY_CD_INFO_0_DE NULL
+#define CATEGORY_CD_INFO_0_DE "Einstellungen für CD-Spiele konfigurieren."
 #define SGX_PALETTE_LABEL_DE "Farbpalette"
 #define SGX_PALETTE_INFO_0_DE "\"Composite\" versucht, die Originalausgabe der Konsole nachzubilden und kann in einigen Spielen mehr Details darstellen."
 #define OPTION_VAL_RGB_DE NULL
 #define OPTION_VAL_COMPOSITE_DE NULL
 #define SGX_ASPECT_RATIO_LABEL_DE "Bildseitenverhältnis"
-#define SGX_ASPECT_RATIO_INFO_0_DE NULL
+#define SGX_ASPECT_RATIO_INFO_0_DE "Wählt das bevorzugte Seitenverhältnis für Inhalte aus. Bei Spielen, die ständig zwischen 256 und 352 Modus wechseln und automatisches Seitenverhältnis verwenden, ist es am besten, die horizontale Breite auf 342 zu setzen, um die Größe und die zusätzlichen schwarzen Linien zu minimieren, da diese Breite im Verhältnis zum 256 Breitenmodus steht (oder etwas ähnliches, testen mit Asuka 100%, das ist eines der Spiele, die zwischen diesen Modi wechselt)."
 #define OPTION_VAL_AUTO_DE "Automatisch"
 #define OPTION_VAL_6_5_DE NULL
 #define OPTION_VAL_4_3_DE NULL
@@ -5159,18 +5159,18 @@ struct retro_core_options_v2 options_da = {
 #define OPTION_VAL_4_50_DE "4,50"
 #define OPTION_VAL_4_75_DE "4,75"
 #define OPTION_VAL_5_00_DE "5,00"
-#define SGX_UP_DOWN_ALLOWED_LABEL_DE NULL
-#define SGX_UP_DOWN_ALLOWED_INFO_0_DE NULL
+#define SGX_UP_DOWN_ALLOWED_LABEL_DE "Entgegengesetzte Richtungen zulassen"
+#define SGX_UP_DOWN_ALLOWED_INFO_0_DE "Wenn diese Funktion aktiviert ist, kann gleichzeitig die linke und die rechte (oder die obere und die untere) Richtungstaste bzw. schnell abwechselnd gedrückt oder gehalten werden. Dies kann zu bewegungsbasierten Fehlern führen."
 #define SGX_DISABLE_SOFTRESET_LABEL_DE "Neustart-Kombination (RUN+SELECT) deaktivieren"
 #define SGX_DISABLE_SOFTRESET_INFO_0_DE "Wenn RUN und SELECT gleichzeitig gedrückt werden, werden beide Tasten vorübergehend deaktiviert, anstatt den Inhalt neu zu starten."
-#define SGX_MULTITAP_LABEL_DE NULL
-#define SGX_MULTITAP_INFO_0_DE NULL
-#define SGX_TURBO_TOGGLE_LABEL_DE NULL
-#define SGX_TURBO_TOGGLE_INFO_0_DE NULL
-#define OPTION_VAL_SWITCH_DE NULL
-#define OPTION_VAL_DEDICATED_DE NULL
+#define SGX_MULTITAP_LABEL_DE "Multitap -5-Port-Controller"
+#define SGX_MULTITAP_INFO_0_DE "Multitap-Emulation für bis zu 5 Spieler aktivieren. Die Deaktivierung ist nur in einigen Fällen erforderlich (z. B. Cho Aniki)."
+#define SGX_TURBO_TOGGLE_LABEL_DE "Turbo-Hotkey-Modus"
+#define SGX_TURBO_TOGGLE_INFO_0_DE "Turbotasten aktivieren. Hotkeys (Tasten III und IV) können entweder als Umschalter oder als dedizierte Turbotasten (zum Verwenden gedrückt halten) fungieren."
+#define OPTION_VAL_SWITCH_DE "Umschalten"
+#define OPTION_VAL_DEDICATED_DE "Dediziert"
 #define SGX_TURBO_TOGGLE_HOTKEY_LABEL_DE "Alternative Turbo-Hotkeys"
-#define SGX_TURBO_TOGGLE_HOTKEY_INFO_0_DE NULL
+#define SGX_TURBO_TOGGLE_HOTKEY_INFO_0_DE "RetroPads L3/R3-Tasten als Turbo-Hotkeys anstelle der Tasten III und IV zuweisen. Funktioniert nur im „Toggle“-Modus und nur, solange den L3/R3-Tasten nichts zugewiesen ist. Damit die Belegung der Tasten III und IV vermieden werden, wenn in den 6-Tasten-Controller-Modus gewechselt wird."
 #define SGX_TURBO_DELAY_LABEL_DE "Turbo-Verzögerung"
 #define SGX_TURBO_DELAY_INFO_0_DE "Die Zeit zwischen den Turbo-Signalen (in Frames) einstellen."
 #define SGX_CDIMAGECACHE_LABEL_DE "CD-Abbild-Cache (Neustart erforderlich)"
@@ -5181,21 +5181,21 @@ struct retro_core_options_v2 options_da = {
 #define OPTION_VAL_SYSTEM_CARD_1_DE NULL
 #define OPTION_VAL_SYSTEM_CARD_2_DE NULL
 #define OPTION_VAL_SYSTEM_CARD_3_DE NULL
-#define SGX_DETECT_GEXPRESS_LABEL_DE NULL
-#define SGX_DETECT_GEXPRESS_INFO_0_DE NULL
+#define SGX_DETECT_GEXPRESS_LABEL_DE "Games-Express-CD erkennen (Neustart erforderlich)"
+#define SGX_DETECT_GEXPRESS_INFO_0_DE "Automatisches Laden des Games-Express-BIOS unabhängig von der CD-BIOS-Einstellung beim Laden von Games-Express-CD-Spielen."
 #define SGX_CDSPEED_LABEL_DE "(CD) CD-Geschwindigkeit"
 #define SGX_CDSPEED_LABEL_CAT_DE "CD-Geschwindigkeit"
 #define SGX_CDSPEED_INFO_0_DE "Höhere Werte ermöglichen schnellere Ladezeiten, können aber Probleme mit einigen Spielen verursachen."
-#define SGX_ADPCMVOLUME_LABEL_DE "(CD) ADPCM Lautstärke %"
+#define SGX_ADPCMVOLUME_LABEL_DE "(CD) ADPCM-Lautstärke %"
 #define SGX_ADPCMVOLUME_LABEL_CAT_DE "ADPCM Lautstärke %"
 #define SGX_ADPCMVOLUME_INFO_0_DE "Nur für CD-Spiele. Diese Lautstärke zu hoch einzustellen kann zu Übersteuerung führen."
 #define SGX_ADPCMVOLUME_INFO_1_DE "Diese Lautstärke zu hoch einzustellen kann zu Übersteuerung führen."
-#define SGX_CDDAVOLUME_LABEL_DE "(CD) CDDA Lautstärke %"
-#define SGX_CDDAVOLUME_LABEL_CAT_DE "CDDA Lautstärke %"
-#define SGX_CDPSGVOLUME_LABEL_DE "(CD) PSG Lautstärke %"
-#define SGX_CDPSGVOLUME_LABEL_CAT_DE NULL
-#define SGX_FORCESGX_LABEL_DE NULL
-#define SGX_FORCESGX_INFO_0_DE NULL
+#define SGX_CDDAVOLUME_LABEL_DE "(CD) CDDA-Lautstärke %"
+#define SGX_CDDAVOLUME_LABEL_CAT_DE "CDDA-Lautstärke %"
+#define SGX_CDPSGVOLUME_LABEL_DE "(CD) PSG-Lautstärke %"
+#define SGX_CDPSGVOLUME_LABEL_CAT_DE "CD-PSG-Lautstärke %"
+#define SGX_FORCESGX_LABEL_DE "SuperGrafx-Emulation erzwingen (Neustart erforderlich)"
+#define SGX_FORCESGX_INFO_0_DE "Dies ist hilfreich, um Homebrew Spiele auszuführen oder um Spiele zu isolieren, die nicht im SuperGrafx Modus laufen (wie Space Harrier). Savestates sind nicht mit jedem Modus kompatibel. Es ist besser, diese Option auszuschalten, wenn sie nicht benötigt wird. Bekannte SuperGrafx-Spiele (wie Dai-Makaimura, Aldyns) wechseln automatisch zu SuperGrafx, unabhängig von dieser Option."
 #define SGX_NOSPRITELIMIT_LABEL_DE "Kein Sprite-Limit"
 #define SGX_NOSPRITELIMIT_INFO_0_DE "Die Hardware-Beschränkung von 16 Sprites pro Scanline entfernen. WARNUNG: Kann bei einigen Spielen zu Grafikfehlern führen."
 #define SGX_OCMULTIPLIER_LABEL_DE "CPU-Übertaktungsmultiplikator (Neustart erforderlich)"
@@ -6375,6 +6375,640 @@ struct retro_core_option_v2_definition option_defs_el[] = {
 struct retro_core_options_v2 options_el = {
    option_cats_el,
    option_defs_el
+};
+
+/* RETRO_LANGUAGE_EN */
+
+#define CATEGORY_VIDEO_LABEL_EN NULL
+#define CATEGORY_VIDEO_INFO_0_EN NULL
+#define CATEGORY_INPUT_LABEL_EN NULL
+#define CATEGORY_INPUT_INFO_0_EN NULL
+#define CATEGORY_HACKS_LABEL_EN NULL
+#define CATEGORY_HACKS_INFO_0_EN "Configure processor over-clocking and emulation accuracy parameters affecting low-level performance and compatibility."
+#define CATEGORY_CD_LABEL_EN NULL
+#define CATEGORY_CD_INFO_0_EN NULL
+#define SGX_PALETTE_LABEL_EN "Colour Palette"
+#define SGX_PALETTE_INFO_0_EN NULL
+#define OPTION_VAL_RGB_EN NULL
+#define OPTION_VAL_COMPOSITE_EN NULL
+#define SGX_ASPECT_RATIO_LABEL_EN NULL
+#define SGX_ASPECT_RATIO_INFO_0_EN NULL
+#define OPTION_VAL_AUTO_EN NULL
+#define OPTION_VAL_6_5_EN NULL
+#define OPTION_VAL_4_3_EN NULL
+#define SGX_HOVERSCAN_LABEL_EN NULL
+#define SGX_HOVERSCAN_INFO_0_EN "Choose the maximum image width to be displayed. Lower values will crop the right side of the image (for 352-pixel width games)."
+#define OPTION_VAL_352_EN NULL
+#define SGX_INITIAL_SCANLINE_LABEL_EN "Initial Scan-line"
+#define SGX_INITIAL_SCANLINE_INFO_0_EN "First rendered scan-line. Higher values will crop the top of the image."
+#define OPTION_VAL_3_EN NULL
+#define SGX_LAST_SCANLINE_LABEL_EN "Last Scan-line"
+#define SGX_LAST_SCANLINE_INFO_0_EN "Last rendered scan-line. Lower values will crop the bottom of the image."
+#define OPTION_VAL_242_EN NULL
+#define SGX_MOUSE_SENSITIVITY_LABEL_EN NULL
+#define SGX_MOUSE_SENSITIVITY_INFO_0_EN NULL
+#define OPTION_VAL_0_25_EN NULL
+#define OPTION_VAL_0_50_EN NULL
+#define OPTION_VAL_0_75_EN NULL
+#define OPTION_VAL_1_00_EN NULL
+#define OPTION_VAL_1_25_EN NULL
+#define OPTION_VAL_1_50_EN NULL
+#define OPTION_VAL_1_75_EN NULL
+#define OPTION_VAL_2_00_EN NULL
+#define OPTION_VAL_2_25_EN NULL
+#define OPTION_VAL_2_50_EN NULL
+#define OPTION_VAL_2_75_EN NULL
+#define OPTION_VAL_3_00_EN NULL
+#define OPTION_VAL_3_25_EN NULL
+#define OPTION_VAL_3_50_EN NULL
+#define OPTION_VAL_3_75_EN NULL
+#define OPTION_VAL_4_00_EN NULL
+#define OPTION_VAL_4_25_EN NULL
+#define OPTION_VAL_4_50_EN NULL
+#define OPTION_VAL_4_75_EN NULL
+#define OPTION_VAL_5_00_EN NULL
+#define SGX_UP_DOWN_ALLOWED_LABEL_EN NULL
+#define SGX_UP_DOWN_ALLOWED_INFO_0_EN NULL
+#define SGX_DISABLE_SOFTRESET_LABEL_EN NULL
+#define SGX_DISABLE_SOFTRESET_INFO_0_EN NULL
+#define SGX_MULTITAP_LABEL_EN "Multi-tap 5-port Controller"
+#define SGX_MULTITAP_INFO_0_EN "Enable up to 5-player multi-tap emulation. Disabling this is only needed in some cases (e.g. Cho Aniki)."
+#define SGX_TURBO_TOGGLE_LABEL_EN NULL
+#define SGX_TURBO_TOGGLE_INFO_0_EN NULL
+#define OPTION_VAL_SWITCH_EN NULL
+#define OPTION_VAL_DEDICATED_EN NULL
+#define SGX_TURBO_TOGGLE_HOTKEY_LABEL_EN NULL
+#define SGX_TURBO_TOGGLE_HOTKEY_INFO_0_EN NULL
+#define SGX_TURBO_DELAY_LABEL_EN NULL
+#define SGX_TURBO_DELAY_INFO_0_EN NULL
+#define SGX_CDIMAGECACHE_LABEL_EN NULL
+#define SGX_CDIMAGECACHE_INFO_0_EN "Load the complete image into memory at start-up. Can potentially decrease loading times at the cost of an increased start-up time."
+#define SGX_CDBIOS_LABEL_EN NULL
+#define SGX_CDBIOS_INFO_0_EN NULL
+#define OPTION_VAL_GAMES_EXPRESS_EN NULL
+#define OPTION_VAL_SYSTEM_CARD_1_EN NULL
+#define OPTION_VAL_SYSTEM_CARD_2_EN NULL
+#define OPTION_VAL_SYSTEM_CARD_3_EN NULL
+#define SGX_DETECT_GEXPRESS_LABEL_EN NULL
+#define SGX_DETECT_GEXPRESS_INFO_0_EN NULL
+#define SGX_CDSPEED_LABEL_EN NULL
+#define SGX_CDSPEED_LABEL_CAT_EN NULL
+#define SGX_CDSPEED_INFO_0_EN NULL
+#define SGX_ADPCMVOLUME_LABEL_EN NULL
+#define SGX_ADPCMVOLUME_LABEL_CAT_EN NULL
+#define SGX_ADPCMVOLUME_INFO_0_EN NULL
+#define SGX_ADPCMVOLUME_INFO_1_EN NULL
+#define SGX_CDDAVOLUME_LABEL_EN NULL
+#define SGX_CDDAVOLUME_LABEL_CAT_EN NULL
+#define SGX_CDPSGVOLUME_LABEL_EN NULL
+#define SGX_CDPSGVOLUME_LABEL_CAT_EN NULL
+#define SGX_FORCESGX_LABEL_EN NULL
+#define SGX_FORCESGX_INFO_0_EN "This is helpful to run home-brew games or to isolate games that will not run in SuperGrafx mode (like Space Harrier). Save states are not compatible with each mode. It's better to leave this option off unless needed. Known SuperGrafx games (like Dai-Makaimura, Aldyns) will automatically switch to SuperGrafx regardless of this option."
+#define SGX_NOSPRITELIMIT_LABEL_EN NULL
+#define SGX_NOSPRITELIMIT_INFO_0_EN "Remove 16-sprites-per-scan-line hardware limit. WARNING: May cause graphics glitching on some games."
+#define SGX_OCMULTIPLIER_LABEL_EN "CPU Over-clock Multiplier (Restart Required)"
+#define SGX_OCMULTIPLIER_INFO_0_EN NULL
+
+struct retro_core_option_v2_category option_cats_en[] = {
+   {
+      "video",
+      CATEGORY_VIDEO_LABEL_EN,
+      CATEGORY_VIDEO_INFO_0_EN
+   },
+   {
+      "input",
+      CATEGORY_INPUT_LABEL_EN,
+      CATEGORY_INPUT_INFO_0_EN
+   },
+   {
+      "hacks",
+      CATEGORY_HACKS_LABEL_EN,
+      CATEGORY_HACKS_INFO_0_EN
+   },
+   {
+      "cd",
+      CATEGORY_CD_LABEL_EN,
+      CATEGORY_CD_INFO_0_EN
+   },
+   { NULL, NULL, NULL },
+};
+struct retro_core_option_v2_definition option_defs_en[] = {
+   {
+      "sgx_palette",
+      SGX_PALETTE_LABEL_EN,
+      NULL,
+      SGX_PALETTE_INFO_0_EN,
+      NULL,
+      "video",
+      {
+         { "RGB", OPTION_VAL_RGB_EN },
+         { "Composite", OPTION_VAL_COMPOSITE_EN },
+         { NULL, NULL},
+      },
+      "RGB"
+   },
+   {
+      "sgx_aspect_ratio",
+      SGX_ASPECT_RATIO_LABEL_EN,
+      NULL,
+      SGX_ASPECT_RATIO_INFO_0_EN,
+      NULL,
+      "video",
+      {
+         { "auto", OPTION_VAL_AUTO_EN },
+         { "6:5", OPTION_VAL_6_5_EN },
+         { "4:3", OPTION_VAL_4_3_EN },
+         { NULL, NULL },
+      },
+      "auto"
+   },
+   {
+      "sgx_hoverscan",
+      SGX_HOVERSCAN_LABEL_EN,
+      NULL,
+      SGX_HOVERSCAN_INFO_0_EN,
+      NULL,
+      "video",
+      {
+         { "300", NULL },
+         { "302", NULL },
+         { "304", NULL },
+         { "306", NULL },
+         { "308", NULL },
+         { "310", NULL },
+         { "312", NULL },
+         { "314", NULL },
+         { "316", NULL },
+         { "318", NULL },
+         { "320", NULL },
+         { "322", NULL },
+         { "324", NULL },
+         { "326", NULL },
+         { "328", NULL },
+         { "330", NULL },
+         { "332", NULL },
+         { "334", NULL },
+         { "336", NULL },
+         { "338", NULL },
+         { "340", NULL },
+         { "342", NULL },
+         { "344", NULL },
+         { "346", NULL },
+         { "348", NULL },
+         { "350", NULL },
+         { "352", OPTION_VAL_352_EN },
+         { NULL, NULL },
+      },
+      "352"
+   },
+   {
+      "sgx_initial_scanline",
+      SGX_INITIAL_SCANLINE_LABEL_EN,
+      NULL,
+      SGX_INITIAL_SCANLINE_INFO_0_EN,
+      NULL,
+      "video",
+      {
+         { "0", NULL },
+         { "1", NULL },
+         { "2", NULL },
+         { "3", OPTION_VAL_3_EN },
+         { "4", NULL },
+         { "5", NULL },
+         { "6", NULL },
+         { "7", NULL },
+         { "8", NULL },
+         { "9", NULL },
+         { "10", NULL },
+         { "11", NULL },
+         { "12", NULL },
+         { "13", NULL },
+         { "14", NULL },
+         { "15", NULL },
+         { "16", NULL },
+         { "17", NULL },
+         { "18", NULL },
+         { "19", NULL },
+         { "20", NULL },
+         { "21", NULL },
+         { "22", NULL },
+         { "23", NULL },
+         { "24", NULL },
+         { "25", NULL },
+         { "26", NULL },
+         { "27", NULL },
+         { "28", NULL },
+         { "29", NULL },
+         { "30", NULL },
+         { "31", NULL },
+         { "32", NULL },
+         { "33", NULL },
+         { "34", NULL },
+         { "35", NULL },
+         { "36", NULL },
+         { "37", NULL },
+         { "38", NULL },
+         { "39", NULL },
+         { "40", NULL },
+         { NULL, NULL },
+      },
+      "3"
+   },
+   {
+      "sgx_last_scanline",
+      SGX_LAST_SCANLINE_LABEL_EN,
+      NULL,
+      SGX_LAST_SCANLINE_INFO_0_EN,
+      NULL,
+      "video",
+      {
+         { "208", NULL },
+         { "209", NULL },
+         { "210", NULL },
+         { "211", NULL },
+         { "212", NULL },
+         { "213", NULL },
+         { "214", NULL },
+         { "215", NULL },
+         { "216", NULL },
+         { "217", NULL },
+         { "218", NULL },
+         { "219", NULL },
+         { "220", NULL },
+         { "221", NULL },
+         { "222", NULL },
+         { "223", NULL },
+         { "224", NULL },
+         { "225", NULL },
+         { "226", NULL },
+         { "227", NULL },
+         { "228", NULL },
+         { "229", NULL },
+         { "230", NULL },
+         { "231", NULL },
+         { "232", NULL },
+         { "233", NULL },
+         { "234", NULL },
+         { "235", NULL },
+         { "236", NULL },
+         { "237", NULL },
+         { "238", NULL },
+         { "239", NULL },
+         { "240", NULL },
+         { "241", NULL },
+         { "242", OPTION_VAL_242_EN },
+         { NULL, NULL },
+      },
+      "242"
+   },
+   {
+      "sgx_mouse_sensitivity",
+      SGX_MOUSE_SENSITIVITY_LABEL_EN,
+      NULL,
+      SGX_MOUSE_SENSITIVITY_INFO_0_EN,
+      NULL,
+      "input",
+      {
+         { "0.25", OPTION_VAL_0_25_EN },
+         { "0.50", OPTION_VAL_0_50_EN },
+         { "0.75", OPTION_VAL_0_75_EN },
+         { "1.00", OPTION_VAL_1_00_EN },
+         { "1.25", OPTION_VAL_1_25_EN },
+         { "1.50", OPTION_VAL_1_50_EN },
+         { "1.75", OPTION_VAL_1_75_EN },
+         { "2.00", OPTION_VAL_2_00_EN },
+         { "2.25", OPTION_VAL_2_25_EN },
+         { "2.50", OPTION_VAL_2_50_EN },
+         { "2.75", OPTION_VAL_2_75_EN },
+         { "3.00", OPTION_VAL_3_00_EN },
+         { "3.25", OPTION_VAL_3_25_EN },
+         { "3.50", OPTION_VAL_3_50_EN },
+         { "3.75", OPTION_VAL_3_75_EN },
+         { "4.00", OPTION_VAL_4_00_EN },
+         { "4.25", OPTION_VAL_4_25_EN },
+         { "4.50", OPTION_VAL_4_50_EN },
+         { "4.75", OPTION_VAL_4_75_EN },
+         { "5.00", OPTION_VAL_5_00_EN },
+         { NULL, NULL },
+      },
+      "1.25"
+   },
+   {
+      "sgx_up_down_allowed",
+      SGX_UP_DOWN_ALLOWED_LABEL_EN,
+      NULL,
+      SGX_UP_DOWN_ALLOWED_INFO_0_EN,
+      NULL,
+      "input",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
+      "sgx_disable_softreset",
+      SGX_DISABLE_SOFTRESET_LABEL_EN,
+      NULL,
+      SGX_DISABLE_SOFTRESET_INFO_0_EN,
+      NULL,
+      "input",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
+      "sgx_multitap",
+      SGX_MULTITAP_LABEL_EN,
+      NULL,
+      SGX_MULTITAP_INFO_0_EN,
+      NULL,
+      "input",
+      {
+         { "enabled", NULL },
+         { "disabled", NULL },
+         { NULL, NULL},
+      },
+      "enabled"
+   },
+   {
+      "sgx_turbo_toggle",
+      SGX_TURBO_TOGGLE_LABEL_EN,
+      NULL,
+      SGX_TURBO_TOGGLE_INFO_0_EN,
+      NULL,
+      "input",
+      {
+         { "disabled", NULL },
+         { "switch", OPTION_VAL_SWITCH_EN },
+         { "dedicated", OPTION_VAL_DEDICATED_EN },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
+      "sgx_turbo_toggle_hotkey",
+      SGX_TURBO_TOGGLE_HOTKEY_LABEL_EN,
+      NULL,
+      SGX_TURBO_TOGGLE_HOTKEY_INFO_0_EN,
+      NULL,
+      "input",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
+      "sgx_turbo_delay",
+      SGX_TURBO_DELAY_LABEL_EN,
+      NULL,
+      SGX_TURBO_DELAY_INFO_0_EN,
+      NULL,
+      "input",
+      {
+         { "3", NULL },
+         { "4", NULL },
+         { "5", NULL },
+         { "6", NULL },
+         { "7", NULL },
+         { "8", NULL },
+         { "9", NULL },
+         { "10", NULL },
+         { "11", NULL },
+         { "12", NULL },
+         { "13", NULL },
+         { "14", NULL },
+         { "15", NULL },
+         { "30", NULL },
+         { "60", NULL },
+         { NULL, NULL },
+      },
+      "3"
+   },
+   {
+      "sgx_cdimagecache",
+      SGX_CDIMAGECACHE_LABEL_EN,
+      NULL,
+      SGX_CDIMAGECACHE_INFO_0_EN,
+      NULL,
+      "cd",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
+      "sgx_cdbios",
+      SGX_CDBIOS_LABEL_EN,
+      NULL,
+      SGX_CDBIOS_INFO_0_EN,
+      NULL,
+      "cd",
+      {
+         { "Games Express", OPTION_VAL_GAMES_EXPRESS_EN },
+         { "System Card 1", OPTION_VAL_SYSTEM_CARD_1_EN },
+         { "System Card 2", OPTION_VAL_SYSTEM_CARD_2_EN },
+         { "System Card 3", OPTION_VAL_SYSTEM_CARD_3_EN },
+         { NULL, NULL },
+      },
+      "System Card 3"
+   },
+   {
+      "sgx_detect_gexpress",
+      SGX_DETECT_GEXPRESS_LABEL_EN,
+      NULL,
+      SGX_DETECT_GEXPRESS_INFO_0_EN,
+      NULL,
+      "cd",
+      {
+         { "enabled", NULL },
+         { "disabled", NULL },
+         { NULL, NULL },
+      },
+      "enabled"
+   },
+   {
+      "sgx_cdspeed",
+      SGX_CDSPEED_LABEL_EN,
+      SGX_CDSPEED_LABEL_CAT_EN,
+      SGX_CDSPEED_INFO_0_EN,
+      NULL,
+      "cd",
+      {
+         { "1", NULL },
+         { "2", NULL },
+         { "4", NULL },
+         { "8", NULL },
+         { NULL, NULL },
+      },
+      "1"
+   },
+   {
+      "sgx_adpcmvolume",
+      SGX_ADPCMVOLUME_LABEL_EN,
+      SGX_ADPCMVOLUME_LABEL_CAT_EN,
+      SGX_ADPCMVOLUME_INFO_0_EN,
+      SGX_ADPCMVOLUME_INFO_1_EN,
+      "cd",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { "110", NULL },
+         { "120", NULL },
+         { "130", NULL },
+         { "140", NULL },
+         { "150", NULL },
+         { "160", NULL },
+         { "170", NULL },
+         { "180", NULL },
+         { "190", NULL },
+         { "200", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "sgx_cddavolume",
+      SGX_CDDAVOLUME_LABEL_EN,
+      SGX_CDDAVOLUME_LABEL_CAT_EN,
+      SGX_ADPCMVOLUME_INFO_0_EN,
+      SGX_ADPCMVOLUME_INFO_1_EN,
+      "cd",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { "110", NULL },
+         { "120", NULL },
+         { "130", NULL },
+         { "140", NULL },
+         { "150", NULL },
+         { "160", NULL },
+         { "170", NULL },
+         { "180", NULL },
+         { "190", NULL },
+         { "200", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "sgx_cdpsgvolume",
+      SGX_CDPSGVOLUME_LABEL_EN,
+      SGX_CDPSGVOLUME_LABEL_CAT_EN,
+      SGX_ADPCMVOLUME_INFO_0_EN,
+      SGX_ADPCMVOLUME_INFO_1_EN,
+      "cd",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { "110", NULL },
+         { "120", NULL },
+         { "130", NULL },
+         { "140", NULL },
+         { "150", NULL },
+         { "160", NULL },
+         { "170", NULL },
+         { "180", NULL },
+         { "190", NULL },
+         { "200", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "sgx_forcesgx",
+      SGX_FORCESGX_LABEL_EN,
+      NULL,
+      SGX_FORCESGX_INFO_0_EN,
+      NULL,
+      "hacks",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
+      "sgx_nospritelimit",
+      SGX_NOSPRITELIMIT_LABEL_EN,
+      NULL,
+      SGX_NOSPRITELIMIT_INFO_0_EN,
+      NULL,
+      "hacks",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
+      "sgx_ocmultiplier",
+      SGX_OCMULTIPLIER_LABEL_EN,
+      NULL,
+      SGX_OCMULTIPLIER_INFO_0_EN,
+      NULL,
+      "hacks",
+      {
+         { "1", NULL },
+         { "2", NULL },
+         { "3", NULL },
+         { "4", NULL },
+         { "5", NULL },
+         { "6", NULL },
+         { "7", NULL },
+         { "8", NULL },
+         { "9", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { NULL, NULL },
+      },
+      "1"
+   },
+   { NULL, NULL, NULL, NULL, NULL, NULL, {{0}}, NULL },
+};
+struct retro_core_options_v2 options_en = {
+   option_cats_en,
+   option_defs_en
 };
 
 /* RETRO_LANGUAGE_EO */
@@ -7659,9 +8293,9 @@ struct retro_core_options_v2 options_es = {
 #define SGX_PALETTE_INFO_0_FA NULL
 #define OPTION_VAL_RGB_FA NULL
 #define OPTION_VAL_COMPOSITE_FA NULL
-#define SGX_ASPECT_RATIO_LABEL_FA NULL
+#define SGX_ASPECT_RATIO_LABEL_FA "نسبت تصویر"
 #define SGX_ASPECT_RATIO_INFO_0_FA NULL
-#define OPTION_VAL_AUTO_FA NULL
+#define OPTION_VAL_AUTO_FA "خودکار"
 #define OPTION_VAL_6_5_FA NULL
 #define OPTION_VAL_4_3_FA NULL
 #define SGX_HOVERSCAN_LABEL_FA NULL
@@ -8282,15 +8916,15 @@ struct retro_core_options_v2 options_fa = {
 /* RETRO_LANGUAGE_FI */
 
 #define CATEGORY_VIDEO_LABEL_FI NULL
-#define CATEGORY_VIDEO_INFO_0_FI NULL
+#define CATEGORY_VIDEO_INFO_0_FI "Määritä näytön rajaus, kuvanohitus ja muut kuvan ulostuloparametrit."
 #define CATEGORY_INPUT_LABEL_FI "Syöte"
-#define CATEGORY_INPUT_INFO_0_FI NULL
+#define CATEGORY_INPUT_INFO_0_FI "Määritä valoaseen, hiiren ja NegCon:in syöte."
 #define CATEGORY_HACKS_LABEL_FI "Emulointikikat"
 #define CATEGORY_HACKS_INFO_0_FI "Määritä prosessorin ylikellotus- ja emuloinnin tarkkuuden asetukset, jotka vaikuttavat matalan tason suorituskykyyn ja yhteensopivuuteen."
 #define CATEGORY_CD_LABEL_FI NULL
-#define CATEGORY_CD_INFO_0_FI NULL
+#define CATEGORY_CD_INFO_0_FI "Määritä CD-peleihin liittyvät asetukset."
 #define SGX_PALETTE_LABEL_FI "Väripaletti"
-#define SGX_PALETTE_INFO_0_FI NULL
+#define SGX_PALETTE_INFO_0_FI "Komposiitti yrittää uudelleen luoda alkuperäisen konsolin ulostuloa ja saattaa näyttää enemmän yksityiskohtia joissakin peleissä."
 #define OPTION_VAL_RGB_FI NULL
 #define OPTION_VAL_COMPOSITE_FI "Komposiitti"
 #define SGX_ASPECT_RATIO_LABEL_FI "Kuvasuhde"
@@ -8298,17 +8932,17 @@ struct retro_core_options_v2 options_fa = {
 #define OPTION_VAL_AUTO_FI "Automaattinen"
 #define OPTION_VAL_6_5_FI NULL
 #define OPTION_VAL_4_3_FI NULL
-#define SGX_HOVERSCAN_LABEL_FI NULL
-#define SGX_HOVERSCAN_INFO_0_FI NULL
+#define SGX_HOVERSCAN_LABEL_FI "Vaakasuuntainen yliskannaus (Vain 352-leveystila)"
+#define SGX_HOVERSCAN_INFO_0_FI "Valitse kuvan maksimileveys, joka näytetään. Alemmat arvot rajaavat kuvan oikeaa puolta (352 px leveyden peleille)."
 #define OPTION_VAL_352_FI "352 (Oletus)"
-#define SGX_INITIAL_SCANLINE_LABEL_FI NULL
-#define SGX_INITIAL_SCANLINE_INFO_0_FI NULL
+#define SGX_INITIAL_SCANLINE_LABEL_FI "Ensimmäinen juova"
+#define SGX_INITIAL_SCANLINE_INFO_0_FI "Ensimmäinen renderöity juova. Suuremmat arvot rajaavat kuvan yläreunan."
 #define OPTION_VAL_3_FI "3 (Oletus)"
-#define SGX_LAST_SCANLINE_LABEL_FI NULL
-#define SGX_LAST_SCANLINE_INFO_0_FI NULL
+#define SGX_LAST_SCANLINE_LABEL_FI "Viimeinen juova"
+#define SGX_LAST_SCANLINE_INFO_0_FI "Viimeinen renderöity juova. pienemmät arvot rajaavat kuvan alareunan."
 #define OPTION_VAL_242_FI "242 (Oletus)"
 #define SGX_MOUSE_SENSITIVITY_LABEL_FI "Hiiren herkkyys"
-#define SGX_MOUSE_SENSITIVITY_INFO_0_FI NULL
+#define SGX_MOUSE_SENSITIVITY_INFO_0_FI "Korkeammat arvot saavat hiiren kursorin liikkumaan nopeammin."
 #define OPTION_VAL_0_25_FI NULL
 #define OPTION_VAL_0_50_FI NULL
 #define OPTION_VAL_0_75_FI NULL
@@ -8331,45 +8965,45 @@ struct retro_core_options_v2 options_fa = {
 #define OPTION_VAL_5_00_FI NULL
 #define SGX_UP_DOWN_ALLOWED_LABEL_FI "Salli vastakkaiset suunnat"
 #define SGX_UP_DOWN_ALLOWED_INFO_0_FI "Tämän käyttöönotto sallii painamaan / nopeasti vaihtelemaan / pitämään sekä vasemmalle että oikealle (tai ylös ja alas) samanaikaisesti. Tämä voi aiheuttaa liikkeisiin perustuvia virheitä."
-#define SGX_DISABLE_SOFTRESET_LABEL_FI NULL
-#define SGX_DISABLE_SOFTRESET_INFO_0_FI NULL
+#define SGX_DISABLE_SOFTRESET_LABEL_FI "Poista soft reset käytöstä (RUN+SELECT)"
+#define SGX_DISABLE_SOFTRESET_INFO_0_FI "Kun RUN ja SELECT painetaan samanaikaisesti, poistetaan molemmat painikkeet käytöstä tilapäisesti soft resettaamisen sijaan."
 #define SGX_MULTITAP_LABEL_FI NULL
 #define SGX_MULTITAP_INFO_0_FI NULL
 #define SGX_TURBO_TOGGLE_LABEL_FI NULL
 #define SGX_TURBO_TOGGLE_INFO_0_FI NULL
 #define OPTION_VAL_SWITCH_FI NULL
 #define OPTION_VAL_DEDICATED_FI NULL
-#define SGX_TURBO_TOGGLE_HOTKEY_LABEL_FI NULL
+#define SGX_TURBO_TOGGLE_HOTKEY_LABEL_FI "Vaihtoehtoinen turbo-pikanäppäin"
 #define SGX_TURBO_TOGGLE_HOTKEY_INFO_0_FI NULL
 #define SGX_TURBO_DELAY_LABEL_FI "Turbon viive"
-#define SGX_TURBO_DELAY_INFO_0_FI NULL
-#define SGX_CDIMAGECACHE_LABEL_FI NULL
-#define SGX_CDIMAGECACHE_INFO_0_FI NULL
-#define SGX_CDBIOS_LABEL_FI NULL
-#define SGX_CDBIOS_INFO_0_FI NULL
+#define SGX_TURBO_DELAY_INFO_0_FI "Säädä turbo-tulituksen välistä aikaa (kuvissa)."
+#define SGX_CDIMAGECACHE_LABEL_FI "CD-levykuvan välimuisti (Uudelleenkäynnistys vaaditaan)"
+#define SGX_CDIMAGECACHE_INFO_0_FI "Lataa koko levykuva muistiin käynnistyksen yhteydessä. Voi mahdollisesti lyhentää latausaikoja kasvavan käynnistysajan kustannuksella."
+#define SGX_CDBIOS_LABEL_FI "CD BIOS (Uudelleenkäynnistys vaaditaan)"
+#define SGX_CDBIOS_INFO_0_FI "Useimmat pelit voidaan ajaa \"System Card 3\". \"Games Express\" tarvitaan useille lisensoimattomille peleille."
 #define OPTION_VAL_GAMES_EXPRESS_FI NULL
 #define OPTION_VAL_SYSTEM_CARD_1_FI NULL
 #define OPTION_VAL_SYSTEM_CARD_2_FI NULL
 #define OPTION_VAL_SYSTEM_CARD_3_FI NULL
 #define SGX_DETECT_GEXPRESS_LABEL_FI NULL
 #define SGX_DETECT_GEXPRESS_INFO_0_FI NULL
-#define SGX_CDSPEED_LABEL_FI NULL
+#define SGX_CDSPEED_LABEL_FI "(CD) CD-nopeus"
 #define SGX_CDSPEED_LABEL_CAT_FI "CD-nopeus"
-#define SGX_CDSPEED_INFO_0_FI NULL
-#define SGX_ADPCMVOLUME_LABEL_FI NULL
-#define SGX_ADPCMVOLUME_LABEL_CAT_FI NULL
-#define SGX_ADPCMVOLUME_INFO_0_FI NULL
-#define SGX_ADPCMVOLUME_INFO_1_FI NULL
-#define SGX_CDDAVOLUME_LABEL_FI NULL
-#define SGX_CDDAVOLUME_LABEL_CAT_FI NULL
-#define SGX_CDPSGVOLUME_LABEL_FI NULL
-#define SGX_CDPSGVOLUME_LABEL_CAT_FI NULL
+#define SGX_CDSPEED_INFO_0_FI "Korkeammat arvot mahdollistavat nopeammat latausajat, mutta voivat aiheuttaa ongelmia muutaman pelin kanssa."
+#define SGX_ADPCMVOLUME_LABEL_FI "(CD) ADPCM äänenvoimakkuus %"
+#define SGX_ADPCMVOLUME_LABEL_CAT_FI "ADPCM äänenvoimakkuus %"
+#define SGX_ADPCMVOLUME_INFO_0_FI "Vain CD-peleille. Tämän äänenvoimakkuuden säädön asettaminen liian korkeaksi voi aiheuttaa näytteen pätkimistä."
+#define SGX_ADPCMVOLUME_INFO_1_FI "Tämän äänenvoimakkuuden säädön asettaminen liian korkeaksi voi aiheuttaa näytteen pätkimistä."
+#define SGX_CDDAVOLUME_LABEL_FI "(CD) CDDA äänenvoimakkuus %"
+#define SGX_CDDAVOLUME_LABEL_CAT_FI "CDDA äänenvoimakkuus %"
+#define SGX_CDPSGVOLUME_LABEL_FI "(CD) PSG äänenvoimakkuus %"
+#define SGX_CDPSGVOLUME_LABEL_CAT_FI "CD PSG äänenvoimakkuus %"
 #define SGX_FORCESGX_LABEL_FI NULL
 #define SGX_FORCESGX_INFO_0_FI NULL
 #define SGX_NOSPRITELIMIT_LABEL_FI "Poista sprite-rajoitus"
-#define SGX_NOSPRITELIMIT_INFO_0_FI NULL
-#define SGX_OCMULTIPLIER_LABEL_FI NULL
-#define SGX_OCMULTIPLIER_INFO_0_FI NULL
+#define SGX_NOSPRITELIMIT_INFO_0_FI "Poista laitteiston 16-spriten-per-juova raja. VAROITUS: Saattaa aiheuttaa grafiikkaa virheitä joissakin peleissä."
+#define SGX_OCMULTIPLIER_LABEL_FI "Prosessorin ylikellotuksen kerroin (Uudelleenkäynnistys vaaditaan)"
+#define SGX_OCMULTIPLIER_INFO_0_FI "Suuremmat arvot voivat vähentää pelien hidastumista. VAROITUS: Voi aiheuttaa virheitä ja kaatumisia."
 
 struct retro_core_option_v2_category option_cats_fi[] = {
    {
@@ -10829,7 +11463,7 @@ struct retro_core_options_v2 options_he = {
 #define SGX_PALETTE_INFO_0_HR NULL
 #define OPTION_VAL_RGB_HR NULL
 #define OPTION_VAL_COMPOSITE_HR NULL
-#define SGX_ASPECT_RATIO_LABEL_HR NULL
+#define SGX_ASPECT_RATIO_LABEL_HR "Omjer slike"
 #define SGX_ASPECT_RATIO_INFO_0_HR NULL
 #define OPTION_VAL_AUTO_HR NULL
 #define OPTION_VAL_6_5_HR NULL
@@ -11454,31 +12088,31 @@ struct retro_core_options_v2 options_hr = {
 #define CATEGORY_VIDEO_LABEL_HU "Videó"
 #define CATEGORY_VIDEO_INFO_0_HU NULL
 #define CATEGORY_INPUT_LABEL_HU "Bevitel"
-#define CATEGORY_INPUT_INFO_0_HU NULL
-#define CATEGORY_HACKS_LABEL_HU NULL
-#define CATEGORY_HACKS_INFO_0_HU NULL
+#define CATEGORY_INPUT_INFO_0_HU "A fénypisztoly, az egér és a NegCon bemeneti beállításai."
+#define CATEGORY_HACKS_LABEL_HU "Emulációs trükkök"
+#define CATEGORY_HACKS_INFO_0_HU "A processzor túlhajtás és az emuláció pontosságának beállításai, amelyek befolyásolják az alacsonyszintű teljesítményt és a kompatibilitást."
 #define CATEGORY_CD_LABEL_HU NULL
 #define CATEGORY_CD_INFO_0_HU NULL
-#define SGX_PALETTE_LABEL_HU NULL
-#define SGX_PALETTE_INFO_0_HU NULL
+#define SGX_PALETTE_LABEL_HU "Színpaletta"
+#define SGX_PALETTE_INFO_0_HU "A kompozit az eredeti konzol kimenetét kísérli meg utánozni, és néhány játékban több részletet mutathat meg."
 #define OPTION_VAL_RGB_HU NULL
-#define OPTION_VAL_COMPOSITE_HU NULL
+#define OPTION_VAL_COMPOSITE_HU "Kompozit"
 #define SGX_ASPECT_RATIO_LABEL_HU "Képarány"
 #define SGX_ASPECT_RATIO_INFO_0_HU NULL
-#define OPTION_VAL_AUTO_HU NULL
+#define OPTION_VAL_AUTO_HU "Automatikus"
 #define OPTION_VAL_6_5_HU NULL
 #define OPTION_VAL_4_3_HU NULL
 #define SGX_HOVERSCAN_LABEL_HU NULL
-#define SGX_HOVERSCAN_INFO_0_HU NULL
-#define OPTION_VAL_352_HU NULL
-#define SGX_INITIAL_SCANLINE_LABEL_HU NULL
+#define SGX_HOVERSCAN_INFO_0_HU "A maximális megjelenő képszélesség. Alacsonyabb értékeknél a kép jobb szélét vágja le (a 352 pixel széles játékoknál)."
+#define OPTION_VAL_352_HU "352 (alapértelmezett)"
+#define SGX_INITIAL_SCANLINE_LABEL_HU "Kezdő scanline"
 #define SGX_INITIAL_SCANLINE_INFO_0_HU NULL
-#define OPTION_VAL_3_HU NULL
-#define SGX_LAST_SCANLINE_LABEL_HU NULL
+#define OPTION_VAL_3_HU "3 (alapértelmezett)"
+#define SGX_LAST_SCANLINE_LABEL_HU "Utolsó scanline"
 #define SGX_LAST_SCANLINE_INFO_0_HU NULL
-#define OPTION_VAL_242_HU NULL
-#define SGX_MOUSE_SENSITIVITY_LABEL_HU NULL
-#define SGX_MOUSE_SENSITIVITY_INFO_0_HU NULL
+#define OPTION_VAL_242_HU "242 (alapértelmezett)"
+#define SGX_MOUSE_SENSITIVITY_LABEL_HU "Egér érzékenysége"
+#define SGX_MOUSE_SENSITIVITY_INFO_0_HU "Magasabb értékek az egérkurzor gyorsabb mozgását eredményezik."
 #define OPTION_VAL_0_25_HU NULL
 #define OPTION_VAL_0_50_HU NULL
 #define OPTION_VAL_0_75_HU NULL
@@ -11499,47 +12133,47 @@ struct retro_core_options_v2 options_hr = {
 #define OPTION_VAL_4_50_HU NULL
 #define OPTION_VAL_4_75_HU NULL
 #define OPTION_VAL_5_00_HU NULL
-#define SGX_UP_DOWN_ALLOWED_LABEL_HU NULL
+#define SGX_UP_DOWN_ALLOWED_LABEL_HU "Ellentétes irányok engedélyezése"
 #define SGX_UP_DOWN_ALLOWED_INFO_0_HU NULL
-#define SGX_DISABLE_SOFTRESET_LABEL_HU NULL
+#define SGX_DISABLE_SOFTRESET_LABEL_HU "Soft reset letiltása (RUN+SELECT)"
 #define SGX_DISABLE_SOFTRESET_INFO_0_HU NULL
-#define SGX_MULTITAP_LABEL_HU NULL
+#define SGX_MULTITAP_LABEL_HU "Multitap 5 csatlakozós kontroller"
 #define SGX_MULTITAP_INFO_0_HU NULL
 #define SGX_TURBO_TOGGLE_LABEL_HU NULL
 #define SGX_TURBO_TOGGLE_INFO_0_HU NULL
-#define OPTION_VAL_SWITCH_HU NULL
+#define OPTION_VAL_SWITCH_HU "Váltógomb"
 #define OPTION_VAL_DEDICATED_HU NULL
-#define SGX_TURBO_TOGGLE_HOTKEY_LABEL_HU NULL
+#define SGX_TURBO_TOGGLE_HOTKEY_LABEL_HU "Alternatív Turbo gyorsgomb"
 #define SGX_TURBO_TOGGLE_HOTKEY_INFO_0_HU NULL
-#define SGX_TURBO_DELAY_LABEL_HU NULL
-#define SGX_TURBO_DELAY_INFO_0_HU NULL
-#define SGX_CDIMAGECACHE_LABEL_HU NULL
-#define SGX_CDIMAGECACHE_INFO_0_HU NULL
-#define SGX_CDBIOS_LABEL_HU NULL
-#define SGX_CDBIOS_INFO_0_HU NULL
+#define SGX_TURBO_DELAY_LABEL_HU "Turbo késleltetés"
+#define SGX_TURBO_DELAY_INFO_0_HU "A turbo tűz ismétlései közti idő (képkockákban)."
+#define SGX_CDIMAGECACHE_LABEL_HU "Gyorsítótár a CD képfájlhoz (újraindítás szükséges)"
+#define SGX_CDIMAGECACHE_INFO_0_HU "Indításkor beolvassa a teljes képfájlt a memóriába. Csökkentheti a töltési időket a lassabb indulásért cserébe."
+#define SGX_CDBIOS_LABEL_HU "CD BIOS (újraindítás szükséges)"
+#define SGX_CDBIOS_INFO_0_HU "A legtöbb játék képes futni a \"System Card 3\"-mal. Számos nem licenszelt játékhoz szükség van a \"Games Express\"-re."
 #define OPTION_VAL_GAMES_EXPRESS_HU NULL
 #define OPTION_VAL_SYSTEM_CARD_1_HU NULL
 #define OPTION_VAL_SYSTEM_CARD_2_HU NULL
 #define OPTION_VAL_SYSTEM_CARD_3_HU NULL
 #define SGX_DETECT_GEXPRESS_LABEL_HU NULL
 #define SGX_DETECT_GEXPRESS_INFO_0_HU NULL
-#define SGX_CDSPEED_LABEL_HU NULL
-#define SGX_CDSPEED_LABEL_CAT_HU NULL
-#define SGX_CDSPEED_INFO_0_HU NULL
-#define SGX_ADPCMVOLUME_LABEL_HU NULL
-#define SGX_ADPCMVOLUME_LABEL_CAT_HU NULL
-#define SGX_ADPCMVOLUME_INFO_0_HU NULL
-#define SGX_ADPCMVOLUME_INFO_1_HU NULL
-#define SGX_CDDAVOLUME_LABEL_HU NULL
-#define SGX_CDDAVOLUME_LABEL_CAT_HU NULL
-#define SGX_CDPSGVOLUME_LABEL_HU NULL
-#define SGX_CDPSGVOLUME_LABEL_CAT_HU NULL
+#define SGX_CDSPEED_LABEL_HU "(CD) CD sebesség"
+#define SGX_CDSPEED_LABEL_CAT_HU "CD sebesség"
+#define SGX_CDSPEED_INFO_0_HU "A nagyobb értékek segítik a gyorsabb töltést, de gondot okozhatnak pár játéknál."
+#define SGX_ADPCMVOLUME_LABEL_HU "(CD) ADPCM hangerő %"
+#define SGX_ADPCMVOLUME_LABEL_CAT_HU "ADPCM hangerő %"
+#define SGX_ADPCMVOLUME_INFO_0_HU "Csak CD játékoknál. Ezen hangerő túl magas értéke torzítást okozhat."
+#define SGX_ADPCMVOLUME_INFO_1_HU "Ezen hangerő túl magas értéke torzítást okozhat."
+#define SGX_CDDAVOLUME_LABEL_HU "(CD) CDDA hangerő %"
+#define SGX_CDDAVOLUME_LABEL_CAT_HU "CDDA hangerő %"
+#define SGX_CDPSGVOLUME_LABEL_HU "(CD) PSG hangerő %"
+#define SGX_CDPSGVOLUME_LABEL_CAT_HU "CD PSG hangerő %"
 #define SGX_FORCESGX_LABEL_HU NULL
 #define SGX_FORCESGX_INFO_0_HU NULL
-#define SGX_NOSPRITELIMIT_LABEL_HU NULL
-#define SGX_NOSPRITELIMIT_INFO_0_HU NULL
+#define SGX_NOSPRITELIMIT_LABEL_HU "Nincs sprite korlátozás"
+#define SGX_NOSPRITELIMIT_INFO_0_HU "Megszünteti a hardver soronként legfeljebb 16 sprite-os korlátozását. Figyelem: grafikus hibákat okozhat néhány játéknál."
 #define SGX_OCMULTIPLIER_LABEL_HU NULL
-#define SGX_OCMULTIPLIER_INFO_0_HU NULL
+#define SGX_OCMULTIPLIER_INFO_0_HU "Nagyobb értékek csökkenthetik a lassulást a játékokban. Figyelem: hibákat és összeomlást okozhat."
 
 struct retro_core_option_v2_category option_cats_hu[] = {
    {
@@ -12099,7 +12733,7 @@ struct retro_core_options_v2 options_hu = {
 #define OPTION_VAL_COMPOSITE_ID NULL
 #define SGX_ASPECT_RATIO_LABEL_ID "Rasio Aspek"
 #define SGX_ASPECT_RATIO_INFO_0_ID NULL
-#define OPTION_VAL_AUTO_ID NULL
+#define OPTION_VAL_AUTO_ID "Otomatis"
 #define OPTION_VAL_6_5_ID NULL
 #define OPTION_VAL_4_3_ID NULL
 #define SGX_HOVERSCAN_LABEL_ID NULL
@@ -12145,8 +12779,8 @@ struct retro_core_options_v2 options_hu = {
 #define OPTION_VAL_DEDICATED_ID NULL
 #define SGX_TURBO_TOGGLE_HOTKEY_LABEL_ID NULL
 #define SGX_TURBO_TOGGLE_HOTKEY_INFO_0_ID NULL
-#define SGX_TURBO_DELAY_LABEL_ID NULL
-#define SGX_TURBO_DELAY_INFO_0_ID NULL
+#define SGX_TURBO_DELAY_LABEL_ID "Tundaan Bertubi"
+#define SGX_TURBO_DELAY_INFO_0_ID "Menyesuaikan waktu antara tekan bertubi (berjumlah bingkai)."
 #define SGX_CDIMAGECACHE_LABEL_ID NULL
 #define SGX_CDIMAGECACHE_INFO_0_ID NULL
 #define SGX_CDBIOS_LABEL_ID NULL
@@ -13361,10 +13995,10 @@ struct retro_core_options_v2 options_it = {
 #define CATEGORY_HACKS_INFO_0_JA NULL
 #define CATEGORY_CD_LABEL_JA NULL
 #define CATEGORY_CD_INFO_0_JA NULL
-#define SGX_PALETTE_LABEL_JA NULL
+#define SGX_PALETTE_LABEL_JA "カラーパレット"
 #define SGX_PALETTE_INFO_0_JA NULL
 #define OPTION_VAL_RGB_JA NULL
-#define OPTION_VAL_COMPOSITE_JA NULL
+#define OPTION_VAL_COMPOSITE_JA "コンポジット"
 #define SGX_ASPECT_RATIO_LABEL_JA "アスペクト比"
 #define SGX_ASPECT_RATIO_INFO_0_JA NULL
 #define OPTION_VAL_AUTO_JA "自動"
@@ -13372,13 +14006,13 @@ struct retro_core_options_v2 options_it = {
 #define OPTION_VAL_4_3_JA NULL
 #define SGX_HOVERSCAN_LABEL_JA NULL
 #define SGX_HOVERSCAN_INFO_0_JA NULL
-#define OPTION_VAL_352_JA NULL
+#define OPTION_VAL_352_JA "352 (デフォルト)"
 #define SGX_INITIAL_SCANLINE_LABEL_JA NULL
 #define SGX_INITIAL_SCANLINE_INFO_0_JA NULL
-#define OPTION_VAL_3_JA NULL
+#define OPTION_VAL_3_JA "3 (デフォルト)"
 #define SGX_LAST_SCANLINE_LABEL_JA NULL
 #define SGX_LAST_SCANLINE_INFO_0_JA NULL
-#define OPTION_VAL_242_JA NULL
+#define OPTION_VAL_242_JA "242 (デフォルト)"
 #define SGX_MOUSE_SENSITIVITY_LABEL_JA NULL
 #define SGX_MOUSE_SENSITIVITY_INFO_0_JA NULL
 #define OPTION_VAL_0_25_JA NULL
@@ -18439,18 +19073,18 @@ struct retro_core_options_v2 options_pt_br = {
 #define OPTION_VAL_COMPOSITE_PT_PT NULL
 #define SGX_ASPECT_RATIO_LABEL_PT_PT "Proporção do ecrã"
 #define SGX_ASPECT_RATIO_INFO_0_PT_PT NULL
-#define OPTION_VAL_AUTO_PT_PT NULL
+#define OPTION_VAL_AUTO_PT_PT "Automático"
 #define OPTION_VAL_6_5_PT_PT NULL
 #define OPTION_VAL_4_3_PT_PT NULL
 #define SGX_HOVERSCAN_LABEL_PT_PT NULL
 #define SGX_HOVERSCAN_INFO_0_PT_PT NULL
-#define OPTION_VAL_352_PT_PT NULL
+#define OPTION_VAL_352_PT_PT "352 (Padrão)"
 #define SGX_INITIAL_SCANLINE_LABEL_PT_PT NULL
 #define SGX_INITIAL_SCANLINE_INFO_0_PT_PT NULL
-#define OPTION_VAL_3_PT_PT NULL
+#define OPTION_VAL_3_PT_PT "3 (Padrão)"
 #define SGX_LAST_SCANLINE_LABEL_PT_PT NULL
 #define SGX_LAST_SCANLINE_INFO_0_PT_PT NULL
-#define OPTION_VAL_242_PT_PT NULL
+#define OPTION_VAL_242_PT_PT "242 (Padrão)"
 #define SGX_MOUSE_SENSITIVITY_LABEL_PT_PT NULL
 #define SGX_MOUSE_SENSITIVITY_INFO_0_PT_PT NULL
 #define OPTION_VAL_0_25_PT_PT NULL
@@ -18487,18 +19121,18 @@ struct retro_core_options_v2 options_pt_br = {
 #define SGX_TURBO_TOGGLE_HOTKEY_INFO_0_PT_PT NULL
 #define SGX_TURBO_DELAY_LABEL_PT_PT NULL
 #define SGX_TURBO_DELAY_INFO_0_PT_PT NULL
-#define SGX_CDIMAGECACHE_LABEL_PT_PT NULL
+#define SGX_CDIMAGECACHE_LABEL_PT_PT "Cache da Imagem do CD (Reinicialização necessária)"
 #define SGX_CDIMAGECACHE_INFO_0_PT_PT NULL
-#define SGX_CDBIOS_LABEL_PT_PT NULL
+#define SGX_CDBIOS_LABEL_PT_PT "BIOS do CD (Reinicialização necessária)"
 #define SGX_CDBIOS_INFO_0_PT_PT NULL
 #define OPTION_VAL_GAMES_EXPRESS_PT_PT NULL
-#define OPTION_VAL_SYSTEM_CARD_1_PT_PT NULL
-#define OPTION_VAL_SYSTEM_CARD_2_PT_PT NULL
-#define OPTION_VAL_SYSTEM_CARD_3_PT_PT NULL
+#define OPTION_VAL_SYSTEM_CARD_1_PT_PT "Cartão de Sistema 1"
+#define OPTION_VAL_SYSTEM_CARD_2_PT_PT "Cartão de Sistema 2"
+#define OPTION_VAL_SYSTEM_CARD_3_PT_PT "Cartão de Sistema 3"
 #define SGX_DETECT_GEXPRESS_LABEL_PT_PT NULL
 #define SGX_DETECT_GEXPRESS_INFO_0_PT_PT NULL
-#define SGX_CDSPEED_LABEL_PT_PT NULL
-#define SGX_CDSPEED_LABEL_CAT_PT_PT NULL
+#define SGX_CDSPEED_LABEL_PT_PT "(CD) Velocidade do CD"
+#define SGX_CDSPEED_LABEL_CAT_PT_PT "Velocidade do CD"
 #define SGX_CDSPEED_INFO_0_PT_PT NULL
 #define SGX_ADPCMVOLUME_LABEL_PT_PT NULL
 #define SGX_ADPCMVOLUME_LABEL_CAT_PT_PT NULL
@@ -19694,7 +20328,7 @@ struct retro_core_options_v2 options_ro = {
 /* RETRO_LANGUAGE_RU */
 
 #define CATEGORY_VIDEO_LABEL_RU "Видео"
-#define CATEGORY_VIDEO_INFO_0_RU NULL
+#define CATEGORY_VIDEO_INFO_0_RU "Настройка кадрирования, пропуска кадров и прочих параметров изображения."
 #define CATEGORY_INPUT_LABEL_RU "Ввод"
 #define CATEGORY_INPUT_INFO_0_RU "Настройки ввода для светового пистолета, мыши и NegCon."
 #define CATEGORY_HACKS_LABEL_RU "Хаки эмуляции"
@@ -19702,7 +20336,7 @@ struct retro_core_options_v2 options_ro = {
 #define CATEGORY_CD_LABEL_RU NULL
 #define CATEGORY_CD_INFO_0_RU NULL
 #define SGX_PALETTE_LABEL_RU "Цветовая палитра"
-#define SGX_PALETTE_INFO_0_RU NULL
+#define SGX_PALETTE_INFO_0_RU "Композитный пытается воссоздать оригинальное изображение консоли и может повышать детализацию в некоторых играх."
 #define OPTION_VAL_RGB_RU NULL
 #define OPTION_VAL_COMPOSITE_RU "Композитный"
 #define SGX_ASPECT_RATIO_LABEL_RU "Соотношение сторон"
@@ -19710,20 +20344,20 @@ struct retro_core_options_v2 options_ro = {
 #define OPTION_VAL_AUTO_RU "Авто"
 #define OPTION_VAL_6_5_RU NULL
 #define OPTION_VAL_4_3_RU NULL
-#define SGX_HOVERSCAN_LABEL_RU NULL
-#define SGX_HOVERSCAN_INFO_0_RU NULL
+#define SGX_HOVERSCAN_LABEL_RU "Горизонт. вылеты развёртки (только для режима ширины 352)"
+#define SGX_HOVERSCAN_INFO_0_RU "Установка максимальной ширины изображения. Меньшие значения обрезают правую часть картинки (для игр с шириной 352 пикселя)."
 #define OPTION_VAL_352_RU "352 (по умолчанию)"
-#define SGX_INITIAL_SCANLINE_LABEL_RU NULL
-#define SGX_INITIAL_SCANLINE_INFO_0_RU NULL
+#define SGX_INITIAL_SCANLINE_LABEL_RU "Первая строка развёртки"
+#define SGX_INITIAL_SCANLINE_INFO_0_RU "Начальная отображаемая строка развёртки. Более высокие значения обрезают верхнюю часть изображения."
 #define OPTION_VAL_3_RU "3 (по умолчанию)"
-#define SGX_LAST_SCANLINE_LABEL_RU NULL
-#define SGX_LAST_SCANLINE_INFO_0_RU NULL
+#define SGX_LAST_SCANLINE_LABEL_RU "Последняя строка развёртки"
+#define SGX_LAST_SCANLINE_INFO_0_RU "Последняя отображаемая строка развёртки. Более высокие значения обрезают нижнюю часть изображения."
 #define OPTION_VAL_242_RU "242 (по умолчанию)"
 #define SGX_MOUSE_SENSITIVITY_LABEL_RU "Чувствительность мыши"
-#define SGX_MOUSE_SENSITIVITY_INFO_0_RU NULL
+#define SGX_MOUSE_SENSITIVITY_INFO_0_RU "Более высокие значения повышают скорость перемещения курсора мыши."
 #define OPTION_VAL_0_25_RU NULL
 #define OPTION_VAL_0_50_RU NULL
-#define OPTION_VAL_0_75_RU NULL
+#define OPTION_VAL_0_75_RU "CONTEXTREQUEST"
 #define OPTION_VAL_1_00_RU NULL
 #define OPTION_VAL_1_25_RU NULL
 #define OPTION_VAL_1_50_RU NULL
@@ -19743,45 +20377,45 @@ struct retro_core_options_v2 options_ro = {
 #define OPTION_VAL_5_00_RU NULL
 #define SGX_UP_DOWN_ALLOWED_LABEL_RU "Разрешить противоположные направления"
 #define SGX_UP_DOWN_ALLOWED_INFO_0_RU "Позволяет нажимать / быстро менять / зажимать одновременно направления влево и вправо (или вверх и вниз). Может вызывать глитчи, связанные с перемещением."
-#define SGX_DISABLE_SOFTRESET_LABEL_RU NULL
-#define SGX_DISABLE_SOFTRESET_INFO_0_RU NULL
+#define SGX_DISABLE_SOFTRESET_LABEL_RU "Отключить мягкий сброс (RUN+SELECT)"
+#define SGX_DISABLE_SOFTRESET_INFO_0_RU "Одновременное нажатие RUN и SELECT вместо сброса будет временно отключать обе кнопки."
 #define SGX_MULTITAP_LABEL_RU NULL
 #define SGX_MULTITAP_INFO_0_RU NULL
 #define SGX_TURBO_TOGGLE_LABEL_RU NULL
 #define SGX_TURBO_TOGGLE_INFO_0_RU NULL
 #define OPTION_VAL_SWITCH_RU NULL
 #define OPTION_VAL_DEDICATED_RU NULL
-#define SGX_TURBO_TOGGLE_HOTKEY_LABEL_RU NULL
+#define SGX_TURBO_TOGGLE_HOTKEY_LABEL_RU "Альтернативное включение турбо"
 #define SGX_TURBO_TOGGLE_HOTKEY_INFO_0_RU NULL
 #define SGX_TURBO_DELAY_LABEL_RU "Задержка турбо"
-#define SGX_TURBO_DELAY_INFO_0_RU NULL
-#define SGX_CDIMAGECACHE_LABEL_RU NULL
-#define SGX_CDIMAGECACHE_INFO_0_RU NULL
-#define SGX_CDBIOS_LABEL_RU NULL
-#define SGX_CDBIOS_INFO_0_RU NULL
+#define SGX_TURBO_DELAY_INFO_0_RU "Настраивает промежуток между повторами нажатий (в кадрах)."
+#define SGX_CDIMAGECACHE_LABEL_RU "Кэшировать образ CD (требуется перезапуск)"
+#define SGX_CDIMAGECACHE_INFO_0_RU "При запуске загружать полный образ диска в память. Может снижать время загрузок, но увеличивает время запуска."
+#define SGX_CDBIOS_LABEL_RU "CD BIOS (требуется перезапуск)"
+#define SGX_CDBIOS_INFO_0_RU "Большинство игр запускаются с 'System Card 3'. 'Games Express' требуется для некоторых нелицензированных игр."
 #define OPTION_VAL_GAMES_EXPRESS_RU NULL
 #define OPTION_VAL_SYSTEM_CARD_1_RU NULL
 #define OPTION_VAL_SYSTEM_CARD_2_RU NULL
 #define OPTION_VAL_SYSTEM_CARD_3_RU NULL
 #define SGX_DETECT_GEXPRESS_LABEL_RU NULL
 #define SGX_DETECT_GEXPRESS_INFO_0_RU NULL
-#define SGX_CDSPEED_LABEL_RU NULL
-#define SGX_CDSPEED_LABEL_CAT_RU NULL
-#define SGX_CDSPEED_INFO_0_RU NULL
-#define SGX_ADPCMVOLUME_LABEL_RU NULL
-#define SGX_ADPCMVOLUME_LABEL_CAT_RU NULL
-#define SGX_ADPCMVOLUME_INFO_0_RU NULL
-#define SGX_ADPCMVOLUME_INFO_1_RU NULL
-#define SGX_CDDAVOLUME_LABEL_RU NULL
-#define SGX_CDDAVOLUME_LABEL_CAT_RU NULL
-#define SGX_CDPSGVOLUME_LABEL_RU NULL
-#define SGX_CDPSGVOLUME_LABEL_CAT_RU NULL
+#define SGX_CDSPEED_LABEL_RU "(CD) Скорость CD"
+#define SGX_CDSPEED_LABEL_CAT_RU "Cкорость CD"
+#define SGX_CDSPEED_INFO_0_RU "Более высокие значения ускоряют загрузки, но могут вызывать проблемы в отдельных играх."
+#define SGX_ADPCMVOLUME_LABEL_RU "(CD) Громкость ADPCM"
+#define SGX_ADPCMVOLUME_LABEL_CAT_RU "Громкость ADPCM (%)"
+#define SGX_ADPCMVOLUME_INFO_0_RU "Только для CD-игр. Слишком высокие значения могут приводить к искажениям звука."
+#define SGX_ADPCMVOLUME_INFO_1_RU "Слишком высокие значения могут приводить к искажениям звука."
+#define SGX_CDDAVOLUME_LABEL_RU "(CD) Громкость CDDA"
+#define SGX_CDDAVOLUME_LABEL_CAT_RU "Громкость CDDA (%)"
+#define SGX_CDPSGVOLUME_LABEL_RU "(CD) Громкость PSG"
+#define SGX_CDPSGVOLUME_LABEL_CAT_RU "Громкость PSG (%)"
 #define SGX_FORCESGX_LABEL_RU NULL
 #define SGX_FORCESGX_INFO_0_RU NULL
 #define SGX_NOSPRITELIMIT_LABEL_RU "Без ограничения спрайтов"
-#define SGX_NOSPRITELIMIT_INFO_0_RU NULL
-#define SGX_OCMULTIPLIER_LABEL_RU NULL
-#define SGX_OCMULTIPLIER_INFO_0_RU NULL
+#define SGX_NOSPRITELIMIT_INFO_0_RU "Снимает аппаратное ограничение в 16 спрайтов на линии развёртки. ВНИМАНИЕ: в некоторых играх может вызывать графические баги."
+#define SGX_OCMULTIPLIER_LABEL_RU "Множитель разгона CPU (требуется перезапуск)"
+#define SGX_OCMULTIPLIER_INFO_0_RU "Более высокие значения уменьшают замедления в играх. ВНИМАНИЕ: может приводить к багам и вылетам."
 
 struct retro_core_option_v2_category option_cats_ru[] = {
    {
@@ -22872,22 +23506,22 @@ struct retro_core_options_v2 options_sv = {
 #define CATEGORY_CD_LABEL_TR NULL
 #define CATEGORY_CD_INFO_0_TR "CD oyunlarıyla ilgili ayarları yapılandırın."
 #define SGX_PALETTE_LABEL_TR "Renk Paleti"
-#define SGX_PALETTE_INFO_0_TR NULL
+#define SGX_PALETTE_INFO_0_TR "Kompozit video ayarı orjinal konsolun video çıkışını taklit etmeye çalışır ve bazı oyunlarda daha fazla ayrıntı sunabilir."
 #define OPTION_VAL_RGB_TR NULL
 #define OPTION_VAL_COMPOSITE_TR NULL
 #define SGX_ASPECT_RATIO_LABEL_TR "En Boy Oranı"
-#define SGX_ASPECT_RATIO_INFO_0_TR NULL
+#define SGX_ASPECT_RATIO_INFO_0_TR "Tercih edilen içerik en boy oranını seçin. Sürekli olarak 256 ve 352 kipleri arasında geçiş yapan ve otomatik en boy oranını kullanan oyunları kullanırken, yeniden boyutlandırmayı ve fazladan siyah çizgileri en aza indirmek için yatay genişliği 342 olarak ayarlamak en iyisidir, çünkü bu genişlik 256 genişlik kipi oranındadır (sadece test edin, bu kipler arasında geçiş yapan oyunlardan biri olan Asuka 100% ile)."
 #define OPTION_VAL_AUTO_TR "Otomatik"
 #define OPTION_VAL_6_5_TR NULL
 #define OPTION_VAL_4_3_TR NULL
 #define SGX_HOVERSCAN_LABEL_TR "Yatay Aşırı Tarama (Yalnızca 352 Genişlik Kipi)"
-#define SGX_HOVERSCAN_INFO_0_TR NULL
+#define SGX_HOVERSCAN_INFO_0_TR "Gösterilecek azami görüntü genişliği. Düşürülen değerler görüntünün sağ tarafını kırpacaktır. (352 pk genişliğindeki oyunlar)."
 #define OPTION_VAL_352_TR "352 (Varsayılan)"
 #define SGX_INITIAL_SCANLINE_LABEL_TR "İlk Tarama Çizgisi"
-#define SGX_INITIAL_SCANLINE_INFO_0_TR NULL
+#define SGX_INITIAL_SCANLINE_INFO_0_TR "İlk işlenen tarama çizgisi. Yükseltilen değerler görüntünün üstünü kırpacaktır."
 #define OPTION_VAL_3_TR "3 (Varsayılan)"
 #define SGX_LAST_SCANLINE_LABEL_TR "Son Tarama Çizgisi"
-#define SGX_LAST_SCANLINE_INFO_0_TR NULL
+#define SGX_LAST_SCANLINE_INFO_0_TR "Son işlenen tarama çizgisi. Düşürülen değerler görselin alt kısmını kırpacaktır."
 #define OPTION_VAL_242_TR "242 (Varsayılan)"
 #define SGX_MOUSE_SENSITIVITY_LABEL_TR "Fare Hassasiyeti"
 #define SGX_MOUSE_SENSITIVITY_INFO_0_TR "Daha yüksek değerler, fare imlecinin daha hızlı hareket etmesini sağlar."
@@ -22913,45 +23547,45 @@ struct retro_core_options_v2 options_sv = {
 #define OPTION_VAL_5_00_TR NULL
 #define SGX_UP_DOWN_ALLOWED_LABEL_TR "Karşı Yönlere İzin Ver"
 #define SGX_UP_DOWN_ALLOWED_INFO_0_TR "Bunun etkinleştirilmesi, aynı anda hem sol hem de sağ (veya yukarı ve aşağı) yönlere basılmasına / hızlı bir şekilde değiştirilmesine / basılı tutulmasına olanak tanır. Bu, hareket tabanlı aksaklıklara neden olabilir."
-#define SGX_DISABLE_SOFTRESET_LABEL_TR NULL
-#define SGX_DISABLE_SOFTRESET_INFO_0_TR NULL
-#define SGX_MULTITAP_LABEL_TR NULL
-#define SGX_MULTITAP_INFO_0_TR NULL
-#define SGX_TURBO_TOGGLE_LABEL_TR NULL
-#define SGX_TURBO_TOGGLE_INFO_0_TR NULL
-#define OPTION_VAL_SWITCH_TR NULL
-#define OPTION_VAL_DEDICATED_TR NULL
+#define SGX_DISABLE_SOFTRESET_LABEL_TR "Yazılımdan Sıfırlama Devre Dışı (RUN+SELECT)"
+#define SGX_DISABLE_SOFTRESET_INFO_0_TR "RUN ve SELECT tuşlarına aynı anda basıldığında, yeniden başlatmak yerine iki tuşu da geçici olarak devre dışı bırak."
+#define SGX_MULTITAP_LABEL_TR "Multitap 5-port Kontrolcü"
+#define SGX_MULTITAP_INFO_0_TR "5 oyuncuya kadar çoklu kontrolcü desteğini etkinleştirin. Bunu devre dışı bırakmak bazı durumlarda gereklidir (örnek. Cho Aniki)."
+#define SGX_TURBO_TOGGLE_LABEL_TR "Turbo Kısayol Tuşu Kipi"
+#define SGX_TURBO_TOGGLE_INFO_0_TR "Turbo düğmelerini etkinleştirin. Kısayol tuşları (düğmeler III ve IV), geçiş anahtarı veya özel (kullanmak için basılı tutun) turbo düğmeleri gibi davranabilir."
+#define OPTION_VAL_SWITCH_TR "Değiştir"
+#define OPTION_VAL_DEDICATED_TR "Atanmış"
 #define SGX_TURBO_TOGGLE_HOTKEY_LABEL_TR "Alternatif Turbo Kısayol Tuşu"
-#define SGX_TURBO_TOGGLE_HOTKEY_INFO_0_TR NULL
+#define SGX_TURBO_TOGGLE_HOTKEY_INFO_0_TR "RetroPad L3/R3 düğmelerini III ve IV düğmeleri yerine turbo kısayol tuşları olarak atayın. Yalnızca 'Geçiş' kipinde ve L3/R3 düğmelerine hiçbir şey atanmadığı sürece çalışır. Bununla 6 düğmeli denetleyici kipine geçerken III ve IV düğmelerinin yeniden eşlenmesini önleyebilirsiniz."
 #define SGX_TURBO_DELAY_LABEL_TR "Turbo Gecikmesi"
-#define SGX_TURBO_DELAY_INFO_0_TR NULL
-#define SGX_CDIMAGECACHE_LABEL_TR NULL
-#define SGX_CDIMAGECACHE_INFO_0_TR NULL
+#define SGX_TURBO_DELAY_INFO_0_TR "Turbo sinyallerinin zamanlamasını ayarla. (Kare başına)."
+#define SGX_CDIMAGECACHE_LABEL_TR "CD Kalıbı Önbelleği (Yeniden Başlatılmalı)"
+#define SGX_CDIMAGECACHE_INFO_0_TR "Başlangıç sırasında bütün kalıbı hafızaya yükler. Başlangıç sürecini uzatmak pahasına oyundaki yüklenme sürelerini kısaltabilir."
 #define SGX_CDBIOS_LABEL_TR "CD BIOS (Yeniden Başlatılmalı)"
-#define SGX_CDBIOS_INFO_0_TR NULL
+#define SGX_CDBIOS_INFO_0_TR "Oyunların çoğu \"System Card 3\" üzerinde çalışabilir. Birkaç lisanssız oyun, Game Express'e ihtiyaç duyar."
 #define OPTION_VAL_GAMES_EXPRESS_TR NULL
 #define OPTION_VAL_SYSTEM_CARD_1_TR "Sistem Kartı 1"
 #define OPTION_VAL_SYSTEM_CARD_2_TR "Sistem Kartı 2"
 #define OPTION_VAL_SYSTEM_CARD_3_TR "Sistem Kartı 3"
-#define SGX_DETECT_GEXPRESS_LABEL_TR NULL
-#define SGX_DETECT_GEXPRESS_INFO_0_TR NULL
+#define SGX_DETECT_GEXPRESS_LABEL_TR "Games Express CD Algıla (Yeniden Başlatılmalı)"
+#define SGX_DETECT_GEXPRESS_INFO_0_TR "Games Express CD oyunlarını yüklerken, CD BIOS ayarından bağımsız olarak Games Express BIOS'u otomatik olarak yükleyin."
 #define SGX_CDSPEED_LABEL_TR "(CD) CD Hızı"
 #define SGX_CDSPEED_LABEL_CAT_TR "CD Hızı"
-#define SGX_CDSPEED_INFO_0_TR NULL
-#define SGX_ADPCMVOLUME_LABEL_TR NULL
-#define SGX_ADPCMVOLUME_LABEL_CAT_TR NULL
-#define SGX_ADPCMVOLUME_INFO_0_TR NULL
-#define SGX_ADPCMVOLUME_INFO_1_TR NULL
-#define SGX_CDDAVOLUME_LABEL_TR NULL
-#define SGX_CDDAVOLUME_LABEL_CAT_TR NULL
-#define SGX_CDPSGVOLUME_LABEL_TR NULL
-#define SGX_CDPSGVOLUME_LABEL_CAT_TR NULL
-#define SGX_FORCESGX_LABEL_TR NULL
-#define SGX_FORCESGX_INFO_0_TR NULL
+#define SGX_CDSPEED_INFO_0_TR "Yükseltilen değerler daha hızlı yüklenmeyi etkinleştiririr, birkaç oyunda sorunlara sebep olabilir."
+#define SGX_ADPCMVOLUME_LABEL_TR "(CD) ADPCM Ses Seviyesi %"
+#define SGX_ADPCMVOLUME_LABEL_CAT_TR "ADPCM Ses Seviyesi %"
+#define SGX_ADPCMVOLUME_INFO_0_TR "Sadece CD oyunları için. Bu ses ayarını aşırı yükseltmek seste yırtılmalara sebep olabilir."
+#define SGX_ADPCMVOLUME_INFO_1_TR "Bu ses ayarını aşırı yükseltmek seste yırtılmalara sebep olabilir."
+#define SGX_CDDAVOLUME_LABEL_TR "(CD) CDDA Ses Seviyesi %"
+#define SGX_CDDAVOLUME_LABEL_CAT_TR "CDDA Ses Seviyesi %"
+#define SGX_CDPSGVOLUME_LABEL_TR "(CD) PSG Ses Seviyesi %"
+#define SGX_CDPSGVOLUME_LABEL_CAT_TR "CD PSG Ses Seviyesi %"
+#define SGX_FORCESGX_LABEL_TR "SuperGrafx Taklidine Zorla (Yeniden Başlatılmalı)"
+#define SGX_FORCESGX_INFO_0_TR "Bu, özel yapım oyunları çalıştırmak veya SuperGrafx kipinde çalışmayan oyunları (Space Harrier gibi) izole etmek için yararlıdır. Durum kayıtları her kiple uyumlu değildir. Gerekmedikçe bu seçeneği kapalı bırakmak daha iyidir. Bilinen SuperGrafx oyunları (Dai-Makaimura, Aldyns gibi) bu seçeneğe bakılmaksızın otomatik olarak SuperGrafx'a geçecektir."
 #define SGX_NOSPRITELIMIT_LABEL_TR "Hareket Sınırını Kaldır"
-#define SGX_NOSPRITELIMIT_INFO_0_TR NULL
-#define SGX_OCMULTIPLIER_LABEL_TR NULL
-#define SGX_OCMULTIPLIER_INFO_0_TR NULL
+#define SGX_NOSPRITELIMIT_INFO_0_TR "Tarama çizgisi başına 16 hareket donanım sınırını kaldırır. UYARI: Bazı oyunlarda bozulmlara sebep olabilir."
+#define SGX_OCMULTIPLIER_LABEL_TR "CPU Hız Aşırtma Çarpanı (Yeniden Başlatılmalı)"
+#define SGX_OCMULTIPLIER_INFO_0_TR "Yükseltilen değer bazı oyunlardaki yavaşlamaları düşürebilir. UYARI: Bozulmalara ve çökmelere sebep olabilir."
 
 struct retro_core_option_v2_category option_cats_tr[] = {
    {
@@ -23498,34 +24132,34 @@ struct retro_core_options_v2 options_tr = {
 /* RETRO_LANGUAGE_UK */
 
 #define CATEGORY_VIDEO_LABEL_UK "Відео"
-#define CATEGORY_VIDEO_INFO_0_UK NULL
+#define CATEGORY_VIDEO_INFO_0_UK "Налаштувати обрізання екрану, пропуску кадрів та інших параметрів зображення."
 #define CATEGORY_INPUT_LABEL_UK "Ввід"
-#define CATEGORY_INPUT_INFO_0_UK NULL
+#define CATEGORY_INPUT_INFO_0_UK "Налаштування світлового пістолета, миші та NegCon."
 #define CATEGORY_HACKS_LABEL_UK "Гаки емуляції"
 #define CATEGORY_HACKS_INFO_0_UK "Налаштування розгону процесора та точності емуляції, що впливають на низькорівневу продуктивність та сумісність."
 #define CATEGORY_CD_LABEL_UK NULL
-#define CATEGORY_CD_INFO_0_UK NULL
-#define SGX_PALETTE_LABEL_UK NULL
-#define SGX_PALETTE_INFO_0_UK NULL
+#define CATEGORY_CD_INFO_0_UK "Налаштуйте параметри, пов’язані з іграми на компакт-дисках."
+#define SGX_PALETTE_LABEL_UK "Кольорова палітра"
+#define SGX_PALETTE_INFO_0_UK "Композитний намагається відтворити оригінальний вивід консолі та може показати більше деталей у деяких іграх."
 #define OPTION_VAL_RGB_UK NULL
-#define OPTION_VAL_COMPOSITE_UK NULL
+#define OPTION_VAL_COMPOSITE_UK "Композитний"
 #define SGX_ASPECT_RATIO_LABEL_UK "Співвідношення сторін"
-#define SGX_ASPECT_RATIO_INFO_0_UK NULL
+#define SGX_ASPECT_RATIO_INFO_0_UK "Виберіть бажане співвідношення сторін контенту. Під час використання ігор, які постійно перемикаються між режимами 256 і 352 і використовують автоматичний формат, найкраще встановити ширину по горизонталі на 342, щоб мінімізувати зміну розміру та додаткові чорні лінії, оскільки ця ширина відповідає режиму ширини 256 (або щось подібне, просто перевірте з Asuka 100%, яка є однією з ігор, які перемикаються між цими режимами)."
 #define OPTION_VAL_AUTO_UK "Авто"
 #define OPTION_VAL_6_5_UK NULL
 #define OPTION_VAL_4_3_UK NULL
-#define SGX_HOVERSCAN_LABEL_UK NULL
-#define SGX_HOVERSCAN_INFO_0_UK NULL
-#define OPTION_VAL_352_UK NULL
+#define SGX_HOVERSCAN_LABEL_UK "Горизонтальна розгортка (тільки в режимі ширини 352)"
+#define SGX_HOVERSCAN_INFO_0_UK "Виберіть максимальну ширину зображення, яку слід показувати. Менші значення будуть обрізати праву частину зображення (для ігор шириною 352 пікселі)."
+#define OPTION_VAL_352_UK "352 (за замовчуванням)"
 #define SGX_INITIAL_SCANLINE_LABEL_UK NULL
 #define SGX_INITIAL_SCANLINE_INFO_0_UK NULL
-#define OPTION_VAL_3_UK NULL
+#define OPTION_VAL_3_UK "3 (за замовчуванням)"
 #define SGX_LAST_SCANLINE_LABEL_UK NULL
 #define SGX_LAST_SCANLINE_INFO_0_UK NULL
-#define OPTION_VAL_242_UK NULL
-#define SGX_MOUSE_SENSITIVITY_LABEL_UK NULL
-#define SGX_MOUSE_SENSITIVITY_INFO_0_UK NULL
-#define OPTION_VAL_0_25_UK NULL
+#define OPTION_VAL_242_UK "242 (за замовчуванням)"
+#define SGX_MOUSE_SENSITIVITY_LABEL_UK "Чутливість миші"
+#define SGX_MOUSE_SENSITIVITY_INFO_0_UK "Великі значення змусять курсор миші рухатися швидше."
+#define OPTION_VAL_0_25_UK "0,25"
 #define OPTION_VAL_0_50_UK NULL
 #define OPTION_VAL_0_75_UK NULL
 #define OPTION_VAL_1_00_UK NULL
@@ -23545,22 +24179,22 @@ struct retro_core_options_v2 options_tr = {
 #define OPTION_VAL_4_50_UK NULL
 #define OPTION_VAL_4_75_UK NULL
 #define OPTION_VAL_5_00_UK NULL
-#define SGX_UP_DOWN_ALLOWED_LABEL_UK NULL
-#define SGX_UP_DOWN_ALLOWED_INFO_0_UK NULL
-#define SGX_DISABLE_SOFTRESET_LABEL_UK NULL
-#define SGX_DISABLE_SOFTRESET_INFO_0_UK NULL
+#define SGX_UP_DOWN_ALLOWED_LABEL_UK "Дозволити протилежні напрямки"
+#define SGX_UP_DOWN_ALLOWED_INFO_0_UK "Увімкнення цього дозволить одночасно натискати / швидко чергувати/утримувати одночасно ліворуч та праворуч (чи донизу) напрямки. Це може спричинити глітчі руху."
+#define SGX_DISABLE_SOFTRESET_LABEL_UK "Вимкнути програмне скидання (РУХ+ВИБІР)"
+#define SGX_DISABLE_SOFTRESET_INFO_0_UK "Коли РУХ та ВИБІР одночасно натиснуто, тимчасово вимкнуться обидві кнопки замість скидання."
 #define SGX_MULTITAP_LABEL_UK NULL
 #define SGX_MULTITAP_INFO_0_UK NULL
-#define SGX_TURBO_TOGGLE_LABEL_UK NULL
-#define SGX_TURBO_TOGGLE_INFO_0_UK NULL
-#define OPTION_VAL_SWITCH_UK NULL
-#define OPTION_VAL_DEDICATED_UK NULL
-#define SGX_TURBO_TOGGLE_HOTKEY_LABEL_UK NULL
+#define SGX_TURBO_TOGGLE_LABEL_UK "Турборежим гарячих клавіш"
+#define SGX_TURBO_TOGGLE_INFO_0_UK "Увімкнути турбокнопки. Гарячі клавіші (кнопки III та IV) можуть поводити себе як перемикачі або виділені (утримування) турбокнопки."
+#define OPTION_VAL_SWITCH_UK "Перемикач"
+#define OPTION_VAL_DEDICATED_UK "Виділений"
+#define SGX_TURBO_TOGGLE_HOTKEY_LABEL_UK "Альтернативні турбокнопки"
 #define SGX_TURBO_TOGGLE_HOTKEY_INFO_0_UK NULL
 #define SGX_TURBO_DELAY_LABEL_UK NULL
 #define SGX_TURBO_DELAY_INFO_0_UK NULL
-#define SGX_CDIMAGECACHE_LABEL_UK NULL
-#define SGX_CDIMAGECACHE_INFO_0_UK NULL
+#define SGX_CDIMAGECACHE_LABEL_UK "Кеш образу CD (потрібен перезапуск)"
+#define SGX_CDIMAGECACHE_INFO_0_UK "Завантажувати повне зображення в пам'ять під час запуску. Може зменшувати час завантаження за рахунок збільшення часу запуску."
 #define SGX_CDBIOS_LABEL_UK NULL
 #define SGX_CDBIOS_INFO_0_UK NULL
 #define OPTION_VAL_GAMES_EXPRESS_UK NULL
@@ -24131,9 +24765,9 @@ struct retro_core_options_v2 options_uk = {
 
 /* RETRO_LANGUAGE_VAL */
 
-#define CATEGORY_VIDEO_LABEL_VAL "Vídeo"
+#define CATEGORY_VIDEO_LABEL_VAL NULL
 #define CATEGORY_VIDEO_INFO_0_VAL NULL
-#define CATEGORY_INPUT_LABEL_VAL "Entrada"
+#define CATEGORY_INPUT_LABEL_VAL NULL
 #define CATEGORY_INPUT_INFO_0_VAL NULL
 #define CATEGORY_HACKS_LABEL_VAL NULL
 #define CATEGORY_HACKS_INFO_0_VAL NULL
@@ -24145,7 +24779,7 @@ struct retro_core_options_v2 options_uk = {
 #define OPTION_VAL_COMPOSITE_VAL NULL
 #define SGX_ASPECT_RATIO_LABEL_VAL NULL
 #define SGX_ASPECT_RATIO_INFO_0_VAL NULL
-#define OPTION_VAL_AUTO_VAL NULL
+#define OPTION_VAL_AUTO_VAL "Selecció automàtica"
 #define OPTION_VAL_6_5_VAL NULL
 #define OPTION_VAL_4_3_VAL NULL
 #define SGX_HOVERSCAN_LABEL_VAL NULL
@@ -24159,26 +24793,26 @@ struct retro_core_options_v2 options_uk = {
 #define OPTION_VAL_242_VAL NULL
 #define SGX_MOUSE_SENSITIVITY_LABEL_VAL NULL
 #define SGX_MOUSE_SENSITIVITY_INFO_0_VAL NULL
-#define OPTION_VAL_0_25_VAL NULL
-#define OPTION_VAL_0_50_VAL NULL
-#define OPTION_VAL_0_75_VAL NULL
-#define OPTION_VAL_1_00_VAL NULL
-#define OPTION_VAL_1_25_VAL NULL
-#define OPTION_VAL_1_50_VAL NULL
-#define OPTION_VAL_1_75_VAL NULL
-#define OPTION_VAL_2_00_VAL NULL
-#define OPTION_VAL_2_25_VAL NULL
-#define OPTION_VAL_2_50_VAL NULL
-#define OPTION_VAL_2_75_VAL NULL
-#define OPTION_VAL_3_00_VAL NULL
-#define OPTION_VAL_3_25_VAL NULL
-#define OPTION_VAL_3_50_VAL NULL
-#define OPTION_VAL_3_75_VAL NULL
-#define OPTION_VAL_4_00_VAL NULL
-#define OPTION_VAL_4_25_VAL NULL
-#define OPTION_VAL_4_50_VAL NULL
-#define OPTION_VAL_4_75_VAL NULL
-#define OPTION_VAL_5_00_VAL NULL
+#define OPTION_VAL_0_25_VAL "0,25"
+#define OPTION_VAL_0_50_VAL "0,50"
+#define OPTION_VAL_0_75_VAL "0,75"
+#define OPTION_VAL_1_00_VAL "1,00"
+#define OPTION_VAL_1_25_VAL "1,25"
+#define OPTION_VAL_1_50_VAL "1,50"
+#define OPTION_VAL_1_75_VAL "1,75"
+#define OPTION_VAL_2_00_VAL "2,00"
+#define OPTION_VAL_2_25_VAL "2,25"
+#define OPTION_VAL_2_50_VAL "2,50"
+#define OPTION_VAL_2_75_VAL "2,75"
+#define OPTION_VAL_3_00_VAL "3,00"
+#define OPTION_VAL_3_25_VAL "3,25"
+#define OPTION_VAL_3_50_VAL "3,50"
+#define OPTION_VAL_3_75_VAL "3,75"
+#define OPTION_VAL_4_00_VAL "4,00"
+#define OPTION_VAL_4_25_VAL "4,25"
+#define OPTION_VAL_4_50_VAL "4,50"
+#define OPTION_VAL_4_75_VAL "4,75"
+#define OPTION_VAL_5_00_VAL "5,00"
 #define SGX_UP_DOWN_ALLOWED_LABEL_VAL NULL
 #define SGX_UP_DOWN_ALLOWED_INFO_0_VAL NULL
 #define SGX_DISABLE_SOFTRESET_LABEL_VAL NULL
@@ -24766,31 +25400,31 @@ struct retro_core_options_v2 options_val = {
 /* RETRO_LANGUAGE_VN */
 
 #define CATEGORY_VIDEO_LABEL_VN "Hình ảnh"
-#define CATEGORY_VIDEO_INFO_0_VN NULL
+#define CATEGORY_VIDEO_INFO_0_VN "Tùy chỉnh crop màn hình, bỏ qua khung hình và các thông số đầu ra hình ảnh khác."
 #define CATEGORY_INPUT_LABEL_VN "Input Driver"
-#define CATEGORY_INPUT_INFO_0_VN NULL
-#define CATEGORY_HACKS_LABEL_VN NULL
-#define CATEGORY_HACKS_INFO_0_VN NULL
+#define CATEGORY_INPUT_INFO_0_VN "Định cấu hình đầu vào của súng, chuột và NegCon."
+#define CATEGORY_HACKS_LABEL_VN "Hacks giả lập"
+#define CATEGORY_HACKS_INFO_0_VN "Định cấu hình các thông số độ chính xác của việc ép xung và mô phỏng bộ xử lý ảnh hưởng đến hiệu suất và khả năng tương thích ở mức thấp."
 #define CATEGORY_CD_LABEL_VN NULL
 #define CATEGORY_CD_INFO_0_VN NULL
-#define SGX_PALETTE_LABEL_VN NULL
-#define SGX_PALETTE_INFO_0_VN NULL
+#define SGX_PALETTE_LABEL_VN "Bảng màu"
+#define SGX_PALETTE_INFO_0_VN "Tổng hợp các cố gắng để tạo lại đầu ra bảng điều khiển ban đầu và có thể hiển thị thêm chi tiết trong một số trò chơi."
 #define OPTION_VAL_RGB_VN NULL
-#define OPTION_VAL_COMPOSITE_VN NULL
+#define OPTION_VAL_COMPOSITE_VN "Kết hợp"
 #define SGX_ASPECT_RATIO_LABEL_VN NULL
 #define SGX_ASPECT_RATIO_INFO_0_VN NULL
 #define OPTION_VAL_AUTO_VN "Tự động"
 #define OPTION_VAL_6_5_VN NULL
 #define OPTION_VAL_4_3_VN NULL
-#define SGX_HOVERSCAN_LABEL_VN NULL
+#define SGX_HOVERSCAN_LABEL_VN "Quét theo chiều ngang (Chỉ dành cho chế độ chiều rộng 352)"
 #define SGX_HOVERSCAN_INFO_0_VN NULL
-#define OPTION_VAL_352_VN NULL
+#define OPTION_VAL_352_VN "352 (Mặc định)"
 #define SGX_INITIAL_SCANLINE_LABEL_VN NULL
 #define SGX_INITIAL_SCANLINE_INFO_0_VN NULL
-#define OPTION_VAL_3_VN NULL
+#define OPTION_VAL_3_VN "3 (Mặc định)"
 #define SGX_LAST_SCANLINE_LABEL_VN NULL
 #define SGX_LAST_SCANLINE_INFO_0_VN NULL
-#define OPTION_VAL_242_VN NULL
+#define OPTION_VAL_242_VN "242 (Mặc định)"
 #define SGX_MOUSE_SENSITIVITY_LABEL_VN NULL
 #define SGX_MOUSE_SENSITIVITY_INFO_0_VN NULL
 #define OPTION_VAL_0_25_VN NULL
