@@ -2580,19 +2580,19 @@ struct retro_core_options_v2 options_chs = {
 #define CATEGORY_INPUT_LABEL_CHT "輸入"
 #define CATEGORY_INPUT_INFO_0_CHT "變更輸入裝置相關的設定。"
 #define CATEGORY_HACKS_LABEL_CHT "進階"
-#define CATEGORY_HACKS_INFO_0_CHT "變更模擬器進階設定。"
+#define CATEGORY_HACKS_INFO_0_CHT "變更模擬器進階破解的設定。"
 #define CATEGORY_CD_LABEL_CHT "光碟機"
-#define CATEGORY_CD_INFO_0_CHT NULL
+#define CATEGORY_CD_INFO_0_CHT "變更光碟機相關的設定。"
 #define SGX_PALETTE_LABEL_CHT "配色"
 #define SGX_PALETTE_INFO_0_CHT "設定 <合成> 時嘗試重建原色影像輸出，可在部分遊戲中顯示更多細節。"
-#define OPTION_VAL_RGB_CHT NULL
-#define OPTION_VAL_COMPOSITE_CHT NULL
+#define OPTION_VAL_RGB_CHT "三原色"
+#define OPTION_VAL_COMPOSITE_CHT "合成"
 #define SGX_ASPECT_RATIO_LABEL_CHT "寬高比"
-#define SGX_ASPECT_RATIO_INFO_0_CHT NULL
+#define SGX_ASPECT_RATIO_INFO_0_CHT "設定畫面的寬高比。設定 <自動> 時建議將「水平過度掃描」設定為 <342>，減少調整大小和額外增加的黑線。"
 #define OPTION_VAL_AUTO_CHT "自動"
 #define OPTION_VAL_6_5_CHT NULL
 #define OPTION_VAL_4_3_CHT NULL
-#define SGX_HOVERSCAN_LABEL_CHT NULL
+#define SGX_HOVERSCAN_LABEL_CHT "水平過度掃描 (僅限寬度352模式)"
 #define SGX_HOVERSCAN_INFO_0_CHT "設定影像顯示的最大寬度。過低的值將裁剪影像右側(寬度352像素的遊戲)。"
 #define OPTION_VAL_352_CHT "352 (預設)"
 #define SGX_INITIAL_SCANLINE_LABEL_CHT "初始掃描線"
@@ -2623,46 +2623,46 @@ struct retro_core_options_v2 options_chs = {
 #define OPTION_VAL_4_50_CHT NULL
 #define OPTION_VAL_4_75_CHT NULL
 #define OPTION_VAL_5_00_CHT NULL
-#define SGX_UP_DOWN_ALLOWED_LABEL_CHT NULL
-#define SGX_UP_DOWN_ALLOWED_INFO_0_CHT NULL
-#define SGX_DISABLE_SOFTRESET_LABEL_CHT NULL
-#define SGX_DISABLE_SOFTRESET_INFO_0_CHT NULL
-#define SGX_MULTITAP_LABEL_CHT NULL
-#define SGX_MULTITAP_INFO_0_CHT NULL
-#define SGX_TURBO_TOGGLE_LABEL_CHT NULL
-#define SGX_TURBO_TOGGLE_INFO_0_CHT NULL
+#define SGX_UP_DOWN_ALLOWED_LABEL_CHT "允許反向操作"
+#define SGX_UP_DOWN_ALLOWED_INFO_0_CHT "允許反方向快速操作，可同時按下左右或上下的方向。可能導致遊戲的移動架構出錯。"
+#define SGX_DISABLE_SOFTRESET_LABEL_CHT "禁用軟體重開 (RUN+SELECT)"
+#define SGX_DISABLE_SOFTRESET_INFO_0_CHT "禁用同時按 RUN鍵 加 SELECT鍵 時重新開始遊戲。僅禁用此組合鍵。"
+#define SGX_MULTITAP_LABEL_CHT "五手把轉接器"
+#define SGX_MULTITAP_INFO_0_CHT "五手把轉接插座，可對應五位玩家。部分遊戲需要關閉此設定。例如: 超兄貴(Cho Aniki)。"
+#define SGX_TURBO_TOGGLE_LABEL_CHT "連發模式"
+#define SGX_TURBO_TOGGLE_INFO_0_CHT "設定 Ⅲ/Ⅳ鍵 作為連發(開關/專用)，提供給 Ⅰ/Ⅱ鍵 使用。"
 #define OPTION_VAL_SWITCH_CHT "開關"
-#define OPTION_VAL_DEDICATED_CHT NULL
-#define SGX_TURBO_TOGGLE_HOTKEY_LABEL_CHT NULL
-#define SGX_TURBO_TOGGLE_HOTKEY_INFO_0_CHT NULL
-#define SGX_TURBO_DELAY_LABEL_CHT NULL
-#define SGX_TURBO_DELAY_INFO_0_CHT NULL
-#define SGX_CDIMAGECACHE_LABEL_CHT "光碟映像檔快取 (需要重新啟動)"
+#define OPTION_VAL_DEDICATED_CHT "專用"
+#define SGX_TURBO_TOGGLE_HOTKEY_LABEL_CHT "備用連發按鍵"
+#define SGX_TURBO_TOGGLE_HOTKEY_INFO_0_CHT "開啟時 L3/R3鍵 作為連發的開關。僅限「連發模式」設定為 <開關> 且L3/R3鍵 未設定時生效。適用於6鍵控制器模式。"
+#define SGX_TURBO_DELAY_LABEL_CHT "連發延遲"
+#define SGX_TURBO_DELAY_INFO_0_CHT "調整連發間隔延遲時間(幀數)。"
+#define SGX_CDIMAGECACHE_LABEL_CHT "映像檔快取 (需要重新啟動)"
 #define SGX_CDIMAGECACHE_INFO_0_CHT "執行時將光碟映像檔，完整載入到記憶體中。拖延開啟時間，縮短讀取時間。"
 #define SGX_CDBIOS_LABEL_CHT "光碟系統卡 (需要重新啟動)"
-#define SGX_CDBIOS_INFO_0_CHT "設定 <系統卡 3 (日版/美版)> 支援較多的授權遊戲。未授權遊戲需要 <遊戲特快卡> 來執行。"
+#define SGX_CDBIOS_INFO_0_CHT "設定 <系統卡 3 (日本版)> 支援較多的授權遊戲。未授權遊戲需要 <遊戲特快卡> 來執行。"
 #define OPTION_VAL_GAMES_EXPRESS_CHT "遊戲特快卡"
-#define OPTION_VAL_SYSTEM_CARD_1_CHT "系統卡 1 (日版)"
-#define OPTION_VAL_SYSTEM_CARD_2_CHT "系統卡 2 (日版)"
-#define OPTION_VAL_SYSTEM_CARD_3_CHT "系統卡 3 (日版)"
-#define SGX_DETECT_GEXPRESS_LABEL_CHT NULL
-#define SGX_DETECT_GEXPRESS_INFO_0_CHT NULL
+#define OPTION_VAL_SYSTEM_CARD_1_CHT "系統卡 1 (日本版)"
+#define OPTION_VAL_SYSTEM_CARD_2_CHT "系統卡 2 (日本版)"
+#define OPTION_VAL_SYSTEM_CARD_3_CHT "系統卡 3 (日本版)"
+#define SGX_DETECT_GEXPRESS_LABEL_CHT "偵測未授權遊戲 (需要重新啟動)"
+#define SGX_DETECT_GEXPRESS_INFO_0_CHT "載入遊戲特快(Games Express)專用光碟遊戲時，自動載入專用系統卡(BIOS)。"
 #define SGX_CDSPEED_LABEL_CHT "(光碟機) 讀取速度"
 #define SGX_CDSPEED_LABEL_CAT_CHT "讀取速度"
 #define SGX_CDSPEED_INFO_0_CHT "高倍速可加快載入時間，但可能導致遊戲出現問題。"
 #define SGX_ADPCMVOLUME_LABEL_CHT "(光碟) ADPCM 音量 %"
 #define SGX_ADPCMVOLUME_LABEL_CAT_CHT "ADPCM 音量 %"
-#define SGX_ADPCMVOLUME_INFO_0_CHT NULL
-#define SGX_ADPCMVOLUME_INFO_1_CHT NULL
+#define SGX_ADPCMVOLUME_INFO_0_CHT "僅限光碟遊戲。音量設定過高可能會導致取樣削波。"
+#define SGX_ADPCMVOLUME_INFO_1_CHT "音量設定過高可能會導致取樣削波。"
 #define SGX_CDDAVOLUME_LABEL_CHT "(光碟) CDDA 音量 %"
 #define SGX_CDDAVOLUME_LABEL_CAT_CHT "CDDA 音量 %"
-#define SGX_CDPSGVOLUME_LABEL_CHT NULL
+#define SGX_CDPSGVOLUME_LABEL_CHT "(光碟) PSG 音量 %"
 #define SGX_CDPSGVOLUME_LABEL_CAT_CHT "PSG 音量 %"
-#define SGX_FORCESGX_LABEL_CHT NULL
-#define SGX_FORCESGX_INFO_0_CHT NULL
+#define SGX_FORCESGX_LABEL_CHT "強制 SuperGrafx 系統 (需要重新啟動)"
+#define SGX_FORCESGX_INFO_0_CHT "應用於自製遊戲在 SuperGrafx 系統執行。非需要時建議關閉此選項，避免發生系統不相容的情況。"
 #define SGX_NOSPRITELIMIT_LABEL_CHT "沒有素材限制"
 #define SGX_NOSPRITELIMIT_INFO_0_CHT "刪除每條掃描線16張素材的硬體限制。警告: 可能導致遊戲圖形故障。"
-#define SGX_OCMULTIPLIER_LABEL_CHT NULL
+#define SGX_OCMULTIPLIER_LABEL_CHT "CPU 超頻倍頻 (需要重新啟動)"
 #define SGX_OCMULTIPLIER_INFO_0_CHT "較高的值可降低遊戲中的延遲。警告: 可能導致故障崩潰。"
 
 struct retro_core_option_v2_category option_cats_cht[] = {
@@ -12085,31 +12085,31 @@ struct retro_core_options_v2 options_hr = {
 
 /* RETRO_LANGUAGE_HU */
 
-#define CATEGORY_VIDEO_LABEL_HU "Videó"
-#define CATEGORY_VIDEO_INFO_0_HU NULL
+#define CATEGORY_VIDEO_LABEL_HU "Kép"
+#define CATEGORY_VIDEO_INFO_0_HU "Képarány, képvágás, és más képkimeneti paraméterek."
 #define CATEGORY_INPUT_LABEL_HU "Bevitel"
 #define CATEGORY_INPUT_INFO_0_HU "A fénypisztoly, az egér és a NegCon bemeneti beállításai."
 #define CATEGORY_HACKS_LABEL_HU "Emulációs trükkök"
 #define CATEGORY_HACKS_INFO_0_HU "A processzor túlhajtás és az emuláció pontosságának beállításai, amelyek befolyásolják az alacsonyszintű teljesítményt és a kompatibilitást."
 #define CATEGORY_CD_LABEL_HU NULL
-#define CATEGORY_CD_INFO_0_HU NULL
+#define CATEGORY_CD_INFO_0_HU "CD játékok beállításai."
 #define SGX_PALETTE_LABEL_HU "Színpaletta"
 #define SGX_PALETTE_INFO_0_HU "A kompozit az eredeti konzol kimenetét kísérli meg utánozni, és néhány játékban több részletet mutathat meg."
 #define OPTION_VAL_RGB_HU NULL
 #define OPTION_VAL_COMPOSITE_HU "Kompozit"
 #define SGX_ASPECT_RATIO_LABEL_HU "Képarány"
-#define SGX_ASPECT_RATIO_INFO_0_HU NULL
+#define SGX_ASPECT_RATIO_INFO_0_HU "A tartalom kívánt képaránya. Automatikus arány használatakor olyan játékoknál, amelyek folyamatosan kapcsolgatnak a 256 és 352 módok közt, legjobb a vízszintes szélességet 342-re állítani, az átméretezés és külön fekete sorok minimalizálása érdekében, mivel ez a szélesség arányos a 256 széles móddal (érdemes kipróbálni az Asuka 100%-kal, ami az ilyen módkapcsolgatós játékok egyike)."
 #define OPTION_VAL_AUTO_HU "Automatikus"
 #define OPTION_VAL_6_5_HU NULL
 #define OPTION_VAL_4_3_HU NULL
-#define SGX_HOVERSCAN_LABEL_HU NULL
+#define SGX_HOVERSCAN_LABEL_HU "Vízszintes overscan (csak 352 széles módban)"
 #define SGX_HOVERSCAN_INFO_0_HU "A maximális megjelenő képszélesség. Alacsonyabb értékeknél a kép jobb szélét vágja le (a 352 pixel széles játékoknál)."
 #define OPTION_VAL_352_HU "352 (alapértelmezett)"
 #define SGX_INITIAL_SCANLINE_LABEL_HU "Kezdő scanline"
-#define SGX_INITIAL_SCANLINE_INFO_0_HU NULL
+#define SGX_INITIAL_SCANLINE_INFO_0_HU "Az első megjelenített scanline. Nagyobb értékek többet vágnak a kép tetejéből."
 #define OPTION_VAL_3_HU "3 (alapértelmezett)"
 #define SGX_LAST_SCANLINE_LABEL_HU "Utolsó scanline"
-#define SGX_LAST_SCANLINE_INFO_0_HU NULL
+#define SGX_LAST_SCANLINE_INFO_0_HU "Az utolsó megjelenített scanline. Nagyobb értékek többet vágnak a kép aljából."
 #define OPTION_VAL_242_HU "242 (alapértelmezett)"
 #define SGX_MOUSE_SENSITIVITY_LABEL_HU "Egér érzékenysége"
 #define SGX_MOUSE_SENSITIVITY_INFO_0_HU "Magasabb értékek az egérkurzor gyorsabb mozgását eredményezik."
@@ -12134,17 +12134,17 @@ struct retro_core_options_v2 options_hr = {
 #define OPTION_VAL_4_75_HU NULL
 #define OPTION_VAL_5_00_HU NULL
 #define SGX_UP_DOWN_ALLOWED_LABEL_HU "Ellentétes irányok engedélyezése"
-#define SGX_UP_DOWN_ALLOWED_INFO_0_HU NULL
+#define SGX_UP_DOWN_ALLOWED_INFO_0_HU "A jobb és bal (vagy fel és le) irányok egyidejű/gyorsan váltakozó lenyomásának vagy nyomva tartásának engedélyezése. Hibákat okozhat a mozgatásban."
 #define SGX_DISABLE_SOFTRESET_LABEL_HU "Soft reset letiltása (RUN+SELECT)"
-#define SGX_DISABLE_SOFTRESET_INFO_0_HU NULL
+#define SGX_DISABLE_SOFTRESET_INFO_0_HU "A RUN és SELECT gombok egyidejű megnyomásakor mindkét gomb ideiglenes letiltása, reset helyett."
 #define SGX_MULTITAP_LABEL_HU "Multitap 5 csatlakozós kontroller"
-#define SGX_MULTITAP_INFO_0_HU NULL
-#define SGX_TURBO_TOGGLE_LABEL_HU NULL
-#define SGX_TURBO_TOGGLE_INFO_0_HU NULL
+#define SGX_MULTITAP_INFO_0_HU "Legfeljebb 5 játékos engedélyezése multitap emulációval. Csak néhány esetben szükséges kikapcsolni (pl. Cho Aniki)."
+#define SGX_TURBO_TOGGLE_LABEL_HU "Turbó gyorsgomb mód"
+#define SGX_TURBO_TOGGLE_INFO_0_HU "Turbó gombok engedélyezése. A gyorsgombok (III és IV) váltógombként vagy kijelölt (nyomva tartással használható) turbó gombként működhetnek."
 #define OPTION_VAL_SWITCH_HU "Váltógomb"
-#define OPTION_VAL_DEDICATED_HU NULL
+#define OPTION_VAL_DEDICATED_HU "Kijelölt"
 #define SGX_TURBO_TOGGLE_HOTKEY_LABEL_HU "Alternatív Turbo gyorsgomb"
-#define SGX_TURBO_TOGGLE_HOTKEY_INFO_0_HU NULL
+#define SGX_TURBO_TOGGLE_HOTKEY_INFO_0_HU "A III és IV gomb helyett a RetroPad L3/R3 gombjait rendeli a turbo átkapcsoláshoz. Csak Váltógomb módban, és akkor működik, ha nincs semmi az L3/R3 gombhoz rendelve. Ezzel elkerülhető a III és IV gomb átirányítása a 6-gombos kontroller módba kapcsoláskor."
 #define SGX_TURBO_DELAY_LABEL_HU "Turbo késleltetés"
 #define SGX_TURBO_DELAY_INFO_0_HU "A turbo tűz ismétlései közti idő (képkockákban)."
 #define SGX_CDIMAGECACHE_LABEL_HU "Gyorsítótár a CD képfájlhoz (újraindítás szükséges)"
@@ -12155,8 +12155,8 @@ struct retro_core_options_v2 options_hr = {
 #define OPTION_VAL_SYSTEM_CARD_1_HU NULL
 #define OPTION_VAL_SYSTEM_CARD_2_HU NULL
 #define OPTION_VAL_SYSTEM_CARD_3_HU NULL
-#define SGX_DETECT_GEXPRESS_LABEL_HU NULL
-#define SGX_DETECT_GEXPRESS_INFO_0_HU NULL
+#define SGX_DETECT_GEXPRESS_LABEL_HU "Games Express CD érzékelése (újraindítás szükséges)"
+#define SGX_DETECT_GEXPRESS_INFO_0_HU "Games Express CD játékok betöltésekor a Games Express BIOS automatikus betöltése, a CD BIOS beállítástól függetlenül."
 #define SGX_CDSPEED_LABEL_HU "(CD) CD sebesség"
 #define SGX_CDSPEED_LABEL_CAT_HU "CD sebesség"
 #define SGX_CDSPEED_INFO_0_HU "A nagyobb értékek segítik a gyorsabb töltést, de gondot okozhatnak pár játéknál."
@@ -12168,11 +12168,11 @@ struct retro_core_options_v2 options_hr = {
 #define SGX_CDDAVOLUME_LABEL_CAT_HU "CDDA hangerő %"
 #define SGX_CDPSGVOLUME_LABEL_HU "(CD) PSG hangerő %"
 #define SGX_CDPSGVOLUME_LABEL_CAT_HU "CD PSG hangerő %"
-#define SGX_FORCESGX_LABEL_HU NULL
-#define SGX_FORCESGX_INFO_0_HU NULL
+#define SGX_FORCESGX_LABEL_HU "Mindenképp a SuperGrafx emulálása (újraindítás szükséges)"
+#define SGX_FORCESGX_INFO_0_HU "Olyan játékok futtatásához hasznos, amelyek házi készítésűek, vagy nem működnek SuperGrafx módban (mint a Space Harrier). A játékállás mentések nem kompatibilisek mindegyik móddal. Jobb ezt a beállítást kikapcsolva hagyni, hacsak nem muszáj. Az ismert SuperGrafx játékok (mint a Dai-Makaimura, Aldyns) ettől a beállítástól függetlenül SuperGrafx-ra kapcsolnak."
 #define SGX_NOSPRITELIMIT_LABEL_HU "Nincs sprite korlátozás"
 #define SGX_NOSPRITELIMIT_INFO_0_HU "Megszünteti a hardver soronként legfeljebb 16 sprite-os korlátozását. Figyelem: grafikus hibákat okozhat néhány játéknál."
-#define SGX_OCMULTIPLIER_LABEL_HU NULL
+#define SGX_OCMULTIPLIER_LABEL_HU "CPU túlhajtás szorzó (újraindítás szükséges)"
 #define SGX_OCMULTIPLIER_INFO_0_HU "Nagyobb értékek csökkenthetik a lassulást a játékokban. Figyelem: hibákat és összeomlást okozhat."
 
 struct retro_core_option_v2_category option_cats_hu[] = {
