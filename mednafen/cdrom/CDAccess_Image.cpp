@@ -329,11 +329,7 @@ void CDAccess_Image::ImageOpen(const char *path, bool image_memcache)
  {
   uint8 bom_tmp[3];
 
-  if(fp.read(bom_tmp, 3) == 3 && bom_tmp[0] == 0xEF && bom_tmp[1] == 0xBB && bom_tmp[2] == 0xBF)
-  {
-   // Print an annoying error message, but don't actually error out.
-   MDFN_PrintError(_("UTF-8 BOM detected at start of CUE sheet."));
-  }
+  if(fp.read(bom_tmp, 3) == 3 && bom_tmp[0] == 0xEF && bom_tmp[1] == 0xBB && bom_tmp[2] == 0xBF) { }
   else
    fp.seek(0, SEEK_SET);
  }

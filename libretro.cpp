@@ -573,7 +573,7 @@ static uint8_t composite_palette[] = {
 
 static int curindent = 0;
 
-void MDFN_indent(int indent)
+static void MDFN_indent(int indent)
 {
    curindent += indent;
 }
@@ -632,24 +632,6 @@ void MDFN_printf(const char *format, ...)
 
    va_end(ap);
 }
-
-void MDFN_PrintError(const char *format, ...)
-{
-   char *temp;
-   va_list ap;
-   va_start(ap, format);
-
-   temp = (char *)malloc(4096 * sizeof(char));
-   vsnprintf(temp, 4096, format, ap);
-
-   if (log_cb)
-      log_cb(RETRO_LOG_ERROR, "%s\n", temp);
-
-   free(temp);
-
-   va_end(ap);
-}
-
 
 /* Mednafen - Multi-system Emulator
  *
@@ -775,8 +757,6 @@ bool MDFNI_LoadCD(const char *path, const char *ext)
       MDFN_printf("\n");
    }
    MDFN_indent(-1);
-
-   MDFN_printf(_("Using module: supergrafx\n"));
 #endif
 
    if (!(LoadCD(&CDInterfaces)))
@@ -852,8 +832,6 @@ static bool MDFNI_LoadGame(const char *path, const char *ext,
 
    MDFN_LoadGameCheats(NULL);
    MDFNMP_InstallReadPatches();
-
-   MDFN_indent(-2);
 
    if (GameFile)
       file_close(GameFile);

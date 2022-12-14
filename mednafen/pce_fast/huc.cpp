@@ -266,7 +266,6 @@ int HuC_LoadCD(const char *bios_path)
    {
       if (!(arcade_card = new ArcadeCard()))
       {
-         MDFN_PrintError(_("Error creating %s object.\n"), "ArcadeCard");
          Cleanup();
          return(0);
       }

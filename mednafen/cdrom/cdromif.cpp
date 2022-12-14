@@ -150,7 +150,6 @@ int CDIF::ReadSector(uint8* pBuf, uint32 lba, uint32 nSectors)
   if(!ValidateRawSector(tmpbuf))
   {
    MDFN_DispMessage(_("Uncorrectable data at sector %d"), lba);
-   MDFN_PrintError(_("Uncorrectable data at sector %d"), lba);
    return(false);
   }
 
@@ -217,7 +216,6 @@ bool CDIF_ST::ReadRawSector(uint8 *buf, uint32 lba)
  }
  catch(std::exception &e)
  {
-  MDFN_PrintError(_("Sector %u read error: %s"), lba, e.what());
   memset(buf, 0, 2352 + 96);
   return(false);
  }
@@ -253,7 +251,6 @@ bool CDIF_ST::Eject(bool eject_status)
  }
  catch(std::exception &e)
  {
-  MDFN_PrintError("%s", e.what());
   return(false);
  }
 

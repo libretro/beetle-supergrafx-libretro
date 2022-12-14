@@ -408,7 +408,6 @@ static bool ValidateRawDataSector(uint8 *data, const uint32 lba)
  if(!edc_lec_check_and_correct(data, false))
  {
   MDFN_DispMessage("Uncorrectable error(s) in sector %d.", lba);
-  MDFN_PrintError("Uncorrectable error(s) in sector %d.", lba);
 
   din.Flush();
   cd.data_transfer_done = false;
