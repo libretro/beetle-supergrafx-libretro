@@ -1925,7 +1925,6 @@ size_t retro_serialize_size(void)
    st.loc            = 0;
    st.len            = 0;
    st.malloced       = 0;
-   st.initial_malloc = 0;
 
    if (!MDFNSS_SaveSM(&st, 0, 0, NULL, NULL, NULL))
       return 0;
@@ -1960,7 +1959,6 @@ bool retro_serialize(void *data, size_t size)
    st.loc            = 0;
    st.len            = 0;
    st.malloced       = size;
-   st.initial_malloc = 0;
 
    ret = MDFNSS_SaveSM(&st, 0, 0, NULL, NULL, NULL);
 
@@ -1978,7 +1976,6 @@ bool retro_unserialize(const void *data, size_t size)
    st.loc            = 0;
    st.len            = size;
    st.malloced       = 0;
-   st.initial_malloc = 0;
 
    return MDFNSS_LoadSM(&st, 0, 0);
 }

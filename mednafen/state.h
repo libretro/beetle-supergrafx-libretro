@@ -7,7 +7,6 @@ typedef struct
    uint32_t loc;
    uint32_t len;
    uint32_t malloced;
-   uint32_t initial_malloc; // A setting!
 } StateMem;
 
 int MDFNSS_SaveSM(void *st, int, int, const void*, const void*, const void*);
