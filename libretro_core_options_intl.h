@@ -2583,7 +2583,7 @@ struct retro_core_options_v2 options_chs = {
 #define CATEGORY_HACKS_INFO_0_CHT "變更模擬器進階破解的設定。"
 #define CATEGORY_CD_LABEL_CHT "光碟機"
 #define CATEGORY_CD_INFO_0_CHT "變更光碟機相關的設定。"
-#define SGX_PALETTE_LABEL_CHT "配色"
+#define SGX_PALETTE_LABEL_CHT "影像配色"
 #define SGX_PALETTE_INFO_0_CHT "設定 <合成> 時嘗試重建原色影像輸出，可在部分遊戲中顯示更多細節。"
 #define OPTION_VAL_RGB_CHT "三原色"
 #define OPTION_VAL_COMPOSITE_CHT "合成"
@@ -14036,7 +14036,7 @@ struct retro_core_options_v2 options_it = {
 #define OPTION_VAL_4_75_JA NULL
 #define OPTION_VAL_5_00_JA NULL
 #define SGX_UP_DOWN_ALLOWED_LABEL_JA NULL
-#define SGX_UP_DOWN_ALLOWED_INFO_0_JA NULL
+#define SGX_UP_DOWN_ALLOWED_INFO_0_JA "有効にすると、左右 (または上下) 方向の同時押し / 高速交互押し / 長押しが可能になります。動作に不具合が生じる場合があります。"
 #define SGX_DISABLE_SOFTRESET_LABEL_JA NULL
 #define SGX_DISABLE_SOFTRESET_INFO_0_JA NULL
 #define SGX_MULTITAP_LABEL_JA NULL
