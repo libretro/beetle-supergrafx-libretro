@@ -2584,16 +2584,16 @@ struct retro_core_options_v2 options_chs = {
 #define CATEGORY_CD_LABEL_CHT "光碟機"
 #define CATEGORY_CD_INFO_0_CHT "變更光碟機相關的設定。"
 #define SGX_PALETTE_LABEL_CHT "影像配色"
-#define SGX_PALETTE_INFO_0_CHT "設定 <合成> 時嘗試重建原色影像輸出，可在部分遊戲中顯示更多細節。"
+#define SGX_PALETTE_INFO_0_CHT "設定<合成>時嘗試重建原色影像輸出, 可在部分遊戲中顯示更多細節。"
 #define OPTION_VAL_RGB_CHT "三原色"
 #define OPTION_VAL_COMPOSITE_CHT "合成"
 #define SGX_ASPECT_RATIO_LABEL_CHT "寬高比"
-#define SGX_ASPECT_RATIO_INFO_0_CHT "設定畫面的寬高比。設定 <自動> 時建議將「水平過度掃描」設定為 <342>，減少調整大小和額外增加的黑線。"
+#define SGX_ASPECT_RATIO_INFO_0_CHT "設定畫面的寬高比, 設定<自動>時, 建議將「水平過度掃描」設定為<342>, 減少調整大小和額外增加的黑線。"
 #define OPTION_VAL_AUTO_CHT "自動"
 #define OPTION_VAL_6_5_CHT NULL
 #define OPTION_VAL_4_3_CHT NULL
 #define SGX_HOVERSCAN_LABEL_CHT "水平過度掃描 (僅限寬度352模式)"
-#define SGX_HOVERSCAN_INFO_0_CHT "設定影像顯示的最大寬度。過低的值將裁剪影像右側(寬度352像素的遊戲)。"
+#define SGX_HOVERSCAN_INFO_0_CHT "設定影像顯示的最大寬度, 過低的值將裁剪影像右側(寬度352像素的遊戲)。"
 #define OPTION_VAL_352_CHT "352 (預設)"
 #define SGX_INITIAL_SCANLINE_LABEL_CHT "初始掃描線"
 #define SGX_INITIAL_SCANLINE_INFO_0_CHT "設定最初渲染的掃描線。過高的值將裁剪影像頂部。"
@@ -2626,7 +2626,7 @@ struct retro_core_options_v2 options_chs = {
 #define SGX_UP_DOWN_ALLOWED_LABEL_CHT "允許反向操作"
 #define SGX_UP_DOWN_ALLOWED_INFO_0_CHT "允許反方向快速操作，可同時按下左右或上下的方向。可能導致遊戲的移動架構出錯。"
 #define SGX_DISABLE_SOFTRESET_LABEL_CHT "禁用軟體重開 (RUN+SELECT)"
-#define SGX_DISABLE_SOFTRESET_INFO_0_CHT "禁用同時按 RUN鍵 加 SELECT鍵 時重新開始遊戲。僅禁用此組合鍵。"
+#define SGX_DISABLE_SOFTRESET_INFO_0_CHT "禁用按[RUN鍵+SELECT鍵]重新開始遊戲, 此選項僅禁用核心登錄的組合鍵。"
 #define SGX_MULTITAP_LABEL_CHT "五手把轉接器"
 #define SGX_MULTITAP_INFO_0_CHT "五手把轉接插座，可對應五位玩家。部分遊戲需要關閉此設定。例如: 超兄貴(Cho Aniki)。"
 #define SGX_TURBO_TOGGLE_LABEL_CHT "連發模式"
@@ -2638,9 +2638,9 @@ struct retro_core_options_v2 options_chs = {
 #define SGX_TURBO_DELAY_LABEL_CHT "連發延遲"
 #define SGX_TURBO_DELAY_INFO_0_CHT "調整連發間隔延遲時間(幀數)。"
 #define SGX_CDIMAGECACHE_LABEL_CHT "映像檔快取 (需要重新啟動)"
-#define SGX_CDIMAGECACHE_INFO_0_CHT "執行時將光碟映像檔，完整載入到記憶體中。拖延開啟時間，縮短讀取時間。"
+#define SGX_CDIMAGECACHE_INFO_0_CHT "執行時將光碟映像檔, 完整載入到記憶體中, 拖延開啟時間並縮短讀取時間。"
 #define SGX_CDBIOS_LABEL_CHT "光碟系統卡 (需要重新啟動)"
-#define SGX_CDBIOS_INFO_0_CHT "設定 <系統卡 3 (日本版)> 支援較多的授權遊戲。未授權遊戲需要 <遊戲特快卡> 來執行。"
+#define SGX_CDBIOS_INFO_0_CHT "設定<系統卡3(日本版)>支援較多的授權遊戲, 未授權遊戲需要<遊戲特快卡>來執行。"
 #define OPTION_VAL_GAMES_EXPRESS_CHT "遊戲特快卡"
 #define OPTION_VAL_SYSTEM_CARD_1_CHT "系統卡 1 (日本版)"
 #define OPTION_VAL_SYSTEM_CARD_2_CHT "系統卡 2 (日本版)"
@@ -14049,9 +14049,9 @@ struct retro_core_options_v2 options_it = {
 #define SGX_TURBO_TOGGLE_HOTKEY_INFO_0_JA NULL
 #define SGX_TURBO_DELAY_LABEL_JA NULL
 #define SGX_TURBO_DELAY_INFO_0_JA NULL
-#define SGX_CDIMAGECACHE_LABEL_JA NULL
-#define SGX_CDIMAGECACHE_INFO_0_JA NULL
-#define SGX_CDBIOS_LABEL_JA NULL
+#define SGX_CDIMAGECACHE_LABEL_JA "CD イメージキャッシュ (再起動が必要)"
+#define SGX_CDIMAGECACHE_INFO_0_JA "起動時に完全なイメージをメモリにロードします。起動時間が増す代わりにロード時間が短縮される可能性があります。"
+#define SGX_CDBIOS_LABEL_JA "CD BIOS (再起動が必要)"
 #define SGX_CDBIOS_INFO_0_JA NULL
 #define OPTION_VAL_GAMES_EXPRESS_JA NULL
 #define OPTION_VAL_SYSTEM_CARD_1_JA NULL
