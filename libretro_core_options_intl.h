@@ -14014,7 +14014,7 @@ struct retro_core_options_v2 options_it = {
 #define SGX_LAST_SCANLINE_INFO_0_JA NULL
 #define OPTION_VAL_242_JA "242 (デフォルト)"
 #define SGX_MOUSE_SENSITIVITY_LABEL_JA NULL
-#define SGX_MOUSE_SENSITIVITY_INFO_0_JA NULL
+#define SGX_MOUSE_SENSITIVITY_INFO_0_JA "値を大きくすると、マウスカーソルがより速く移動します。"
 #define OPTION_VAL_0_25_JA NULL
 #define OPTION_VAL_0_50_JA NULL
 #define OPTION_VAL_0_75_JA NULL
@@ -14037,7 +14037,7 @@ struct retro_core_options_v2 options_it = {
 #define OPTION_VAL_5_00_JA NULL
 #define SGX_UP_DOWN_ALLOWED_LABEL_JA NULL
 #define SGX_UP_DOWN_ALLOWED_INFO_0_JA "有効にすると、左右 (または上下) 方向の同時押し / 高速交互押し / 長押しが可能になります。動作に不具合が生じる場合があります。"
-#define SGX_DISABLE_SOFTRESET_LABEL_JA NULL
+#define SGX_DISABLE_SOFTRESET_LABEL_JA "ソフトリセットを無効にする (RUN+SELECT)"
 #define SGX_DISABLE_SOFTRESET_INFO_0_JA NULL
 #define SGX_MULTITAP_LABEL_JA NULL
 #define SGX_MULTITAP_INFO_0_JA NULL
@@ -14061,21 +14061,21 @@ struct retro_core_options_v2 options_it = {
 #define SGX_DETECT_GEXPRESS_INFO_0_JA NULL
 #define SGX_CDSPEED_LABEL_JA NULL
 #define SGX_CDSPEED_LABEL_CAT_JA NULL
-#define SGX_CDSPEED_INFO_0_JA NULL
+#define SGX_CDSPEED_INFO_0_JA "値が高いほど読み込み時間が速くなりますが、いくつかのゲームで問題が発生する可能性があります。"
 #define SGX_ADPCMVOLUME_LABEL_JA NULL
 #define SGX_ADPCMVOLUME_LABEL_CAT_JA NULL
 #define SGX_ADPCMVOLUME_INFO_0_JA NULL
 #define SGX_ADPCMVOLUME_INFO_1_JA NULL
 #define SGX_CDDAVOLUME_LABEL_JA NULL
-#define SGX_CDDAVOLUME_LABEL_CAT_JA NULL
+#define SGX_CDDAVOLUME_LABEL_CAT_JA "CD-DA 音量 %"
 #define SGX_CDPSGVOLUME_LABEL_JA NULL
-#define SGX_CDPSGVOLUME_LABEL_CAT_JA NULL
+#define SGX_CDPSGVOLUME_LABEL_CAT_JA "CD PSG 音量 %"
 #define SGX_FORCESGX_LABEL_JA NULL
 #define SGX_FORCESGX_INFO_0_JA NULL
 #define SGX_NOSPRITELIMIT_LABEL_JA NULL
 #define SGX_NOSPRITELIMIT_INFO_0_JA NULL
 #define SGX_OCMULTIPLIER_LABEL_JA NULL
-#define SGX_OCMULTIPLIER_INFO_0_JA NULL
+#define SGX_OCMULTIPLIER_INFO_0_JA "値を大きくするとゲームのスローダウンが減ります。警告：不具合やクラッシュを引き起こす可能性があります。"
 
 struct retro_core_option_v2_category option_cats_ja[] = {
    {
