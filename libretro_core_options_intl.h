@@ -2576,7 +2576,7 @@ struct retro_core_options_v2 options_chs = {
 /* RETRO_LANGUAGE_CHT */
 
 #define CATEGORY_VIDEO_LABEL_CHT "顯示"
-#define CATEGORY_VIDEO_INFO_0_CHT "變更畫面裁切、跳幀和影像輸出相關的設定。"
+#define CATEGORY_VIDEO_INFO_0_CHT "變更畫面裁剪、跳幀和影像輸出相關的設定。"
 #define CATEGORY_INPUT_LABEL_CHT "輸入"
 #define CATEGORY_INPUT_INFO_0_CHT "變更輸入裝置相關的設定。"
 #define CATEGORY_HACKS_LABEL_CHT "進階"
@@ -2585,7 +2585,7 @@ struct retro_core_options_v2 options_chs = {
 #define CATEGORY_CD_INFO_0_CHT "變更光碟機相關的設定。"
 #define SGX_PALETTE_LABEL_CHT "影像配色"
 #define SGX_PALETTE_INFO_0_CHT "設定<合成>時嘗試重建原色影像輸出, 可在部分遊戲中顯示更多細節。"
-#define OPTION_VAL_RGB_CHT "三原色"
+#define OPTION_VAL_RGB_CHT "原色"
 #define OPTION_VAL_COMPOSITE_CHT "合成"
 #define SGX_ASPECT_RATIO_LABEL_CHT "寬高比"
 #define SGX_ASPECT_RATIO_INFO_0_CHT "設定畫面的寬高比。\n設定為<自動>時, 建議將「水平過度掃描」設定為<342>模式, 減少調整大小和額外增加的黑線。\n可執行「飛鳥120%(Asuka120%)」測試, 此遊戲在256和352顯示模式之間切換。"
@@ -20383,7 +20383,7 @@ struct retro_core_options_v2 options_sr = {
 #define SGX_MULTITAP_INFO_0_SV NULL
 #define SGX_TURBO_TOGGLE_LABEL_SV NULL
 #define SGX_TURBO_TOGGLE_INFO_0_SV NULL
-#define OPTION_VAL_SWITCH_SV NULL
+#define OPTION_VAL_SWITCH_SV "Växla"
 #define OPTION_VAL_DEDICATED_SV NULL
 #define SGX_TURBO_TOGGLE_HOTKEY_LABEL_SV NULL
 #define SGX_TURBO_TOGGLE_HOTKEY_INFO_0_SV NULL
