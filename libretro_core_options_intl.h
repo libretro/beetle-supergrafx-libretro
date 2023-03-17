@@ -18477,11 +18477,11 @@ struct retro_core_options_v2 options_pt_pt = {
 #define SGX_UP_DOWN_ALLOWED_INFO_0_RU "Позволяет нажимать / быстро менять / зажимать одновременно направления влево и вправо (или вверх и вниз). Может вызывать глитчи, связанные с перемещением."
 #define SGX_DISABLE_SOFTRESET_LABEL_RU "Отключить мягкий сброс (RUN+SELECT)"
 #define SGX_DISABLE_SOFTRESET_INFO_0_RU "Одновременное нажатие RUN и SELECT вместо сброса будет временно отключать обе кнопки."
-#define SGX_MULTITAP_LABEL_RU NULL
+#define SGX_MULTITAP_LABEL_RU "Multitap на 5 контроллеров"
 #define SGX_MULTITAP_INFO_0_RU NULL
 #define SGX_TURBO_TOGGLE_LABEL_RU NULL
 #define SGX_TURBO_TOGGLE_INFO_0_RU NULL
-#define OPTION_VAL_SWITCH_RU NULL
+#define OPTION_VAL_SWITCH_RU "Переключатели"
 #define OPTION_VAL_DEDICATED_RU NULL
 #define SGX_TURBO_TOGGLE_HOTKEY_LABEL_RU "Альтернативное включение турбо"
 #define SGX_TURBO_TOGGLE_HOTKEY_INFO_0_RU NULL
