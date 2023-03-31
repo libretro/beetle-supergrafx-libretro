@@ -1305,6 +1305,640 @@ struct retro_core_options_v2 options_ast = {
    option_defs_ast
 };
 
+/* RETRO_LANGUAGE_BE */
+
+#define CATEGORY_VIDEO_LABEL_BE NULL
+#define CATEGORY_VIDEO_INFO_0_BE NULL
+#define CATEGORY_INPUT_LABEL_BE NULL
+#define CATEGORY_INPUT_INFO_0_BE NULL
+#define CATEGORY_HACKS_LABEL_BE NULL
+#define CATEGORY_HACKS_INFO_0_BE NULL
+#define CATEGORY_CD_LABEL_BE NULL
+#define CATEGORY_CD_INFO_0_BE NULL
+#define SGX_PALETTE_LABEL_BE NULL
+#define SGX_PALETTE_INFO_0_BE NULL
+#define OPTION_VAL_RGB_BE NULL
+#define OPTION_VAL_COMPOSITE_BE NULL
+#define SGX_ASPECT_RATIO_LABEL_BE NULL
+#define SGX_ASPECT_RATIO_INFO_0_BE NULL
+#define OPTION_VAL_AUTO_BE NULL
+#define OPTION_VAL_6_5_BE NULL
+#define OPTION_VAL_4_3_BE NULL
+#define SGX_HOVERSCAN_LABEL_BE NULL
+#define SGX_HOVERSCAN_INFO_0_BE NULL
+#define OPTION_VAL_352_BE NULL
+#define SGX_INITIAL_SCANLINE_LABEL_BE NULL
+#define SGX_INITIAL_SCANLINE_INFO_0_BE NULL
+#define OPTION_VAL_3_BE NULL
+#define SGX_LAST_SCANLINE_LABEL_BE NULL
+#define SGX_LAST_SCANLINE_INFO_0_BE NULL
+#define OPTION_VAL_242_BE NULL
+#define SGX_MOUSE_SENSITIVITY_LABEL_BE NULL
+#define SGX_MOUSE_SENSITIVITY_INFO_0_BE NULL
+#define OPTION_VAL_0_25_BE NULL
+#define OPTION_VAL_0_50_BE NULL
+#define OPTION_VAL_0_75_BE NULL
+#define OPTION_VAL_1_00_BE NULL
+#define OPTION_VAL_1_25_BE NULL
+#define OPTION_VAL_1_50_BE NULL
+#define OPTION_VAL_1_75_BE NULL
+#define OPTION_VAL_2_00_BE NULL
+#define OPTION_VAL_2_25_BE NULL
+#define OPTION_VAL_2_50_BE NULL
+#define OPTION_VAL_2_75_BE NULL
+#define OPTION_VAL_3_00_BE NULL
+#define OPTION_VAL_3_25_BE NULL
+#define OPTION_VAL_3_50_BE NULL
+#define OPTION_VAL_3_75_BE NULL
+#define OPTION_VAL_4_00_BE NULL
+#define OPTION_VAL_4_25_BE NULL
+#define OPTION_VAL_4_50_BE NULL
+#define OPTION_VAL_4_75_BE NULL
+#define OPTION_VAL_5_00_BE NULL
+#define SGX_UP_DOWN_ALLOWED_LABEL_BE NULL
+#define SGX_UP_DOWN_ALLOWED_INFO_0_BE NULL
+#define SGX_DISABLE_SOFTRESET_LABEL_BE NULL
+#define SGX_DISABLE_SOFTRESET_INFO_0_BE NULL
+#define SGX_MULTITAP_LABEL_BE NULL
+#define SGX_MULTITAP_INFO_0_BE NULL
+#define SGX_TURBO_TOGGLE_LABEL_BE NULL
+#define SGX_TURBO_TOGGLE_INFO_0_BE NULL
+#define OPTION_VAL_SWITCH_BE NULL
+#define OPTION_VAL_DEDICATED_BE NULL
+#define SGX_TURBO_TOGGLE_HOTKEY_LABEL_BE NULL
+#define SGX_TURBO_TOGGLE_HOTKEY_INFO_0_BE NULL
+#define SGX_TURBO_DELAY_LABEL_BE NULL
+#define SGX_TURBO_DELAY_INFO_0_BE NULL
+#define SGX_CDIMAGECACHE_LABEL_BE NULL
+#define SGX_CDIMAGECACHE_INFO_0_BE NULL
+#define SGX_CDBIOS_LABEL_BE NULL
+#define SGX_CDBIOS_INFO_0_BE NULL
+#define OPTION_VAL_GAMES_EXPRESS_BE NULL
+#define OPTION_VAL_SYSTEM_CARD_1_BE NULL
+#define OPTION_VAL_SYSTEM_CARD_2_BE NULL
+#define OPTION_VAL_SYSTEM_CARD_3_BE NULL
+#define SGX_DETECT_GEXPRESS_LABEL_BE NULL
+#define SGX_DETECT_GEXPRESS_INFO_0_BE NULL
+#define SGX_CDSPEED_LABEL_BE NULL
+#define SGX_CDSPEED_LABEL_CAT_BE NULL
+#define SGX_CDSPEED_INFO_0_BE NULL
+#define SGX_ADPCMVOLUME_LABEL_BE NULL
+#define SGX_ADPCMVOLUME_LABEL_CAT_BE NULL
+#define SGX_ADPCMVOLUME_INFO_0_BE NULL
+#define SGX_ADPCMVOLUME_INFO_1_BE NULL
+#define SGX_CDDAVOLUME_LABEL_BE NULL
+#define SGX_CDDAVOLUME_LABEL_CAT_BE NULL
+#define SGX_CDPSGVOLUME_LABEL_BE NULL
+#define SGX_CDPSGVOLUME_LABEL_CAT_BE NULL
+#define SGX_FORCESGX_LABEL_BE NULL
+#define SGX_FORCESGX_INFO_0_BE NULL
+#define SGX_NOSPRITELIMIT_LABEL_BE NULL
+#define SGX_NOSPRITELIMIT_INFO_0_BE NULL
+#define SGX_OCMULTIPLIER_LABEL_BE NULL
+#define SGX_OCMULTIPLIER_INFO_0_BE NULL
+
+struct retro_core_option_v2_category option_cats_be[] = {
+   {
+      "video",
+      CATEGORY_VIDEO_LABEL_BE,
+      CATEGORY_VIDEO_INFO_0_BE
+   },
+   {
+      "input",
+      CATEGORY_INPUT_LABEL_BE,
+      CATEGORY_INPUT_INFO_0_BE
+   },
+   {
+      "hacks",
+      CATEGORY_HACKS_LABEL_BE,
+      CATEGORY_HACKS_INFO_0_BE
+   },
+   {
+      "cd",
+      CATEGORY_CD_LABEL_BE,
+      CATEGORY_CD_INFO_0_BE
+   },
+   { NULL, NULL, NULL },
+};
+struct retro_core_option_v2_definition option_defs_be[] = {
+   {
+      "sgx_palette",
+      SGX_PALETTE_LABEL_BE,
+      NULL,
+      SGX_PALETTE_INFO_0_BE,
+      NULL,
+      "video",
+      {
+         { "RGB", OPTION_VAL_RGB_BE },
+         { "Composite", OPTION_VAL_COMPOSITE_BE },
+         { NULL, NULL},
+      },
+      "RGB"
+   },
+   {
+      "sgx_aspect_ratio",
+      SGX_ASPECT_RATIO_LABEL_BE,
+      NULL,
+      SGX_ASPECT_RATIO_INFO_0_BE,
+      NULL,
+      "video",
+      {
+         { "auto", OPTION_VAL_AUTO_BE },
+         { "6:5", OPTION_VAL_6_5_BE },
+         { "4:3", OPTION_VAL_4_3_BE },
+         { NULL, NULL },
+      },
+      "auto"
+   },
+   {
+      "sgx_hoverscan",
+      SGX_HOVERSCAN_LABEL_BE,
+      NULL,
+      SGX_HOVERSCAN_INFO_0_BE,
+      NULL,
+      "video",
+      {
+         { "300", NULL },
+         { "302", NULL },
+         { "304", NULL },
+         { "306", NULL },
+         { "308", NULL },
+         { "310", NULL },
+         { "312", NULL },
+         { "314", NULL },
+         { "316", NULL },
+         { "318", NULL },
+         { "320", NULL },
+         { "322", NULL },
+         { "324", NULL },
+         { "326", NULL },
+         { "328", NULL },
+         { "330", NULL },
+         { "332", NULL },
+         { "334", NULL },
+         { "336", NULL },
+         { "338", NULL },
+         { "340", NULL },
+         { "342", NULL },
+         { "344", NULL },
+         { "346", NULL },
+         { "348", NULL },
+         { "350", NULL },
+         { "352", OPTION_VAL_352_BE },
+         { NULL, NULL },
+      },
+      "352"
+   },
+   {
+      "sgx_initial_scanline",
+      SGX_INITIAL_SCANLINE_LABEL_BE,
+      NULL,
+      SGX_INITIAL_SCANLINE_INFO_0_BE,
+      NULL,
+      "video",
+      {
+         { "0", NULL },
+         { "1", NULL },
+         { "2", NULL },
+         { "3", OPTION_VAL_3_BE },
+         { "4", NULL },
+         { "5", NULL },
+         { "6", NULL },
+         { "7", NULL },
+         { "8", NULL },
+         { "9", NULL },
+         { "10", NULL },
+         { "11", NULL },
+         { "12", NULL },
+         { "13", NULL },
+         { "14", NULL },
+         { "15", NULL },
+         { "16", NULL },
+         { "17", NULL },
+         { "18", NULL },
+         { "19", NULL },
+         { "20", NULL },
+         { "21", NULL },
+         { "22", NULL },
+         { "23", NULL },
+         { "24", NULL },
+         { "25", NULL },
+         { "26", NULL },
+         { "27", NULL },
+         { "28", NULL },
+         { "29", NULL },
+         { "30", NULL },
+         { "31", NULL },
+         { "32", NULL },
+         { "33", NULL },
+         { "34", NULL },
+         { "35", NULL },
+         { "36", NULL },
+         { "37", NULL },
+         { "38", NULL },
+         { "39", NULL },
+         { "40", NULL },
+         { NULL, NULL },
+      },
+      "3"
+   },
+   {
+      "sgx_last_scanline",
+      SGX_LAST_SCANLINE_LABEL_BE,
+      NULL,
+      SGX_LAST_SCANLINE_INFO_0_BE,
+      NULL,
+      "video",
+      {
+         { "208", NULL },
+         { "209", NULL },
+         { "210", NULL },
+         { "211", NULL },
+         { "212", NULL },
+         { "213", NULL },
+         { "214", NULL },
+         { "215", NULL },
+         { "216", NULL },
+         { "217", NULL },
+         { "218", NULL },
+         { "219", NULL },
+         { "220", NULL },
+         { "221", NULL },
+         { "222", NULL },
+         { "223", NULL },
+         { "224", NULL },
+         { "225", NULL },
+         { "226", NULL },
+         { "227", NULL },
+         { "228", NULL },
+         { "229", NULL },
+         { "230", NULL },
+         { "231", NULL },
+         { "232", NULL },
+         { "233", NULL },
+         { "234", NULL },
+         { "235", NULL },
+         { "236", NULL },
+         { "237", NULL },
+         { "238", NULL },
+         { "239", NULL },
+         { "240", NULL },
+         { "241", NULL },
+         { "242", OPTION_VAL_242_BE },
+         { NULL, NULL },
+      },
+      "242"
+   },
+   {
+      "sgx_mouse_sensitivity",
+      SGX_MOUSE_SENSITIVITY_LABEL_BE,
+      NULL,
+      SGX_MOUSE_SENSITIVITY_INFO_0_BE,
+      NULL,
+      "input",
+      {
+         { "0.25", OPTION_VAL_0_25_BE },
+         { "0.50", OPTION_VAL_0_50_BE },
+         { "0.75", OPTION_VAL_0_75_BE },
+         { "1.00", OPTION_VAL_1_00_BE },
+         { "1.25", OPTION_VAL_1_25_BE },
+         { "1.50", OPTION_VAL_1_50_BE },
+         { "1.75", OPTION_VAL_1_75_BE },
+         { "2.00", OPTION_VAL_2_00_BE },
+         { "2.25", OPTION_VAL_2_25_BE },
+         { "2.50", OPTION_VAL_2_50_BE },
+         { "2.75", OPTION_VAL_2_75_BE },
+         { "3.00", OPTION_VAL_3_00_BE },
+         { "3.25", OPTION_VAL_3_25_BE },
+         { "3.50", OPTION_VAL_3_50_BE },
+         { "3.75", OPTION_VAL_3_75_BE },
+         { "4.00", OPTION_VAL_4_00_BE },
+         { "4.25", OPTION_VAL_4_25_BE },
+         { "4.50", OPTION_VAL_4_50_BE },
+         { "4.75", OPTION_VAL_4_75_BE },
+         { "5.00", OPTION_VAL_5_00_BE },
+         { NULL, NULL },
+      },
+      "1.25"
+   },
+   {
+      "sgx_up_down_allowed",
+      SGX_UP_DOWN_ALLOWED_LABEL_BE,
+      NULL,
+      SGX_UP_DOWN_ALLOWED_INFO_0_BE,
+      NULL,
+      "input",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
+      "sgx_disable_softreset",
+      SGX_DISABLE_SOFTRESET_LABEL_BE,
+      NULL,
+      SGX_DISABLE_SOFTRESET_INFO_0_BE,
+      NULL,
+      "input",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
+      "sgx_multitap",
+      SGX_MULTITAP_LABEL_BE,
+      NULL,
+      SGX_MULTITAP_INFO_0_BE,
+      NULL,
+      "input",
+      {
+         { "enabled", NULL },
+         { "disabled", NULL },
+         { NULL, NULL},
+      },
+      "enabled"
+   },
+   {
+      "sgx_turbo_toggle",
+      SGX_TURBO_TOGGLE_LABEL_BE,
+      NULL,
+      SGX_TURBO_TOGGLE_INFO_0_BE,
+      NULL,
+      "input",
+      {
+         { "disabled", NULL },
+         { "switch", OPTION_VAL_SWITCH_BE },
+         { "dedicated", OPTION_VAL_DEDICATED_BE },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
+      "sgx_turbo_toggle_hotkey",
+      SGX_TURBO_TOGGLE_HOTKEY_LABEL_BE,
+      NULL,
+      SGX_TURBO_TOGGLE_HOTKEY_INFO_0_BE,
+      NULL,
+      "input",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
+      "sgx_turbo_delay",
+      SGX_TURBO_DELAY_LABEL_BE,
+      NULL,
+      SGX_TURBO_DELAY_INFO_0_BE,
+      NULL,
+      "input",
+      {
+         { "3", NULL },
+         { "4", NULL },
+         { "5", NULL },
+         { "6", NULL },
+         { "7", NULL },
+         { "8", NULL },
+         { "9", NULL },
+         { "10", NULL },
+         { "11", NULL },
+         { "12", NULL },
+         { "13", NULL },
+         { "14", NULL },
+         { "15", NULL },
+         { "30", NULL },
+         { "60", NULL },
+         { NULL, NULL },
+      },
+      "3"
+   },
+   {
+      "sgx_cdimagecache",
+      SGX_CDIMAGECACHE_LABEL_BE,
+      NULL,
+      SGX_CDIMAGECACHE_INFO_0_BE,
+      NULL,
+      "cd",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
+      "sgx_cdbios",
+      SGX_CDBIOS_LABEL_BE,
+      NULL,
+      SGX_CDBIOS_INFO_0_BE,
+      NULL,
+      "cd",
+      {
+         { "Games Express", OPTION_VAL_GAMES_EXPRESS_BE },
+         { "System Card 1", OPTION_VAL_SYSTEM_CARD_1_BE },
+         { "System Card 2", OPTION_VAL_SYSTEM_CARD_2_BE },
+         { "System Card 3", OPTION_VAL_SYSTEM_CARD_3_BE },
+         { NULL, NULL },
+      },
+      "System Card 3"
+   },
+   {
+      "sgx_detect_gexpress",
+      SGX_DETECT_GEXPRESS_LABEL_BE,
+      NULL,
+      SGX_DETECT_GEXPRESS_INFO_0_BE,
+      NULL,
+      "cd",
+      {
+         { "enabled", NULL },
+         { "disabled", NULL },
+         { NULL, NULL },
+      },
+      "enabled"
+   },
+   {
+      "sgx_cdspeed",
+      SGX_CDSPEED_LABEL_BE,
+      SGX_CDSPEED_LABEL_CAT_BE,
+      SGX_CDSPEED_INFO_0_BE,
+      NULL,
+      "cd",
+      {
+         { "1", NULL },
+         { "2", NULL },
+         { "4", NULL },
+         { "8", NULL },
+         { NULL, NULL },
+      },
+      "1"
+   },
+   {
+      "sgx_adpcmvolume",
+      SGX_ADPCMVOLUME_LABEL_BE,
+      SGX_ADPCMVOLUME_LABEL_CAT_BE,
+      SGX_ADPCMVOLUME_INFO_0_BE,
+      SGX_ADPCMVOLUME_INFO_1_BE,
+      "cd",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { "110", NULL },
+         { "120", NULL },
+         { "130", NULL },
+         { "140", NULL },
+         { "150", NULL },
+         { "160", NULL },
+         { "170", NULL },
+         { "180", NULL },
+         { "190", NULL },
+         { "200", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "sgx_cddavolume",
+      SGX_CDDAVOLUME_LABEL_BE,
+      SGX_CDDAVOLUME_LABEL_CAT_BE,
+      SGX_ADPCMVOLUME_INFO_0_BE,
+      SGX_ADPCMVOLUME_INFO_1_BE,
+      "cd",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { "110", NULL },
+         { "120", NULL },
+         { "130", NULL },
+         { "140", NULL },
+         { "150", NULL },
+         { "160", NULL },
+         { "170", NULL },
+         { "180", NULL },
+         { "190", NULL },
+         { "200", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "sgx_cdpsgvolume",
+      SGX_CDPSGVOLUME_LABEL_BE,
+      SGX_CDPSGVOLUME_LABEL_CAT_BE,
+      SGX_ADPCMVOLUME_INFO_0_BE,
+      SGX_ADPCMVOLUME_INFO_1_BE,
+      "cd",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { "110", NULL },
+         { "120", NULL },
+         { "130", NULL },
+         { "140", NULL },
+         { "150", NULL },
+         { "160", NULL },
+         { "170", NULL },
+         { "180", NULL },
+         { "190", NULL },
+         { "200", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "sgx_forcesgx",
+      SGX_FORCESGX_LABEL_BE,
+      NULL,
+      SGX_FORCESGX_INFO_0_BE,
+      NULL,
+      "hacks",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
+      "sgx_nospritelimit",
+      SGX_NOSPRITELIMIT_LABEL_BE,
+      NULL,
+      SGX_NOSPRITELIMIT_INFO_0_BE,
+      NULL,
+      "hacks",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
+      "sgx_ocmultiplier",
+      SGX_OCMULTIPLIER_LABEL_BE,
+      NULL,
+      SGX_OCMULTIPLIER_INFO_0_BE,
+      NULL,
+      "hacks",
+      {
+         { "1", NULL },
+         { "2", NULL },
+         { "3", NULL },
+         { "4", NULL },
+         { "5", NULL },
+         { "6", NULL },
+         { "7", NULL },
+         { "8", NULL },
+         { "9", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { NULL, NULL },
+      },
+      "1"
+   },
+   { NULL, NULL, NULL, NULL, NULL, NULL, {{0}}, NULL },
+};
+struct retro_core_options_v2 options_be = {
+   option_cats_be,
+   option_defs_be
+};
+
 /* RETRO_LANGUAGE_CA */
 
 #define CATEGORY_VIDEO_LABEL_CA "Vídeo"
@@ -19126,9 +19760,9 @@ struct retro_core_options_v2 options_ru = {
 #define SGX_CDBIOS_LABEL_SK NULL
 #define SGX_CDBIOS_INFO_0_SK NULL
 #define OPTION_VAL_GAMES_EXPRESS_SK NULL
-#define OPTION_VAL_SYSTEM_CARD_1_SK NULL
-#define OPTION_VAL_SYSTEM_CARD_2_SK NULL
-#define OPTION_VAL_SYSTEM_CARD_3_SK NULL
+#define OPTION_VAL_SYSTEM_CARD_1_SK "Systémová karta 1"
+#define OPTION_VAL_SYSTEM_CARD_2_SK "Systémová karta 2"
+#define OPTION_VAL_SYSTEM_CARD_3_SK "Systémová karta 3"
 #define SGX_DETECT_GEXPRESS_LABEL_SK NULL
 #define SGX_DETECT_GEXPRESS_INFO_0_SK NULL
 #define SGX_CDSPEED_LABEL_SK "(CD) CD rýchlosť"
