@@ -1922,6 +1922,7 @@ size_t retro_serialize_size(void)
    StateMem st;
 
    st.data           = NULL;
+   st.data_frontend  = NULL;
    st.loc            = 0;
    st.len            = 0;
    st.malloced       = 0;
@@ -1948,22 +1949,24 @@ size_t retro_serialize_size(void)
 bool retro_serialize(void *data, size_t size)
 {
    StateMem st;
-   bool ret      = false;
-   uint8_t *_dat = (uint8_t *)malloc(size);
+   bool ret          = false;
 
-   if (!_dat)
-      return false;
-
-   /* Mednafen can realloc the buffer so we need to ensure this is safe. */
-   st.data           = _dat;
+   st.data_frontend  = (uint8_t*)data;
+   st.data           = st.data_frontend;
    st.loc            = 0;
    st.len            = 0;
    st.malloced       = size;
 
+   /* MDFNSS_SaveSM will malloc separate memory for st.data to complete
+    * the save if the passed-in size is too small */
    ret = MDFNSS_SaveSM(&st, 0, 0, NULL, NULL, NULL);
 
-   memcpy(data, st.data, size);
-   free(st.data);
+   if (st.data != st.data_frontend)
+   {
+      log_cb(RETRO_LOG_WARN, "Save state size has increased\n");
+      free(st.data);
+      ret = false;
+   }
 
    return ret;
 }
@@ -1972,7 +1975,8 @@ bool retro_unserialize(const void *data, size_t size)
 {
    StateMem st;
 
-   st.data           = (uint8_t *)data;
+   st.data_frontend  = (uint8_t*)data;
+   st.data           = st.data_frontend;
    st.loc            = 0;
    st.len            = size;
    st.malloced       = 0;
