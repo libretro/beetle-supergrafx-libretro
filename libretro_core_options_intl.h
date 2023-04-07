@@ -2578,13 +2578,13 @@ struct retro_core_options_v2 options_ca = {
 #define CATEGORY_VIDEO_LABEL_CHS "视频"
 #define CATEGORY_VIDEO_INFO_0_CHS NULL
 #define CATEGORY_INPUT_LABEL_CHS "输入"
-#define CATEGORY_INPUT_INFO_0_CHS NULL
+#define CATEGORY_INPUT_INFO_0_CHS "设置光枪、鼠标和Neg手柄"
 #define CATEGORY_HACKS_LABEL_CHS "模拟修改"
 #define CATEGORY_HACKS_INFO_0_CHS "配置处理器超时和模拟精确参数，影响低级性能和兼容性。"
 #define CATEGORY_CD_LABEL_CHS NULL
 #define CATEGORY_CD_INFO_0_CHS NULL
 #define SGX_PALETTE_LABEL_CHS "色板"
-#define SGX_PALETTE_INFO_0_CHS NULL
+#define SGX_PALETTE_INFO_0_CHS "使用复合设计模式尝试复现原始的控制台显示，在部分游戏中可以显示更多细节"
 #define OPTION_VAL_RGB_CHS NULL
 #define OPTION_VAL_COMPOSITE_CHS "合成"
 #define SGX_ASPECT_RATIO_LABEL_CHS "纵横比"
@@ -2593,7 +2593,7 @@ struct retro_core_options_v2 options_ca = {
 #define OPTION_VAL_6_5_CHS NULL
 #define OPTION_VAL_4_3_CHS NULL
 #define SGX_HOVERSCAN_LABEL_CHS NULL
-#define SGX_HOVERSCAN_INFO_0_CHS NULL
+#define SGX_HOVERSCAN_INFO_0_CHS "选择要显示的最大图像宽度，超出设定值的图像将从右侧被裁减（针对宽度为352px的游戏）"
 #define OPTION_VAL_352_CHS "352 (默认)"
 #define SGX_INITIAL_SCANLINE_LABEL_CHS NULL
 #define SGX_INITIAL_SCANLINE_INFO_0_CHS NULL
@@ -2637,9 +2637,9 @@ struct retro_core_options_v2 options_ca = {
 #define SGX_TURBO_TOGGLE_HOTKEY_INFO_0_CHS NULL
 #define SGX_TURBO_DELAY_LABEL_CHS NULL
 #define SGX_TURBO_DELAY_INFO_0_CHS NULL
-#define SGX_CDIMAGECACHE_LABEL_CHS NULL
-#define SGX_CDIMAGECACHE_INFO_0_CHS NULL
-#define SGX_CDBIOS_LABEL_CHS NULL
+#define SGX_CDIMAGECACHE_LABEL_CHS "启用CD光盘缓存（重启以生效）"
+#define SGX_CDIMAGECACHE_INFO_0_CHS "在启动时将完整的镜像加载到内存中，以增加启动时间为代价，或许能减少游戏中的加载时间。"
+#define SGX_CDBIOS_LABEL_CHS "设置CD的BIOS（重启以生效）"
 #define SGX_CDBIOS_INFO_0_CHS NULL
 #define OPTION_VAL_GAMES_EXPRESS_CHS NULL
 #define OPTION_VAL_SYSTEM_CARD_1_CHS NULL
