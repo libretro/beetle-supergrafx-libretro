@@ -1321,7 +1321,7 @@ struct retro_core_options_v2 options_ast = {
 #define OPTION_VAL_COMPOSITE_BE NULL
 #define SGX_ASPECT_RATIO_LABEL_BE "Суадносіны бакоў"
 #define SGX_ASPECT_RATIO_INFO_0_BE NULL
-#define OPTION_VAL_AUTO_BE NULL
+#define OPTION_VAL_AUTO_BE "Аўта"
 #define OPTION_VAL_6_5_BE NULL
 #define OPTION_VAL_4_3_BE NULL
 #define SGX_HOVERSCAN_LABEL_BE NULL
