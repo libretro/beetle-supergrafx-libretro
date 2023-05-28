@@ -978,6 +978,22 @@ static void check_variables(bool loaded)
          else if (strcmp(var.value, "Games Express") == 0)
             setting_pce_fast_cdbios = "gexpress.pce";
       }
+
+      char key[256];
+      key[0] = '\0';
+
+      var.key = key ;
+      for (int i = 0 ; i < MAX_PLAYERS ; i++)
+      {
+         snprintf(key, sizeof(key), "sgx_default_joypad_type_p%d", i + 1);
+         if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+         {
+            if (strcmp(var.value, "2 Buttons") == 0)
+               AVPad6Enabled[i] = false;
+            else if (strcmp(var.value, "6 Buttons") == 0)
+               AVPad6Enabled[i] = true;
+         }
+      }
    }
 
    var.key = "sgx_detect_gexpress";
