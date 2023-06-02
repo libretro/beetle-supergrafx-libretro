@@ -207,7 +207,8 @@ static void WritePort(int n, uint8 V)
 {
    if (InputTypes[n] == 1)
    {
-      if (!(sel & 1) && (V & 1))
+      //if (!(sel & 1) && (V & 1))
+      if ((sel & 1) && (V & 1) && (sel & 2) && !(V & 2))
          AVPad6Which[n] = !AVPad6Which[n];
    }
 }
@@ -231,7 +232,8 @@ static void WritePortMultitap(uint8 V)
 
    if ((V & 1) && !(sel & 2) && (V & 2))
       read_index = 0;
-   else if ((V & 1) && !(sel & 1))
+   //else if ((V & 1) && !(sel & 1))
+   else if (!(sel & 2) && !(V & 2) && !(sel & 1) && (V & 1))
    {
       if (read_index < 255)
          read_index++;
