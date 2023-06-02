@@ -93,6 +93,18 @@ extern "C" {
 #define SGX_DISABLE_SOFTRESET_INFO_0_AR NULL
 #define SGX_MULTITAP_LABEL_AR NULL
 #define SGX_MULTITAP_INFO_0_AR NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_AR NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_AR NULL
+#define OPTION_VAL_2_BUTTONS_AR NULL
+#define OPTION_VAL_6_BUTTONS_AR NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_AR NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_AR NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_AR NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_AR NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_AR NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_AR NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_AR NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_AR NULL
 #define SGX_TURBO_TOGGLE_LABEL_AR NULL
 #define SGX_TURBO_TOGGLE_INFO_0_AR NULL
 #define OPTION_VAL_SWITCH_AR NULL
@@ -394,6 +406,76 @@ struct retro_core_option_v2_definition option_defs_ar[] = {
          { NULL, NULL},
       },
       "enabled"
+   },
+   {
+      "sgx_default_joypad_type_p1",
+      SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_AR,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_AR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_AR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_AR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p2",
+      SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_AR,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_AR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_AR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_AR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p3",
+      SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_AR,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_AR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_AR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_AR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p4",
+      SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_AR,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_AR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_AR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_AR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p5",
+      SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_AR,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_AR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_AR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_AR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
    },
    {
       "sgx_turbo_toggle",
@@ -727,6 +809,18 @@ struct retro_core_options_v2 options_ar = {
 #define SGX_DISABLE_SOFTRESET_INFO_0_AST NULL
 #define SGX_MULTITAP_LABEL_AST NULL
 #define SGX_MULTITAP_INFO_0_AST NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_AST NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_AST NULL
+#define OPTION_VAL_2_BUTTONS_AST NULL
+#define OPTION_VAL_6_BUTTONS_AST NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_AST NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_AST NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_AST NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_AST NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_AST NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_AST NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_AST NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_AST NULL
 #define SGX_TURBO_TOGGLE_LABEL_AST NULL
 #define SGX_TURBO_TOGGLE_INFO_0_AST NULL
 #define OPTION_VAL_SWITCH_AST NULL
@@ -1028,6 +1122,76 @@ struct retro_core_option_v2_definition option_defs_ast[] = {
          { NULL, NULL},
       },
       "enabled"
+   },
+   {
+      "sgx_default_joypad_type_p1",
+      SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_AST,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_AST,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_AST },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_AST },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p2",
+      SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_AST,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_AST,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_AST },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_AST },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p3",
+      SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_AST,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_AST,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_AST },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_AST },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p4",
+      SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_AST,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_AST,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_AST },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_AST },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p5",
+      SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_AST,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_AST,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_AST },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_AST },
+         { NULL, NULL},
+      },
+      "2 Buttons"
    },
    {
       "sgx_turbo_toggle",
@@ -1361,6 +1525,18 @@ struct retro_core_options_v2 options_ast = {
 #define SGX_DISABLE_SOFTRESET_INFO_0_BE NULL
 #define SGX_MULTITAP_LABEL_BE NULL
 #define SGX_MULTITAP_INFO_0_BE NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_BE NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_BE NULL
+#define OPTION_VAL_2_BUTTONS_BE NULL
+#define OPTION_VAL_6_BUTTONS_BE NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_BE NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_BE NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_BE NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_BE NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_BE NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_BE NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_BE NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_BE NULL
 #define SGX_TURBO_TOGGLE_LABEL_BE NULL
 #define SGX_TURBO_TOGGLE_INFO_0_BE NULL
 #define OPTION_VAL_SWITCH_BE NULL
@@ -1662,6 +1838,76 @@ struct retro_core_option_v2_definition option_defs_be[] = {
          { NULL, NULL},
       },
       "enabled"
+   },
+   {
+      "sgx_default_joypad_type_p1",
+      SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_BE,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_BE,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_BE },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_BE },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p2",
+      SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_BE,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_BE,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_BE },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_BE },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p3",
+      SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_BE,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_BE,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_BE },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_BE },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p4",
+      SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_BE,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_BE,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_BE },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_BE },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p5",
+      SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_BE,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_BE,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_BE },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_BE },
+         { NULL, NULL},
+      },
+      "2 Buttons"
    },
    {
       "sgx_turbo_toggle",
@@ -1995,6 +2241,18 @@ struct retro_core_options_v2 options_be = {
 #define SGX_DISABLE_SOFTRESET_INFO_0_CA NULL
 #define SGX_MULTITAP_LABEL_CA NULL
 #define SGX_MULTITAP_INFO_0_CA NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_CA NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_CA NULL
+#define OPTION_VAL_2_BUTTONS_CA NULL
+#define OPTION_VAL_6_BUTTONS_CA NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_CA NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_CA NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_CA NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_CA NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_CA NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_CA NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_CA NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_CA NULL
 #define SGX_TURBO_TOGGLE_LABEL_CA NULL
 #define SGX_TURBO_TOGGLE_INFO_0_CA NULL
 #define OPTION_VAL_SWITCH_CA NULL
@@ -2296,6 +2554,76 @@ struct retro_core_option_v2_definition option_defs_ca[] = {
          { NULL, NULL},
       },
       "enabled"
+   },
+   {
+      "sgx_default_joypad_type_p1",
+      SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_CA,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_CA,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_CA },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_CA },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p2",
+      SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_CA,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_CA,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_CA },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_CA },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p3",
+      SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_CA,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_CA,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_CA },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_CA },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p4",
+      SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_CA,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_CA,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_CA },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_CA },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p5",
+      SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_CA,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_CA,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_CA },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_CA },
+         { NULL, NULL},
+      },
+      "2 Buttons"
    },
    {
       "sgx_turbo_toggle",
@@ -2629,6 +2957,18 @@ struct retro_core_options_v2 options_ca = {
 #define SGX_DISABLE_SOFTRESET_INFO_0_CHS NULL
 #define SGX_MULTITAP_LABEL_CHS NULL
 #define SGX_MULTITAP_INFO_0_CHS NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_CHS NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_CHS NULL
+#define OPTION_VAL_2_BUTTONS_CHS NULL
+#define OPTION_VAL_6_BUTTONS_CHS NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_CHS NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_CHS NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_CHS NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_CHS NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_CHS NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_CHS NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_CHS NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_CHS NULL
 #define SGX_TURBO_TOGGLE_LABEL_CHS NULL
 #define SGX_TURBO_TOGGLE_INFO_0_CHS NULL
 #define OPTION_VAL_SWITCH_CHS "切换"
@@ -2930,6 +3270,76 @@ struct retro_core_option_v2_definition option_defs_chs[] = {
          { NULL, NULL},
       },
       "enabled"
+   },
+   {
+      "sgx_default_joypad_type_p1",
+      SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_CHS,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_CHS,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_CHS },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_CHS },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p2",
+      SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_CHS,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_CHS,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_CHS },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_CHS },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p3",
+      SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_CHS,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_CHS,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_CHS },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_CHS },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p4",
+      SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_CHS,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_CHS,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_CHS },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_CHS },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p5",
+      SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_CHS,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_CHS,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_CHS },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_CHS },
+         { NULL, NULL},
+      },
+      "2 Buttons"
    },
    {
       "sgx_turbo_toggle",
@@ -3263,6 +3673,18 @@ struct retro_core_options_v2 options_chs = {
 #define SGX_DISABLE_SOFTRESET_INFO_0_CHT "禁用按[RUN鍵+SELECT鍵]重新開始遊戲, 此選項僅禁用核心登錄的組合鍵。"
 #define SGX_MULTITAP_LABEL_CHT "五手把轉接器"
 #define SGX_MULTITAP_INFO_0_CHT "使用五手把轉接插座可對應五位玩家, 部分遊戲執行時需要關閉此選項, 例如「超兄貴(Cho Aniki)」。"
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_CHT NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_CHT NULL
+#define OPTION_VAL_2_BUTTONS_CHT NULL
+#define OPTION_VAL_6_BUTTONS_CHT NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_CHT NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_CHT NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_CHT NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_CHT NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_CHT NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_CHT NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_CHT NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_CHT NULL
 #define SGX_TURBO_TOGGLE_LABEL_CHT "連發模式"
 #define SGX_TURBO_TOGGLE_INFO_0_CHT "設定[III/IV鍵]連發模式(開關/專用), 設定<開關>時提供給[I/II鍵]使用。"
 #define OPTION_VAL_SWITCH_CHT "開關"
@@ -3564,6 +3986,76 @@ struct retro_core_option_v2_definition option_defs_cht[] = {
          { NULL, NULL},
       },
       "enabled"
+   },
+   {
+      "sgx_default_joypad_type_p1",
+      SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_CHT,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_CHT,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_CHT },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_CHT },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p2",
+      SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_CHT,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_CHT,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_CHT },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_CHT },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p3",
+      SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_CHT,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_CHT,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_CHT },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_CHT },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p4",
+      SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_CHT,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_CHT,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_CHT },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_CHT },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p5",
+      SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_CHT,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_CHT,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_CHT },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_CHT },
+         { NULL, NULL},
+      },
+      "2 Buttons"
    },
    {
       "sgx_turbo_toggle",
@@ -3897,6 +4389,18 @@ struct retro_core_options_v2 options_cht = {
 #define SGX_DISABLE_SOFTRESET_INFO_0_CS "Při současném stisknutí tlačítek RUN a SELECT se místo resetování dočasně vypnou obě tlačítka."
 #define SGX_MULTITAP_LABEL_CS "Multitap 5-portový Ovladač"
 #define SGX_MULTITAP_INFO_0_CS "Umožňuje emulaci až 5 hráčů ve více lidech. Vypnutí této funkce je nutné pouze v některých případech (např. Cho Aniki)."
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_CS "P1 Výchozí typ joypadu"
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_CS "Zvolte, zda má mít joypad port 1 ve výchozím nastavení 2 nebo 6 tlačítek. Tato volba se použije pouze při spuštění jádra, pokud chcete přepínat za běhu obsahu, použijte tlačítko \"Přepínač režimů\". POZNÁMKA: 6tlačítkový joypad může mít v nekompatibilních hrách podivné chování."
+#define OPTION_VAL_2_BUTTONS_CS "2 Tlačítka"
+#define OPTION_VAL_6_BUTTONS_CS "6 Tlačítek"
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_CS "P2 Výchozí typ joypadu"
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_CS "Vyberte, zda má mít joypad port 2 ve výchozím nastavení 2 nebo 6 tlačítek. Tato volba se použije pouze při spuštění jádra, pokud chcete přepínat za běhu obsahu, použijte tlačítko \"Přepínač režimů\". POZNÁMKA: 6tlačítkový joypad může mít v nekompatibilních hrách podivné chování."
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_CS "P3 Výchozí typ joypadu"
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_CS "Zvolte, zda má mít joypad port 3 ve výchozím nastavení 2 nebo 6 tlačítek. Tato volba se použije pouze při spuštění jádra, pokud chcete přepínat za běhu obsahu, použijte tlačítko \"Přepínač režimů\". POZNÁMKA: 6tlačítkový joypad může mít v nekompatibilních hrách podivné chování."
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_CS "P4 Výchozí typ joypadu"
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_CS "Zvolte, zda má mít joypad port 4 ve výchozím nastavení 2 nebo 6 tlačítek. Tato volba se použije pouze při spuštění jádra, pokud chcete přepínat za běhu obsahu, použijte tlačítko \"Přepínač režimů\". POZNÁMKA: 6tlačítkový joypad může mít v nekompatibilních hrách podivné chování."
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_CS "P5 Výchozí typ joypadu"
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_CS "Zvolte, zda má mít joypad port 5 ve výchozím nastavení 2 nebo 6 tlačítek. Tato volba se použije pouze při spuštění jádra, pokud chcete přepínat za běhu obsahu, použijte tlačítko \"Přepínač režimů\". POZNÁMKA: 6tlačítkový joypad může mít v nekompatibilních hrách podivné chování."
 #define SGX_TURBO_TOGGLE_LABEL_CS "Režim Turbo Hotkey"
 #define SGX_TURBO_TOGGLE_INFO_0_CS "Povolení turbo tlačítek. Klávesové zkratky (tlačítka III a IV) se mohou chovat jako přepínače nebo jako vyhrazená turbo tlačítka (pro použití je třeba je podržet)."
 #define OPTION_VAL_SWITCH_CS "Přepínač"
@@ -4198,6 +4702,76 @@ struct retro_core_option_v2_definition option_defs_cs[] = {
          { NULL, NULL},
       },
       "enabled"
+   },
+   {
+      "sgx_default_joypad_type_p1",
+      SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_CS,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_CS,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_CS },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_CS },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p2",
+      SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_CS,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_CS,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_CS },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_CS },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p3",
+      SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_CS,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_CS,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_CS },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_CS },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p4",
+      SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_CS,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_CS,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_CS },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_CS },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p5",
+      SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_CS,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_CS,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_CS },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_CS },
+         { NULL, NULL},
+      },
+      "2 Buttons"
    },
    {
       "sgx_turbo_toggle",
@@ -4531,6 +5105,18 @@ struct retro_core_options_v2 options_cs = {
 #define SGX_DISABLE_SOFTRESET_INFO_0_CY NULL
 #define SGX_MULTITAP_LABEL_CY NULL
 #define SGX_MULTITAP_INFO_0_CY NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_CY NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_CY NULL
+#define OPTION_VAL_2_BUTTONS_CY NULL
+#define OPTION_VAL_6_BUTTONS_CY NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_CY NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_CY NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_CY NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_CY NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_CY NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_CY NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_CY NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_CY NULL
 #define SGX_TURBO_TOGGLE_LABEL_CY NULL
 #define SGX_TURBO_TOGGLE_INFO_0_CY NULL
 #define OPTION_VAL_SWITCH_CY NULL
@@ -4832,6 +5418,76 @@ struct retro_core_option_v2_definition option_defs_cy[] = {
          { NULL, NULL},
       },
       "enabled"
+   },
+   {
+      "sgx_default_joypad_type_p1",
+      SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_CY,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_CY,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_CY },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_CY },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p2",
+      SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_CY,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_CY,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_CY },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_CY },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p3",
+      SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_CY,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_CY,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_CY },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_CY },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p4",
+      SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_CY,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_CY,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_CY },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_CY },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p5",
+      SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_CY,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_CY,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_CY },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_CY },
+         { NULL, NULL},
+      },
+      "2 Buttons"
    },
    {
       "sgx_turbo_toggle",
@@ -5165,6 +5821,18 @@ struct retro_core_options_v2 options_cy = {
 #define SGX_DISABLE_SOFTRESET_INFO_0_DA NULL
 #define SGX_MULTITAP_LABEL_DA NULL
 #define SGX_MULTITAP_INFO_0_DA NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_DA NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_DA NULL
+#define OPTION_VAL_2_BUTTONS_DA NULL
+#define OPTION_VAL_6_BUTTONS_DA NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_DA NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_DA NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_DA NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_DA NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_DA NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_DA NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_DA NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_DA NULL
 #define SGX_TURBO_TOGGLE_LABEL_DA NULL
 #define SGX_TURBO_TOGGLE_INFO_0_DA NULL
 #define OPTION_VAL_SWITCH_DA NULL
@@ -5466,6 +6134,76 @@ struct retro_core_option_v2_definition option_defs_da[] = {
          { NULL, NULL},
       },
       "enabled"
+   },
+   {
+      "sgx_default_joypad_type_p1",
+      SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_DA,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_DA,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_DA },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_DA },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p2",
+      SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_DA,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_DA,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_DA },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_DA },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p3",
+      SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_DA,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_DA,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_DA },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_DA },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p4",
+      SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_DA,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_DA,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_DA },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_DA },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p5",
+      SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_DA,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_DA,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_DA },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_DA },
+         { NULL, NULL},
+      },
+      "2 Buttons"
    },
    {
       "sgx_turbo_toggle",
@@ -5799,6 +6537,18 @@ struct retro_core_options_v2 options_da = {
 #define SGX_DISABLE_SOFTRESET_INFO_0_DE "Wenn RUN und SELECT gleichzeitig gedrückt werden, werden beide Tasten vorübergehend deaktiviert, anstatt den Inhalt neu zu starten."
 #define SGX_MULTITAP_LABEL_DE "Multitap -5-Port-Controller"
 #define SGX_MULTITAP_INFO_0_DE "Multitap-Emulation für bis zu 5 Spieler aktivieren. Die Deaktivierung ist nur in einigen Fällen erforderlich (z. B. Cho Aniki)."
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_DE "P1 Standard-Joypad-Typ"
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_DE "Hier wählen, ob Joypad von Port 1 standardmäßig 2 oder 6 Tasten besitzen soll. Diese Option wird nur beim Start des Cores ausgeführt. Wenn umgeschaltet werden soll, während der Inhalt läuft, bitte den „Moduswechsel“ verwenden. HINWEIS: Ein 6-Tasten-Joypad kann sich in nicht kompatiblen Spielen seltsam verhalten."
+#define OPTION_VAL_2_BUTTONS_DE "2 Tasten"
+#define OPTION_VAL_6_BUTTONS_DE "6 Tasten"
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_DE "P2 Standard-Joypad-Typ"
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_DE "Hier wählen, ob Joypad von Port 2 standardmäßig 2 oder 6 Tasten besitzen soll. Diese Option wird nur beim Start des Cores ausgeführt. Wenn umgeschaltet werden soll, während der Inhalt läuft, bitte den „Moduswechsel“ verwenden. HINWEIS: Ein 6-Tasten-Joypad kann sich in nicht kompatiblen Spielen seltsam verhalten."
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_DE "P3 Standard-Joypad-Typ"
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_DE "Hier wählen, ob Joypad von Port 3 standardmäßig 2 oder 6 Tasten besitzen soll. Diese Option wird nur beim Start des Cores ausgeführt. Wenn umgeschaltet werden soll, während der Inhalt läuft, bitte den „Moduswechsel“ verwenden. HINWEIS: Ein 6-Tasten-Joypad kann sich in nicht kompatiblen Spielen seltsam verhalten."
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_DE "P4 Standard-Joypad-Typ"
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_DE "Hier wählen, ob Joypad von Port 4 standardmäßig 2 oder 6 Tasten besitzen soll. Diese Option wird nur beim Start des Cores ausgeführt. Wenn umgeschaltet werden soll, während der Inhalt läuft, bitte den „Moduswechsel“ verwenden. HINWEIS: Ein 6-Tasten-Joypad kann sich in nicht kompatiblen Spielen seltsam verhalten."
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_DE "P5 Standard-Joypad-Typ"
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_DE "Hier wählen, ob Joypad von Port 5 standardmäßig 2 oder 6 Tasten besitzen soll. Diese Option wird nur beim Start des Cores ausgeführt. Wenn umgeschaltet werden soll, während der Inhalt läuft, bitte den „Moduswechsel“ verwenden. HINWEIS: Ein 6-Tasten-Joypad kann sich in nicht kompatiblen Spielen seltsam verhalten."
 #define SGX_TURBO_TOGGLE_LABEL_DE "Turbo-Hotkey-Modus"
 #define SGX_TURBO_TOGGLE_INFO_0_DE "Turbotasten aktivieren. Hotkeys (Tasten III und IV) können entweder als Umschalter oder als dedizierte Turbotasten (zum Verwenden gedrückt halten) fungieren."
 #define OPTION_VAL_SWITCH_DE "Umschalten"
@@ -6100,6 +6850,76 @@ struct retro_core_option_v2_definition option_defs_de[] = {
          { NULL, NULL},
       },
       "enabled"
+   },
+   {
+      "sgx_default_joypad_type_p1",
+      SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_DE,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_DE,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_DE },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_DE },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p2",
+      SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_DE,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_DE,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_DE },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_DE },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p3",
+      SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_DE,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_DE,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_DE },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_DE },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p4",
+      SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_DE,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_DE,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_DE },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_DE },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p5",
+      SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_DE,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_DE,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_DE },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_DE },
+         { NULL, NULL},
+      },
+      "2 Buttons"
    },
    {
       "sgx_turbo_toggle",
@@ -6433,6 +7253,18 @@ struct retro_core_options_v2 options_de = {
 #define SGX_DISABLE_SOFTRESET_INFO_0_EL NULL
 #define SGX_MULTITAP_LABEL_EL NULL
 #define SGX_MULTITAP_INFO_0_EL NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_EL NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_EL NULL
+#define OPTION_VAL_2_BUTTONS_EL NULL
+#define OPTION_VAL_6_BUTTONS_EL NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_EL NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_EL NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_EL NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_EL NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_EL NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_EL NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_EL NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_EL NULL
 #define SGX_TURBO_TOGGLE_LABEL_EL NULL
 #define SGX_TURBO_TOGGLE_INFO_0_EL NULL
 #define OPTION_VAL_SWITCH_EL NULL
@@ -6734,6 +7566,76 @@ struct retro_core_option_v2_definition option_defs_el[] = {
          { NULL, NULL},
       },
       "enabled"
+   },
+   {
+      "sgx_default_joypad_type_p1",
+      SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_EL,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_EL,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_EL },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_EL },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p2",
+      SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_EL,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_EL,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_EL },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_EL },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p3",
+      SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_EL,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_EL,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_EL },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_EL },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p4",
+      SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_EL,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_EL,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_EL },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_EL },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p5",
+      SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_EL,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_EL,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_EL },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_EL },
+         { NULL, NULL},
+      },
+      "2 Buttons"
    },
    {
       "sgx_turbo_toggle",
@@ -7067,6 +7969,18 @@ struct retro_core_options_v2 options_el = {
 #define SGX_DISABLE_SOFTRESET_INFO_0_EN NULL
 #define SGX_MULTITAP_LABEL_EN "Multi-tap 5-port Controller"
 #define SGX_MULTITAP_INFO_0_EN "Enable up to 5-player multi-tap emulation. Disabling this is only needed in some cases (e.g. Cho Aniki)."
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_EN NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_EN NULL
+#define OPTION_VAL_2_BUTTONS_EN NULL
+#define OPTION_VAL_6_BUTTONS_EN NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_EN NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_EN NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_EN NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_EN NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_EN NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_EN NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_EN NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_EN NULL
 #define SGX_TURBO_TOGGLE_LABEL_EN NULL
 #define SGX_TURBO_TOGGLE_INFO_0_EN NULL
 #define OPTION_VAL_SWITCH_EN NULL
@@ -7368,6 +8282,76 @@ struct retro_core_option_v2_definition option_defs_en[] = {
          { NULL, NULL},
       },
       "enabled"
+   },
+   {
+      "sgx_default_joypad_type_p1",
+      SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_EN,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_EN,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_EN },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_EN },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p2",
+      SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_EN,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_EN,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_EN },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_EN },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p3",
+      SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_EN,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_EN,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_EN },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_EN },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p4",
+      SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_EN,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_EN,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_EN },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_EN },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p5",
+      SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_EN,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_EN,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_EN },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_EN },
+         { NULL, NULL},
+      },
+      "2 Buttons"
    },
    {
       "sgx_turbo_toggle",
@@ -7701,6 +8685,18 @@ struct retro_core_options_v2 options_en = {
 #define SGX_DISABLE_SOFTRESET_INFO_0_EO NULL
 #define SGX_MULTITAP_LABEL_EO NULL
 #define SGX_MULTITAP_INFO_0_EO NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_EO NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_EO NULL
+#define OPTION_VAL_2_BUTTONS_EO NULL
+#define OPTION_VAL_6_BUTTONS_EO NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_EO NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_EO NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_EO NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_EO NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_EO NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_EO NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_EO NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_EO NULL
 #define SGX_TURBO_TOGGLE_LABEL_EO NULL
 #define SGX_TURBO_TOGGLE_INFO_0_EO NULL
 #define OPTION_VAL_SWITCH_EO NULL
@@ -8002,6 +8998,76 @@ struct retro_core_option_v2_definition option_defs_eo[] = {
          { NULL, NULL},
       },
       "enabled"
+   },
+   {
+      "sgx_default_joypad_type_p1",
+      SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_EO,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_EO,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_EO },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_EO },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p2",
+      SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_EO,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_EO,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_EO },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_EO },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p3",
+      SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_EO,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_EO,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_EO },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_EO },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p4",
+      SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_EO,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_EO,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_EO },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_EO },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p5",
+      SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_EO,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_EO,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_EO },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_EO },
+         { NULL, NULL},
+      },
+      "2 Buttons"
    },
    {
       "sgx_turbo_toggle",
@@ -8335,6 +9401,18 @@ struct retro_core_options_v2 options_eo = {
 #define SGX_DISABLE_SOFTRESET_INFO_0_ES "Cuando se pulsen a la vez los botones RUN y SELECT, esta opción desactivará los dos botones temporalmente en vez de provocar un reinicio del sistema."
 #define SGX_MULTITAP_LABEL_ES "Multitap para cinco mandos"
 #define SGX_MULTITAP_INFO_0_ES "Activa la emulación de un Multitap para hasta cinco jugadores. Solo es necesario desactivar esta opción en casos concretos (p. ej.: Cho Aniki)."
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_ES "Tipo de mando predeterminado del J1"
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_ES "Indica si el mando del puerto 1 debería ser uno de 2 o 6 botones por defecto. Esta opción se aplica únicamente al iniciar el núcleo: si deseas cambiar el tipo de mando mientras se esté ejecutando un contenido, debes usar el botón de cambio de modo. NOTA: los mandos de 6 botones pueden producir comportamientos extraños en juegos que no sean compatibles con este mando."
+#define OPTION_VAL_2_BUTTONS_ES "Dos botones"
+#define OPTION_VAL_6_BUTTONS_ES "Seis botones"
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_ES "Tipo de mando predeterminado del J2"
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_ES "Indica si el mando del puerto 2 debería ser uno de 2 o 6 botones por defecto. Esta opción se aplica únicamente al iniciar el núcleo: si deseas cambiar el tipo de mando mientras se esté ejecutando un contenido, debes usar el botón de cambio de modo. NOTA: los mandos de 6 botones pueden producir comportamientos extraños en juegos que no sean compatibles con este mando."
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_ES "Tipo de mando predeterminado del J3"
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_ES "Indica si el mando del puerto 3 debería ser uno de 2 o 6 botones por defecto. Esta opción se aplica únicamente al iniciar el núcleo: si deseas cambiar el tipo de mando mientras se esté ejecutando un contenido, debes usar el botón de cambio de modo. NOTA: los mandos de 6 botones pueden producir comportamientos extraños en juegos que no sean compatibles con este mando."
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_ES "Tipo de mando predeterminado del J4"
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_ES "Indica si el mando del puerto 4 debería ser uno de 2 o 6 botones por defecto. Esta opción se aplica únicamente al iniciar el núcleo: si deseas cambiar el tipo de mando mientras se esté ejecutando un contenido, debes usar el botón de cambio de modo. NOTA: los mandos de 6 botones pueden producir comportamientos extraños en juegos que no sean compatibles con este mando."
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_ES "Tipo de mando predeterminado del J5"
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_ES "Indica si el mando del puerto 5 debería ser uno de 2 o 6 botones por defecto. Esta opción se aplica únicamente al iniciar el núcleo: si deseas cambiar el tipo de mando mientras se esté ejecutando un contenido, debes usar el botón de cambio de modo. NOTA: los mandos de 6 botones pueden producir comportamientos extraños en juegos que no sean compatibles con este mando."
 #define SGX_TURBO_TOGGLE_LABEL_ES "Modo de las teclas rápidas del turbo"
 #define SGX_TURBO_TOGGLE_INFO_0_ES "Activa los botones con turbo. Las teclas rápidas (los botones III y IV) pueden hacer de conmutadores o de botones de turbo dedicados (mantenlos pulsados para usarlos)."
 #define OPTION_VAL_SWITCH_ES "Activación manual"
@@ -8636,6 +9714,76 @@ struct retro_core_option_v2_definition option_defs_es[] = {
          { NULL, NULL},
       },
       "enabled"
+   },
+   {
+      "sgx_default_joypad_type_p1",
+      SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_ES,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_ES,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_ES },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_ES },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p2",
+      SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_ES,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_ES,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_ES },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_ES },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p3",
+      SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_ES,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_ES,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_ES },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_ES },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p4",
+      SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_ES,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_ES,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_ES },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_ES },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p5",
+      SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_ES,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_ES,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_ES },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_ES },
+         { NULL, NULL},
+      },
+      "2 Buttons"
    },
    {
       "sgx_turbo_toggle",
@@ -8969,6 +10117,18 @@ struct retro_core_options_v2 options_es = {
 #define SGX_DISABLE_SOFTRESET_INFO_0_FA NULL
 #define SGX_MULTITAP_LABEL_FA NULL
 #define SGX_MULTITAP_INFO_0_FA NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_FA NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_FA NULL
+#define OPTION_VAL_2_BUTTONS_FA NULL
+#define OPTION_VAL_6_BUTTONS_FA NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_FA NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_FA NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_FA NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_FA NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_FA NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_FA NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_FA NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_FA NULL
 #define SGX_TURBO_TOGGLE_LABEL_FA NULL
 #define SGX_TURBO_TOGGLE_INFO_0_FA NULL
 #define OPTION_VAL_SWITCH_FA NULL
@@ -9270,6 +10430,76 @@ struct retro_core_option_v2_definition option_defs_fa[] = {
          { NULL, NULL},
       },
       "enabled"
+   },
+   {
+      "sgx_default_joypad_type_p1",
+      SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_FA,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_FA,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_FA },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_FA },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p2",
+      SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_FA,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_FA,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_FA },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_FA },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p3",
+      SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_FA,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_FA,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_FA },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_FA },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p4",
+      SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_FA,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_FA,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_FA },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_FA },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p5",
+      SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_FA,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_FA,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_FA },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_FA },
+         { NULL, NULL},
+      },
+      "2 Buttons"
    },
    {
       "sgx_turbo_toggle",
@@ -9603,6 +10833,18 @@ struct retro_core_options_v2 options_fa = {
 #define SGX_DISABLE_SOFTRESET_INFO_0_FI "Kun RUN ja SELECT painetaan samanaikaisesti, poistetaan molemmat painikkeet käytöstä tilapäisesti soft resettaamisen sijaan."
 #define SGX_MULTITAP_LABEL_FI NULL
 #define SGX_MULTITAP_INFO_0_FI NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_FI NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_FI NULL
+#define OPTION_VAL_2_BUTTONS_FI NULL
+#define OPTION_VAL_6_BUTTONS_FI NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_FI NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_FI NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_FI NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_FI NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_FI NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_FI NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_FI NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_FI NULL
 #define SGX_TURBO_TOGGLE_LABEL_FI NULL
 #define SGX_TURBO_TOGGLE_INFO_0_FI NULL
 #define OPTION_VAL_SWITCH_FI NULL
@@ -9904,6 +11146,76 @@ struct retro_core_option_v2_definition option_defs_fi[] = {
          { NULL, NULL},
       },
       "enabled"
+   },
+   {
+      "sgx_default_joypad_type_p1",
+      SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_FI,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_FI,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_FI },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_FI },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p2",
+      SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_FI,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_FI,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_FI },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_FI },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p3",
+      SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_FI,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_FI,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_FI },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_FI },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p4",
+      SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_FI,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_FI,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_FI },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_FI },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p5",
+      SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_FI,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_FI,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_FI },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_FI },
+         { NULL, NULL},
+      },
+      "2 Buttons"
    },
    {
       "sgx_turbo_toggle",
@@ -10237,6 +11549,18 @@ struct retro_core_options_v2 options_fi = {
 #define SGX_DISABLE_SOFTRESET_INFO_0_FR "Lorsque RUN et SELECT sont appuyés simultanément, désactiver temporairement les deux touches au lieu de réinitialiser."
 #define SGX_MULTITAP_LABEL_FR "Contrôleur multitap à 5 ports"
 #define SGX_MULTITAP_INFO_0_FR "Activer l'émulation multitap jusqu'à 5 joueurs. Désactiver ceci n'est nécessaire que dans certains cas (Cho Aniki par exemple)."
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_FR "Type de manette par défaut pour le joueur 1"
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_FR "Choisissez si la manette du port 1 doit avoir 2 ou 6 touches par défaut. Cette option n'est appliquée qu'au démarrage du cœur, si vous voulez changer de contenu lorsque du contenu est en cours d'exécution, utilisez la touche 'Mode Switch'. REMARQUE : Les manettes à 6 touches peuvent avoir des comportements bizarres dans des jeux non compatibles."
+#define OPTION_VAL_2_BUTTONS_FR "2 touches"
+#define OPTION_VAL_6_BUTTONS_FR "6 touches"
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_FR "Type de manette par défaut pour le joueur 2"
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_FR "Choisissez si la manette du port 2 doit avoir 2 ou 6 touches par défaut. Cette option n'est appliquée qu'au démarrage du cœur, si vous voulez changer de contenu lorsque du contenu est en cours d'exécution, utilisez la touche 'Mode Switch'. REMARQUE : Les manettes à 6 touches peuvent avoir des comportements bizarres dans des jeux non compatibles."
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_FR "Type de manette par défaut pour le joueur 3"
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_FR "Choisissez si la manette du port 3 doit avoir 2 ou 6 touches par défaut. Cette option n'est appliquée qu'au démarrage du cœur, si vous voulez changer de contenu lorsque du contenu est en cours d'exécution, utilisez la touche 'Mode Switch'. REMARQUE : Les manettes à 6 touches peuvent avoir des comportements bizarres dans des jeux non compatibles."
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_FR "Type de manette par défaut pour le joueur 4"
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_FR "Choisissez si la manette du port 4 doit avoir 2 ou 6 touches par défaut. Cette option n'est appliquée qu'au démarrage du cœur, si vous voulez changer de contenu lorsque du contenu est en cours d'exécution, utilisez la touche 'Mode Switch'. REMARQUE : Les manettes à 6 touches peuvent avoir des comportements bizarres dans des jeux non compatibles."
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_FR "Type de manette par défaut pour le joueur 5"
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_FR "Choisissez si la manette du port 5 doit avoir 2 ou 6 touches par défaut. Cette option n'est appliquée qu'au démarrage du cœur, si vous voulez changer de contenu lorsque du contenu est en cours d'exécution, utilisez la touche 'Mode Switch'. REMARQUE : Les manettes à 6 touches peuvent avoir des comportements bizarres dans des jeux non compatibles."
 #define SGX_TURBO_TOGGLE_LABEL_FR "Mode des touches de raccourci du turbo"
 #define SGX_TURBO_TOGGLE_INFO_0_FR "Activer les touches turbo. Les raccourcis (touches III et IV) peuvent se comporter comme des interrupteurs ou des touches turbo dédiées (maintenir enfoncées)."
 #define OPTION_VAL_SWITCH_FR "Activer/désactiver"
@@ -10538,6 +11862,76 @@ struct retro_core_option_v2_definition option_defs_fr[] = {
          { NULL, NULL},
       },
       "enabled"
+   },
+   {
+      "sgx_default_joypad_type_p1",
+      SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_FR,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_FR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_FR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_FR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p2",
+      SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_FR,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_FR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_FR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_FR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p3",
+      SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_FR,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_FR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_FR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_FR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p4",
+      SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_FR,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_FR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_FR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_FR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p5",
+      SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_FR,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_FR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_FR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_FR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
    },
    {
       "sgx_turbo_toggle",
@@ -10871,6 +12265,18 @@ struct retro_core_options_v2 options_fr = {
 #define SGX_DISABLE_SOFTRESET_INFO_0_GL NULL
 #define SGX_MULTITAP_LABEL_GL NULL
 #define SGX_MULTITAP_INFO_0_GL NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_GL NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_GL NULL
+#define OPTION_VAL_2_BUTTONS_GL NULL
+#define OPTION_VAL_6_BUTTONS_GL NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_GL NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_GL NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_GL NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_GL NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_GL NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_GL NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_GL NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_GL NULL
 #define SGX_TURBO_TOGGLE_LABEL_GL NULL
 #define SGX_TURBO_TOGGLE_INFO_0_GL NULL
 #define OPTION_VAL_SWITCH_GL NULL
@@ -11172,6 +12578,76 @@ struct retro_core_option_v2_definition option_defs_gl[] = {
          { NULL, NULL},
       },
       "enabled"
+   },
+   {
+      "sgx_default_joypad_type_p1",
+      SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_GL,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_GL,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_GL },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_GL },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p2",
+      SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_GL,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_GL,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_GL },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_GL },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p3",
+      SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_GL,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_GL,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_GL },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_GL },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p4",
+      SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_GL,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_GL,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_GL },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_GL },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p5",
+      SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_GL,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_GL,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_GL },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_GL },
+         { NULL, NULL},
+      },
+      "2 Buttons"
    },
    {
       "sgx_turbo_toggle",
@@ -11505,6 +12981,18 @@ struct retro_core_options_v2 options_gl = {
 #define SGX_DISABLE_SOFTRESET_INFO_0_HE NULL
 #define SGX_MULTITAP_LABEL_HE NULL
 #define SGX_MULTITAP_INFO_0_HE NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_HE NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_HE NULL
+#define OPTION_VAL_2_BUTTONS_HE NULL
+#define OPTION_VAL_6_BUTTONS_HE NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_HE NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_HE NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_HE NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_HE NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_HE NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_HE NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_HE NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_HE NULL
 #define SGX_TURBO_TOGGLE_LABEL_HE NULL
 #define SGX_TURBO_TOGGLE_INFO_0_HE NULL
 #define OPTION_VAL_SWITCH_HE NULL
@@ -11806,6 +13294,76 @@ struct retro_core_option_v2_definition option_defs_he[] = {
          { NULL, NULL},
       },
       "enabled"
+   },
+   {
+      "sgx_default_joypad_type_p1",
+      SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_HE,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_HE,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_HE },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_HE },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p2",
+      SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_HE,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_HE,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_HE },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_HE },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p3",
+      SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_HE,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_HE,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_HE },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_HE },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p4",
+      SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_HE,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_HE,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_HE },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_HE },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p5",
+      SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_HE,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_HE,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_HE },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_HE },
+         { NULL, NULL},
+      },
+      "2 Buttons"
    },
    {
       "sgx_turbo_toggle",
@@ -12139,6 +13697,18 @@ struct retro_core_options_v2 options_he = {
 #define SGX_DISABLE_SOFTRESET_INFO_0_HR NULL
 #define SGX_MULTITAP_LABEL_HR NULL
 #define SGX_MULTITAP_INFO_0_HR NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_HR NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_HR NULL
+#define OPTION_VAL_2_BUTTONS_HR NULL
+#define OPTION_VAL_6_BUTTONS_HR NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_HR NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_HR NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_HR NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_HR NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_HR NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_HR NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_HR NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_HR NULL
 #define SGX_TURBO_TOGGLE_LABEL_HR NULL
 #define SGX_TURBO_TOGGLE_INFO_0_HR NULL
 #define OPTION_VAL_SWITCH_HR NULL
@@ -12440,6 +14010,76 @@ struct retro_core_option_v2_definition option_defs_hr[] = {
          { NULL, NULL},
       },
       "enabled"
+   },
+   {
+      "sgx_default_joypad_type_p1",
+      SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_HR,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_HR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_HR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_HR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p2",
+      SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_HR,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_HR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_HR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_HR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p3",
+      SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_HR,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_HR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_HR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_HR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p4",
+      SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_HR,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_HR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_HR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_HR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p5",
+      SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_HR,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_HR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_HR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_HR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
    },
    {
       "sgx_turbo_toggle",
@@ -12773,6 +14413,18 @@ struct retro_core_options_v2 options_hr = {
 #define SGX_DISABLE_SOFTRESET_INFO_0_HU "A RUN és SELECT gombok egyidejű megnyomásakor mindkét gomb ideiglenes letiltása, reset helyett."
 #define SGX_MULTITAP_LABEL_HU "Multitap 5 csatlakozós kontroller"
 #define SGX_MULTITAP_INFO_0_HU "Legfeljebb 5 játékos engedélyezése multitap emulációval. Csak néhány esetben szükséges kikapcsolni (pl. Cho Aniki)."
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_HU "1. joypad alapértelmezett típusa"
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_HU "Az 1. csatlakozó induláskor 2 vagy 6 gombos-e. Ez a beállítás csak a mag elindításakor jut érvényre, tartalom futtatása közben a \"Módváltás\" gomb használható. Figyelem: a 6 gombos joypadnak furcsa hatása lehet az azzal nem kompatibilis játékokra."
+#define OPTION_VAL_2_BUTTONS_HU "2 gomb"
+#define OPTION_VAL_6_BUTTONS_HU "6 gomb"
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_HU "2. joypad alapértelmezett típusa"
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_HU "A 2. csatlakozó induláskor 2 vagy 6 gombos-e. Ez a beállítás csak a mag elindításakor jut érvényre, tartalom futtatása közben a \"Módváltás\" gomb használható. Figyelem: a 6 gombos joypadnak furcsa hatása lehet az azzal nem kompatibilis játékokra."
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_HU "3. joypad alapértelmezett típusa"
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_HU "A 3. csatlakozó induláskor 2 vagy 6 gombos-e. Ez a beállítás csak a mag elindításakor jut érvényre, tartalom futtatása közben a \"Módváltás\" gomb használható. Figyelem: a 6 gombos joypadnak furcsa hatása lehet az azzal nem kompatibilis játékokra."
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_HU "4. joypad alapértelmezett típusa"
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_HU "A 4. csatlakozó induláskor 2 vagy 6 gombos-e. Ez a beállítás csak a mag elindításakor jut érvényre, tartalom futtatása közben a \"Módváltás\" gomb használható. Figyelem: a 6 gombos joypadnak furcsa hatása lehet az azzal nem kompatibilis játékokra."
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_HU "5. joypad alapértelmezett típusa"
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_HU "Az 5. csatlakozó induláskor 2 vagy 6 gombos-e. Ez a beállítás csak a mag elindításakor jut érvényre, tartalom futtatása közben a \"Módváltás\" gomb használható. Figyelem: a 6 gombos joypadnak furcsa hatása lehet az azzal nem kompatibilis játékokra."
 #define SGX_TURBO_TOGGLE_LABEL_HU "Turbó gyorsgomb mód"
 #define SGX_TURBO_TOGGLE_INFO_0_HU "Turbó gombok engedélyezése. A gyorsgombok (III és IV) váltógombként vagy kijelölt (nyomva tartással használható) turbó gombként működhetnek."
 #define OPTION_VAL_SWITCH_HU "Váltógomb"
@@ -13074,6 +14726,76 @@ struct retro_core_option_v2_definition option_defs_hu[] = {
          { NULL, NULL},
       },
       "enabled"
+   },
+   {
+      "sgx_default_joypad_type_p1",
+      SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_HU,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_HU,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_HU },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_HU },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p2",
+      SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_HU,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_HU,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_HU },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_HU },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p3",
+      SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_HU,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_HU,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_HU },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_HU },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p4",
+      SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_HU,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_HU,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_HU },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_HU },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p5",
+      SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_HU,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_HU,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_HU },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_HU },
+         { NULL, NULL},
+      },
+      "2 Buttons"
    },
    {
       "sgx_turbo_toggle",
@@ -13407,6 +15129,18 @@ struct retro_core_options_v2 options_hu = {
 #define SGX_DISABLE_SOFTRESET_INFO_0_ID NULL
 #define SGX_MULTITAP_LABEL_ID NULL
 #define SGX_MULTITAP_INFO_0_ID NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_ID NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_ID NULL
+#define OPTION_VAL_2_BUTTONS_ID NULL
+#define OPTION_VAL_6_BUTTONS_ID NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_ID NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_ID NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_ID NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_ID NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_ID NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_ID NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_ID NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_ID NULL
 #define SGX_TURBO_TOGGLE_LABEL_ID NULL
 #define SGX_TURBO_TOGGLE_INFO_0_ID NULL
 #define OPTION_VAL_SWITCH_ID NULL
@@ -13708,6 +15442,76 @@ struct retro_core_option_v2_definition option_defs_id[] = {
          { NULL, NULL},
       },
       "enabled"
+   },
+   {
+      "sgx_default_joypad_type_p1",
+      SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_ID,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_ID,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_ID },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_ID },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p2",
+      SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_ID,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_ID,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_ID },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_ID },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p3",
+      SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_ID,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_ID,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_ID },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_ID },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p4",
+      SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_ID,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_ID,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_ID },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_ID },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p5",
+      SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_ID,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_ID,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_ID },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_ID },
+         { NULL, NULL},
+      },
+      "2 Buttons"
    },
    {
       "sgx_turbo_toggle",
@@ -14041,6 +15845,18 @@ struct retro_core_options_v2 options_id = {
 #define SGX_DISABLE_SOFTRESET_INFO_0_IT "Quando RUN e SELECT vengono premuti contemporaneamente, disabilitare temporaneamente entrambi i pulsanti invece di reimpostare."
 #define SGX_MULTITAP_LABEL_IT NULL
 #define SGX_MULTITAP_INFO_0_IT "Abilita l'emulazione multitap fino a 5 giocatori. Disabilitarla è necessaria solo in alcuni casi (ad esempio Cho Aniki)."
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_IT "Tipo Joypad Predefinito P1"
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_IT "Scegli se la porta 1 joypad deve essere 2 o 6 pulsanti per impostazione predefinita. Questa opzione viene applicata solo quando il core si avvia, se si desidera passare mentre il contenuto è in esecuzione, utilizzare il pulsante 'Commutatore di modalità'. NOTA: 6 pulsanti joypad possono avere comportamenti strani in giochi non compatibili."
+#define OPTION_VAL_2_BUTTONS_IT "2 Bottoni"
+#define OPTION_VAL_6_BUTTONS_IT "6 Bottoni"
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_IT "Tipo Joypad Predefinito P2"
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_IT "Scegli se la porta 2 joypad deve essere 2 o 6 pulsanti per impostazione predefinita. Questa opzione viene applicata solo quando il core si avvia, se si desidera passare mentre il contenuto è in esecuzione, utilizzare il pulsante 'Commutatore di modalità'. NOTA: 6 pulsanti joypad possono avere comportamenti strani in giochi non compatibili."
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_IT "Tipo Joypad Predefinito P3"
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_IT "Scegli se la porta 3 joypad dovrebbe essere 2 o 6 pulsanti per impostazione predefinita. Questa opzione viene applicata solo quando il core si avvia, se si desidera passare mentre il contenuto è in esecuzione, utilizzare il pulsante 'Commutatore di modalità'. NOTA: 6 pulsanti joypad possono avere comportamenti strani in giochi non compatibili."
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_IT "Tipo Joypad Predefinito P4"
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_IT "Scegli se la porta 4 joypad dovrebbe essere 2 o 6 pulsanti per impostazione predefinita. Questa opzione viene applicata solo quando il core si avvia, se si desidera passare mentre il contenuto è in esecuzione, utilizzare il pulsante 'Commutatore di modalità'. NOTA: 6 pulsanti joypad possono avere comportamenti strani in giochi non compatibili."
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_IT "Tipo Joypad Predefinito P5"
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_IT "Scegli se la porta 5 joypad dovrebbe essere 2 o 6 pulsanti per impostazione predefinita. Questa opzione viene applicata solo quando il core si avvia, se si desidera passare mentre il contenuto è in esecuzione, utilizzare il pulsante 'Commutatore di modalità'. NOTA: 6 pulsanti joypad possono avere comportamenti strani in giochi non compatibili."
 #define SGX_TURBO_TOGGLE_LABEL_IT "Modalità Scorciatoia Turbo"
 #define SGX_TURBO_TOGGLE_INFO_0_IT "Abilita i pulsanti turbo. I tasti di scelta rapida (pulsanti III e IV) possono comportarsi come interruttori o pulsanti turbo dedicati (tenere premuto per usare)."
 #define OPTION_VAL_SWITCH_IT "Interrutore"
@@ -14342,6 +16158,76 @@ struct retro_core_option_v2_definition option_defs_it[] = {
          { NULL, NULL},
       },
       "enabled"
+   },
+   {
+      "sgx_default_joypad_type_p1",
+      SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_IT,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_IT,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_IT },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_IT },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p2",
+      SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_IT,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_IT,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_IT },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_IT },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p3",
+      SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_IT,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_IT,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_IT },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_IT },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p4",
+      SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_IT,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_IT,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_IT },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_IT },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p5",
+      SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_IT,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_IT,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_IT },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_IT },
+         { NULL, NULL},
+      },
+      "2 Buttons"
    },
    {
       "sgx_turbo_toggle",
@@ -14675,6 +16561,18 @@ struct retro_core_options_v2 options_it = {
 #define SGX_DISABLE_SOFTRESET_INFO_0_JA NULL
 #define SGX_MULTITAP_LABEL_JA NULL
 #define SGX_MULTITAP_INFO_0_JA NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_JA NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_JA NULL
+#define OPTION_VAL_2_BUTTONS_JA NULL
+#define OPTION_VAL_6_BUTTONS_JA NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_JA NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_JA NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_JA NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_JA NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_JA NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_JA NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_JA NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_JA NULL
 #define SGX_TURBO_TOGGLE_LABEL_JA NULL
 #define SGX_TURBO_TOGGLE_INFO_0_JA NULL
 #define OPTION_VAL_SWITCH_JA NULL
@@ -14976,6 +16874,76 @@ struct retro_core_option_v2_definition option_defs_ja[] = {
          { NULL, NULL},
       },
       "enabled"
+   },
+   {
+      "sgx_default_joypad_type_p1",
+      SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_JA,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_JA,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_JA },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_JA },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p2",
+      SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_JA,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_JA,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_JA },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_JA },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p3",
+      SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_JA,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_JA,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_JA },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_JA },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p4",
+      SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_JA,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_JA,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_JA },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_JA },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p5",
+      SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_JA,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_JA,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_JA },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_JA },
+         { NULL, NULL},
+      },
+      "2 Buttons"
    },
    {
       "sgx_turbo_toggle",
@@ -15309,6 +17277,18 @@ struct retro_core_options_v2 options_ja = {
 #define SGX_DISABLE_SOFTRESET_INFO_0_KO "RUN과 SELECT를 동시에 누르면 리셋하는 대신 두 버튼을 일시적으로 비활성화합니다."
 #define SGX_MULTITAP_LABEL_KO "멀티탭 5포트 컨트롤러"
 #define SGX_MULTITAP_INFO_0_KO "최대 5인까지 지원하는 멀티탭 에뮬레이션을 활성화합니다. 비활성화는 일부 경우에만 필요합니다(예: Cho Aniki)."
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_KO NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_KO NULL
+#define OPTION_VAL_2_BUTTONS_KO NULL
+#define OPTION_VAL_6_BUTTONS_KO NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_KO NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_KO NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_KO NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_KO NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_KO NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_KO NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_KO NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_KO NULL
 #define SGX_TURBO_TOGGLE_LABEL_KO "터포 핫키 모드"
 #define SGX_TURBO_TOGGLE_INFO_0_KO "터보 버튼을 활성화합니다. 핫키(버튼 III 및 IV)는 토글 스위치 또는 전용(길게 눌러 사용) 터보 버튼으로 작동할 수 있습니다."
 #define OPTION_VAL_SWITCH_KO "토글"
@@ -15610,6 +17590,76 @@ struct retro_core_option_v2_definition option_defs_ko[] = {
          { NULL, NULL},
       },
       "enabled"
+   },
+   {
+      "sgx_default_joypad_type_p1",
+      SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_KO,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_KO,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_KO },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_KO },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p2",
+      SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_KO,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_KO,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_KO },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_KO },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p3",
+      SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_KO,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_KO,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_KO },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_KO },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p4",
+      SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_KO,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_KO,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_KO },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_KO },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p5",
+      SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_KO,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_KO,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_KO },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_KO },
+         { NULL, NULL},
+      },
+      "2 Buttons"
    },
    {
       "sgx_turbo_toggle",
@@ -15943,6 +17993,18 @@ struct retro_core_options_v2 options_ko = {
 #define SGX_DISABLE_SOFTRESET_INFO_0_NL NULL
 #define SGX_MULTITAP_LABEL_NL NULL
 #define SGX_MULTITAP_INFO_0_NL NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_NL NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_NL NULL
+#define OPTION_VAL_2_BUTTONS_NL NULL
+#define OPTION_VAL_6_BUTTONS_NL NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_NL NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_NL NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_NL NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_NL NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_NL NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_NL NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_NL NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_NL NULL
 #define SGX_TURBO_TOGGLE_LABEL_NL NULL
 #define SGX_TURBO_TOGGLE_INFO_0_NL NULL
 #define OPTION_VAL_SWITCH_NL NULL
@@ -16244,6 +18306,76 @@ struct retro_core_option_v2_definition option_defs_nl[] = {
          { NULL, NULL},
       },
       "enabled"
+   },
+   {
+      "sgx_default_joypad_type_p1",
+      SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_NL,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_NL,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_NL },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_NL },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p2",
+      SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_NL,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_NL,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_NL },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_NL },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p3",
+      SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_NL,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_NL,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_NL },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_NL },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p4",
+      SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_NL,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_NL,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_NL },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_NL },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p5",
+      SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_NL,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_NL,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_NL },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_NL },
+         { NULL, NULL},
+      },
+      "2 Buttons"
    },
    {
       "sgx_turbo_toggle",
@@ -16577,6 +18709,18 @@ struct retro_core_options_v2 options_nl = {
 #define SGX_DISABLE_SOFTRESET_INFO_0_NO NULL
 #define SGX_MULTITAP_LABEL_NO NULL
 #define SGX_MULTITAP_INFO_0_NO NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_NO NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_NO NULL
+#define OPTION_VAL_2_BUTTONS_NO NULL
+#define OPTION_VAL_6_BUTTONS_NO NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_NO NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_NO NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_NO NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_NO NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_NO NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_NO NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_NO NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_NO NULL
 #define SGX_TURBO_TOGGLE_LABEL_NO NULL
 #define SGX_TURBO_TOGGLE_INFO_0_NO NULL
 #define OPTION_VAL_SWITCH_NO NULL
@@ -16878,6 +19022,76 @@ struct retro_core_option_v2_definition option_defs_no[] = {
          { NULL, NULL},
       },
       "enabled"
+   },
+   {
+      "sgx_default_joypad_type_p1",
+      SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_NO,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_NO,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_NO },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_NO },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p2",
+      SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_NO,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_NO,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_NO },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_NO },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p3",
+      SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_NO,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_NO,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_NO },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_NO },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p4",
+      SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_NO,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_NO,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_NO },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_NO },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p5",
+      SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_NO,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_NO,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_NO },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_NO },
+         { NULL, NULL},
+      },
+      "2 Buttons"
    },
    {
       "sgx_turbo_toggle",
@@ -17211,6 +19425,18 @@ struct retro_core_options_v2 options_no = {
 #define SGX_DISABLE_SOFTRESET_INFO_0_OR NULL
 #define SGX_MULTITAP_LABEL_OR NULL
 #define SGX_MULTITAP_INFO_0_OR NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_OR NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_OR NULL
+#define OPTION_VAL_2_BUTTONS_OR NULL
+#define OPTION_VAL_6_BUTTONS_OR NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_OR NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_OR NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_OR NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_OR NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_OR NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_OR NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_OR NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_OR NULL
 #define SGX_TURBO_TOGGLE_LABEL_OR NULL
 #define SGX_TURBO_TOGGLE_INFO_0_OR NULL
 #define OPTION_VAL_SWITCH_OR NULL
@@ -17512,6 +19738,76 @@ struct retro_core_option_v2_definition option_defs_or[] = {
          { NULL, NULL},
       },
       "enabled"
+   },
+   {
+      "sgx_default_joypad_type_p1",
+      SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_OR,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_OR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_OR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_OR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p2",
+      SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_OR,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_OR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_OR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_OR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p3",
+      SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_OR,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_OR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_OR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_OR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p4",
+      SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_OR,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_OR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_OR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_OR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p5",
+      SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_OR,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_OR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_OR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_OR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
    },
    {
       "sgx_turbo_toggle",
@@ -17845,6 +20141,18 @@ struct retro_core_options_v2 options_or = {
 #define SGX_DISABLE_SOFTRESET_INFO_0_PL NULL
 #define SGX_MULTITAP_LABEL_PL NULL
 #define SGX_MULTITAP_INFO_0_PL NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_PL "Domyślny typ Joypad P1"
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_PL "Wybierz, czy port 1 powinien mieć domyślnie 2 lub 6 przycisków. Ta opcja jest stosowana tylko przy starcie rdzenia, jeśli chcesz przełączyć się podczas włączania zawartości, użyj przycisku \"Przełącznik\". UWAGA: 6 przycisków joypad może mieć dziwne zachowanie w niekompatybilnych grach."
+#define OPTION_VAL_2_BUTTONS_PL "2 przyciski"
+#define OPTION_VAL_6_BUTTONS_PL "6 przycisków"
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_PL "Domyślny typ Joypad P2"
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_PL "Wybierz, czy port 2 powinien mieć domyślnie 2 lub 6 przycisków. Ta opcja jest stosowana tylko przy starcie rdzenia, jeśli chcesz przełączyć się podczas włączania zawartości, użyj przycisku \"Przełącznik\". UWAGA: 6 przycisków joypad może mieć dziwne zachowanie w niekompatybilnych grach."
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_PL "Domyślny typ Joypad P3"
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_PL "Wybierz, czy port 3 powinien mieć domyślnie 2 lub 6 przycisków. Ta opcja jest stosowana tylko przy starcie rdzenia, jeśli chcesz przełączyć się podczas włączania zawartości, użyj przycisku \"Przełącznik\". UWAGA: 6 przycisków joypad może mieć dziwne zachowanie w niekompatybilnych grach."
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_PL "Domyślny typ Joypad P4"
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_PL "Wybierz, czy port 4 powinien mieć domyślnie 2 lub 6 przycisków. Ta opcja jest stosowana tylko przy starcie rdzenia, jeśli chcesz przełączyć się podczas włączania zawartości, użyj przycisku \"Przełącznik\". UWAGA: 6 przycisków joypad może mieć dziwne zachowanie w niekompatybilnych grach."
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_PL "Domyślny typ Joypad P5"
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_PL "Wybierz, jeśli port 5 powinien mieć domyślnie 2 lub 6 przycisków. Ta opcja jest stosowana tylko przy starcie rdzenia, jeśli chcesz przełączyć się podczas włączania zawartości, użyj przycisku \"Przełącznik\". UWAGA: 6 przycisków joypad może mieć dziwne zachowanie w niekompatybilnych grach."
 #define SGX_TURBO_TOGGLE_LABEL_PL NULL
 #define SGX_TURBO_TOGGLE_INFO_0_PL NULL
 #define OPTION_VAL_SWITCH_PL "Przełącz"
@@ -18146,6 +20454,76 @@ struct retro_core_option_v2_definition option_defs_pl[] = {
          { NULL, NULL},
       },
       "enabled"
+   },
+   {
+      "sgx_default_joypad_type_p1",
+      SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_PL,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_PL,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_PL },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_PL },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p2",
+      SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_PL,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_PL,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_PL },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_PL },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p3",
+      SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_PL,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_PL,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_PL },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_PL },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p4",
+      SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_PL,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_PL,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_PL },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_PL },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p5",
+      SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_PL,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_PL,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_PL },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_PL },
+         { NULL, NULL},
+      },
+      "2 Buttons"
    },
    {
       "sgx_turbo_toggle",
@@ -18479,6 +20857,18 @@ struct retro_core_options_v2 options_pl = {
 #define SGX_DISABLE_SOFTRESET_INFO_0_PT_BR "Ao pressionar RUN e SELECT simultaneamente, desativa ambos os botões temporariamente em vez de reinicializar."
 #define SGX_MULTITAP_LABEL_PT_BR "Multitap de 5 portas"
 #define SGX_MULTITAP_INFO_0_PT_BR "Ativa emulação de multitap de até 5 jogadores. A desativação é necessária em alguns casos (por ex. Cho Aniki)."
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_PT_BR NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_PT_BR NULL
+#define OPTION_VAL_2_BUTTONS_PT_BR NULL
+#define OPTION_VAL_6_BUTTONS_PT_BR NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_PT_BR NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_PT_BR NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_PT_BR NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_PT_BR NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_PT_BR NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_PT_BR NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_PT_BR NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_PT_BR NULL
 #define SGX_TURBO_TOGGLE_LABEL_PT_BR "Modo de atalho do turbo"
 #define SGX_TURBO_TOGGLE_INFO_0_PT_BR "Habilita os botões turbo. Os atalhos (botões III e IV) podem comportar-se como interruptores ou como botões dedicados (segure para usar)."
 #define OPTION_VAL_SWITCH_PT_BR "Interruptor"
@@ -18780,6 +21170,76 @@ struct retro_core_option_v2_definition option_defs_pt_br[] = {
          { NULL, NULL},
       },
       "enabled"
+   },
+   {
+      "sgx_default_joypad_type_p1",
+      SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_PT_BR,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_PT_BR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_PT_BR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_PT_BR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p2",
+      SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_PT_BR,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_PT_BR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_PT_BR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_PT_BR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p3",
+      SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_PT_BR,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_PT_BR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_PT_BR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_PT_BR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p4",
+      SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_PT_BR,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_PT_BR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_PT_BR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_PT_BR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p5",
+      SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_PT_BR,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_PT_BR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_PT_BR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_PT_BR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
    },
    {
       "sgx_turbo_toggle",
@@ -19113,6 +21573,18 @@ struct retro_core_options_v2 options_pt_br = {
 #define SGX_DISABLE_SOFTRESET_INFO_0_PT_PT NULL
 #define SGX_MULTITAP_LABEL_PT_PT NULL
 #define SGX_MULTITAP_INFO_0_PT_PT NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_PT_PT NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_PT_PT NULL
+#define OPTION_VAL_2_BUTTONS_PT_PT NULL
+#define OPTION_VAL_6_BUTTONS_PT_PT NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_PT_PT NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_PT_PT NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_PT_PT NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_PT_PT NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_PT_PT NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_PT_PT NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_PT_PT NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_PT_PT NULL
 #define SGX_TURBO_TOGGLE_LABEL_PT_PT NULL
 #define SGX_TURBO_TOGGLE_INFO_0_PT_PT NULL
 #define OPTION_VAL_SWITCH_PT_PT NULL
@@ -19414,6 +21886,76 @@ struct retro_core_option_v2_definition option_defs_pt_pt[] = {
          { NULL, NULL},
       },
       "enabled"
+   },
+   {
+      "sgx_default_joypad_type_p1",
+      SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_PT_PT,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_PT_PT,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_PT_PT },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_PT_PT },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p2",
+      SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_PT_PT,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_PT_PT,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_PT_PT },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_PT_PT },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p3",
+      SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_PT_PT,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_PT_PT,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_PT_PT },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_PT_PT },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p4",
+      SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_PT_PT,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_PT_PT,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_PT_PT },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_PT_PT },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p5",
+      SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_PT_PT,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_PT_PT,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_PT_PT },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_PT_PT },
+         { NULL, NULL},
+      },
+      "2 Buttons"
    },
    {
       "sgx_turbo_toggle",
@@ -19747,6 +22289,18 @@ struct retro_core_options_v2 options_pt_pt = {
 #define SGX_DISABLE_SOFTRESET_INFO_0_RU "Одновременное нажатие RUN и SELECT вместо сброса будет временно отключать обе кнопки."
 #define SGX_MULTITAP_LABEL_RU "Multitap на 5 контроллеров"
 #define SGX_MULTITAP_INFO_0_RU NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_RU NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_RU NULL
+#define OPTION_VAL_2_BUTTONS_RU NULL
+#define OPTION_VAL_6_BUTTONS_RU NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_RU NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_RU NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_RU NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_RU NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_RU NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_RU NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_RU NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_RU NULL
 #define SGX_TURBO_TOGGLE_LABEL_RU NULL
 #define SGX_TURBO_TOGGLE_INFO_0_RU NULL
 #define OPTION_VAL_SWITCH_RU "Переключатели"
@@ -20048,6 +22602,76 @@ struct retro_core_option_v2_definition option_defs_ru[] = {
          { NULL, NULL},
       },
       "enabled"
+   },
+   {
+      "sgx_default_joypad_type_p1",
+      SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_RU,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_RU,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_RU },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_RU },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p2",
+      SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_RU,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_RU,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_RU },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_RU },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p3",
+      SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_RU,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_RU,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_RU },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_RU },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p4",
+      SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_RU,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_RU,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_RU },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_RU },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p5",
+      SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_RU,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_RU,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_RU },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_RU },
+         { NULL, NULL},
+      },
+      "2 Buttons"
    },
    {
       "sgx_turbo_toggle",
@@ -20381,6 +23005,18 @@ struct retro_core_options_v2 options_ru = {
 #define SGX_DISABLE_SOFTRESET_INFO_0_SK NULL
 #define SGX_MULTITAP_LABEL_SK NULL
 #define SGX_MULTITAP_INFO_0_SK NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_SK NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_SK NULL
+#define OPTION_VAL_2_BUTTONS_SK NULL
+#define OPTION_VAL_6_BUTTONS_SK NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_SK NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_SK NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_SK NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_SK NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_SK NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_SK NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_SK NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_SK NULL
 #define SGX_TURBO_TOGGLE_LABEL_SK NULL
 #define SGX_TURBO_TOGGLE_INFO_0_SK NULL
 #define OPTION_VAL_SWITCH_SK "Prepnúť"
@@ -20682,6 +23318,76 @@ struct retro_core_option_v2_definition option_defs_sk[] = {
          { NULL, NULL},
       },
       "enabled"
+   },
+   {
+      "sgx_default_joypad_type_p1",
+      SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_SK,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_SK,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_SK },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_SK },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p2",
+      SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_SK,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_SK,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_SK },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_SK },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p3",
+      SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_SK,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_SK,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_SK },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_SK },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p4",
+      SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_SK,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_SK,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_SK },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_SK },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p5",
+      SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_SK,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_SK,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_SK },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_SK },
+         { NULL, NULL},
+      },
+      "2 Buttons"
    },
    {
       "sgx_turbo_toggle",
@@ -21015,6 +23721,18 @@ struct retro_core_options_v2 options_sk = {
 #define SGX_DISABLE_SOFTRESET_INFO_0_SR NULL
 #define SGX_MULTITAP_LABEL_SR NULL
 #define SGX_MULTITAP_INFO_0_SR NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_SR NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_SR NULL
+#define OPTION_VAL_2_BUTTONS_SR NULL
+#define OPTION_VAL_6_BUTTONS_SR NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_SR NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_SR NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_SR NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_SR NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_SR NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_SR NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_SR NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_SR NULL
 #define SGX_TURBO_TOGGLE_LABEL_SR NULL
 #define SGX_TURBO_TOGGLE_INFO_0_SR NULL
 #define OPTION_VAL_SWITCH_SR NULL
@@ -21316,6 +24034,76 @@ struct retro_core_option_v2_definition option_defs_sr[] = {
          { NULL, NULL},
       },
       "enabled"
+   },
+   {
+      "sgx_default_joypad_type_p1",
+      SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_SR,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_SR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_SR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_SR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p2",
+      SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_SR,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_SR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_SR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_SR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p3",
+      SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_SR,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_SR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_SR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_SR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p4",
+      SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_SR,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_SR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_SR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_SR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p5",
+      SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_SR,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_SR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_SR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_SR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
    },
    {
       "sgx_turbo_toggle",
@@ -21649,6 +24437,18 @@ struct retro_core_options_v2 options_sr = {
 #define SGX_DISABLE_SOFTRESET_INFO_0_SV NULL
 #define SGX_MULTITAP_LABEL_SV NULL
 #define SGX_MULTITAP_INFO_0_SV NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_SV NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_SV NULL
+#define OPTION_VAL_2_BUTTONS_SV "2 knappar"
+#define OPTION_VAL_6_BUTTONS_SV "6 knappar"
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_SV NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_SV NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_SV NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_SV NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_SV NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_SV NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_SV NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_SV NULL
 #define SGX_TURBO_TOGGLE_LABEL_SV NULL
 #define SGX_TURBO_TOGGLE_INFO_0_SV NULL
 #define OPTION_VAL_SWITCH_SV "Växla"
@@ -21950,6 +24750,76 @@ struct retro_core_option_v2_definition option_defs_sv[] = {
          { NULL, NULL},
       },
       "enabled"
+   },
+   {
+      "sgx_default_joypad_type_p1",
+      SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_SV,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_SV,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_SV },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_SV },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p2",
+      SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_SV,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_SV,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_SV },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_SV },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p3",
+      SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_SV,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_SV,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_SV },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_SV },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p4",
+      SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_SV,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_SV,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_SV },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_SV },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p5",
+      SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_SV,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_SV,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_SV },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_SV },
+         { NULL, NULL},
+      },
+      "2 Buttons"
    },
    {
       "sgx_turbo_toggle",
@@ -22283,6 +25153,18 @@ struct retro_core_options_v2 options_sv = {
 #define SGX_DISABLE_SOFTRESET_INFO_0_TR "RUN ve SELECT tuşlarına aynı anda basıldığında, yeniden başlatmak yerine iki tuşu da geçici olarak devre dışı bırak."
 #define SGX_MULTITAP_LABEL_TR "Multitap 5-port Kontrolcü"
 #define SGX_MULTITAP_INFO_0_TR "5 oyuncuya kadar çoklu kontrolcü desteğini etkinleştirin. Bunu devre dışı bırakmak bazı durumlarda gereklidir (örnek. Cho Aniki)."
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_TR "P1 Varsayılan Joypad Tipi"
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_TR "Port 1 joypad varsayılan olarak 2 veya 6 düğme olması gerekip gerekmediğini seçin. Bu seçenek yalnızca çekirdek başladığında uygulanır, içerik çalışırken geçiş yapmak istiyorsanız, 'Mod Değiştir' düğmesini kullanın. NOT: 6 düğmeli joypad, uyumlu olmayan oyunlarda garip davranışlara sahip olabilir."
+#define OPTION_VAL_2_BUTTONS_TR "2 Düğmeli"
+#define OPTION_VAL_6_BUTTONS_TR "6 Düğmeli"
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_TR "P2 Varsayılan Joypad Tipi"
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_TR "Port 2 joypad varsayılan olarak 2 veya 6 düğme olması gerekip gerekmediğini seçin. Bu seçenek yalnızca çekirdek başladığında uygulanır, içerik çalışırken geçiş yapmak istiyorsanız, 'Mod Değiştir' düğmesini kullanın. NOT: 6 düğmeli joypad, uyumlu olmayan oyunlarda garip davranışlara sahip olabilir."
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_TR "P3 Varsayılan Joypad Tipi"
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_TR "Port 3 joypad varsayılan olarak 2 veya 6 düğme olması gerekip gerekmediğini seçin. Bu seçenek yalnızca çekirdek başladığında uygulanır, içerik çalışırken geçiş yapmak istiyorsanız, 'Mod Değiştir' düğmesini kullanın. NOT: 6 düğmeli joypad, uyumlu olmayan oyunlarda garip davranışlara sahip olabilir."
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_TR "P4 Varsayılan Joypad Tipi"
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_TR "Port 4 joypad varsayılan olarak 2 veya 6 düğme olması gerekip gerekmediğini seçin. Bu seçenek yalnızca çekirdek başladığında uygulanır, içerik çalışırken geçiş yapmak istiyorsanız, 'Mod Değiştir' düğmesini kullanın. NOT: 6 düğmeli joypad, uyumlu olmayan oyunlarda garip davranışlara sahip olabilir."
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_TR "P5 Varsayılan Joypad Tipi"
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_TR "Port 5 joypad varsayılan olarak 2 veya 6 düğme olması gerekip gerekmediğini seçin. Bu seçenek yalnızca çekirdek başladığında uygulanır, içerik çalışırken geçiş yapmak istiyorsanız, 'Mod Değiştir' düğmesini kullanın. NOT: 6 düğmeli joypad, uyumlu olmayan oyunlarda garip davranışlara sahip olabilir."
 #define SGX_TURBO_TOGGLE_LABEL_TR "Turbo Kısayol Tuşu Kipi"
 #define SGX_TURBO_TOGGLE_INFO_0_TR "Turbo düğmelerini etkinleştirin. Kısayol tuşları (düğmeler III ve IV), geçiş anahtarı veya özel (kullanmak için basılı tutun) turbo düğmeleri gibi davranabilir."
 #define OPTION_VAL_SWITCH_TR "Değiştir"
@@ -22584,6 +25466,76 @@ struct retro_core_option_v2_definition option_defs_tr[] = {
          { NULL, NULL},
       },
       "enabled"
+   },
+   {
+      "sgx_default_joypad_type_p1",
+      SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_TR,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_TR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_TR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_TR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p2",
+      SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_TR,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_TR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_TR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_TR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p3",
+      SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_TR,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_TR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_TR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_TR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p4",
+      SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_TR,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_TR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_TR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_TR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p5",
+      SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_TR,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_TR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_TR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_TR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
    },
    {
       "sgx_turbo_toggle",
@@ -22917,6 +25869,18 @@ struct retro_core_options_v2 options_tr = {
 #define SGX_DISABLE_SOFTRESET_INFO_0_UK "Коли РУХ та ВИБІР одночасно натиснуто, тимчасово вимкнуться обидві кнопки замість скидання."
 #define SGX_MULTITAP_LABEL_UK NULL
 #define SGX_MULTITAP_INFO_0_UK NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_UK NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_UK NULL
+#define OPTION_VAL_2_BUTTONS_UK NULL
+#define OPTION_VAL_6_BUTTONS_UK NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_UK NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_UK NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_UK NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_UK NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_UK NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_UK NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_UK NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_UK NULL
 #define SGX_TURBO_TOGGLE_LABEL_UK "Турборежим гарячих клавіш"
 #define SGX_TURBO_TOGGLE_INFO_0_UK "Увімкнути турбокнопки. Гарячі клавіші (кнопки III та IV) можуть поводити себе як перемикачі або виділені (утримування) турбокнопки."
 #define OPTION_VAL_SWITCH_UK "Перемикач"
@@ -23218,6 +26182,76 @@ struct retro_core_option_v2_definition option_defs_uk[] = {
          { NULL, NULL},
       },
       "enabled"
+   },
+   {
+      "sgx_default_joypad_type_p1",
+      SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_UK,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_UK,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_UK },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_UK },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p2",
+      SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_UK,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_UK,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_UK },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_UK },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p3",
+      SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_UK,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_UK,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_UK },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_UK },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p4",
+      SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_UK,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_UK,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_UK },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_UK },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p5",
+      SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_UK,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_UK,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_UK },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_UK },
+         { NULL, NULL},
+      },
+      "2 Buttons"
    },
    {
       "sgx_turbo_toggle",
@@ -23551,6 +26585,18 @@ struct retro_core_options_v2 options_uk = {
 #define SGX_DISABLE_SOFTRESET_INFO_0_VAL NULL
 #define SGX_MULTITAP_LABEL_VAL NULL
 #define SGX_MULTITAP_INFO_0_VAL NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_VAL NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_VAL NULL
+#define OPTION_VAL_2_BUTTONS_VAL NULL
+#define OPTION_VAL_6_BUTTONS_VAL NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_VAL NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_VAL NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_VAL NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_VAL NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_VAL NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_VAL NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_VAL NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_VAL NULL
 #define SGX_TURBO_TOGGLE_LABEL_VAL NULL
 #define SGX_TURBO_TOGGLE_INFO_0_VAL NULL
 #define OPTION_VAL_SWITCH_VAL NULL
@@ -23852,6 +26898,76 @@ struct retro_core_option_v2_definition option_defs_val[] = {
          { NULL, NULL},
       },
       "enabled"
+   },
+   {
+      "sgx_default_joypad_type_p1",
+      SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_VAL,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_VAL,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_VAL },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_VAL },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p2",
+      SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_VAL,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_VAL,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_VAL },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_VAL },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p3",
+      SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_VAL,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_VAL,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_VAL },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_VAL },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p4",
+      SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_VAL,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_VAL,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_VAL },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_VAL },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p5",
+      SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_VAL,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_VAL,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_VAL },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_VAL },
+         { NULL, NULL},
+      },
+      "2 Buttons"
    },
    {
       "sgx_turbo_toggle",
@@ -24185,6 +27301,18 @@ struct retro_core_options_v2 options_val = {
 #define SGX_DISABLE_SOFTRESET_INFO_0_VN NULL
 #define SGX_MULTITAP_LABEL_VN NULL
 #define SGX_MULTITAP_INFO_0_VN NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_VN NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_VN NULL
+#define OPTION_VAL_2_BUTTONS_VN NULL
+#define OPTION_VAL_6_BUTTONS_VN NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_VN NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_VN NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_VN NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_VN NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_VN NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_VN NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_VN NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_VN NULL
 #define SGX_TURBO_TOGGLE_LABEL_VN NULL
 #define SGX_TURBO_TOGGLE_INFO_0_VN NULL
 #define OPTION_VAL_SWITCH_VN NULL
@@ -24486,6 +27614,76 @@ struct retro_core_option_v2_definition option_defs_vn[] = {
          { NULL, NULL},
       },
       "enabled"
+   },
+   {
+      "sgx_default_joypad_type_p1",
+      SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_VN,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_VN,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_VN },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_VN },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p2",
+      SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_VN,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_VN,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_VN },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_VN },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p3",
+      SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_VN,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_VN,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_VN },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_VN },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p4",
+      SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_VN,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_VN,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_VN },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_VN },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "sgx_default_joypad_type_p5",
+      SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_VN,
+      NULL,
+      SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_VN,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_VN },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_VN },
+         { NULL, NULL},
+      },
+      "2 Buttons"
    },
    {
       "sgx_turbo_toggle",
