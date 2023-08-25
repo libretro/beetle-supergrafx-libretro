@@ -24435,7 +24435,7 @@ struct retro_core_options_v2 options_sr = {
 #define SGX_UP_DOWN_ALLOWED_INFO_0_SV "Genom att aktivera detta tillåts att trycka på / snabbt alternera / hålla ned både vänster och höger (eller upp och ned) riktningar samtidigt. Detta kan orsaka rörelsebaserade fel."
 #define SGX_DISABLE_SOFTRESET_LABEL_SV "Inaktivera mjukåterställning (RUN+SELECT)"
 #define SGX_DISABLE_SOFTRESET_INFO_0_SV "När RUN och SELECT trycks ned samtidigt, inaktiveras båda knapparna tillfälligt istället för att återställa dem."
-#define SGX_MULTITAP_LABEL_SV "Flerspelar-adapter med 5-port kontroller"
+#define SGX_MULTITAP_LABEL_SV "Multitap-flerspelaradapter med 5-portar kontroller"
 #define SGX_MULTITAP_INFO_0_SV "Aktivera emulering av flerspelar-adapter upp till 5-spelare. Att inaktivera detta krävs endast i vissa fall (t.ex. Cho Aniki)."
 #define SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_SV "Standard joypad-typ för spelare 1 (P1)"
 #define SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_SV "Välj detta ifall port 1-joypaden ska vara 2-knappars eller 6-knappars som standard. Denna inställning tillämpas endast när kärnan startar. Om du vill byta under tiden innehållet körs, använd \"Lägesväxlings\"-knappen. OBS!: 6-knappars joypaden kan visa konstigt beteende i inkompatibla spel."
