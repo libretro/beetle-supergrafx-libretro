@@ -22244,7 +22244,7 @@ struct retro_core_options_v2 options_pt_pt = {
 #define CATEGORY_CD_LABEL_RU NULL
 #define CATEGORY_CD_INFO_0_RU NULL
 #define SGX_PALETTE_LABEL_RU "Цветовая палитра"
-#define SGX_PALETTE_INFO_0_RU "Композитный пытается воссоздать оригинальное изображение консоли и может повышать детализацию в некоторых играх."
+#define SGX_PALETTE_INFO_0_RU "Композит пытается воссоздать оригинальное изображение консоли и может повышать детализацию в некоторых играх."
 #define OPTION_VAL_RGB_RU NULL
 #define OPTION_VAL_COMPOSITE_RU "Композитный"
 #define SGX_ASPECT_RATIO_LABEL_RU "Соотношение сторон"
@@ -22289,18 +22289,18 @@ struct retro_core_options_v2 options_pt_pt = {
 #define SGX_DISABLE_SOFTRESET_INFO_0_RU "Одновременное нажатие RUN и SELECT вместо сброса будет временно отключать обе кнопки."
 #define SGX_MULTITAP_LABEL_RU "Multitap на 5 контроллеров"
 #define SGX_MULTITAP_INFO_0_RU NULL
-#define SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_RU NULL
-#define SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_RU NULL
-#define OPTION_VAL_2_BUTTONS_RU NULL
-#define OPTION_VAL_6_BUTTONS_RU NULL
-#define SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_RU NULL
-#define SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_RU NULL
-#define SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_RU NULL
-#define SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_RU NULL
-#define SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_RU NULL
-#define SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_RU NULL
-#define SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_RU NULL
-#define SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_RU NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_RU "Тип джойстика Игрока 1"
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_RU "Выбор 2- или 6-ти кнопочного контроллера по умолчанию для порта 1. Данная опция применяется только при запуске ядра. Для переключения на лету используйте кнопку 'Сменить режим'. ВНИМАНИЕ: в несовместимых играх 6-кнопочный геймпад может вызывать баги управления."
+#define OPTION_VAL_2_BUTTONS_RU "2-кнопочный"
+#define OPTION_VAL_6_BUTTONS_RU "6-кнопочный"
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_RU "Тип джойстика Игрока 2"
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_RU "Выбор 2- или 6-ти кнопочного контроллера по умолчанию для порта 2. Данная опция применяется только при запуске ядра. Для переключения на лету используйте кнопку 'Сменить режим'. ВНИМАНИЕ: в несовместимых играх 6-кнопочный геймпад может вызывать баги управления."
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_RU "Тип джойстика Игрока 3"
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_RU "Выбор 2- или 6-ти кнопочного контроллера по умолчанию для порта 3. Данная опция применяется только при запуске ядра. Для переключения на лету используйте кнопку 'Сменить режим'. ВНИМАНИЕ: в несовместимых играх 6-кнопочный геймпад может вызывать баги управления."
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_RU "Тип джойстика Игрока 4"
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_RU "Выбор 2- или 6-ти кнопочного контроллера по умолчанию для порта 4. Данная опция применяется только при запуске ядра. Для переключения на лету используйте кнопку 'Сменить режим'. ВНИМАНИЕ: в несовместимых играх 6-кнопочный геймпад может вызывать баги управления."
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_RU "Тип джойстика Игрока 5"
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_RU "Выбор 2- или 6-ти кнопочного контроллера по умолчанию для порта 5. Данная опция применяется только при запуске ядра. Для переключения на лету используйте кнопку 'Сменить режим'. ВНИМАНИЕ: в несовместимых играх 6-кнопочный геймпад может вызывать баги управления."
 #define SGX_TURBO_TOGGLE_LABEL_RU NULL
 #define SGX_TURBO_TOGGLE_INFO_0_RU NULL
 #define OPTION_VAL_SWITCH_RU "Переключатели"
@@ -22325,7 +22325,7 @@ struct retro_core_options_v2 options_pt_pt = {
 #define SGX_ADPCMVOLUME_LABEL_RU "(CD) Громкость ADPCM"
 #define SGX_ADPCMVOLUME_LABEL_CAT_RU "Громкость ADPCM (%)"
 #define SGX_ADPCMVOLUME_INFO_0_RU "Только для CD-игр. Слишком высокие значения могут приводить к искажениям звука."
-#define SGX_ADPCMVOLUME_INFO_1_RU "Слишком высокие значения могут приводить к искажениям звука."
+#define SGX_ADPCMVOLUME_INFO_1_RU "Установка слишком высоких значений может вызывать искажения звука."
 #define SGX_CDDAVOLUME_LABEL_RU "(CD) Громкость CDDA"
 #define SGX_CDDAVOLUME_LABEL_CAT_RU "Громкость CDDA (%)"
 #define SGX_CDPSGVOLUME_LABEL_RU "(CD) Громкость PSG"
