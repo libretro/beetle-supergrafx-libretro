@@ -24395,9 +24395,9 @@ struct retro_core_options_v2 options_sr = {
 #define SGX_PALETTE_INFO_0_SV "Composite försöker återskapa den ursprungliga konsolens utmatning och kan visa fler detaljer i vissa spel."
 #define OPTION_VAL_RGB_SV NULL
 #define OPTION_VAL_COMPOSITE_SV "Komposit"
-#define SGX_ASPECT_RATIO_LABEL_SV "Bildförhållande"
-#define SGX_ASPECT_RATIO_INFO_0_SV "Välj önskat innehållsbildförhållande. När du använder spel som ständigt växlar mellan 256 och 352 lägen och använder auto-aspekt är det bäst att ställa den horisontella bredden till 342 för att minimera omformatering och extra svarta linjer, eftersom denna bredd är i förhållande till 256 breddläge (eller något liknande, testa med Asuka 100% som är ett av spelen som växlar mellan dessa lägen)."
-#define OPTION_VAL_AUTO_SV "Automatiskt"
+#define SGX_ASPECT_RATIO_LABEL_SV "Bildformat"
+#define SGX_ASPECT_RATIO_INFO_0_SV "Välj föredraget bildformat för innehåll. När du använder spel som ständigt växlar mellan 256- och 352-läge och använder auto-aspekt är det bäst att ställa den horisontella bredden till 342 för att minimera omformatering och extra svarta linjer, eftersom denna bredd är i förhållande till 256 breddläge (eller något liknande, testa med Asuka 100% som är ett av spelen som växlar mellan dessa lägen)."
+#define OPTION_VAL_AUTO_SV NULL
 #define OPTION_VAL_6_5_SV NULL
 #define OPTION_VAL_4_3_SV NULL
 #define SGX_HOVERSCAN_LABEL_SV "Horisontellt övergång (endast 352 breddläge)"
@@ -24457,9 +24457,9 @@ struct retro_core_options_v2 options_sr = {
 #define SGX_TURBO_TOGGLE_HOTKEY_INFO_0_SV "Tilldela RetroPads L3/R3-knappar som snabbtangenter för turbo-läge istället för knappar III och IV. Fungerar endast i \"Växel\"-läget och endast så länge inget är tilldelat L3/R3-knapparna. Du kan undvika omkartläggning av knappar III och IV när du växlar till 6-knapps kontrollläge med detta."
 #define SGX_TURBO_DELAY_LABEL_SV "Turbofördröjning"
 #define SGX_TURBO_DELAY_INFO_0_SV "Justera tiden mellan turboeld (i bildrutor)."
-#define SGX_CDIMAGECACHE_LABEL_SV "CD-bildcache (Omstart krävs)"
-#define SGX_CDIMAGECACHE_INFO_0_SV "Ladda in hela bilden i minnet vid start. Kan potentiellt minska laddningstiderna till förmån för en ökad starttid."
-#define SGX_CDBIOS_LABEL_SV "CD-BIOS (Omstart krävs)"
+#define SGX_CDIMAGECACHE_LABEL_SV "Skivavbildningscache (omstart krävs)"
+#define SGX_CDIMAGECACHE_INFO_0_SV "Ladda in hela avbilden i minnet vid start. Kan potentiellt minska laddningstiderna till förmån för en ökad starttid."
+#define SGX_CDBIOS_LABEL_SV "CD-BIOS (omstart krävs)"
 #define SGX_CDBIOS_INFO_0_SV "De flesta spel kan köras på \"Systemkort 3\". \"Games Express\" krävs för flera olicensierade spel."
 #define OPTION_VAL_GAMES_EXPRESS_SV NULL
 #define OPTION_VAL_SYSTEM_CARD_1_SV NULL
