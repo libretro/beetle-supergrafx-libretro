@@ -4354,13 +4354,13 @@ struct retro_core_options_v2 options_cht = {
 #define OPTION_VAL_4_3_CS NULL
 #define SGX_HOVERSCAN_LABEL_CS "Horizontální Overscan (Pouze Režim Šířky 352)"
 #define SGX_HOVERSCAN_INFO_0_CS "Zvolte maximální šířku obrázku, který se má zobrazit. Nižší hodnoty oříznou pravou stranu obrázku (pro hry o šířce 352 px)."
-#define OPTION_VAL_352_CS "352 (Výchozí)"
-#define SGX_INITIAL_SCANLINE_LABEL_CS "Počáteční Skenovací Linie"
+#define OPTION_VAL_352_CS "352 (výchozí)"
+#define SGX_INITIAL_SCANLINE_LABEL_CS "Počáteční skenovací linie"
 #define SGX_INITIAL_SCANLINE_INFO_0_CS "První vykreslená skenovací linie. Vyšší hodnoty oříznou horní část obrázku."
-#define OPTION_VAL_3_CS "3 (Výchozí)"
-#define SGX_LAST_SCANLINE_LABEL_CS "Poslední Skenovací Linie"
+#define OPTION_VAL_3_CS "3 (výchozí)"
+#define SGX_LAST_SCANLINE_LABEL_CS "Poslední skenovací linie"
 #define SGX_LAST_SCANLINE_INFO_0_CS "Poslední vykreslená skenovací linie. Nižší hodnoty oříznou spodní část obrázku."
-#define OPTION_VAL_242_CS "242 (Výchozí)"
+#define OPTION_VAL_242_CS "242 (výchozí)"
 #define SGX_MOUSE_SENSITIVITY_LABEL_CS "Citlivost Myši"
 #define SGX_MOUSE_SENSITIVITY_INFO_0_CS "Při vyšších hodnotách se kurzor myši pohybuje rychleji."
 #define OPTION_VAL_0_25_CS NULL
@@ -4409,9 +4409,9 @@ struct retro_core_options_v2 options_cht = {
 #define SGX_TURBO_TOGGLE_HOTKEY_INFO_0_CS "Přiřazení tlačítek L3/R3 zařízení RetroPad jako turbo klávesových zkratek namísto tlačítek III a IV. Funguje pouze v režimu 'Přepínač' a pouze pokud není tlačítkům L3/R3 nic přiřazeno. Pomocí této funkce se můžete vyhnout přemapování tlačítek III a IV při přepnutí do režimu šestitlačítkového ovladače."
 #define SGX_TURBO_DELAY_LABEL_CS "Zpoždění Turba"
 #define SGX_TURBO_DELAY_INFO_0_CS "Nastavení doby mezi nástupem turba (ve snímcích)."
-#define SGX_CDIMAGECACHE_LABEL_CS "Vyrovnávací Paměť Obrazu CD (Nutný Restart)"
+#define SGX_CDIMAGECACHE_LABEL_CS "Vyrovnávací paměť obrazu CD (nutný restart)"
 #define SGX_CDIMAGECACHE_INFO_0_CS "Načíst kompletní obraz do paměti při spuštění. Může potenciálně zkrátit dobu načítání za cenu prodloužení doby spouštění."
-#define SGX_CDBIOS_LABEL_CS "CD BIOS (Nutný Restart)"
+#define SGX_CDBIOS_LABEL_CS "CD BIOS (nutný restart)"
 #define SGX_CDBIOS_INFO_0_CS "Většinu her lze spustit na 'Systémová Karta 3'. Pro některé nelicencované hry je zapotřebí 'Games Express'."
 #define OPTION_VAL_GAMES_EXPRESS_CS NULL
 #define OPTION_VAL_SYSTEM_CARD_1_CS "Systémová Karta 1"
@@ -24383,11 +24383,11 @@ struct retro_core_options_v2 options_sr = {
 
 /* RETRO_LANGUAGE_SV */
 
-#define CATEGORY_VIDEO_LABEL_SV "Bild"
+#define CATEGORY_VIDEO_LABEL_SV NULL
 #define CATEGORY_VIDEO_INFO_0_SV "Konfigurera bildskärpsbeskärning, bildruteskippning och andra bildutdata-parametrar."
 #define CATEGORY_INPUT_LABEL_SV "Inmatning"
 #define CATEGORY_INPUT_INFO_0_SV "Konfigurera ljuspistol, mus och NegCon inmatning."
-#define CATEGORY_HACKS_LABEL_SV "Emuleringshackning"
+#define CATEGORY_HACKS_LABEL_SV "Emulator Hacks"
 #define CATEGORY_HACKS_INFO_0_SV "Konfigurera processorns överklockning och emuleringsnoggrannhetsparametrar som påverkar prestanda och kompatibilitet på låg nivå."
 #define CATEGORY_CD_LABEL_SV NULL
 #define CATEGORY_CD_INFO_0_SV "Konfigurera inställningar relaterade till CD-spel."
@@ -24469,7 +24469,7 @@ struct retro_core_options_v2 options_sr = {
 #define SGX_DETECT_GEXPRESS_INFO_0_SV "Ladda automatiskt in Games Express-BIOS oavsett vilken CD-BIOS-inställning den har när Games Express CD-spel laddas in."
 #define SGX_CDSPEED_LABEL_SV "(CD) CD-hastighet"
 #define SGX_CDSPEED_LABEL_CAT_SV "CD-hastighet"
-#define SGX_CDSPEED_INFO_0_SV "Högre värden möjliggör snabbare laddningstider men kan orsaka problem med ett par spel."
+#define SGX_CDSPEED_INFO_0_SV "Högre värden möjliggör snabbare laddningstider men kan orsaka problem med några spel."
 #define SGX_ADPCMVOLUME_LABEL_SV "(CD) ADPCM Volym %"
 #define SGX_ADPCMVOLUME_LABEL_CAT_SV "Volym för ADPCM %"
 #define SGX_ADPCMVOLUME_INFO_0_SV "Endast CD-spel. Ifall du ställer in volymen för högt kan ljudkvaliten försämras och leda till samplingsklippning."
@@ -24480,7 +24480,7 @@ struct retro_core_options_v2 options_sr = {
 #define SGX_CDPSGVOLUME_LABEL_CAT_SV "Volym för CD PSG %"
 #define SGX_FORCESGX_LABEL_SV "Tvinga SuperGrafx-emulering (Omstart Krävs)"
 #define SGX_FORCESGX_INFO_0_SV "Detta är till hjälp för att köra homebrew spel eller isolera spel som inte kommer att fungera i SuperGrafx-läget (som Space Harrier). Sparad status är inte kompatibla med varje läge. Det är bättre att lämna denna inställning avstängd om det inte behövs. Kända SuperGrafx-spel (som Dai-Makaimura, Aldyns) kommer automatiskt att växla till SuperGrafx oavsett denna inställning."
-#define SGX_NOSPRITELIMIT_LABEL_SV "Ingen sprit-begränsning"
+#define SGX_NOSPRITELIMIT_LABEL_SV NULL
 #define SGX_NOSPRITELIMIT_INFO_0_SV "Ta bort hårdvarubegränsningen på 16 sprites per skanlinje. VARNING!: Kan orsaka grafikfel i vissa spel."
 #define SGX_OCMULTIPLIER_LABEL_SV "CPU-överklockningsmultiplikator (Omstart krävs)"
 #define SGX_OCMULTIPLIER_INFO_0_SV "Högre värden kan minska inbromsningar i spel. VARNING!: Kan orsaka fel och krascher."
