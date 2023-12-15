@@ -16510,7 +16510,7 @@ struct retro_core_options_v2 options_it = {
 #define CATEGORY_VIDEO_LABEL_JA "ビデオのドライバ"
 #define CATEGORY_VIDEO_INFO_0_JA NULL
 #define CATEGORY_INPUT_LABEL_JA "入力"
-#define CATEGORY_INPUT_INFO_0_JA NULL
+#define CATEGORY_INPUT_INFO_0_JA "ライトガン、マウス、ネジコンの入力を設定します。"
 #define CATEGORY_HACKS_LABEL_JA "エミュレーションハック"
 #define CATEGORY_HACKS_INFO_0_JA NULL
 #define CATEGORY_CD_LABEL_JA NULL
@@ -16533,7 +16533,7 @@ struct retro_core_options_v2 options_it = {
 #define SGX_LAST_SCANLINE_LABEL_JA NULL
 #define SGX_LAST_SCANLINE_INFO_0_JA NULL
 #define OPTION_VAL_242_JA "242 (デフォルト)"
-#define SGX_MOUSE_SENSITIVITY_LABEL_JA NULL
+#define SGX_MOUSE_SENSITIVITY_LABEL_JA "マウス感度"
 #define SGX_MOUSE_SENSITIVITY_INFO_0_JA "値を大きくすると、マウスカーソルがより速く移動します。"
 #define OPTION_VAL_0_25_JA NULL
 #define OPTION_VAL_0_50_JA NULL
@@ -24480,7 +24480,7 @@ struct retro_core_options_v2 options_sr = {
 #define SGX_CDPSGVOLUME_LABEL_CAT_SV "Volym för CD PSG %"
 #define SGX_FORCESGX_LABEL_SV "Tvinga SuperGrafx-emulering (Omstart Krävs)"
 #define SGX_FORCESGX_INFO_0_SV "Detta är till hjälp för att köra homebrew spel eller isolera spel som inte kommer att fungera i SuperGrafx-läget (som Space Harrier). Sparad status är inte kompatibla med varje läge. Det är bättre att lämna denna inställning avstängd om det inte behövs. Kända SuperGrafx-spel (som Dai-Makaimura, Aldyns) kommer automatiskt att växla till SuperGrafx oavsett denna inställning."
-#define SGX_NOSPRITELIMIT_LABEL_SV NULL
+#define SGX_NOSPRITELIMIT_LABEL_SV "Ingen blockfigursgräns"
 #define SGX_NOSPRITELIMIT_INFO_0_SV "Ta bort hårdvarubegränsningen på 16 sprites per skanlinje. VARNING!: Kan orsaka grafikfel i vissa spel."
 #define SGX_OCMULTIPLIER_LABEL_SV "CPU-överklockningsmultiplikator (Omstart krävs)"
 #define SGX_OCMULTIPLIER_INFO_0_SV "Högre värden kan minska inbromsningar i spel. VARNING!: Kan orsaka fel och krascher."
