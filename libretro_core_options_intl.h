@@ -16508,15 +16508,15 @@ struct retro_core_options_v2 options_it = {
 /* RETRO_LANGUAGE_JA */
 
 #define CATEGORY_VIDEO_LABEL_JA "ビデオのドライバ"
-#define CATEGORY_VIDEO_INFO_0_JA NULL
+#define CATEGORY_VIDEO_INFO_0_JA "表示のトリミング、フレームスキップおよびその他の画像出力のパラメータを構成します。"
 #define CATEGORY_INPUT_LABEL_JA "入力"
 #define CATEGORY_INPUT_INFO_0_JA "ライトガン、マウス、ネジコンの入力を設定します。"
 #define CATEGORY_HACKS_LABEL_JA "エミュレーションハック"
-#define CATEGORY_HACKS_INFO_0_JA NULL
+#define CATEGORY_HACKS_INFO_0_JA "低水準パフォーマンスと互換性に影響を与えるプロセッサのオーバークロックとエミュレーション精度のパラメータを構成します。"
 #define CATEGORY_CD_LABEL_JA NULL
-#define CATEGORY_CD_INFO_0_JA NULL
+#define CATEGORY_CD_INFO_0_JA "CD ゲームに関連する設定を構成します。"
 #define SGX_PALETTE_LABEL_JA "カラーパレット"
-#define SGX_PALETTE_INFO_0_JA NULL
+#define SGX_PALETTE_INFO_0_JA "コンポジットはオリジナルのコンソール出力の再現を試み、一部のゲームでさらなるディテールを表示することができます。"
 #define OPTION_VAL_RGB_JA NULL
 #define OPTION_VAL_COMPOSITE_JA "コンポジット"
 #define SGX_ASPECT_RATIO_LABEL_JA "アスペクト比"
@@ -16524,7 +16524,7 @@ struct retro_core_options_v2 options_it = {
 #define OPTION_VAL_AUTO_JA "自動"
 #define OPTION_VAL_6_5_JA NULL
 #define OPTION_VAL_4_3_JA NULL
-#define SGX_HOVERSCAN_LABEL_JA NULL
+#define SGX_HOVERSCAN_LABEL_JA "水平オーバースキャン (352 幅モードのみ)"
 #define SGX_HOVERSCAN_INFO_0_JA NULL
 #define OPTION_VAL_352_JA "352 (デフォルト)"
 #define SGX_INITIAL_SCANLINE_LABEL_JA "初期スキャンライン"
@@ -16555,44 +16555,44 @@ struct retro_core_options_v2 options_it = {
 #define OPTION_VAL_4_50_JA NULL
 #define OPTION_VAL_4_75_JA NULL
 #define OPTION_VAL_5_00_JA NULL
-#define SGX_UP_DOWN_ALLOWED_LABEL_JA NULL
+#define SGX_UP_DOWN_ALLOWED_LABEL_JA "反対方向を許可"
 #define SGX_UP_DOWN_ALLOWED_INFO_0_JA "有効にすると、左右 (または上下) 方向の同時押し / 高速交互押し / 長押しが可能になります。動作に不具合が生じる場合があります。"
 #define SGX_DISABLE_SOFTRESET_LABEL_JA "ソフトリセットを無効にする (RUN+SELECT)"
 #define SGX_DISABLE_SOFTRESET_INFO_0_JA NULL
-#define SGX_MULTITAP_LABEL_JA NULL
+#define SGX_MULTITAP_LABEL_JA "マルチタップ 5 ポートコントローラー"
 #define SGX_MULTITAP_INFO_0_JA NULL
-#define SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_JA NULL
-#define SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_JA NULL
-#define OPTION_VAL_2_BUTTONS_JA NULL
-#define OPTION_VAL_6_BUTTONS_JA NULL
-#define SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_JA NULL
-#define SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_JA NULL
-#define SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_JA NULL
-#define SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_JA NULL
-#define SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_JA NULL
-#define SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_JA NULL
-#define SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_JA NULL
-#define SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_JA NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_JA "P1 デフォルトジョイパッドの種類"
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_JA "ポート 1 のジョイパッドをデフォルトで 2 または 6 ボタンにするかどうかを選択します。このオプションはコアの開始時にのみ適用されます。コンテンツの実行中に切り替えたい場合は、[モード切り替え] ボタンを使用してください。注意: 6 ボタンジョイパッドは互換性のないゲームで奇妙な動作をすることがあります。"
+#define OPTION_VAL_2_BUTTONS_JA "2 ボタン"
+#define OPTION_VAL_6_BUTTONS_JA "6 ボタン"
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_JA "P2 デフォルトジョイパッドの種類"
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_JA "ポート 2 のジョイパッドをデフォルトで 2 または 6 ボタンにするかどうかを選択します。このオプションはコアの開始時にのみ適用されます。コンテンツの実行中に切り替えたい場合は、[モード切り替え] ボタンを使用してください。注意: 6 ボタンジョイパッドは互換性のないゲームで奇妙な動作をすることがあります。"
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_JA "P3 デフォルトジョイパッドの種類"
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_JA "ポート 3 のジョイパッドをデフォルトで 2 または 6 ボタンにするかどうかを選択します。このオプションはコアの開始時にのみ適用されます。コンテンツの実行中に切り替えたい場合は、[モード切り替え] ボタンを使用してください。注意: 6 ボタンジョイパッドは互換性のないゲームで奇妙な動作をすることがあります。"
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_JA "P4 デフォルトジョイパッドの種類"
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_JA "ポート 4 のジョイパッドをデフォルトで 2 または 6 ボタンにするかどうかを選択します。このオプションはコアの開始時にのみ適用されます。コンテンツの実行中に切り替えたい場合は、[モード切り替え] ボタンを使用してください。注意: 6 ボタンジョイパッドは互換性のないゲームで奇妙な動作をすることがあります。"
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_JA "P5 デフォルトジョイパッドの種類"
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_JA "ポート 5 のジョイパッドをデフォルトで 2 または 6 ボタンにするかどうかを選択します。このオプションはコアの開始時にのみ適用されます。コンテンツの実行中に切り替えたい場合は、[モード切り替え] ボタンを使用してください。注意: 6 ボタンジョイパッドは互換性のないゲームで奇妙な動作をすることがあります。"
 #define SGX_TURBO_TOGGLE_LABEL_JA NULL
 #define SGX_TURBO_TOGGLE_INFO_0_JA NULL
-#define OPTION_VAL_SWITCH_JA NULL
+#define OPTION_VAL_SWITCH_JA "切り替え"
 #define OPTION_VAL_DEDICATED_JA NULL
 #define SGX_TURBO_TOGGLE_HOTKEY_LABEL_JA NULL
 #define SGX_TURBO_TOGGLE_HOTKEY_INFO_0_JA NULL
-#define SGX_TURBO_DELAY_LABEL_JA NULL
+#define SGX_TURBO_DELAY_LABEL_JA "ターボ遅延"
 #define SGX_TURBO_DELAY_INFO_0_JA NULL
 #define SGX_CDIMAGECACHE_LABEL_JA "CD イメージキャッシュ (再起動が必要)"
 #define SGX_CDIMAGECACHE_INFO_0_JA "起動時に完全なイメージをメモリにロードします。起動時間が増す代わりにロード時間が短縮される可能性があります。"
 #define SGX_CDBIOS_LABEL_JA "CD BIOS (再起動が必要)"
-#define SGX_CDBIOS_INFO_0_JA NULL
+#define SGX_CDBIOS_INFO_0_JA "ほとんどのゲームは [システムカード 3] で実行できます。[Game Express] はいくつかの非公認ゲームで必要です。"
 #define OPTION_VAL_GAMES_EXPRESS_JA NULL
-#define OPTION_VAL_SYSTEM_CARD_1_JA NULL
-#define OPTION_VAL_SYSTEM_CARD_2_JA NULL
-#define OPTION_VAL_SYSTEM_CARD_3_JA NULL
+#define OPTION_VAL_SYSTEM_CARD_1_JA "システムカード 1"
+#define OPTION_VAL_SYSTEM_CARD_2_JA "システムカード 2"
+#define OPTION_VAL_SYSTEM_CARD_3_JA "システムカード 3"
 #define SGX_DETECT_GEXPRESS_LABEL_JA NULL
 #define SGX_DETECT_GEXPRESS_INFO_0_JA NULL
 #define SGX_CDSPEED_LABEL_JA "(CD) CD 速度"
-#define SGX_CDSPEED_LABEL_CAT_JA NULL
+#define SGX_CDSPEED_LABEL_CAT_JA "CD 速度"
 #define SGX_CDSPEED_INFO_0_JA "値が高いほど読み込み時間が速くなりますが、いくつかのゲームで問題が発生する可能性があります。"
 #define SGX_ADPCMVOLUME_LABEL_JA "(CD) ADPCM 音量 %"
 #define SGX_ADPCMVOLUME_LABEL_CAT_JA "ADPCM 音量 %"
@@ -16604,7 +16604,7 @@ struct retro_core_options_v2 options_it = {
 #define SGX_CDPSGVOLUME_LABEL_CAT_JA "CD PSG 音量 %"
 #define SGX_FORCESGX_LABEL_JA NULL
 #define SGX_FORCESGX_INFO_0_JA NULL
-#define SGX_NOSPRITELIMIT_LABEL_JA NULL
+#define SGX_NOSPRITELIMIT_LABEL_JA "スプライト制限なし"
 #define SGX_NOSPRITELIMIT_INFO_0_JA NULL
 #define SGX_OCMULTIPLIER_LABEL_JA NULL
 #define SGX_OCMULTIPLIER_INFO_0_JA "値を大きくするとゲームのスローダウンが減ります。警告：不具合やクラッシュを引き起こす可能性があります。"
