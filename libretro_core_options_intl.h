@@ -16507,10 +16507,10 @@ struct retro_core_options_v2 options_it = {
 
 /* RETRO_LANGUAGE_JA */
 
-#define CATEGORY_VIDEO_LABEL_JA "ビデオのドライバ"
+#define CATEGORY_VIDEO_LABEL_JA "ビデオ"
 #define CATEGORY_VIDEO_INFO_0_JA "表示のトリミング、フレームスキップおよびその他の画像出力のパラメータを構成します。"
 #define CATEGORY_INPUT_LABEL_JA "入力"
-#define CATEGORY_INPUT_INFO_0_JA "ライトガン、マウス、ネジコンの入力を設定します。"
+#define CATEGORY_INPUT_INFO_0_JA "ライトガン、マウスおよびネジコンの入力を構成します。"
 #define CATEGORY_HACKS_LABEL_JA "エミュレーションハック"
 #define CATEGORY_HACKS_INFO_0_JA "低水準パフォーマンスと互換性に影響を与えるプロセッサのオーバークロックとエミュレーション精度のパラメータを構成します。"
 #define CATEGORY_CD_LABEL_JA NULL
@@ -16555,7 +16555,7 @@ struct retro_core_options_v2 options_it = {
 #define OPTION_VAL_4_50_JA NULL
 #define OPTION_VAL_4_75_JA NULL
 #define OPTION_VAL_5_00_JA NULL
-#define SGX_UP_DOWN_ALLOWED_LABEL_JA "反対方向を許可"
+#define SGX_UP_DOWN_ALLOWED_LABEL_JA "逆方向入力を許可"
 #define SGX_UP_DOWN_ALLOWED_INFO_0_JA "有効にすると、左右 (または上下) 方向の同時押し / 高速交互押し / 長押しが可能になります。動作に不具合が生じる場合があります。"
 #define SGX_DISABLE_SOFTRESET_LABEL_JA "ソフトリセットを無効にする (RUN+SELECT)"
 #define SGX_DISABLE_SOFTRESET_INFO_0_JA NULL
@@ -16580,7 +16580,7 @@ struct retro_core_options_v2 options_it = {
 #define SGX_TURBO_TOGGLE_HOTKEY_LABEL_JA NULL
 #define SGX_TURBO_TOGGLE_HOTKEY_INFO_0_JA NULL
 #define SGX_TURBO_DELAY_LABEL_JA "ターボ遅延"
-#define SGX_TURBO_DELAY_INFO_0_JA NULL
+#define SGX_TURBO_DELAY_INFO_0_JA "連射間隔の時間を調整します (フレーム単位)。"
 #define SGX_CDIMAGECACHE_LABEL_JA "CD イメージキャッシュ (再起動が必要)"
 #define SGX_CDIMAGECACHE_INFO_0_JA "起動時に完全なイメージをメモリにロードします。起動時間が増す代わりにロード時間が短縮される可能性があります。"
 #define SGX_CDBIOS_LABEL_JA "CD BIOS (再起動が必要)"
@@ -16590,7 +16590,7 @@ struct retro_core_options_v2 options_it = {
 #define OPTION_VAL_SYSTEM_CARD_2_JA "システムカード 2"
 #define OPTION_VAL_SYSTEM_CARD_3_JA "システムカード 3"
 #define SGX_DETECT_GEXPRESS_LABEL_JA NULL
-#define SGX_DETECT_GEXPRESS_INFO_0_JA NULL
+#define SGX_DETECT_GEXPRESS_INFO_0_JA "Game Express CD ゲームをロードする際、CD BIOS の設定に関係なく自動的に Game Express BIOS をロードします。"
 #define SGX_CDSPEED_LABEL_JA "(CD) CD 速度"
 #define SGX_CDSPEED_LABEL_CAT_JA "CD 速度"
 #define SGX_CDSPEED_INFO_0_JA "値が高いほど読み込み時間が速くなりますが、いくつかのゲームで問題が発生する可能性があります。"
