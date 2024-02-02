@@ -16512,7 +16512,7 @@ struct retro_core_options_v2 options_it = {
 #define CATEGORY_INPUT_LABEL_JA "入力"
 #define CATEGORY_INPUT_INFO_0_JA "ライトガン、マウスおよびネジコンの入力を設定します。"
 #define CATEGORY_HACKS_LABEL_JA "エミュレーションハック"
-#define CATEGORY_HACKS_INFO_0_JA "低水準パフォーマンスと互換性に影響を与えるプロセッサのオーバークロックとエミュレーション精度のパラメータを設定します。"
+#define CATEGORY_HACKS_INFO_0_JA "低レベルパフォーマンスと互換性に影響を与えるプロセッサのオーバークロックとエミュレーションの精度設定を変更します。"
 #define CATEGORY_CD_LABEL_JA NULL
 #define CATEGORY_CD_INFO_0_JA "CD ゲームに関連する設定を変更します。"
 #define SGX_PALETTE_LABEL_JA "カラーパレット"
@@ -16573,7 +16573,7 @@ struct retro_core_options_v2 options_it = {
 #define SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_JA "ポート 4 のジョイパッドをデフォルトで 2 または 6 ボタンにするかどうかを選択します。このオプションはコアの開始時にのみ適用されます。コンテンツの実行中に切り替えたい場合は、[モード切り替え] ボタンを使用してください。注意: 6 ボタンジョイパッドは互換性のないゲームで奇妙な動作をすることがあります。"
 #define SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_JA "P5 デフォルトジョイパッドの種類"
 #define SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_JA "ポート 5 のジョイパッドをデフォルトで 2 または 6 ボタンにするかどうかを選択します。このオプションはコアの開始時にのみ適用されます。コンテンツの実行中に切り替えたい場合は、[モード切り替え] ボタンを使用してください。注意: 6 ボタンジョイパッドは互換性のないゲームで奇妙な動作をすることがあります。"
-#define SGX_TURBO_TOGGLE_LABEL_JA NULL
+#define SGX_TURBO_TOGGLE_LABEL_JA "ターボホットキーモード"
 #define SGX_TURBO_TOGGLE_INFO_0_JA NULL
 #define OPTION_VAL_SWITCH_JA "切り替え"
 #define OPTION_VAL_DEDICATED_JA NULL
@@ -16602,7 +16602,7 @@ struct retro_core_options_v2 options_it = {
 #define SGX_CDDAVOLUME_LABEL_CAT_JA "CD-DA 音量 %"
 #define SGX_CDPSGVOLUME_LABEL_JA "(CD) PSG 音量 %"
 #define SGX_CDPSGVOLUME_LABEL_CAT_JA "CD PSG 音量 %"
-#define SGX_FORCESGX_LABEL_JA NULL
+#define SGX_FORCESGX_LABEL_JA "強制スーパーグラフィックスエミュレーション (再起動が必要)"
 #define SGX_FORCESGX_INFO_0_JA NULL
 #define SGX_NOSPRITELIMIT_LABEL_JA "スプライト制限なし"
 #define SGX_NOSPRITELIMIT_INFO_0_JA NULL
