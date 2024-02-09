@@ -16525,12 +16525,12 @@ struct retro_core_options_v2 options_it = {
 #define OPTION_VAL_6_5_JA NULL
 #define OPTION_VAL_4_3_JA NULL
 #define SGX_HOVERSCAN_LABEL_JA "水平オーバースキャン (352 幅モードのみ)"
-#define SGX_HOVERSCAN_INFO_0_JA NULL
+#define SGX_HOVERSCAN_INFO_0_JA "表示されるイメージの最大幅を選択します。値を低くすると、イメージの右側がトリミングされます。幅 352px ゲーム用の設定です (例: R-Type)。"
 #define OPTION_VAL_352_JA "352 (デフォルト)"
-#define SGX_INITIAL_SCANLINE_LABEL_JA "初期スキャンライン"
+#define SGX_INITIAL_SCANLINE_LABEL_JA "開始スキャンライン"
 #define SGX_INITIAL_SCANLINE_INFO_0_JA "最初に描画されるスキャンラインです。値を大きくするほどイメージの上部がトリミングされます。"
 #define OPTION_VAL_3_JA "3 (デフォルト)"
-#define SGX_LAST_SCANLINE_LABEL_JA "最終スキャンライン"
+#define SGX_LAST_SCANLINE_LABEL_JA "終了スキャンライン"
 #define SGX_LAST_SCANLINE_INFO_0_JA "最後に描画されるスキャンラインです。値を小さくするほどイメージの下部がトリミングされます。"
 #define OPTION_VAL_242_JA "242 (デフォルト)"
 #define SGX_MOUSE_SENSITIVITY_LABEL_JA "マウス感度"
@@ -16574,9 +16574,9 @@ struct retro_core_options_v2 options_it = {
 #define SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_JA "P5 デフォルトジョイパッドの種類"
 #define SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_JA "ポート 5 のジョイパッドをデフォルトで 2 または 6 ボタンにするかどうかを選択します。このオプションはコアの開始時にのみ適用されます。コンテンツの実行中に切り替えたい場合は、[モード切り替え] ボタンを使用してください。注意: 6 ボタンジョイパッドは互換性のないゲームで奇妙な動作をすることがあります。"
 #define SGX_TURBO_TOGGLE_LABEL_JA "ターボホットキーモード"
-#define SGX_TURBO_TOGGLE_INFO_0_JA NULL
+#define SGX_TURBO_TOGGLE_INFO_0_JA "ターボボタンを有効にします。ホットキー (ボタン III と IV) は、通常レトロパッドの A/B ボタンに割り当てられる ボタン I および ボタン II のターボのオン/オフ、またはボタン I/II の専用ターボボタンとして動作します。"
 #define OPTION_VAL_SWITCH_JA "切り替え"
-#define OPTION_VAL_DEDICATED_JA NULL
+#define OPTION_VAL_DEDICATED_JA "専用"
 #define SGX_TURBO_TOGGLE_HOTKEY_LABEL_JA "代替ターボホットキー"
 #define SGX_TURBO_TOGGLE_HOTKEY_INFO_0_JA "ボタン III と IV ではなく、レトロパッドの L3/R3 ボタンにターボホットキーを割り当てます。 [切り替え] モードかつ、L3/R3 に何も割り当てられていない場合にのみ動作します。これにより、6 ボタンコントローラーモードに切り替えた際、ボタン II および IV へのリマップを回避することができます。"
 #define SGX_TURBO_DELAY_LABEL_JA "ターボ遅延"
