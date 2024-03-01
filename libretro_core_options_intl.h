@@ -16512,7 +16512,7 @@ struct retro_core_options_v2 options_it = {
 #define CATEGORY_INPUT_LABEL_JA "入力"
 #define CATEGORY_INPUT_INFO_0_JA "ライトガン、マウスおよびネジコンの入力を設定します。"
 #define CATEGORY_HACKS_LABEL_JA "エミュレーションハック"
-#define CATEGORY_HACKS_INFO_0_JA "低レベルパフォーマンスと互換性に影響を与えるプロセッサのオーバークロックとエミュレーションの精度設定を変更します。"
+#define CATEGORY_HACKS_INFO_0_JA "低レベルパフォーマンスと互換性に影響する、プロセッサのオーバークロックとエミュレーション精度のパラメータを設定します。"
 #define CATEGORY_CD_LABEL_JA NULL
 #define CATEGORY_CD_INFO_0_JA "CD ゲームに関連する設定を変更します。"
 #define SGX_PALETTE_LABEL_JA "カラーパレット"
@@ -16520,7 +16520,7 @@ struct retro_core_options_v2 options_it = {
 #define OPTION_VAL_RGB_JA NULL
 #define OPTION_VAL_COMPOSITE_JA "コンポジット"
 #define SGX_ASPECT_RATIO_LABEL_JA "アスペクト比"
-#define SGX_ASPECT_RATIO_INFO_0_JA NULL
+#define SGX_ASPECT_RATIO_INFO_0_JA "コンテンツのアスペクト比を選択します。頻繁に 256 モードと 352 モードを切り替えるゲーム (例: あすか120%) で [自動] アスペクト比を使用する場合、水平幅を 342 に設定することをおすすめします。この横幅は 256 モードと比率が等しく、サイズ変更や余分な黒枠を最小限に抑えることができます。"
 #define OPTION_VAL_AUTO_JA "自動"
 #define OPTION_VAL_6_5_JA NULL
 #define OPTION_VAL_4_3_JA NULL
@@ -16558,9 +16558,9 @@ struct retro_core_options_v2 options_it = {
 #define SGX_UP_DOWN_ALLOWED_LABEL_JA "逆方向入力を許可"
 #define SGX_UP_DOWN_ALLOWED_INFO_0_JA "有効にすると、左右 (または上下) 方向の同時押し / 高速交互押し / 長押しが可能になります。動作に不具合が生じる場合があります。"
 #define SGX_DISABLE_SOFTRESET_LABEL_JA "ソフトリセットを無効にする (RUN+SELECT)"
-#define SGX_DISABLE_SOFTRESET_INFO_0_JA NULL
+#define SGX_DISABLE_SOFTRESET_INFO_0_JA "RUN と SELECT が同時に押された時に、リセットの代わりに一時的に両方のボタンを無効にします。"
 #define SGX_MULTITAP_LABEL_JA "マルチタップ 5 ポートコントローラー"
-#define SGX_MULTITAP_INFO_0_JA NULL
+#define SGX_MULTITAP_INFO_0_JA "最大 5 人までのマルチタップエミュレーションを有効にします。一部の例外 (超兄貴など) を除いて、無効にする必要はありません。"
 #define SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_JA "P1 デフォルトジョイパッドの種類"
 #define SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_JA "ポート 1 のジョイパッドをデフォルトで 2 または 6 ボタンにするかどうかを選択します。このオプションはコアの開始時にのみ適用されます。コンテンツの実行中に切り替えたい場合は、[モード切り替え] ボタンを使用してください。注意: 6 ボタンジョイパッドは互換性のないゲームで奇妙な動作をすることがあります。"
 #define OPTION_VAL_2_BUTTONS_JA "2 ボタン"
@@ -16589,7 +16589,7 @@ struct retro_core_options_v2 options_it = {
 #define OPTION_VAL_SYSTEM_CARD_1_JA "システムカード 1"
 #define OPTION_VAL_SYSTEM_CARD_2_JA "システムカード 2"
 #define OPTION_VAL_SYSTEM_CARD_3_JA "システムカード 3"
-#define SGX_DETECT_GEXPRESS_LABEL_JA NULL
+#define SGX_DETECT_GEXPRESS_LABEL_JA "Game Express CD を検出 (再起動が必要)"
 #define SGX_DETECT_GEXPRESS_INFO_0_JA "Game Express CD ゲームをロードする際、CD BIOS の設定に関係なく自動的に Game Express BIOS をロードします。"
 #define SGX_CDSPEED_LABEL_JA "(CD) CD 速度"
 #define SGX_CDSPEED_LABEL_CAT_JA "CD 速度"
@@ -16597,15 +16597,15 @@ struct retro_core_options_v2 options_it = {
 #define SGX_ADPCMVOLUME_LABEL_JA "(CD) ADPCM 音量 %"
 #define SGX_ADPCMVOLUME_LABEL_CAT_JA "ADPCM 音量 %"
 #define SGX_ADPCMVOLUME_INFO_0_JA "CD ゲームのみです。この音量を高く設定しすぎるとサンプルクリッピングが発生する可能性があります。"
-#define SGX_ADPCMVOLUME_INFO_1_JA NULL
+#define SGX_ADPCMVOLUME_INFO_1_JA "この音量を高く設定しすぎるとサンプルクリッピングが発生する可能性があります。"
 #define SGX_CDDAVOLUME_LABEL_JA "(CD) CDDA 音量 %"
 #define SGX_CDDAVOLUME_LABEL_CAT_JA "CD-DA 音量 %"
 #define SGX_CDPSGVOLUME_LABEL_JA "(CD) PSG 音量 %"
 #define SGX_CDPSGVOLUME_LABEL_CAT_JA "CD PSG 音量 %"
 #define SGX_FORCESGX_LABEL_JA "強制スーパーグラフィックスエミュレーション (再起動が必要)"
-#define SGX_FORCESGX_INFO_0_JA NULL
+#define SGX_FORCESGX_INFO_0_JA "Homebrew ゲームを実行したり、スーパーグラフィックスモードでは動作しないゲームを分類するのに役立ちます。ステートセーブは各モードと互換性がありません。必要がない限り、オフにしておくことをお勧めします。スーパーグラフィックス用として販売されたゲームはこのオプションに関係なく自動的にスーパーグラフィックスモードに切り替わります。"
 #define SGX_NOSPRITELIMIT_LABEL_JA "スプライト制限なし"
-#define SGX_NOSPRITELIMIT_INFO_0_JA NULL
+#define SGX_NOSPRITELIMIT_INFO_0_JA "16 スプライト/スキャンラインのハードウェア制限を解除します。警告: ゲームによってはグラフィックが乱れる可能性があります。"
 #define SGX_OCMULTIPLIER_LABEL_JA "CPU オーバークロック倍率 (再起動が必要)"
 #define SGX_OCMULTIPLIER_INFO_0_JA "値を大きくするほどゲームの実行速度の低下を軽減できます。警告: 不具合やクラッシュを引き起こす可能性があります。"
 
@@ -20852,7 +20852,7 @@ struct retro_core_options_v2 options_pl = {
 #define OPTION_VAL_4_75_PT_BR "4,75"
 #define OPTION_VAL_5_00_PT_BR "5,00"
 #define SGX_UP_DOWN_ALLOWED_LABEL_PT_BR "Permitir direções opostas"
-#define SGX_UP_DOWN_ALLOWED_INFO_0_PT_BR "Esta opção permitirá pressionar, alternar ou segurar rapidamente as direções esquerda e direita (ou cima e baixo) ao mesmo tempo. Pode causar falhas de movimento."
+#define SGX_UP_DOWN_ALLOWED_INFO_0_PT_BR "Permite pressionar, alternar ou segurar rapidamente as direções esquerda e direita (ou cima e baixo) ao mesmo tempo.\nOBSERVAÇÃO: pode causar problemas de movimentação."
 #define SGX_DISABLE_SOFTRESET_LABEL_PT_BR "Desativar a reinicialização suave (RUN+SELECT)"
 #define SGX_DISABLE_SOFTRESET_INFO_0_PT_BR "Ao pressionar RUN e SELECT simultaneamente, desativa ambos os botões temporariamente em vez de reinicializar."
 #define SGX_MULTITAP_LABEL_PT_BR "Multitap de 5 portas"
