@@ -20814,7 +20814,7 @@ struct retro_core_options_v2 options_pl = {
 #define SGX_PALETTE_LABEL_PT_BR "Paleta de cores"
 #define SGX_PALETTE_INFO_0_PT_BR "Vídeo composto tenta recriar a saída original do console e pode exibir mais detalhes em alguns jogos."
 #define OPTION_VAL_RGB_PT_BR NULL
-#define OPTION_VAL_COMPOSITE_PT_BR "Composto"
+#define OPTION_VAL_COMPOSITE_PT_BR "Vídeo composto"
 #define SGX_ASPECT_RATIO_LABEL_PT_BR "Proporção de tela"
 #define SGX_ASPECT_RATIO_INFO_0_PT_BR "Escolhe a proporção de tela preferida do conteúdo. Em jogos que constantemente alteram-se entre os modos de 352 e 256 e usam a proporção automática, é melhor configurar a largura para 342, para minimizar o redimensionamento e o excesso de linhas pretas, pois essa largura está na proporção do modo de 256 de largura (em algo semelhante, basta testar com Asuka 100%, que é um dos jogos que tem alteração de modos)."
 #define OPTION_VAL_AUTO_PT_BR "Automática"
@@ -20823,10 +20823,10 @@ struct retro_core_options_v2 options_pl = {
 #define SGX_HOVERSCAN_LABEL_PT_BR "Overscan horizontal (somente no modo 352 de largura)"
 #define SGX_HOVERSCAN_INFO_0_PT_BR "Seleciona a largura máxima da imagem que será exibida. Valores menores cortam o lado direito da imagem (em jogos com largura de 352px)."
 #define OPTION_VAL_352_PT_BR "352 (padrão)"
-#define SGX_INITIAL_SCANLINE_LABEL_PT_BR "Linha de verificação inicial"
+#define SGX_INITIAL_SCANLINE_LABEL_PT_BR "Linha de varredura inicial"
 #define SGX_INITIAL_SCANLINE_INFO_0_PT_BR "Primeira linha de verificação renderizada. Valores maiores cortarão a parte superior da imagem."
 #define OPTION_VAL_3_PT_BR "3 (padrão)"
-#define SGX_LAST_SCANLINE_LABEL_PT_BR "Linha de verificação final"
+#define SGX_LAST_SCANLINE_LABEL_PT_BR "Linha de varredura final"
 #define SGX_LAST_SCANLINE_INFO_0_PT_BR "Última linha de verificação renderizada. Valores menores cortarão a parte inferior da imagem."
 #define OPTION_VAL_242_PT_BR "242 (padrão)"
 #define SGX_MOUSE_SENSITIVITY_LABEL_PT_BR "Sensibilidade do mouse"
@@ -20859,8 +20859,8 @@ struct retro_core_options_v2 options_pl = {
 #define SGX_MULTITAP_INFO_0_PT_BR "Ativa emulação de multitap de até 5 jogadores. A desativação é necessária em alguns casos (por ex. Cho Aniki)."
 #define SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_PT_BR NULL
 #define SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_PT_BR NULL
-#define OPTION_VAL_2_BUTTONS_PT_BR NULL
-#define OPTION_VAL_6_BUTTONS_PT_BR NULL
+#define OPTION_VAL_2_BUTTONS_PT_BR "2 botões"
+#define OPTION_VAL_6_BUTTONS_PT_BR "6 botões"
 #define SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_PT_BR NULL
 #define SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_PT_BR NULL
 #define SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_PT_BR NULL
@@ -20900,7 +20900,7 @@ struct retro_core_options_v2 options_pl = {
 #define SGX_CDPSGVOLUME_LABEL_CAT_PT_BR "Volume do PSG de CD (%)"
 #define SGX_FORCESGX_LABEL_PT_BR "Forçar emulação do SuperGrafx (requer reinício)"
 #define SGX_FORCESGX_INFO_0_PT_BR "É útil para rodar jogos Homebrew ou isolar jogos que não rodam no modo SuperGrafx (como Space Harrier). Arquivos de jogos salvos não são compatíveis em todos os modos. É melhor deixar esta opção desligada caso não necessária. Alguns jogos de SuperGrafx (como Dai-Makaimura e Aldyns) alteram-se automaticamente para SuperGrafx independetemente desta configuração."
-#define SGX_NOSPRITELIMIT_LABEL_PT_BR "Sem limite de sprite"
+#define SGX_NOSPRITELIMIT_LABEL_PT_BR "Remover limite de sprites"
 #define SGX_NOSPRITELIMIT_INFO_0_PT_BR "Remove o limite de hardware de 16 sprites por linha de verificação. ATENÇÃO: pode causar falhas gráficas em alguns jogos."
 #define SGX_OCMULTIPLIER_LABEL_PT_BR "Multiplicador do Overclock de CPU (requer reinício)"
 #define SGX_OCMULTIPLIER_INFO_0_PT_BR "Valores maiores podem reduzir a lentidão em jogos. ATENÇÃO: podem causar falhas e fechar o jogo."
