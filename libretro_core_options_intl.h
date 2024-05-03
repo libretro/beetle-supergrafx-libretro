@@ -12928,33 +12928,33 @@ struct retro_core_options_v2 options_fr = {
 /* RETRO_LANGUAGE_GL */
 
 #define CATEGORY_VIDEO_LABEL_GL "Vídeo"
-#define CATEGORY_VIDEO_INFO_0_GL NULL
+#define CATEGORY_VIDEO_INFO_0_GL "1Configura o recorte de visualización, o salto de cadros e outros parámetros de saída da imaxe."
 #define CATEGORY_INPUT_LABEL_GL "Entrada"
-#define CATEGORY_INPUT_INFO_0_GL NULL
+#define CATEGORY_INPUT_INFO_0_GL "Configura a entrada de pistola lixeira, rato e NegCon."
 #define CATEGORY_HACKS_LABEL_GL "Hacks de emulación"
 #define CATEGORY_HACKS_INFO_0_GL "Configurar os parámetros do overclocking e a precisión da emulación do procesador que afecten ó rendemento e á compatibilidade de baixo nivel."
 #define CATEGORY_CD_LABEL_GL NULL
-#define CATEGORY_CD_INFO_0_GL NULL
-#define SGX_PALETTE_LABEL_GL NULL
-#define SGX_PALETTE_INFO_0_GL NULL
+#define CATEGORY_CD_INFO_0_GL "Configura axustes relacionados cos xogos de CD."
+#define SGX_PALETTE_LABEL_GL "Paleta de cores"
+#define SGX_PALETTE_INFO_0_GL "Composite tenta recrear a saída orixinal da consola e pode mostrar máis detalles nalgúns xogos."
 #define OPTION_VAL_RGB_GL NULL
-#define OPTION_VAL_COMPOSITE_GL NULL
-#define SGX_ASPECT_RATIO_LABEL_GL NULL
-#define SGX_ASPECT_RATIO_INFO_0_GL NULL
+#define OPTION_VAL_COMPOSITE_GL "Composto"
+#define SGX_ASPECT_RATIO_LABEL_GL "Relación de aspecto"
+#define SGX_ASPECT_RATIO_INFO_0_GL "Escolla a relación de aspecto do contido preferida. Cando se usan xogos que cambian constantemente entre os modos 256 e 352 e se usan o aspecto automático, o mellor é establecer o ancho horizontal en 342 para minimizar o cambio de tamaño e as liñas negras adicionais xa que este ancho está en proporción ao modo de ancho 256 (ou algo así, só proba. con Asuka 100%, que é un dos xogos que cambian entre estes modos)."
 #define OPTION_VAL_AUTO_GL NULL
 #define OPTION_VAL_6_5_GL NULL
 #define OPTION_VAL_4_3_GL NULL
-#define SGX_HOVERSCAN_LABEL_GL NULL
-#define SGX_HOVERSCAN_INFO_0_GL NULL
-#define OPTION_VAL_352_GL NULL
-#define SGX_INITIAL_SCANLINE_LABEL_GL NULL
-#define SGX_INITIAL_SCANLINE_INFO_0_GL NULL
-#define OPTION_VAL_3_GL NULL
-#define SGX_LAST_SCANLINE_LABEL_GL NULL
-#define SGX_LAST_SCANLINE_INFO_0_GL NULL
-#define OPTION_VAL_242_GL NULL
-#define SGX_MOUSE_SENSITIVITY_LABEL_GL NULL
-#define SGX_MOUSE_SENSITIVITY_INFO_0_GL NULL
+#define SGX_HOVERSCAN_LABEL_GL "Overscan horizontal (só modo de ancho 352)"
+#define SGX_HOVERSCAN_INFO_0_GL "Escolla o ancho máximo da imaxe que se mostrará. Os valores máis baixos recortarán o lado dereito da imaxe (para xogos de 352 px de ancho)."
+#define OPTION_VAL_352_GL "352 (predeterminado)"
+#define SGX_INITIAL_SCANLINE_LABEL_GL "Liña de exploración inicial"
+#define SGX_INITIAL_SCANLINE_INFO_0_GL "Primeira liña de escaneo renderizada. Os valores máis altos recortarán a parte superior da imaxe."
+#define OPTION_VAL_3_GL "3 (predeterminado)"
+#define SGX_LAST_SCANLINE_LABEL_GL "Última liña de exploración"
+#define SGX_LAST_SCANLINE_INFO_0_GL "Última liña de exploración renderizada. Os valores máis baixos recortarán a parte inferior da imaxe."
+#define OPTION_VAL_242_GL "242 (predeterminado)"
+#define SGX_MOUSE_SENSITIVITY_LABEL_GL "Sensibilidade do rato"
+#define SGX_MOUSE_SENSITIVITY_INFO_0_GL "Os valores máis altos farán que o cursor do rato se mova máis rápido."
 #define OPTION_VAL_0_25_GL NULL
 #define OPTION_VAL_0_50_GL NULL
 #define OPTION_VAL_0_75_GL NULL
@@ -12975,59 +12975,59 @@ struct retro_core_options_v2 options_fr = {
 #define OPTION_VAL_4_50_GL NULL
 #define OPTION_VAL_4_75_GL NULL
 #define OPTION_VAL_5_00_GL NULL
-#define SGX_UP_DOWN_ALLOWED_LABEL_GL NULL
-#define SGX_UP_DOWN_ALLOWED_INFO_0_GL NULL
-#define SGX_DISABLE_SOFTRESET_LABEL_GL NULL
-#define SGX_DISABLE_SOFTRESET_INFO_0_GL NULL
-#define SGX_MULTITAP_LABEL_GL NULL
-#define SGX_MULTITAP_INFO_0_GL NULL
-#define SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_GL NULL
-#define SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_GL NULL
-#define OPTION_VAL_2_BUTTONS_GL NULL
-#define OPTION_VAL_6_BUTTONS_GL NULL
-#define SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_GL NULL
-#define SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_GL NULL
-#define SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_GL NULL
-#define SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_GL NULL
-#define SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_GL NULL
-#define SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_GL NULL
-#define SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_GL NULL
-#define SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_GL NULL
-#define SGX_TURBO_TOGGLE_LABEL_GL NULL
-#define SGX_TURBO_TOGGLE_INFO_0_GL NULL
-#define OPTION_VAL_SWITCH_GL NULL
-#define OPTION_VAL_DEDICATED_GL NULL
-#define SGX_TURBO_TOGGLE_HOTKEY_LABEL_GL NULL
-#define SGX_TURBO_TOGGLE_HOTKEY_INFO_0_GL NULL
-#define SGX_TURBO_DELAY_LABEL_GL NULL
-#define SGX_TURBO_DELAY_INFO_0_GL NULL
-#define SGX_CDIMAGECACHE_LABEL_GL NULL
-#define SGX_CDIMAGECACHE_INFO_0_GL NULL
-#define SGX_CDBIOS_LABEL_GL NULL
-#define SGX_CDBIOS_INFO_0_GL NULL
-#define OPTION_VAL_GAMES_EXPRESS_GL NULL
-#define OPTION_VAL_SYSTEM_CARD_1_GL NULL
-#define OPTION_VAL_SYSTEM_CARD_2_GL NULL
-#define OPTION_VAL_SYSTEM_CARD_3_GL NULL
-#define SGX_DETECT_GEXPRESS_LABEL_GL NULL
-#define SGX_DETECT_GEXPRESS_INFO_0_GL NULL
-#define SGX_CDSPEED_LABEL_GL NULL
-#define SGX_CDSPEED_LABEL_CAT_GL NULL
-#define SGX_CDSPEED_INFO_0_GL NULL
-#define SGX_ADPCMVOLUME_LABEL_GL NULL
-#define SGX_ADPCMVOLUME_LABEL_CAT_GL NULL
-#define SGX_ADPCMVOLUME_INFO_0_GL NULL
-#define SGX_ADPCMVOLUME_INFO_1_GL NULL
-#define SGX_CDDAVOLUME_LABEL_GL NULL
-#define SGX_CDDAVOLUME_LABEL_CAT_GL NULL
-#define SGX_CDPSGVOLUME_LABEL_GL NULL
-#define SGX_CDPSGVOLUME_LABEL_CAT_GL NULL
-#define SGX_FORCESGX_LABEL_GL NULL
-#define SGX_FORCESGX_INFO_0_GL NULL
-#define SGX_NOSPRITELIMIT_LABEL_GL NULL
-#define SGX_NOSPRITELIMIT_INFO_0_GL NULL
-#define SGX_OCMULTIPLIER_LABEL_GL NULL
-#define SGX_OCMULTIPLIER_INFO_0_GL NULL
+#define SGX_UP_DOWN_ALLOWED_LABEL_GL "Permitir direccións opostas"
+#define SGX_UP_DOWN_ALLOWED_INFO_0_GL "Activar isto permitirá premer / alternar rapidamente / manter as dúas direccións esquerda e dereita (ou arriba e abaixo) ao mesmo tempo. Isto pode causar fallos baseados no movemento."
+#define SGX_DISABLE_SOFTRESET_LABEL_GL "Desactivar reinicio suave (RUN+SELECT)"
+#define SGX_DISABLE_SOFTRESET_INFO_0_GL "Cando se preme RUN e SELECT simultaneamente, desactive os dous botóns temporalmente en lugar de restablecer."
+#define SGX_MULTITAP_LABEL_GL "Controlador multitap de 5 portos"
+#define SGX_MULTITAP_INFO_0_GL "Activa a emulación multitap de ata 5 xogadores. Desactivar isto só é necesario nalgúns casos (por exemplo, Cho Aniki)."
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_GL "P1 Tipo de Joypad predeterminado"
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_GL "Escolla se o mando do porto 1 debe ser de 2 ou 6 botóns por defecto. Esta opción só se aplica cando se inicia o núcleo, se queres cambiar mentres o contido está en execución, usa o botón \"Cambio de modo\". NOTA: O mando de 6 botóns pode ter comportamentos estraños en xogos non compatibles."
+#define OPTION_VAL_2_BUTTONS_GL "2 Botóns"
+#define OPTION_VAL_6_BUTTONS_GL "6 Botóns"
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_GL "P2 Tipo de Joypad predeterminado"
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_GL "Escolla se o mando do porto 2 debe ter 2 ou 6 botóns por defecto. Esta opción só se aplica cando se inicia o núcleo, se queres cambiar mentres o contido está en execución, usa o botón \"Cambio de modo\". NOTA: O mando de 6 botóns pode ter comportamentos estraños en xogos non compatibles."
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_GL "P3 Tipo de Joypad predeterminado"
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_GL "Escolla se o mando do porto 3 debe ter 2 ou 6 botóns por defecto. Esta opción só se aplica cando se inicia o núcleo, se queres cambiar mentres o contido está en execución, usa o botón \"Cambio de modo\". NOTA: O mando de 6 botóns pode ter comportamentos estraños en xogos non compatibles."
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_GL "P4 Tipo de Joypad predeterminado"
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_GL "Escolla se o mando do porto 4 debe ter 2 ou 6 botóns por defecto. Esta opción só se aplica cando se inicia o núcleo, se queres cambiar mentres o contido está en execución, usa o botón \"Cambio de modo\". NOTA: O mando de 6 botóns pode ter comportamentos estraños en xogos non compatibles."
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_GL "P5 Tipo de Joypad predeterminado"
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_GL "Escolla se o mando do porto 5 debe ter 2 ou 6 botóns por defecto. Esta opción só se aplica cando se inicia o núcleo, se queres cambiar mentres o contido está en execución, usa o botón \"Cambio de modo\". NOTA: O mando de 6 botóns pode ter comportamentos estraños en xogos non compatibles."
+#define SGX_TURBO_TOGGLE_LABEL_GL "Modo de teclas rápidas Turbo"
+#define SGX_TURBO_TOGGLE_INFO_0_GL "Activa os botóns turbo. As teclas de acceso rápido (botóns III e IV) poden comportarse como interruptores de conmutación ou como botóns turbo dedicados (manteña para usar)."
+#define OPTION_VAL_SWITCH_GL "Alternar"
+#define OPTION_VAL_DEDICATED_GL "Dedicado"
+#define SGX_TURBO_TOGGLE_HOTKEY_LABEL_GL "Tecla de acceso rápido Turbo alternativa"
+#define SGX_TURBO_TOGGLE_HOTKEY_INFO_0_GL "Asigne os botóns L3/R3 de RetroPad como teclas de acceso rápido turbo en lugar dos botóns III e IV. Funciona só no modo \"Alterar\" e só sempre que non teña nada asignado aos botóns L3/R3. Con isto, pode evitar reasignar os botóns III e IV ao cambiar ao modo de controlador de 6 botóns."
+#define SGX_TURBO_DELAY_LABEL_GL "Retardo Turbo"
+#define SGX_TURBO_DELAY_INFO_0_GL "Axuste o tempo entre o lume do turbo (en fotogramas)."
+#define SGX_CDIMAGECACHE_LABEL_GL "Caché de imaxes de CD (necesario reiniciar)"
+#define SGX_CDIMAGECACHE_INFO_0_GL "Carga a imaxe completa na memoria ao iniciar. Pode diminuír os tempos de carga a costa dun aumento do tempo de inicio."
+#define SGX_CDBIOS_LABEL_GL "CD BIOS (reinicio necesario)"
+#define SGX_CDBIOS_INFO_0_GL "A maioría dos xogos poden executarse na \"Tarxeta do sistema 3\". Necesítase 'Games Express' para varios xogos sen licenza."
+#define OPTION_VAL_GAMES_EXPRESS_GL "Xogos Express"
+#define OPTION_VAL_SYSTEM_CARD_1_GL "Tarxeta do sistema 1"
+#define OPTION_VAL_SYSTEM_CARD_2_GL "Tarxeta do sistema 2"
+#define OPTION_VAL_SYSTEM_CARD_3_GL "Tarxeta do sistema 3"
+#define SGX_DETECT_GEXPRESS_LABEL_GL "Detectar o CD de xogos Express (reinicio necesario)"
+#define SGX_DETECT_GEXPRESS_INFO_0_GL "Carga automaticamente a BIOS de Games Express independentemente da configuración da BIOS do CD ao cargar xogos de CD de Games Express."
+#define SGX_CDSPEED_LABEL_GL "(CD) Velocidade do CD"
+#define SGX_CDSPEED_LABEL_CAT_GL "Velocidade do CD"
+#define SGX_CDSPEED_INFO_0_GL "Os valores máis altos permiten tempos de carga máis rápidos, pero poden causar problemas con un par de xogos."
+#define SGX_ADPCMVOLUME_LABEL_GL "(CD) % volume ADPCM"
+#define SGX_ADPCMVOLUME_LABEL_CAT_GL "% volume ADPCM"
+#define SGX_ADPCMVOLUME_INFO_0_GL "Só xogo en CD. Axustar este control de volume demasiado alto pode provocar recortes de mostra."
+#define SGX_ADPCMVOLUME_INFO_1_GL "Axustar este control de volume demasiado alto pode provocar recortes de mostra."
+#define SGX_CDDAVOLUME_LABEL_GL "(CD) CDDA % volume"
+#define SGX_CDDAVOLUME_LABEL_CAT_GL "% volume CDDA"
+#define SGX_CDPSGVOLUME_LABEL_GL "(CD) PSG Volumen %"
+#define SGX_CDPSGVOLUME_LABEL_CAT_GL "% volume do CD PSG"
+#define SGX_FORCESGX_LABEL_GL "Forzar a emulación de SuperGrafx (reinicio necesario)"
+#define SGX_FORCESGX_INFO_0_GL "Isto é útil para executar xogos homebrew ou para illar xogos que non se executarán no modo SuperGrafx (como Space Harrier). Os estados de gardar non son compatibles con cada modo. É mellor desactivar esta opción a menos que sexa necesario. Os xogos SuperGrafx coñecidos (como Dai-Makaimura, Aldyns) cambiarán automaticamente a SuperGrafx independentemente desta opción."
+#define SGX_NOSPRITELIMIT_LABEL_GL "Sen límite de sprites"
+#define SGX_NOSPRITELIMIT_INFO_0_GL "Elimina o límite de hardware de 16 sprites por liña de exploración. COIDADO: pode provocar fallos gráficos nalgúns xogos."
+#define SGX_OCMULTIPLIER_LABEL_GL "Multiplicador de overclock da CPU (necesario reiniciar)"
+#define SGX_OCMULTIPLIER_INFO_0_GL "Os valores máis altos poden reducir as desaceleracións nos xogos. AVISO: pode causar fallos e fallos."
 
 struct retro_core_option_v2_category option_cats_gl[] = {
    {
