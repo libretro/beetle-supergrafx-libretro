@@ -15865,15 +15865,15 @@ struct retro_core_options_v2 options_hu = {
 #define SGX_TURBO_TOGGLE_HOTKEY_INFO_0_ID NULL
 #define SGX_TURBO_DELAY_LABEL_ID "Tundaan Bertubi"
 #define SGX_TURBO_DELAY_INFO_0_ID "Menyesuaikan waktu antara tekan bertubi (berjumlah bingkai)."
-#define SGX_CDIMAGECACHE_LABEL_ID NULL
+#define SGX_CDIMAGECACHE_LABEL_ID "Tembolok Citra CD (Perlu Mulai Ulang)"
 #define SGX_CDIMAGECACHE_INFO_0_ID NULL
-#define SGX_CDBIOS_LABEL_ID NULL
+#define SGX_CDBIOS_LABEL_ID "BIOS CD (Perlu Mulai Ulang)"
 #define SGX_CDBIOS_INFO_0_ID NULL
 #define OPTION_VAL_GAMES_EXPRESS_ID NULL
 #define OPTION_VAL_SYSTEM_CARD_1_ID NULL
 #define OPTION_VAL_SYSTEM_CARD_2_ID NULL
 #define OPTION_VAL_SYSTEM_CARD_3_ID NULL
-#define SGX_DETECT_GEXPRESS_LABEL_ID NULL
+#define SGX_DETECT_GEXPRESS_LABEL_ID "Deteksikan CD Games Express (Perlu Mulai Ulang)"
 #define SGX_DETECT_GEXPRESS_INFO_0_ID NULL
 #define SGX_CDSPEED_LABEL_ID NULL
 #define SGX_CDSPEED_LABEL_CAT_ID NULL
@@ -15886,11 +15886,11 @@ struct retro_core_options_v2 options_hu = {
 #define SGX_CDDAVOLUME_LABEL_CAT_ID NULL
 #define SGX_CDPSGVOLUME_LABEL_ID NULL
 #define SGX_CDPSGVOLUME_LABEL_CAT_ID NULL
-#define SGX_FORCESGX_LABEL_ID NULL
+#define SGX_FORCESGX_LABEL_ID "Paksa Emulasi SuperGrafx (Perlu Mulai Ulang)"
 #define SGX_FORCESGX_INFO_0_ID NULL
 #define SGX_NOSPRITELIMIT_LABEL_ID NULL
-#define SGX_NOSPRITELIMIT_INFO_0_ID NULL
-#define SGX_OCMULTIPLIER_LABEL_ID NULL
+#define SGX_NOSPRITELIMIT_INFO_0_ID "Melepas batas 16 sprite tiap garis pindai peranti keras. PERINGATAN: Beberapa permainan akan kacau grafis."
+#define SGX_OCMULTIPLIER_LABEL_ID "Pengali Overclock CPU (Perlu Mulai Ulang)"
 #define SGX_OCMULTIPLIER_INFO_0_ID NULL
 
 struct retro_core_option_v2_category option_cats_id[] = {
