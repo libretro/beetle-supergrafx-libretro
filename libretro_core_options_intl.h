@@ -1472,33 +1472,33 @@ struct retro_core_options_v2 options_ast = {
 /* RETRO_LANGUAGE_BE */
 
 #define CATEGORY_VIDEO_LABEL_BE "Відэа"
-#define CATEGORY_VIDEO_INFO_0_BE NULL
+#define CATEGORY_VIDEO_INFO_0_BE "Настройкі кадравання, пропуску кадраў і іншых параметраў выявы."
 #define CATEGORY_INPUT_LABEL_BE "Увод"
 #define CATEGORY_INPUT_INFO_0_BE "Налады ўводу для светлавога пісталета, мышы і NegCon."
-#define CATEGORY_HACKS_LABEL_BE NULL
+#define CATEGORY_HACKS_LABEL_BE "Хакі эмуляцыі"
 #define CATEGORY_HACKS_INFO_0_BE "Налада разгону працэсара і параметраў дакладнасці эмуляцыі, якія ўплываюць на прадукцыйнасць і сумяшчальнасць."
 #define CATEGORY_CD_LABEL_BE NULL
-#define CATEGORY_CD_INFO_0_BE NULL
-#define SGX_PALETTE_LABEL_BE NULL
+#define CATEGORY_CD_INFO_0_BE "Настройкі, звязаныя з запускам гульняў на CD."
+#define SGX_PALETTE_LABEL_BE "Колеравая палітра"
 #define SGX_PALETTE_INFO_0_BE "Кампазітны рэжым імітуе арыгінальны малюнак з кансолі і павялічвае дэталізацыю для некаторых гульняў."
 #define OPTION_VAL_RGB_BE NULL
-#define OPTION_VAL_COMPOSITE_BE NULL
+#define OPTION_VAL_COMPOSITE_BE "Кампазітны"
 #define SGX_ASPECT_RATIO_LABEL_BE "Суадносіны бакоў"
-#define SGX_ASPECT_RATIO_INFO_0_BE NULL
+#define SGX_ASPECT_RATIO_INFO_0_BE "Выбар пераважных суадносін бакоў кантэнту. Для гульняў з частым пераключэннем паміж рэжымамі 256 і 352 і вкл. аўтавыбарам суадносін бакоў змена памераў і з'яўленне чорных палос можна мінімізаваць, усталяваўшы для шырыні па гарызанталі значэнне 342, т. к. яно знаходзіцца ў суадносінах бакоў рэжыму шырыні 256 (ці блізка да яго, што правяраецца ў гульні Asuka 100%, якая выкарыстоўвае змену рэжымаў)."
 #define OPTION_VAL_AUTO_BE "Аўта"
 #define OPTION_VAL_6_5_BE NULL
 #define OPTION_VAL_4_3_BE NULL
-#define SGX_HOVERSCAN_LABEL_BE NULL
+#define SGX_HOVERSCAN_LABEL_BE "Гарызантальная Разгортка (толькі для рэжыму шырыні 352)"
 #define SGX_HOVERSCAN_INFO_0_BE "Устаноўка максімальнай шырыні малюнка. Памяншэнне значэння абразае правы край выявы (для гульняў з шырынёй у 352 пікселя)."
 #define OPTION_VAL_352_BE "352 % (прадвызначана)"
-#define SGX_INITIAL_SCANLINE_LABEL_BE NULL
-#define SGX_INITIAL_SCANLINE_INFO_0_BE NULL
+#define SGX_INITIAL_SCANLINE_LABEL_BE "Першы радок разгорткі"
+#define SGX_INITIAL_SCANLINE_INFO_0_BE "Радок разгорткі, які адлюстроўваецца першым. Павышэнне значэння абразае верхні край выявы."
 #define OPTION_VAL_3_BE "3 % (прадвызначана)"
-#define SGX_LAST_SCANLINE_LABEL_BE NULL
-#define SGX_LAST_SCANLINE_INFO_0_BE NULL
+#define SGX_LAST_SCANLINE_LABEL_BE "Апошні радок разгорткі"
+#define SGX_LAST_SCANLINE_INFO_0_BE "Радок разгорткі, які адлюстроўваецца апошнім. Памяншэнне значэння абразае ніжні край карцінкі."
 #define OPTION_VAL_242_BE "242 % (прадвызначана)"
-#define SGX_MOUSE_SENSITIVITY_LABEL_BE NULL
-#define SGX_MOUSE_SENSITIVITY_INFO_0_BE NULL
+#define SGX_MOUSE_SENSITIVITY_LABEL_BE "Чуласць Мышы"
+#define SGX_MOUSE_SENSITIVITY_INFO_0_BE "Вышэйшыя значэнні павялічваюць хуткасць перасоўвання курсора мышы."
 #define OPTION_VAL_0_25_BE NULL
 #define OPTION_VAL_0_50_BE NULL
 #define OPTION_VAL_0_75_BE NULL
@@ -1519,13 +1519,13 @@ struct retro_core_options_v2 options_ast = {
 #define OPTION_VAL_4_50_BE NULL
 #define OPTION_VAL_4_75_BE NULL
 #define OPTION_VAL_5_00_BE NULL
-#define SGX_UP_DOWN_ALLOWED_LABEL_BE NULL
-#define SGX_UP_DOWN_ALLOWED_INFO_0_BE NULL
-#define SGX_DISABLE_SOFTRESET_LABEL_BE NULL
-#define SGX_DISABLE_SOFTRESET_INFO_0_BE NULL
-#define SGX_MULTITAP_LABEL_BE NULL
-#define SGX_MULTITAP_INFO_0_BE NULL
-#define SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_BE NULL
+#define SGX_UP_DOWN_ALLOWED_LABEL_BE "Дазволіць супрацьлеглыя напрамкі"
+#define SGX_UP_DOWN_ALLOWED_INFO_0_BE "Пры ўключэнні дазваляе націскаць / хутка мяняць / адначасова заціскаць напрамкі налева і направа (ці ўверх і ўніз). Можа выклікаць глітчы, злучаныя з перасоўваннем."
+#define SGX_DISABLE_SOFTRESET_LABEL_BE "Адключыць мяккі скід (RUN+SELECT)"
+#define SGX_DISABLE_SOFTRESET_INFO_0_BE "Адначасовы націск RUN і SELECT замест скіду будзе часова адключаць абедзве кнопкі."
+#define SGX_MULTITAP_LABEL_BE "Multitap на 5 кантролераў"
+#define SGX_MULTITAP_INFO_0_BE "Уключае эмуляцыю multitap да 5 гульцоў. Адключэнне наладкі патрабуецца толькі ў асобных выпадках (напр. Cho Aniki)."
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_BE "Тып джойсціка Гульца 1"
 #define SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_BE "Выбар 2- ці 6-ці кнопкавага кантролера па змаўчанні для парта 1. Дадзеная опцыя ўжываецца толькі пры запуску ядра. Для пераключэння на ляту выкарыстоўвайце кнопку 'Змяніць рэжым'. УВАГА: у несумяшчальных гульнях 6-кнопкавы геймпад можа выклікаць багі кіравання."
 #define OPTION_VAL_2_BUTTONS_BE "2-кнопкавы"
 #define OPTION_VAL_6_BUTTONS_BE "6-кнопкавы"
@@ -1537,40 +1537,40 @@ struct retro_core_options_v2 options_ast = {
 #define SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_BE "Выбар 2- ці 6-ці кнопкавага кантролера па змаўчанні для парта 4. Дадзеная опцыя ўжываецца толькі пры запуску ядра. Для пераключэння на ляту выкарыстоўвайце кнопку 'Змяніць рэжым'. УВАГА: у несумяшчальных гульнях 6-кнопкавы геймпад можа выклікаць багі кіравання."
 #define SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_BE "Тып джойсціка Гульца 5"
 #define SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_BE "Выбар 2- ці 6-ці кнопкавага кантролера па змаўчанні для парта 5. Дадзеная опцыя ўжываецца толькі пры запуску ядра. Для пераключэння на ляту выкарыстоўвайце кнопку 'Змяніць рэжым'. УВАГА: у несумяшчальных гульнях 6-кнопкавы геймпад можа выклікаць багі кіравання."
-#define SGX_TURBO_TOGGLE_LABEL_BE NULL
-#define SGX_TURBO_TOGGLE_INFO_0_BE NULL
+#define SGX_TURBO_TOGGLE_LABEL_BE "Рэжым турба-кнопак"
+#define SGX_TURBO_TOGGLE_INFO_0_BE "Уключэнне турба-кнопак. Актыватары (кнопкі III і IV) могуць працаваць як пераключальнікі або як вылучаныя кнопкі, якія (уключаюцца пры ўтрыманні)."
 #define OPTION_VAL_SWITCH_BE "Пераключальнікі"
-#define OPTION_VAL_DEDICATED_BE NULL
-#define SGX_TURBO_TOGGLE_HOTKEY_LABEL_BE NULL
-#define SGX_TURBO_TOGGLE_HOTKEY_INFO_0_BE NULL
-#define SGX_TURBO_DELAY_LABEL_BE NULL
-#define SGX_TURBO_DELAY_INFO_0_BE NULL
+#define OPTION_VAL_DEDICATED_BE "Вылучаныя"
+#define SGX_TURBO_TOGGLE_HOTKEY_LABEL_BE "Альтэрнатыўнае ўключэнне турба"
+#define SGX_TURBO_TOGGLE_HOTKEY_INFO_0_BE "Прызначае кнопкі RetroPad'а L3/R3 у якасці гарачых клавіш для ўключэння турба замест кнопак III і IV. Працуе толькі пры адсутнасці прывязак да кнопак L3/R3. Дазваляе пазбегнуць перапрызначэння кнопак III і IV у рэжыме 6-кнопкавага кантролера."
+#define SGX_TURBO_DELAY_LABEL_BE "Затрымка турба"
+#define SGX_TURBO_DELAY_INFO_0_BE "Наладжвае прамежак паміж паўторамі націскаў (у кадрах)."
 #define SGX_CDIMAGECACHE_LABEL_BE "Кэшаваць выяву CD (патрабуецца перазапуск)"
 #define SGX_CDIMAGECACHE_INFO_0_BE "Пры запуску выява дыска цалкам загружаецца ў памяць. Паскарае загрузку, але павялічвае час запуску."
 #define SGX_CDBIOS_LABEL_BE "BIOS CD (патрабуецца перазапуск)"
-#define SGX_CDBIOS_INFO_0_BE NULL
+#define SGX_CDBIOS_INFO_0_BE "Большасць гульняў запускаюцца з 'System Card 3'. 'Games Express' патрабуецца для некаторых неліцэнзаваных гульняў."
 #define OPTION_VAL_GAMES_EXPRESS_BE NULL
 #define OPTION_VAL_SYSTEM_CARD_1_BE NULL
 #define OPTION_VAL_SYSTEM_CARD_2_BE NULL
 #define OPTION_VAL_SYSTEM_CARD_3_BE NULL
-#define SGX_DETECT_GEXPRESS_LABEL_BE NULL
-#define SGX_DETECT_GEXPRESS_INFO_0_BE NULL
-#define SGX_CDSPEED_LABEL_BE NULL
-#define SGX_CDSPEED_LABEL_CAT_BE NULL
-#define SGX_CDSPEED_INFO_0_BE NULL
-#define SGX_ADPCMVOLUME_LABEL_BE NULL
-#define SGX_ADPCMVOLUME_LABEL_CAT_BE NULL
-#define SGX_ADPCMVOLUME_INFO_0_BE NULL
-#define SGX_ADPCMVOLUME_INFO_1_BE NULL
-#define SGX_CDDAVOLUME_LABEL_BE NULL
-#define SGX_CDDAVOLUME_LABEL_CAT_BE NULL
-#define SGX_CDPSGVOLUME_LABEL_BE NULL
+#define SGX_DETECT_GEXPRESS_LABEL_BE "Вызначаць дыскі Games Express (патрабуецца перазапуск)"
+#define SGX_DETECT_GEXPRESS_INFO_0_BE "Аўтаматычная загрузка BIOS'а Games Express пры запуску гульняў Games Express, незалежна ад значэння налады BIOS CD."
+#define SGX_CDSPEED_LABEL_BE "(CD) Хуткасць CD"
+#define SGX_CDSPEED_LABEL_CAT_BE "Хуткасць CD"
+#define SGX_CDSPEED_INFO_0_BE "Вышэйшыя значэнні паскараюць загрузку, але могуць выклікаць праблемы ў асобных гульнях."
+#define SGX_ADPCMVOLUME_LABEL_BE "(CD) Гучнасць ADPCM %"
+#define SGX_ADPCMVOLUME_LABEL_CAT_BE "Гучнасць ADPCM %"
+#define SGX_ADPCMVOLUME_INFO_0_BE "Толькі для CD-гульняў. Занадта высокія значэнні могуць прыводзіць да скажэнняў гуку."
+#define SGX_ADPCMVOLUME_INFO_1_BE "Занадта высокія значэнні могуць прыводзіць да скажэнняў гуку."
+#define SGX_CDDAVOLUME_LABEL_BE "(CD) Гучнасць CDDA %"
+#define SGX_CDDAVOLUME_LABEL_CAT_BE "Гучнасць CDDA %"
+#define SGX_CDPSGVOLUME_LABEL_BE "(CD) Гучнасць PSG %"
 #define SGX_CDPSGVOLUME_LABEL_CAT_BE "CD Гучнасць PSG %"
-#define SGX_FORCESGX_LABEL_BE NULL
-#define SGX_FORCESGX_INFO_0_BE NULL
-#define SGX_NOSPRITELIMIT_LABEL_BE NULL
-#define SGX_NOSPRITELIMIT_INFO_0_BE NULL
-#define SGX_OCMULTIPLIER_LABEL_BE NULL
+#define SGX_FORCESGX_LABEL_BE "Прымусовы рэжым SuperGrafx (патрабуецца перазапуск)"
+#define SGX_FORCESGX_INFO_0_BE "Выкарыстоўваецца пры запуску homebrew і для выключэння гульняў, якія не падтрымліваюць рэжым SuperGrafx (напрыклад Space Harrier). Не рэкамендуецца ўключаць без неабходнасці. Гульні SuperGrafx (такія як Dai-Makaimura, Aldyns) запускаюцца ў дадзеным рэжыме аўтаматычна, незалежна ад становішча наладкі."
+#define SGX_NOSPRITELIMIT_LABEL_BE "Без абмежавання спрайтаў"
+#define SGX_NOSPRITELIMIT_INFO_0_BE "Здымае апаратнае абмежаванне ў 16 спрайтаў на лініі разгорткі. УВАГА: у некаторых гульнях можа выклікаць графічныя багі."
+#define SGX_OCMULTIPLIER_LABEL_BE "Множнік разгону CPU (патрабуецца перазапуск)"
 #define SGX_OCMULTIPLIER_INFO_0_BE "Вышэйшыя значэнні памяншаюць запаволенні ў гульнях. УВАГА: можа прыводзіць да багам і вылетам."
 
 struct retro_core_option_v2_category option_cats_be[] = {
