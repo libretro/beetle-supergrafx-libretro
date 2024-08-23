@@ -3637,7 +3637,7 @@ struct retro_core_options_v2 options_ca = {
 #define OPTION_VAL_6_5_CHS NULL
 #define OPTION_VAL_4_3_CHS NULL
 #define SGX_HOVERSCAN_LABEL_CHS NULL
-#define SGX_HOVERSCAN_INFO_0_CHS "选择要显示的最大图像宽度，超出设定值的图像将从右侧被裁减（针对宽度为352px的游戏）"
+#define SGX_HOVERSCAN_INFO_0_CHS "选择要显示的最大图像宽度，超出设定值的图像将从右侧被裁减 (针对宽度为352px的游戏)"
 #define OPTION_VAL_352_CHS "352 (默认)"
 #define SGX_INITIAL_SCANLINE_LABEL_CHS NULL
 #define SGX_INITIAL_SCANLINE_INFO_0_CHS NULL
@@ -3646,7 +3646,7 @@ struct retro_core_options_v2 options_ca = {
 #define SGX_LAST_SCANLINE_INFO_0_CHS NULL
 #define OPTION_VAL_242_CHS "242 (默认)"
 #define SGX_MOUSE_SENSITIVITY_LABEL_CHS "鼠标灵敏度"
-#define SGX_MOUSE_SENSITIVITY_INFO_0_CHS NULL
+#define SGX_MOUSE_SENSITIVITY_INFO_0_CHS "更高的值将使鼠标光标移动更快。"
 #define OPTION_VAL_0_25_CHS NULL
 #define OPTION_VAL_0_50_CHS NULL
 #define OPTION_VAL_0_75_CHS NULL
@@ -3678,7 +3678,7 @@ struct retro_core_options_v2 options_ca = {
 #define OPTION_VAL_2_BUTTONS_CHS NULL
 #define OPTION_VAL_6_BUTTONS_CHS NULL
 #define SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_CHS NULL
-#define SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_CHS NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_CHS "选择端口 2 手柄默认为 2 或 6 按钮。此选项仅在核心启动时应用，如果您想在内容运行时切换，请使用 \"模式切换 \"按钮。注意：在不兼容的游戏中，6 按钮手柄可能会有奇怪的行为。"
 #define SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_CHS NULL
 #define SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_CHS NULL
 #define SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_CHS NULL
@@ -3689,7 +3689,7 @@ struct retro_core_options_v2 options_ca = {
 #define SGX_TURBO_TOGGLE_INFO_0_CHS NULL
 #define OPTION_VAL_SWITCH_CHS "切换"
 #define OPTION_VAL_DEDICATED_CHS NULL
-#define SGX_TURBO_TOGGLE_HOTKEY_LABEL_CHS NULL
+#define SGX_TURBO_TOGGLE_HOTKEY_LABEL_CHS "备用连发热键"
 #define SGX_TURBO_TOGGLE_HOTKEY_INFO_0_CHS NULL
 #define SGX_TURBO_DELAY_LABEL_CHS NULL
 #define SGX_TURBO_DELAY_INFO_0_CHS NULL
