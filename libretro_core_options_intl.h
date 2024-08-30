@@ -15863,8 +15863,8 @@ struct retro_core_options_v2 options_hu = {
 #define OPTION_VAL_DEDICATED_ID NULL
 #define SGX_TURBO_TOGGLE_HOTKEY_LABEL_ID NULL
 #define SGX_TURBO_TOGGLE_HOTKEY_INFO_0_ID NULL
-#define SGX_TURBO_DELAY_LABEL_ID "Tundaan Bertubi"
-#define SGX_TURBO_DELAY_INFO_0_ID "Menyesuaikan waktu antara tekan bertubi (berjumlah bingkai)."
+#define SGX_TURBO_DELAY_LABEL_ID "Tundaan Turbo"
+#define SGX_TURBO_DELAY_INFO_0_ID "Menyesuaikan waktu antara tekan turbo (sejumlah bingkai)."
 #define SGX_CDIMAGECACHE_LABEL_ID "Tembolok Citra CD (Perlu Mulai Ulang)"
 #define SGX_CDIMAGECACHE_INFO_0_ID NULL
 #define SGX_CDBIOS_LABEL_ID "BIOS CD (Perlu Mulai Ulang)"
@@ -21537,7 +21537,7 @@ struct retro_core_options_v2 options_pl = {
 #define OPTION_VAL_6_5_PT_BR NULL
 #define OPTION_VAL_4_3_PT_BR NULL
 #define SGX_HOVERSCAN_LABEL_PT_BR "Overscan horizontal (somente no modo 352 de largura)"
-#define SGX_HOVERSCAN_INFO_0_PT_BR "Seleciona a largura máxima da imagem que será exibida. Valores menores cortam o lado direito da imagem (em jogos com largura de 352px)."
+#define SGX_HOVERSCAN_INFO_0_PT_BR "Seleciona a largura máxima da imagem que será exibida. Valores menores cortam o lado direito da imagem (em jogos com largura de 352 px)."
 #define OPTION_VAL_352_PT_BR "352 (padrão)"
 #define SGX_INITIAL_SCANLINE_LABEL_PT_BR "Linha de varredura inicial"
 #define SGX_INITIAL_SCANLINE_INFO_0_PT_BR "Primeira linha de verificação renderizada. Valores maiores cortarão a parte superior da imagem."
@@ -21593,8 +21593,8 @@ struct retro_core_options_v2 options_pl = {
 #define SGX_TURBO_TOGGLE_HOTKEY_INFO_0_PT_BR "Atribui os botões L3 e R3 do RetroPad como atalhos do turbo, em vez dos botões III e IV. Somente funciona no modo interruptor e enquanto não tiver outras atribuições aos botões L3 e R3. Você pode evitar o remapeamento dos botões III e IV ao alterar para o modo de controle de 6 botões com isso."
 #define SGX_TURBO_DELAY_LABEL_PT_BR "Atraso do turbo"
 #define SGX_TURBO_DELAY_INFO_0_PT_BR "Ajusta o intervalo entre as ativações do turbo (em quadros)."
-#define SGX_CDIMAGECACHE_LABEL_PT_BR "Cache de imagens do CD (requer reinício)"
-#define SGX_CDIMAGECACHE_INFO_0_PT_BR "Carrega a imagem completa na memória na inicialização. Eventualmente, pode diminuir o tempo de carregamento ao custo de um tempo de inicialização maior."
+#define SGX_CDIMAGECACHE_LABEL_PT_BR "Cache de imagem do CD (requer reinício)"
+#define SGX_CDIMAGECACHE_INFO_0_PT_BR "Carrega a imagem completa na memória ao iniciar. Eventualmente, pode diminuir o tempo de carregamento ao custo de um tempo de inicialização maior."
 #define SGX_CDBIOS_LABEL_PT_BR "BIOS de CD (requer reinício)"
 #define SGX_CDBIOS_INFO_0_PT_BR "A maioria dos jogos podem rodar em \"System Card 3\". \"Games Express\" é necessário para vários jogos não licenciados."
 #define OPTION_VAL_GAMES_EXPRESS_PT_BR NULL
@@ -26531,7 +26531,7 @@ struct retro_core_options_v2 options_tr = {
 
 /* RETRO_LANGUAGE_TT */
 
-#define CATEGORY_VIDEO_LABEL_TT NULL
+#define CATEGORY_VIDEO_LABEL_TT "Видео"
 #define CATEGORY_VIDEO_INFO_0_TT NULL
 #define CATEGORY_INPUT_LABEL_TT NULL
 #define CATEGORY_INPUT_INFO_0_TT NULL
@@ -26545,7 +26545,7 @@ struct retro_core_options_v2 options_tr = {
 #define OPTION_VAL_COMPOSITE_TT NULL
 #define SGX_ASPECT_RATIO_LABEL_TT NULL
 #define SGX_ASPECT_RATIO_INFO_0_TT NULL
-#define OPTION_VAL_AUTO_TT NULL
+#define OPTION_VAL_AUTO_TT "Автоматик"
 #define OPTION_VAL_6_5_TT NULL
 #define OPTION_VAL_4_3_TT NULL
 #define SGX_HOVERSCAN_LABEL_TT NULL
