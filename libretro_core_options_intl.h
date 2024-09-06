@@ -3620,13 +3620,13 @@ struct retro_core_options_v2 options_ca = {
 /* RETRO_LANGUAGE_CHS */
 
 #define CATEGORY_VIDEO_LABEL_CHS "视频"
-#define CATEGORY_VIDEO_INFO_0_CHS NULL
+#define CATEGORY_VIDEO_INFO_0_CHS "设置显示裁剪、跳帧和其他显示"
 #define CATEGORY_INPUT_LABEL_CHS "输入"
 #define CATEGORY_INPUT_INFO_0_CHS "设置光枪、鼠标和Neg手柄"
 #define CATEGORY_HACKS_LABEL_CHS "模拟修改"
 #define CATEGORY_HACKS_INFO_0_CHS "配置处理器超时和模拟精确参数，影响低级性能和兼容性。"
 #define CATEGORY_CD_LABEL_CHS NULL
-#define CATEGORY_CD_INFO_0_CHS NULL
+#define CATEGORY_CD_INFO_0_CHS "配置与 CD 游戏相关的设置。"
 #define SGX_PALETTE_LABEL_CHS "色板"
 #define SGX_PALETTE_INFO_0_CHS "使用复合设计模式尝试复现原始的控制台显示，在部分游戏中可以显示更多细节"
 #define OPTION_VAL_RGB_CHS NULL
@@ -3636,14 +3636,14 @@ struct retro_core_options_v2 options_ca = {
 #define OPTION_VAL_AUTO_CHS "自动"
 #define OPTION_VAL_6_5_CHS NULL
 #define OPTION_VAL_4_3_CHS NULL
-#define SGX_HOVERSCAN_LABEL_CHS NULL
+#define SGX_HOVERSCAN_LABEL_CHS "水平过扫描 (仅在352宽度模式下生效)"
 #define SGX_HOVERSCAN_INFO_0_CHS "选择要显示的最大图像宽度，超出设定值的图像将从右侧被裁减 (针对宽度为352px的游戏)"
 #define OPTION_VAL_352_CHS "352 (默认)"
-#define SGX_INITIAL_SCANLINE_LABEL_CHS NULL
-#define SGX_INITIAL_SCANLINE_INFO_0_CHS NULL
+#define SGX_INITIAL_SCANLINE_LABEL_CHS "初始扫描线"
+#define SGX_INITIAL_SCANLINE_INFO_0_CHS "扫描线渲染的上界，超出设定值的部分将从图像顶部被裁剪"
 #define OPTION_VAL_3_CHS "3 (默认)"
-#define SGX_LAST_SCANLINE_LABEL_CHS NULL
-#define SGX_LAST_SCANLINE_INFO_0_CHS NULL
+#define SGX_LAST_SCANLINE_LABEL_CHS "终末扫描线"
+#define SGX_LAST_SCANLINE_INFO_0_CHS "扫描线渲染的下界，超出设定值的部分将从图像底部被裁剪。"
 #define OPTION_VAL_242_CHS "242 (默认)"
 #define SGX_MOUSE_SENSITIVITY_LABEL_CHS "鼠标灵敏度"
 #define SGX_MOUSE_SENSITIVITY_INFO_0_CHS "更高的值将使鼠标光标移动更快。"
@@ -3667,25 +3667,25 @@ struct retro_core_options_v2 options_ca = {
 #define OPTION_VAL_4_50_CHS NULL
 #define OPTION_VAL_4_75_CHS NULL
 #define OPTION_VAL_5_00_CHS NULL
-#define SGX_UP_DOWN_ALLOWED_LABEL_CHS NULL
-#define SGX_UP_DOWN_ALLOWED_INFO_0_CHS NULL
-#define SGX_DISABLE_SOFTRESET_LABEL_CHS NULL
-#define SGX_DISABLE_SOFTRESET_INFO_0_CHS NULL
+#define SGX_UP_DOWN_ALLOWED_LABEL_CHS "允许相反方向的输入"
+#define SGX_UP_DOWN_ALLOWED_INFO_0_CHS "启用此功能将允许同时按下/快速交替/按住左右(或上下)两个方向。这可能会导致基于移动的故障。"
+#define SGX_DISABLE_SOFTRESET_LABEL_CHS "禁用软重置 (RUN+SELECT)"
+#define SGX_DISABLE_SOFTRESET_INFO_0_CHS "当同时按下 RUN 和 SELECT 两个按键时，暂时禁用两个按键而不是触发软重置。"
 #define SGX_MULTITAP_LABEL_CHS NULL
 #define SGX_MULTITAP_INFO_0_CHS NULL
-#define SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_CHS NULL
-#define SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_CHS NULL
-#define OPTION_VAL_2_BUTTONS_CHS NULL
-#define OPTION_VAL_6_BUTTONS_CHS NULL
-#define SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_CHS NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_CHS "P1 默认手柄类型"
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_CHS "选择端口 1 手柄默认为 2 键或 6 键。 此选项仅在核心启动时应用，如果您想要在内容运行时切换，请使用“模式切换”按钮。 注意：6 键手柄在不兼容的游戏中可能会有一些意想不到的行为。"
+#define OPTION_VAL_2_BUTTONS_CHS "2 键"
+#define OPTION_VAL_6_BUTTONS_CHS "6 键"
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_CHS "P2 默认手柄类型"
 #define SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_CHS "选择端口 2 手柄默认为 2 或 6 按钮。此选项仅在核心启动时应用，如果您想在内容运行时切换，请使用 \"模式切换 \"按钮。注意：在不兼容的游戏中，6 按钮手柄可能会有奇怪的行为。"
-#define SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_CHS NULL
-#define SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_CHS NULL
-#define SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_CHS NULL
-#define SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_CHS NULL
-#define SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_CHS NULL
-#define SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_CHS NULL
-#define SGX_TURBO_TOGGLE_LABEL_CHS NULL
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_CHS "P3 默认手柄类型"
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_CHS "选择端口 3 手柄默认为 2 键还是 6 键。此选项仅在核心启动时应用，如果您想要在内容运行时切换，请使用“模式切换”按钮。 注意：6 键手柄在不兼容的游戏中可能会有一些意想不到的行为。"
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_CHS "P4 默认手柄类型"
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_CHS "选择端口 4 手柄默认为 2 键还是 6 键。此选项仅在核心启动时应用，如果您想要在内容运行时切换，请使用“模式切换”按钮。 注意：6 键手柄在不兼容的游戏中可能会有一些意想不到的行为。"
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_CHS "P5 默认手柄类型"
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_CHS "选择端口 5 手柄默认为 2 键还是 6 键。此选项仅在核心启动时应用，如果您想要在内容运行时切换，请使用“模式切换”按钮。 注意：6 键手柄在不兼容的游戏中可能会有一些意想不到的行为。"
+#define SGX_TURBO_TOGGLE_LABEL_CHS "Turbo 热键模式"
 #define SGX_TURBO_TOGGLE_INFO_0_CHS NULL
 #define OPTION_VAL_SWITCH_CHS "切换"
 #define OPTION_VAL_DEDICATED_CHS NULL
@@ -3696,30 +3696,30 @@ struct retro_core_options_v2 options_ca = {
 #define SGX_CDIMAGECACHE_LABEL_CHS "启用CD光盘缓存（重启以生效）"
 #define SGX_CDIMAGECACHE_INFO_0_CHS "在启动时将完整的镜像加载到内存中，以增加启动时间为代价，或许能减少游戏中的加载时间。"
 #define SGX_CDBIOS_LABEL_CHS "设置CD的BIOS（重启以生效）"
-#define SGX_CDBIOS_INFO_0_CHS NULL
+#define SGX_CDBIOS_INFO_0_CHS "大部分的游戏可以在BIOS“System Card 3”上运行，但是一些未经授权的游戏需要“Games Express”。"
 #define OPTION_VAL_GAMES_EXPRESS_CHS NULL
 #define OPTION_VAL_SYSTEM_CARD_1_CHS NULL
 #define OPTION_VAL_SYSTEM_CARD_2_CHS NULL
 #define OPTION_VAL_SYSTEM_CARD_3_CHS NULL
 #define SGX_DETECT_GEXPRESS_LABEL_CHS NULL
 #define SGX_DETECT_GEXPRESS_INFO_0_CHS NULL
-#define SGX_CDSPEED_LABEL_CHS NULL
-#define SGX_CDSPEED_LABEL_CAT_CHS NULL
-#define SGX_CDSPEED_INFO_0_CHS NULL
-#define SGX_ADPCMVOLUME_LABEL_CHS NULL
-#define SGX_ADPCMVOLUME_LABEL_CAT_CHS NULL
-#define SGX_ADPCMVOLUME_INFO_0_CHS NULL
-#define SGX_ADPCMVOLUME_INFO_1_CHS NULL
-#define SGX_CDDAVOLUME_LABEL_CHS NULL
-#define SGX_CDDAVOLUME_LABEL_CAT_CHS NULL
-#define SGX_CDPSGVOLUME_LABEL_CHS NULL
-#define SGX_CDPSGVOLUME_LABEL_CAT_CHS NULL
+#define SGX_CDSPEED_LABEL_CHS "(CD) CD 加载速度"
+#define SGX_CDSPEED_LABEL_CAT_CHS "CD 加载速度"
+#define SGX_CDSPEED_INFO_0_CHS "较高的数值可以加快加载速度，但会使一些游戏出现问题。"
+#define SGX_ADPCMVOLUME_LABEL_CHS "(CD) ADPCM 音量百分比"
+#define SGX_ADPCMVOLUME_LABEL_CAT_CHS "ADPCM 音量百分比"
+#define SGX_ADPCMVOLUME_INFO_0_CHS "仅 CD 游戏生效。将此音量控制设置得太高可能会导致采样削波。"
+#define SGX_ADPCMVOLUME_INFO_1_CHS "将此音量控制设置得太高可能会导致采样削波。"
+#define SGX_CDDAVOLUME_LABEL_CHS "(CD) CDDA 音量百分比"
+#define SGX_CDDAVOLUME_LABEL_CAT_CHS "CDDA 音量百分比"
+#define SGX_CDPSGVOLUME_LABEL_CHS "(CD) PSG 音量百分比"
+#define SGX_CDPSGVOLUME_LABEL_CAT_CHS "PSG 音量百分比"
 #define SGX_FORCESGX_LABEL_CHS NULL
-#define SGX_FORCESGX_INFO_0_CHS NULL
-#define SGX_NOSPRITELIMIT_LABEL_CHS NULL
-#define SGX_NOSPRITELIMIT_INFO_0_CHS NULL
-#define SGX_OCMULTIPLIER_LABEL_CHS NULL
-#define SGX_OCMULTIPLIER_INFO_0_CHS NULL
+#define SGX_FORCESGX_INFO_0_CHS "这有助于运行自制游戏或隔离无法在 SuperGrafx 模式下运行的游戏（如太空哈利）。保存状态与每种模式都不兼容。如无必要，最好关闭此选项。已知的 SuperGrafx 游戏（如大魔界村、霹雳风云）会自动切换到 SuperGrafx 模式，与此选项无关。"
+#define SGX_NOSPRITELIMIT_LABEL_CHS "无 Sprite 限制"
+#define SGX_NOSPRITELIMIT_INFO_0_CHS "移除每条扫描线16个符号的硬件限制。警告！可能会导致某些游戏的显示问题。"
+#define SGX_OCMULTIPLIER_LABEL_CHS "CPU 超频倍率（重启以生效）"
+#define SGX_OCMULTIPLIER_INFO_0_CHS "更高的值可以减少游戏中的降速。注意！可能导致故障和崩溃。"
 
 struct retro_core_option_v2_category option_cats_chs[] = {
    {
