@@ -21546,7 +21546,7 @@ struct retro_core_options_v2 options_pl = {
 #define SGX_LAST_SCANLINE_INFO_0_PT_BR "Última linha de verificação renderizada. Valores menores cortarão a parte inferior da imagem."
 #define OPTION_VAL_242_PT_BR "242 (padrão)"
 #define SGX_MOUSE_SENSITIVITY_LABEL_PT_BR "Sensibilidade do mouse"
-#define SGX_MOUSE_SENSITIVITY_INFO_0_PT_BR "Valores maiores tornarão a movimentação do cursor do mouse mais rápida."
+#define SGX_MOUSE_SENSITIVITY_INFO_0_PT_BR "Define a velocidade do mouse."
 #define OPTION_VAL_0_25_PT_BR "0,25"
 #define OPTION_VAL_0_50_PT_BR "0,50"
 #define OPTION_VAL_0_75_PT_BR "0,75"
