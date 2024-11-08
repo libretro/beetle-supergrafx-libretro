@@ -2187,9 +2187,9 @@ struct retro_core_options_v2 options_be = {
 
 /* RETRO_LANGUAGE_BG */
 
-#define CATEGORY_VIDEO_LABEL_BG NULL
+#define CATEGORY_VIDEO_LABEL_BG "Видео"
 #define CATEGORY_VIDEO_INFO_0_BG NULL
-#define CATEGORY_INPUT_LABEL_BG NULL
+#define CATEGORY_INPUT_LABEL_BG "Вход"
 #define CATEGORY_INPUT_INFO_0_BG NULL
 #define CATEGORY_HACKS_LABEL_BG NULL
 #define CATEGORY_HACKS_INFO_0_BG NULL
@@ -2214,7 +2214,7 @@ struct retro_core_options_v2 options_be = {
 #define SGX_LAST_SCANLINE_INFO_0_BG NULL
 #define OPTION_VAL_242_BG NULL
 #define SGX_MOUSE_SENSITIVITY_LABEL_BG NULL
-#define SGX_MOUSE_SENSITIVITY_INFO_0_BG NULL
+#define SGX_MOUSE_SENSITIVITY_INFO_0_BG "По-високите стойности ще накарат курсора на мишката да се движи по-бързо."
 #define OPTION_VAL_0_25_BG NULL
 #define OPTION_VAL_0_50_BG NULL
 #define OPTION_VAL_0_75_BG NULL
@@ -2904,23 +2904,23 @@ struct retro_core_options_v2 options_bg = {
 /* RETRO_LANGUAGE_CA */
 
 #define CATEGORY_VIDEO_LABEL_CA "Vídeo"
-#define CATEGORY_VIDEO_INFO_0_CA NULL
+#define CATEGORY_VIDEO_INFO_0_CA "Canvia les opcions de relació d'aspecte, omissió de fotogrames i altres ajustaments de la sortida d'imatge."
 #define CATEGORY_INPUT_LABEL_CA "Dispositius de joc"
 #define CATEGORY_INPUT_INFO_0_CA "Configurar el senyal d'entrada de la pistola de llum, ratolí i NegCon."
-#define CATEGORY_HACKS_LABEL_CA NULL
+#define CATEGORY_HACKS_LABEL_CA "Correccions de l'emulació"
 #define CATEGORY_HACKS_INFO_0_CA "Canvia les opcions de velocitats del processador i de precisió de l'emulador que afecten el rendiment a baix nivell i la compatibilitat."
 #define CATEGORY_CD_LABEL_CA NULL
-#define CATEGORY_CD_INFO_0_CA NULL
-#define SGX_PALETTE_LABEL_CA NULL
+#define CATEGORY_CD_INFO_0_CA "Canvia configuració relativa als jocs en CD."
+#define SGX_PALETTE_LABEL_CA "Paleta de colors"
 #define SGX_PALETTE_INFO_0_CA "Vídeo compost intenta recrear la sortida de vídeo original de la consola i pot mostrar més detalls en alguns jocs."
 #define OPTION_VAL_RGB_CA NULL
-#define OPTION_VAL_COMPOSITE_CA NULL
+#define OPTION_VAL_COMPOSITE_CA "Composició"
 #define SGX_ASPECT_RATIO_LABEL_CA "Relació d'aspecte"
-#define SGX_ASPECT_RATIO_INFO_0_CA NULL
+#define SGX_ASPECT_RATIO_INFO_0_CA "Selecciona la relació d'aspecte preferida pels jocs. En utilitzar jocs que canvien constantment entre el mode de 256 i 352 línies i si s'ha escollit selecció automàtica, la millor opció és configurar l'amplada horitzontal a 342 píxels per evitar els canvis de mida i les línies negres dincs del joc, perquè amb aquesta amplada es manté la relació d'aspecte amb el mode de 256 línies."
 #define OPTION_VAL_AUTO_CA "Automàtic"
 #define OPTION_VAL_6_5_CA NULL
 #define OPTION_VAL_4_3_CA NULL
-#define SGX_HOVERSCAN_LABEL_CA NULL
+#define SGX_HOVERSCAN_LABEL_CA "Escombrat horitzontal (Només en el mode de 352 píxels d'amplada)"
 #define SGX_HOVERSCAN_INFO_0_CA "Selecciona l'amplada màxima de la imatge que es mostrarà. Valors baixos poden retallar la part dreta de la imatge (pels jocs amb 352 píxels d'amplada)."
 #define OPTION_VAL_352_CA "352 (Per defecte)"
 #define SGX_INITIAL_SCANLINE_LABEL_CA "Línia de dibuixat inicial"
@@ -2951,12 +2951,12 @@ struct retro_core_options_v2 options_bg = {
 #define OPTION_VAL_4_50_CA "4,50"
 #define OPTION_VAL_4_75_CA "4,75"
 #define OPTION_VAL_5_00_CA "5,00"
-#define SGX_UP_DOWN_ALLOWED_LABEL_CA NULL
-#define SGX_UP_DOWN_ALLOWED_INFO_0_CA NULL
-#define SGX_DISABLE_SOFTRESET_LABEL_CA NULL
-#define SGX_DISABLE_SOFTRESET_INFO_0_CA NULL
-#define SGX_MULTITAP_LABEL_CA NULL
-#define SGX_MULTITAP_INFO_0_CA NULL
+#define SGX_UP_DOWN_ALLOWED_LABEL_CA "Permet direccions oposades"
+#define SGX_UP_DOWN_ALLOWED_INFO_0_CA "Habilita aquesta opció per permetre alternar o mantenir les direccions esquerra i dreta (o amunt i avall) al mateix temps. Pot provocar errors en el moviment."
+#define SGX_DISABLE_SOFTRESET_LABEL_CA "Deshabilitar reinici per programari (RUN+SELECT)"
+#define SGX_DISABLE_SOFTRESET_INFO_0_CA "En prémer RUN i SELECT de manera simultània, es desactivaran els dos botons en comptes de provocar un reinici del sistema."
+#define SGX_MULTITAP_LABEL_CA "Controlador multitap per 5 controladors"
+#define SGX_MULTITAP_INFO_0_CA "Habilita l'emulació fins a 5 jugadors. Deshabilitar aquesta opció només és necessari en alguns casos (per exemple Cho Aniki)."
 #define SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_CA "Tipus de controlador predeterminat del J1"
 #define SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_CA "Indica si el controlador del port 1 ha de tenir 2 o 6 botons per defecte. Aquesta opció només s'aplica en iniciar el nucli: si vols canviar el tipus de controlador amb el joc en funcionament, cal utilitzar el botó de canvi de mode. NOTA: Els controladors de 6 botons poden produir comportaments estranys en jocs que no siguin compatibles."
 #define OPTION_VAL_2_BUTTONS_CA "2 Botons"
@@ -2969,14 +2969,14 @@ struct retro_core_options_v2 options_bg = {
 #define SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_CA "Indica si el controlador del port 4 ha de tenir 2 o 6 botons per defecte. Aquesta opció només s'aplica en iniciar el nucli: si vols canviar el tipus de controlador amb el joc en funcionament, cal utilitzar el botó de canvi de mode. NOTA: Els controladors de 6 botons poden produir comportaments estranys en jocs que no siguin compatibles."
 #define SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_CA "Tipus de controlador predeterminat del J5"
 #define SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_CA "Indica si el controlador del port 5 ha de tenir 2 o 6 botons per defecte. Aquesta opció només s'aplica en iniciar el nucli: si vols canviar el tipus de controlador amb el joc en funcionament, cal utilitzar el botó de canvi de mode. NOTA: Els controladors de 6 botons poden produir comportaments estranys en jocs que no siguin compatibles."
-#define SGX_TURBO_TOGGLE_LABEL_CA NULL
-#define SGX_TURBO_TOGGLE_INFO_0_CA NULL
+#define SGX_TURBO_TOGGLE_LABEL_CA "Mode de tecla d'accés ràpid del turbo"
+#define SGX_TURBO_TOGGLE_INFO_0_CA "Habilita els botons turbo. Les tecles d'accés ràpid (botons III i IV) poden fer de commutadors o de botons de turbo (si es mantenen clicats)."
 #define OPTION_VAL_SWITCH_CA "Alternar"
-#define OPTION_VAL_DEDICATED_CA NULL
+#define OPTION_VAL_DEDICATED_CA "Dedicat"
 #define SGX_TURBO_TOGGLE_HOTKEY_LABEL_CA "Tecles d'accés ràpid alternatives pel turbo"
-#define SGX_TURBO_TOGGLE_HOTKEY_INFO_0_CA NULL
-#define SGX_TURBO_DELAY_LABEL_CA NULL
-#define SGX_TURBO_DELAY_INFO_0_CA NULL
+#define SGX_TURBO_TOGGLE_HOTKEY_INFO_0_CA "Assigna els botons L3/R3 del RetroPad com a tecla d'accés ràpid per activar/desactivar el turbo en comptes dels botons III i IV. Només funciona si no hi ha una altra funció assignada als botons R3/L3. Amb aquesta opció, no caldrà tornar a assignar els botons III i IV al canviar al controlador de 6 botons."
+#define SGX_TURBO_DELAY_LABEL_CA "Retard del turbo"
+#define SGX_TURBO_DELAY_INFO_0_CA "Ajustar el temps entre cada pulsació del turbo (en fotogrames)."
 #define SGX_CDIMAGECACHE_LABEL_CA "Memòria intermèdia de la imatge de disc (Es requereix reinici)"
 #define SGX_CDIMAGECACHE_INFO_0_CA "Carrega la imatge completa en memòria en iniciar. Pot reduir el temps de càrrega amb el cost d'augmentar el temps d'arrencada."
 #define SGX_CDBIOS_LABEL_CA "BIOS CD (Es requereix reinici)"
@@ -2985,24 +2985,24 @@ struct retro_core_options_v2 options_bg = {
 #define OPTION_VAL_SYSTEM_CARD_1_CA "Targeta sistema 1"
 #define OPTION_VAL_SYSTEM_CARD_2_CA "Targeta sistema 2"
 #define OPTION_VAL_SYSTEM_CARD_3_CA "Targeta sistema 3"
-#define SGX_DETECT_GEXPRESS_LABEL_CA NULL
-#define SGX_DETECT_GEXPRESS_INFO_0_CA NULL
+#define SGX_DETECT_GEXPRESS_LABEL_CA "Detecta CD de Games Express (Es requereix reinici)"
+#define SGX_DETECT_GEXPRESS_INFO_0_CA "Carrega automàticament la BIOS de Games Express al carregar un CD d'aquesta empresa, sense tenir en compte la configuració de la BIOS per a CD."
 #define SGX_CDSPEED_LABEL_CA "Velocitat del CD (CD)"
 #define SGX_CDSPEED_LABEL_CAT_CA "Velocitat de CD"
 #define SGX_CDSPEED_INFO_0_CA "Valors alts acceleren els temps de càrrega del joc però pot causar problemes en alguns jocs."
 #define SGX_ADPCMVOLUME_LABEL_CA "Volum CD ADPCM %"
 #define SGX_ADPCMVOLUME_LABEL_CAT_CA "Volum de ADPCM %"
-#define SGX_ADPCMVOLUME_INFO_0_CA NULL
-#define SGX_ADPCMVOLUME_INFO_1_CA NULL
+#define SGX_ADPCMVOLUME_INFO_0_CA "Només per jocs en CD. Un volum molt alt pot saturar la sortida d'àudio."
+#define SGX_ADPCMVOLUME_INFO_1_CA "Ajustar el volum molt alt pot saturar la sortida d'àudio."
 #define SGX_CDDAVOLUME_LABEL_CA "Volum CD CDDA %"
 #define SGX_CDDAVOLUME_LABEL_CAT_CA "Volum de CDDA %"
-#define SGX_CDPSGVOLUME_LABEL_CA NULL
+#define SGX_CDPSGVOLUME_LABEL_CA "Volum CD PSG %"
 #define SGX_CDPSGVOLUME_LABEL_CAT_CA "Volum CD PSG %"
-#define SGX_FORCESGX_LABEL_CA NULL
-#define SGX_FORCESGX_INFO_0_CA NULL
-#define SGX_NOSPRITELIMIT_LABEL_CA NULL
-#define SGX_NOSPRITELIMIT_INFO_0_CA NULL
-#define SGX_OCMULTIPLIER_LABEL_CA NULL
+#define SGX_FORCESGX_LABEL_CA "Força l'emulació de SuperGrafx (Es requereix reinici)"
+#define SGX_FORCESGX_INFO_0_CA "Aquesta opció és útil per a executar jocs HomeBrew o per identificar aquells jocs que no funcionarien en el mode SuperGrafx (per exemple Space Harrier). Els desats ràpids no son compatibles entre modes. És millor deixar aquesta opció deshabilitada si no és necessari. Els jocs conegut per funcionar en el mode SuperGrafx (com Dai-Makaimura o Aldyns) canviaran automàticament a mode SuperGrafx, ignorant aquesta opció."
+#define SGX_NOSPRITELIMIT_LABEL_CA "Desactivar límit de sprites"
+#define SGX_NOSPRITELIMIT_INFO_0_CA "Elimina el límit de 16 sprites per línia en cada escombrat. AVÍS: Pot causar errors gràfics en alguns jocs."
+#define SGX_OCMULTIPLIER_LABEL_CA "Multiplicador de la velocitat de la CPU (Es requereix reinici)"
 #define SGX_OCMULTIPLIER_INFO_0_CA "Valors alts poden reduir els alentiments en els jocs. AVÍS: Pot produir errors gràfics i fallides."
 
 struct retro_core_option_v2_category option_cats_ca[] = {
