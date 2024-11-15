@@ -2905,7 +2905,7 @@ struct retro_core_options_v2 options_bg = {
 
 #define CATEGORY_VIDEO_LABEL_CA "Vídeo"
 #define CATEGORY_VIDEO_INFO_0_CA "Canvia les opcions de relació d'aspecte, omissió de fotogrames i altres ajustaments de la sortida d'imatge."
-#define CATEGORY_INPUT_LABEL_CA "Dispositius de joc"
+#define CATEGORY_INPUT_LABEL_CA "Entrada"
 #define CATEGORY_INPUT_INFO_0_CA "Configurar el senyal d'entrada de la pistola de llum, ratolí i NegCon."
 #define CATEGORY_HACKS_LABEL_CA "Correccions de l'emulació"
 #define CATEGORY_HACKS_INFO_0_CA "Canvia les opcions de velocitats del processador i de precisió de l'emulador que afecten el rendiment a baix nivell i la compatibilitat."
@@ -27267,11 +27267,11 @@ struct retro_core_options_v2 options_tt = {
 #define SGX_HOVERSCAN_LABEL_UK "Горизонтальна розгортка (тільки в режимі ширини 352)"
 #define SGX_HOVERSCAN_INFO_0_UK "Виберіть максимальну ширину зображення, яку слід показувати. Менші значення будуть обрізати праву частину зображення (для ігор шириною 352 пікселі)."
 #define OPTION_VAL_352_UK "352 (за замовчуванням)"
-#define SGX_INITIAL_SCANLINE_LABEL_UK NULL
-#define SGX_INITIAL_SCANLINE_INFO_0_UK NULL
+#define SGX_INITIAL_SCANLINE_LABEL_UK "Початковий аналіз"
+#define SGX_INITIAL_SCANLINE_INFO_0_UK "Перший рендеринговий сканер. Вищі значення будуть обрізати верхній частині зображення."
 #define OPTION_VAL_3_UK "3 (за замовчуванням)"
-#define SGX_LAST_SCANLINE_LABEL_UK NULL
-#define SGX_LAST_SCANLINE_INFO_0_UK NULL
+#define SGX_LAST_SCANLINE_LABEL_UK "Останній рядок сканування"
+#define SGX_LAST_SCANLINE_INFO_0_UK "Остання візуальна сканера. Менші значення будуть обрізати нижній частині зображення."
 #define OPTION_VAL_242_UK "242 (за замовчуванням)"
 #define SGX_MOUSE_SENSITIVITY_LABEL_UK "Чутливість миші"
 #define SGX_MOUSE_SENSITIVITY_INFO_0_UK "Великі значення змусять курсор миші рухатися швидше."
@@ -27299,55 +27299,55 @@ struct retro_core_options_v2 options_tt = {
 #define SGX_UP_DOWN_ALLOWED_INFO_0_UK "Увімкнення цього дозволить одночасно натискати / швидко чергувати/утримувати одночасно ліворуч та праворуч (чи донизу) напрямки. Це може спричинити глітчі руху."
 #define SGX_DISABLE_SOFTRESET_LABEL_UK "Вимкнути програмне скидання (РУХ+ВИБІР)"
 #define SGX_DISABLE_SOFTRESET_INFO_0_UK "Коли РУХ та ВИБІР одночасно натиснуто, тимчасово вимкнуться обидві кнопки замість скидання."
-#define SGX_MULTITAP_LABEL_UK NULL
-#define SGX_MULTITAP_INFO_0_UK NULL
-#define SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_UK NULL
-#define SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_UK NULL
-#define OPTION_VAL_2_BUTTONS_UK NULL
-#define OPTION_VAL_6_BUTTONS_UK NULL
-#define SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_UK NULL
-#define SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_UK NULL
-#define SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_UK NULL
-#define SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_UK NULL
-#define SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_UK NULL
-#define SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_UK NULL
-#define SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_UK NULL
-#define SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_UK NULL
+#define SGX_MULTITAP_LABEL_UK "Multitap контролер портів 5"
+#define SGX_MULTITAP_INFO_0_UK "Увімкнути до мультитільної емуляції 5-плеєра. Вимкнення потрібно лише в деяких випадках (наприклад, Cho Aniki)."
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_LABEL_UK "P1 типовий тип Jypad"
+#define SGX_DEFAULT_JOYPAD_TYPE_P1_INFO_0_UK "Виберіть, якщо порт 1 joypad має бути 2 або 6 кнопок за замовчуванням. Цей параметр застосовується тільки тоді, коли запущено ядро, якщо ви хочете перемкнутися під час роботи вмісту, використовуйте кнопку 'Перемикач режиму'. ПРИМІТКА: 6 кнопок joypad може мати дивну поведінку в несумісних іграх."
+#define OPTION_VAL_2_BUTTONS_UK "2 кнопки"
+#define OPTION_VAL_6_BUTTONS_UK "6 кнопок"
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_LABEL_UK "P2 за замовчуванням Jypad тип"
+#define SGX_DEFAULT_JOYPAD_TYPE_P2_INFO_0_UK "Виберіть, якщо порт 2 джойпада має бути 2 або 6 кнопок за замовчуванням. Цей параметр застосовується тільки тоді, коли запущено ядро, якщо ви хочете перемкнутися під час роботи вмісту, використовуйте кнопку 'Перемикач режиму'. ПРИМІТКА: 6 кнопок joypad може мати дивну поведінку в несумісних іграх."
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_LABEL_UK "P3 за замовчуванням Jypad тип"
+#define SGX_DEFAULT_JOYPAD_TYPE_P3_INFO_0_UK "Виберіть, якщо порт 3 джойпада має бути 2 або 6 кнопок за замовчуванням. Цей параметр застосовується тільки тоді, коли запущено ядро, якщо ви хочете перемкнутися під час роботи вмісту, використовуйте кнопку 'Перемикач режиму'. ПРИМІТКА: 6 кнопок joypad може мати дивну поведінку в несумісних іграх."
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_LABEL_UK "Тип Jypad P4 за замовчуванням"
+#define SGX_DEFAULT_JOYPAD_TYPE_P4_INFO_0_UK "Оберіть, якщо порт 4 джойпада має бути 2 або 6 кнопок за замовчуванням. Цей параметр застосовується тільки тоді, коли запущено ядро, якщо ви хочете перемкнутися під час роботи вмісту, використовуйте кнопку 'Перемикач режиму'. ПРИМІТКА: 6 кнопок joypad може мати дивну поведінку в несумісних іграх."
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_LABEL_UK "P5 за замовчуванням Jypad тип"
+#define SGX_DEFAULT_JOYPAD_TYPE_P5_INFO_0_UK "Виберіть, якщо порт 5 джойпідів має бути 2 або 6 кнопок за замовчуванням. Цей параметр застосовується тільки тоді, коли запущено ядро, якщо ви хочете перемкнутися під час роботи вмісту, використовуйте кнопку 'Перемикач режиму'. ПРИМІТКА: 6 кнопок joypad може мати дивну поведінку в несумісних іграх."
 #define SGX_TURBO_TOGGLE_LABEL_UK "Турборежим гарячих клавіш"
 #define SGX_TURBO_TOGGLE_INFO_0_UK "Увімкнути турбокнопки. Гарячі клавіші (кнопки III та IV) можуть поводити себе як перемикачі або виділені (утримування) турбокнопки."
 #define OPTION_VAL_SWITCH_UK "Перемикач"
 #define OPTION_VAL_DEDICATED_UK "Виділений"
 #define SGX_TURBO_TOGGLE_HOTKEY_LABEL_UK "Альтернативні турбокнопки"
-#define SGX_TURBO_TOGGLE_HOTKEY_INFO_0_UK NULL
-#define SGX_TURBO_DELAY_LABEL_UK NULL
-#define SGX_TURBO_DELAY_INFO_0_UK NULL
+#define SGX_TURBO_TOGGLE_HOTKEY_INFO_0_UK "Призначити кнопки RetroPad's L3/R3 як комбінації клавіш turbo замість кнопок III і IV. Працює тільки в режимі \"Увімкнути\" і тільки до тих пір, поки нічого не призначається на кнопку L3/R3. Ви можете уникнути перерахування кнопок III і IV при перемиканні в режим контролю 6-кнопки."
+#define SGX_TURBO_DELAY_LABEL_UK "Затримка Турбо"
+#define SGX_TURBO_DELAY_INFO_0_UK "Налаштуйте час між заводовим вогнем (у кадрах)."
 #define SGX_CDIMAGECACHE_LABEL_UK "Кеш образу CD (потрібен перезапуск)"
 #define SGX_CDIMAGECACHE_INFO_0_UK "Завантажувати повне зображення в пам'ять під час запуску. Може зменшувати час завантаження за рахунок збільшення часу запуску."
-#define SGX_CDBIOS_LABEL_UK NULL
-#define SGX_CDBIOS_INFO_0_UK NULL
-#define OPTION_VAL_GAMES_EXPRESS_UK NULL
-#define OPTION_VAL_SYSTEM_CARD_1_UK NULL
-#define OPTION_VAL_SYSTEM_CARD_2_UK NULL
-#define OPTION_VAL_SYSTEM_CARD_3_UK NULL
-#define SGX_DETECT_GEXPRESS_LABEL_UK NULL
-#define SGX_DETECT_GEXPRESS_INFO_0_UK NULL
-#define SGX_CDSPEED_LABEL_UK NULL
-#define SGX_CDSPEED_LABEL_CAT_UK NULL
-#define SGX_CDSPEED_INFO_0_UK NULL
-#define SGX_ADPCMVOLUME_LABEL_UK NULL
-#define SGX_ADPCMVOLUME_LABEL_CAT_UK NULL
-#define SGX_ADPCMVOLUME_INFO_0_UK NULL
-#define SGX_ADPCMVOLUME_INFO_1_UK NULL
-#define SGX_CDDAVOLUME_LABEL_UK NULL
-#define SGX_CDDAVOLUME_LABEL_CAT_UK NULL
-#define SGX_CDPSGVOLUME_LABEL_UK NULL
-#define SGX_CDPSGVOLUME_LABEL_CAT_UK NULL
-#define SGX_FORCESGX_LABEL_UK NULL
-#define SGX_FORCESGX_INFO_0_UK NULL
-#define SGX_NOSPRITELIMIT_LABEL_UK NULL
-#define SGX_NOSPRITELIMIT_INFO_0_UK NULL
-#define SGX_OCMULTIPLIER_LABEL_UK NULL
-#define SGX_OCMULTIPLIER_INFO_0_UK NULL
+#define SGX_CDBIOS_LABEL_UK "CD BIOS (потрібен перезапуск)"
+#define SGX_CDBIOS_INFO_0_UK "Більшість ігор може складатися на 'Системній карті 3'. 'Ігри Express' потрібно для декількох неліцензійних ігор."
+#define OPTION_VAL_GAMES_EXPRESS_UK "Ігри Експрес"
+#define OPTION_VAL_SYSTEM_CARD_1_UK "Системна картка 1"
+#define OPTION_VAL_SYSTEM_CARD_2_UK "Системна картка 2"
+#define OPTION_VAL_SYSTEM_CARD_3_UK "Системна картка 3"
+#define SGX_DETECT_GEXPRESS_LABEL_UK "Виявляти експрес ігри CD (необхідно перезапустити)"
+#define SGX_DETECT_GEXPRESS_INFO_0_UK "Автоматично завантажувати Ігри експрес BIOS незалежно від налаштувань CD BIOS під час завантаження ігор Express CD ігор."
+#define SGX_CDSPEED_LABEL_UK "(CD) Швидкість CD"
+#define SGX_CDSPEED_LABEL_CAT_UK "Швидкість CD"
+#define SGX_CDSPEED_INFO_0_UK "Більші значення активують швидше завантаження, але можуть викликати проблеми з кількома іграми."
+#define SGX_ADPCMVOLUME_LABEL_UK "(CD) Гучність CDDA %"
+#define SGX_ADPCMVOLUME_LABEL_CAT_UK "Гучність ADPCM %"
+#define SGX_ADPCMVOLUME_INFO_0_UK "Гра CD тільки встановили цей контроль гучності занадто високо може викликати обрізання вибірки."
+#define SGX_ADPCMVOLUME_INFO_1_UK "Якщо встановити цей контроль гучності занадто високий, це може призвести до відключення зразків."
+#define SGX_CDDAVOLUME_LABEL_UK "(CD) Гучність CDDA %"
+#define SGX_CDDAVOLUME_LABEL_CAT_UK "Гучність CDDA %"
+#define SGX_CDPSGVOLUME_LABEL_UK "(CD) Гучність PSG %"
+#define SGX_CDPSGVOLUME_LABEL_CAT_UK "Гучність PSG %"
+#define SGX_FORCESGX_LABEL_UK "Примусова емуляція SuperGrafx (потрібен перезапуск)"
+#define SGX_FORCESGX_INFO_0_UK "Це корисно для запуску ігор homebrew або ізоляції ігор, які не будуть запускатися у режимі SuperGrafx (як Космічна Гаррера). Зберегти області не сумісні з кожним режимом. Краще залишити цю опцію якщо це не потрібно. Ігри Dotn SuperGrafx (наприклад, Dai-Makaimura, Aldyns) автоматично перемкнуться на SuperGrafx незалежно від цього параметру."
+#define SGX_NOSPRITELIMIT_LABEL_UK "Ліміт спрайтів немає"
+#define SGX_NOSPRITELIMIT_INFO_0_UK "Видалення апаратного обмеження 16-спрайтів по сканеру. УВАГА: Може призвести до зміщення графіки в деяких іграх."
+#define SGX_OCMULTIPLIER_LABEL_UK "Мультиплікатор процесора (потрібен перезапуск)"
+#define SGX_OCMULTIPLIER_INFO_0_UK "Вищі значення можуть зменшити уповільнення ігор. УВАГА: можуть призвести до збоїв та аварій."
 
 struct retro_core_option_v2_category option_cats_uk[] = {
    {
