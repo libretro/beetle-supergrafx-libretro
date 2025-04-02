@@ -264,6 +264,16 @@ else ifeq ($(platform), vita)
    STATIC_LINKING = 1
    EXTRA_INCLUDES := -I"$(VITASDK)/arm-vita-eabi/include"
 
+# Miyoo
+else ifeq ($(platform), miyoo)
+   TARGET := $(TARGET_NAME)_libretro.so
+   CC = /opt/miyoo/usr/bin/arm-linux-gcc
+   CXX = /opt/miyoo/usr/bin/arm-linux-g++
+   AR = /opt/miyoo/usr/bin/arm-linux-ar
+   fpic := -fno-PIC
+   SHARED := -shared -Wl,--no-undefined -Wl,--version-script=link.T
+   FLAGS += -fomit-frame-pointer -ffast-math -march=armv5te -mtune=arm926ej-s
+
 # Xbox 360
 else ifeq ($(platform), xenon)
    TARGET := $(TARGET_NAME)_libretro_xenon360.a
