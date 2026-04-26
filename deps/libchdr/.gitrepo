@@ -1,0 +1,12 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/ingydotnet/git-subrepo#readme
+;
+[subrepo]
+	remote = https://github.com/rtissera/libchdr
+	branch = master
+	commit = 9b6ff6c3c24311750096232a05ee9c5b4963e66c
+	parent = b3d896220df9097f9942c861b44c5ad9e3e560b9
+	method = merge
+	cmdver = 0.4.9
