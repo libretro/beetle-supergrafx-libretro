@@ -26,7 +26,7 @@
 #include <mednafen/MemoryStream.h>
 
 #include "CDAccess.h"
-#include <libchdr/chd.h>
+#include "chd_image.h"
 
 struct CHDFILE_TRACK_INFO
 {
@@ -77,9 +77,9 @@ class CDAccess_CHD : public CDAccess
   // MakeSubPQ will OR the simulated P and Q subchannel data into SubPWBuf.
   int32_t MakeSubPQ(int32_t lba, uint8_t *SubPWBuf) const;
 
-  bool Read_CHD_Hunk_RAW(uint8_t *buf, int32_t lba, CHDFILE_TRACK_INFO* track);
-  bool Read_CHD_Hunk_M1(uint8_t *buf, int32_t lba, CHDFILE_TRACK_INFO* track);
-  bool Read_CHD_Hunk_M2(uint8_t *buf, int32_t lba, CHDFILE_TRACK_INFO* track);
+  /* The frame holding @lba of @track, or NULL if its hunk failed to
+   * decode; valid until the next read. */
+  const uint8_t *Read_CHD_Frame(int32_t lba, const CHDFILE_TRACK_INFO *track);
 
   int32_t NumTracks;
   int32_t FirstTrack;
@@ -88,11 +88,7 @@ class CDAccess_CHD : public CDAccess
   TOC toc;
   CHDFILE_TRACK_INFO Tracks[100]; // Track #0(HMM?) through 99
 
-  chd_file *chd;
-  /* hunk data cache */
-  uint8_t *hunkmem;
-  /* last hunknum read */
-  int oldhunk;
+  chd_image_t *img;
 };
 
 #endif /* CDACCESS_CHD_H */

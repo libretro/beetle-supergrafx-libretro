@@ -33,7 +33,7 @@
 
 #include "huc.h"
 
-extern "C" unsigned long crc32(unsigned long crc, const unsigned char *buf, unsigned int len);
+#include <encodings/crc32.h>
 
 static const uint8 BRAM_Init_String[8] = { 'H', 'U', 'B', 'M', 0x00, 0x88, 0x10, 0x80 }; //"HUBM\x00\x88\x10\x80";
 
@@ -148,7 +148,7 @@ uint32 HuC_Load(const uint8_t *data, size_t size)
  memset(HuCROM, 0xFF, m_len);
  memcpy(HuCROM, data + headerlen, MIN(m_len, len));
 
- uint32 crc = crc32(0, (const unsigned char *)data + headerlen, MIN(m_len, len));
+ uint32 crc = encoding_crc32(0, (const uint8_t *)data + headerlen, MIN(m_len, len));
 
  memset(ROMSpace, 0xFF, 0x88 * 8192 + 8192);
 

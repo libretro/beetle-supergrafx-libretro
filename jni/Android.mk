@@ -10,7 +10,6 @@ NEED_CD                  := 1
 NEED_STEREO_SOUND        := 1
 NEED_THREADING           := 0
 NEED_TREMOR              := 1
-NEED_CRC32               := 1
 HAVE_CHD                 := 1
 IS_X86                   := 0
 FLAGS                    :=

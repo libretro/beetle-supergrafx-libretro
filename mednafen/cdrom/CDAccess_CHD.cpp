@@ -51,12 +51,12 @@ static const int32_t DI_Size_Table[8] =
         2352  // CD-I RAW
 };
 
-CDAccess_CHD::CDAccess_CHD(const std::string &path, bool image_memcache) : NumTracks(0), total_sectors(0)
+CDAccess_CHD::CDAccess_CHD(const std::string &path, bool image_memcache) : NumTracks(0), total_sectors(0), img(NULL)
 {
   Load(path, image_memcache);
 }
 
-CDAccess_CHD::CDAccess_CHD(const char *path, bool image_memcache) : NumTracks(0), total_sectors(0)
+CDAccess_CHD::CDAccess_CHD(const char *path, bool image_memcache) : NumTracks(0), total_sectors(0), img(NULL)
 {
   std::string sPath(path);
   Load(sPath, image_memcache);
@@ -64,67 +64,35 @@ CDAccess_CHD::CDAccess_CHD(const char *path, bool image_memcache) : NumTracks(0)
 
 bool CDAccess_CHD::Load(const std::string &path, bool image_memcache)
 {
-  chd_error err = chd_open(path.c_str(), CHD_OPEN_READ, NULL, &chd);
-  if (err != CHDERR_NONE)
-    exit(-1);
+  chd_image_track_t meta;
+  char err[512];
 
-   if (image_memcache)
-   {
-      err = chd_precache(chd);
-      if (err != CHDERR_NONE)
-         return false;
-   }
+  err[0] = '\0';
+  img = chd_image_open(path.c_str(), image_memcache, err, sizeof(err));
+  if (!img)
+    throw MDFN_Error(0, "%s", err[0] ? err : "CHD: out of memory");
 
-  /* allocate storage for sector reads */
-  const chd_header *head = chd_get_header(chd);
-  hunkmem = (uint8_t *)malloc(head->hunkbytes);
-  oldhunk = -1;
-
-  log_cb(RETRO_LOG_INFO, "chd_load '%s' hunkbytes=%d\n", path.c_str(), head->hunkbytes);
+  log_cb(RETRO_LOG_INFO, "chd_load '%s'\n", path.c_str());
 
   int plba = -150;
   int numsectors = 0;
   int fileOffset = 0;
-  while (1)
+  while (chd_image_track(img, (uint32_t)NumTracks, &meta))
   {
-    int tkid = 0, frames = 0, pad = 0, pregap = 0, postgap = 0;
-    char type[64], subtype[32], pgtype[32], pgsub[32];
-    char tmp[512];
-
-    err = chd_get_metadata(chd, CDROM_TRACK_METADATA2_TAG, NumTracks, tmp, sizeof(tmp), NULL, NULL, NULL);
-    if (err == CHDERR_NONE)
-    {
-      sscanf(tmp, CDROM_TRACK_METADATA2_FORMAT, &tkid, type, subtype, &frames, &pregap, pgtype, pgsub, &postgap);
-    }
-    else
-    {
-      /* try to read the old v3/v4 metadata tag */
-      err = chd_get_metadata(chd, CDROM_TRACK_METADATA_TAG,
-                             NumTracks, tmp, sizeof(tmp), NULL, NULL,
-                             NULL);
-      if (err == CHDERR_NONE)
-      {
-        sscanf(tmp, CDROM_TRACK_METADATA_FORMAT, &tkid, type, subtype,
-               &frames);
-      }
-      else
-      {
-        /* if there's no valid metadata, this is the end of the TOC */
-        break;
-      }
-    }
+    int frames = meta.frames, pregap = meta.pregap, postgap = meta.postgap;
+    const char *type = meta.type, *subtype = meta.subtype, *pgtype = meta.pgtype;
 
     if (strcmp(type, "MODE1") && strcmp(type, "MODE1_RAW") && strcmp(type, "MODE2_RAW") &&
         strcmp(type, "AUDIO"))
     {
-      log_cb(RETRO_LOG_ERROR, "chd_parse track type %s unsupported\n", type);
-      return 0;
+      Cleanup();
+      throw MDFN_Error(0, "CHD: track type %s unsupported", type);
     }
 
     if (strcmp(subtype, "NONE"))
     {
-      log_cb(RETRO_LOG_ERROR, "chd_parse track subtype %s unsupported\n", subtype);
-      return 0;
+      Cleanup();
+      throw MDFN_Error(0, "CHD: track subtype %s unsupported", subtype);
     }
 
     /* add track */
@@ -167,8 +135,6 @@ bool CDAccess_CHD::Load(const std::string &path, bool image_memcache)
 
     Tracks[NumTracks].subq_control = (strcmp(type, "AUDIO") == 0) ? 0 : 4;
 
-    //log_cb(RETRO_LOG_INFO, "chd_parse '%s' track=%d lba=%d, pregap=%d pregap_dv=%d postgap=%d sectors=%d\n", tmp, NumTracks, Tracks[NumTracks].LBA, Tracks[NumTracks].pregap, Tracks[NumTracks].pregap_dv, Tracks[NumTracks].postgap, Tracks[NumTracks].sectors);
-
     plba += frames - Tracks[NumTracks].pregap_dv;
     plba += Tracks[NumTracks].postgap;
 
@@ -181,7 +147,6 @@ bool CDAccess_CHD::Load(const std::string &path, bool image_memcache)
   FirstTrack = 1;
   LastTrack = NumTracks;
   total_sectors = numsectors;
-  //log_cb(RETRO_LOG_INFO, "chd total_sectors '%d'\n", total_sectors);
 
   /* add track */
   toc.tracks[100].adr = 1;
@@ -211,14 +176,8 @@ bool CDAccess_CHD::Load(const std::string &path, bool image_memcache)
 
 void CDAccess_CHD::Cleanup(void)
 {
- if (chd != NULL)
-  chd_close(chd);
-
- if (hunkmem)
- {
-   free(hunkmem);
-   hunkmem = NULL;
- }
+  chd_image_close(img);
+  img = NULL;
 }
 
 CDAccess_CHD::~CDAccess_CHD()
@@ -226,76 +185,13 @@ CDAccess_CHD::~CDAccess_CHD()
   Cleanup();
 }
 
-bool CDAccess_CHD::Read_CHD_Hunk_RAW(uint8_t *buf, int32_t lba, CHDFILE_TRACK_INFO* track)
+const uint8_t *CDAccess_CHD::Read_CHD_Frame(int32_t lba, const CHDFILE_TRACK_INFO *track)
 {
-  const chd_header *head = chd_get_header(chd);
-  int cad = lba - track->LBA + track->fileOffset;
-  int sph = head->hunkbytes / (2352 + 96);
-  int hunknum = cad / sph; //(cad * head->unitbytes) / head->hunkbytes;
-  int hunkofs = cad % sph; //(cad * head->unitbytes) % head->hunkbytes;
-  int err = CHDERR_NONE;
+  const uint8_t *frame = chd_image_frame(img, (uint32_t)(lba - track->LBA + track->fileOffset));
 
-  /* each hunk holds ~8 sectors, optimize when reading contiguous sectors */
-  if (hunknum != oldhunk)
-  {
-    err = chd_read(chd, hunknum, hunkmem);
-    if (err != CHDERR_NONE)
-      log_cb(RETRO_LOG_ERROR, "chd_read_sector failed lba=%d error=%d\n", lba, err);
-    else
-      oldhunk = hunknum;
-  }
-
-  memcpy(buf, hunkmem + hunkofs * (2352 + 96), 2352);
-
-  return err;
-}
-
-bool CDAccess_CHD::Read_CHD_Hunk_M1(uint8_t *buf, int32_t lba, CHDFILE_TRACK_INFO* track)
-{
-  const chd_header *head = chd_get_header(chd);
-  int cad = lba - track->LBA + track->fileOffset;
-  int sph = head->hunkbytes / (2352 + 96);
-  int hunknum = cad / sph; //(cad * head->unitbytes) / head->hunkbytes;
-  int hunkofs = cad % sph; //(cad * head->unitbytes) % head->hunkbytes;
-  int err = CHDERR_NONE;
-
-  /* each hunk holds ~8 sectors, optimize when reading contiguous sectors */
-  if (hunknum != oldhunk)
-  {
-    err = chd_read(chd, hunknum, hunkmem);
-    if (err != CHDERR_NONE)
-      log_cb(RETRO_LOG_ERROR, "chd_read_sector failed lba=%d error=%d\n", lba, err);
-    else
-      oldhunk = hunknum;
-  }
-
-  memcpy(buf + 16, hunkmem + hunkofs * (2352 + 96), 2048);
-
-  return err;
-}
-
-bool CDAccess_CHD::Read_CHD_Hunk_M2(uint8_t *buf, int32_t lba, CHDFILE_TRACK_INFO* track)
-{
-  const chd_header *head = chd_get_header(chd);
-  int cad = lba - track->LBA + track->fileOffset;
-  int sph = head->hunkbytes / (2352 + 96);
-  int hunknum = cad / sph; //(cad * head->unitbytes) / head->hunkbytes;
-  int hunkofs = cad % sph; //(cad * head->unitbytes) % head->hunkbytes;
-  int err = CHDERR_NONE;
-
-  /* each hunk holds ~8 sectors, optimize when reading contiguous sectors */
-  if (hunknum != oldhunk)
-  {
-    err = chd_read(chd, hunknum, hunkmem);
-    if (err != CHDERR_NONE)
-      log_cb(RETRO_LOG_ERROR, "chd_read_sector failed lba=%d error=%d\n", lba, err);
-    else
-      oldhunk = hunknum;
-  }
-
-  memcpy(buf + 16, hunkmem + hunkofs * (2352 + 96), 2336);
-
-  return err;
+  if (!frame)
+    log_cb(RETRO_LOG_ERROR, "chd_read_sector failed lba=%d\n", lba);
+  return frame;
 }
 
 void CDAccess_CHD::Read_Raw_Sector(uint8_t *buf, int32_t lba)
@@ -379,27 +275,41 @@ void CDAccess_CHD::Read_Raw_Sector(uint8_t *buf, int32_t lba)
   else
   {
     {
+      const uint8_t *frame = Read_CHD_Frame(lba, ct);
+
       switch (ct->DIFormat)
       {
       case DI_FORMAT_AUDIO:
-        Read_CHD_Hunk_RAW(buf, lba, ct);
+        if (frame)
+          memcpy(buf, frame, 2352);
+        else
+          memset(buf, 0, 2352);
         if (ct->RawAudioMSBFirst)
           Endian_A16_Swap(buf, 588 * 2);
         break;
 
       case DI_FORMAT_MODE1:
-        Read_CHD_Hunk_M1(buf, lba, ct);
+        if (frame)
+          memcpy(buf + 16, frame, 2048);
+        else
+          memset(buf + 16, 0, 2048);
         encode_mode1_sector(lba + 150, buf);
         break;
 
       case DI_FORMAT_MODE1_RAW:
       case DI_FORMAT_MODE2_RAW:
       case DI_FORMAT_CDI_RAW:
-        Read_CHD_Hunk_RAW(buf, lba, ct);
+        if (frame)
+          memcpy(buf, frame, 2352);
+        else
+          memset(buf, 0, 2352);
         break;
 
       case DI_FORMAT_MODE2:
-        Read_CHD_Hunk_M2(buf, lba, ct);
+        if (frame)
+          memcpy(buf + 16, frame, 2336);
+        else
+          memset(buf + 16, 0, 2336);
         encode_mode2_sector(lba + 150, buf);
         break;
 

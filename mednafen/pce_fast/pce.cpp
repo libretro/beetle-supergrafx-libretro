@@ -17,7 +17,7 @@
 
 #include <retro_miscellaneous.h>
 #include <file/file_path.h>
-#include <zlib.h>
+#include <encodings/crc32.h>
 #include "pce.h"
 #include "vdc.h"
 #include "psg.h"
@@ -354,7 +354,7 @@ static bool DetectGECD(CDIF *cdiface)	// Very half-assed detection until(if) we 
       0xc8d1b5ef,	// CD Bishoujo [...]
       0x0bdbde64,	// CD Pachisuro [...]
      };
-     uint32 zecrc = crc32(0, sector_buffer, 2048);
+     uint32 zecrc = encoding_crc32(0, sector_buffer, 2048);
 
      for(unsigned int i = 0; i < sizeof(known_crcs) / sizeof(uint32); i++)
       if(known_crcs[i] == zecrc)

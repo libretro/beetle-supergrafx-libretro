@@ -1,7 +1,6 @@
 SOURCES_CXX :=
 SOURCES_C   :=
 
-DEPS_DIR     	  := $(CORE_DIR)/deps
 LIBRETRO_COMM_DIR := $(CORE_DIR)/libretro-common
 MEDNAFEN_DIR := $(CORE_DIR)/mednafen
 CORE_EMU_DIR := $(MEDNAFEN_DIR)/pce_fast
@@ -17,33 +16,19 @@ INCFLAGS := \
 	-I$(MEDNAFEN_DIR)/hw_misc \
 	-I$(LIBRETRO_COMM_DIR)/include
 
-LIBCHDR_INCFLAGS = \
-	-I$(DEPS_DIR)/lzma-19.00/include \
-	-I$(DEPS_DIR)/libchdr/include
-LIBCHDR_SOURCES_C = \
-	$(DEPS_DIR)/lzma-19.00/src/Alloc.c \
-	$(DEPS_DIR)/lzma-19.00/src/Bra86.c \
-	$(DEPS_DIR)/lzma-19.00/src/BraIA64.c \
-	$(DEPS_DIR)/lzma-19.00/src/CpuArch.c \
-	$(DEPS_DIR)/lzma-19.00/src/Delta.c \
-	$(DEPS_DIR)/lzma-19.00/src/LzFind.c \
-	$(DEPS_DIR)/lzma-19.00/src/Lzma86Dec.c \
-	$(DEPS_DIR)/lzma-19.00/src/LzmaDec.c \
-	$(DEPS_DIR)/lzma-19.00/src/LzmaEnc.c \
-	$(DEPS_DIR)/libchdr/src/libchdr_bitstream.c \
-	$(DEPS_DIR)/libchdr/src/libchdr_cdrom.c \
-	$(DEPS_DIR)/libchdr/src/libchdr_chd.c \
-	$(DEPS_DIR)/libchdr/src/libchdr_flac.c \
-	$(DEPS_DIR)/libchdr/src/libchdr_huffman.c
-
-ZLIB_INCFLAGS = -I$(DEPS_DIR)/zlib-1.2.11
-ZLIB_SOURCES_C = \
-	$(DEPS_DIR)/zlib-1.2.11/adler32.c \
-	$(DEPS_DIR)/zlib-1.2.11/crc32.c \
-	$(DEPS_DIR)/zlib-1.2.11/inffast.c \
-	$(DEPS_DIR)/zlib-1.2.11/inflate.c \
-	$(DEPS_DIR)/zlib-1.2.11/inftrees.c \
-	$(DEPS_DIR)/zlib-1.2.11/zutil.c
+# CHD images are read by libretro-common's clean-room rchd reader. Its hunk
+# codecs come from the same tree: zlib-format hunks through
+# encoding_deflate.c, LZMA through r7z_lzma.c, FLAC through rflac.c, zstd
+# through encoding_rzstd.c, and the version 5 map through
+# encoding_huffman.c, which every image needs to open at all.
+CHD_SOURCES_C = \
+	$(CDROM_DIR)/chd_image.c \
+	$(LIBRETRO_COMM_DIR)/formats/chd/rchd.c \
+	$(LIBRETRO_COMM_DIR)/encodings/encoding_huffman.c \
+	$(LIBRETRO_COMM_DIR)/encodings/encoding_rzstd.c \
+	$(LIBRETRO_COMM_DIR)/encodings/encoding_deflate.c \
+	$(LIBRETRO_COMM_DIR)/formats/7z/r7z_lzma.c \
+	$(LIBRETRO_COMM_DIR)/formats/flac/rflac.c
 
 ifneq ($(HAVE_GRIFFIN),1)
 	SOURCES_CXX += \
@@ -127,28 +112,12 @@ ifeq ($(NEED_CD), 1)
 endif
 
 ifeq ($(HAVE_CHD), 1)
-	FLAGS += -DHAVE_CHD -D_7ZIP_ST
-
-	# crc32 included in zlib, don't generate duplicate symbol
-	NEED_CRC32 = 0
-
-	ifeq ($(SYSTEM_ZLIB), 1)
-		INCFLAGS += $(shell pkg-config --cflags zlib)
-		LIBS += $(shell pkg-config --libs zlib)
-	else
-		INCFLAGS += $(ZLIB_INCFLAGS)
-		SOURCES_C += $(ZLIB_SOURCES_C)
-	endif
-
-	ifeq ($(SYSTEM_LIBCHDR), 1)
-		INCFLAGS += $(shell pkg-config --cflags libchdr)
-		LIBS += $(shell pkg-config --libs libchdr)
-	else
-		INCFLAGS += $(LIBCHDR_INCFLAGS)
-		SOURCES_C += $(LIBCHDR_SOURCES_C)
-	endif
-
-   SOURCES_CXX += $(CDROM_DIR)/CDAccess_CHD.cpp
+	# The HAVE_RCHD_* flags name the hunk codecs rchd is built with;
+	# chd_image.c refuses to build without all four.
+	FLAGS += -DHAVE_CHD -DHAVE_RCHD -DHAVE_RCHD_DEFLATE -DHAVE_RCHD_LZMA \
+		-DHAVE_RCHD_FLAC -DHAVE_RCHD_ZSTD -DHAVE_RFLAC -DHAVE_RZSTD
+	SOURCES_C += $(CHD_SOURCES_C)
+	SOURCES_CXX += $(CDROM_DIR)/CDAccess_CHD.cpp
 endif
 
 ifeq ($(NEED_TREMOR), 1)
@@ -190,6 +159,8 @@ ifneq ($(STATIC_LINKING), 1)
 			$(LIBRETRO_COMM_DIR)/compat/fopen_utf8.c \
 			$(LIBRETRO_COMM_DIR)/compat/compat_strcasestr.c \
 			$(LIBRETRO_COMM_DIR)/encodings/encoding_utf.c \
+			$(LIBRETRO_COMM_DIR)/encodings/encoding_crc32.c \
+			$(LIBRETRO_COMM_DIR)/features/features_cpu.c \
 			$(LIBRETRO_COMM_DIR)/vfs/vfs_implementation.c \
 			$(LIBRETRO_COMM_DIR)/memmap/memalign.c \
 			$(LIBRETRO_COMM_DIR)/string/stdstring.c \
