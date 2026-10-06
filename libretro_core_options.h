@@ -93,7 +93,7 @@ struct retro_core_option_v2_definition option_defs_us[] = {
       "sgx_aspect_ratio",
       "Aspect Ratio",
       NULL,
-      "Choose the preferred content aspect ratio. When using games that constantly switch between 256 and 352 modes and using auto aspect, it's best to set the horizontal width to 342 to minimize resizing and extra black lines since this width is in ratio of 256 width mode (or something like that, just test with Asuka 100% which is one of the games that switch between these modes).",
+      "Choose the preferred content aspect ratio. When using games that constantly switch between 256 and 352 modes and using auto aspect, it's best to set the horizontal width to 342 to minimize resizing and extra black lines since this width is in ratio of 256 width mode (or something like that, just test with Asuka 120% which is one of the games that switch between these modes).",
       NULL,
       "video",
       {
